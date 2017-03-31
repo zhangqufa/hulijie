@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="58dp"
+
+    android:orientation="vertical">
+
+    <include layout="@layout/com_line_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/iv_tab"
+                android:layout_width="24dp"
+                android:layout_height="22dp"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:background="@drawable/shape_notice_dian"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="@string/app_name"
+            android:textColor="@color/comm_grey_555555"
+            android:textSize="11sp" />
+    </LinearLayout>
+</LinearLayout>
