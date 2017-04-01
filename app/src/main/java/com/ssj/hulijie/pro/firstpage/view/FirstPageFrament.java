@@ -115,7 +115,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         //init RecylerView Header
         View header = LayoutInflater.from(context).inflate(R.layout.header_rv, rv_first_page_main_list, false);
         adapter.setHeaderView(header);
-        location_tv = (TextView)header.findViewById(R.id.location_tv);
+        location_tv = (TextView) header.findViewById(R.id.location_tv);
         location_tv.setOnClickListener(this);
 
 
@@ -145,6 +145,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     }
 
     private boolean isNeedFresh = true;
+
     /**
      * 实现实位回调监听
      */
@@ -165,7 +166,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                     arg0.getCity().length() - 1);
             if (!TextUtils.isEmpty(currentCity)) {
                 location_tv.setText(currentCity);
-                AppLog.Log("定位："+currentCity);
+                AppLog.Log("定位：" + currentCity);
             } else {
                 location_tv.setText("选择城市");
             }
@@ -202,15 +203,21 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     /**
      * 头部分类点击listener
      */
-    private FirstPageMainHeaderAdapter.OnItemClickListener<ItemFirstPageMainHeaderList> headrCatetoryListener =new FirstPageMainHeaderAdapter.OnItemClickListener<ItemFirstPageMainHeaderList>() {
-        @Override
-        public void onItemClick(int position, ItemFirstPageMainHeaderList data) {
-            AppToast.ShowToast(position+"");
-        }
-    };
+    private FirstPageMainHeaderAdapter.OnItemClickListener<ItemFirstPageMainHeaderList> headrCatetoryListener =
+            new FirstPageMainHeaderAdapter.OnItemClickListener<ItemFirstPageMainHeaderList>() {
+                @Override
+                public void onItemClick(int position, ItemFirstPageMainHeaderList data) {
+                    AppToast.ShowToast(position + "");
+                    if (position == 7) {
+                        Intent intent = new Intent(context, AllCatetoryActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            };
 
     /**
      * 测试数据  头部  中部 图片选项
+     *
      * @return
      */
     private List<ItemFirstPageMainHeaderMidImageList> getHeaderMidImgList() {
@@ -225,6 +232,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     /**
      * 测试数据  头部 分类选项
+     *
      * @return
      */
     private List<ItemFirstPageMainHeaderList> getHeaderList() {
@@ -295,6 +303,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     /**
      * 测试数据  首页主数据
+     *
      * @return
      */
     private List<ItemFirstPageMainList> getData() {
@@ -309,31 +318,32 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     @Override
     public void initData() {
-        Request<JSONObject> request = new FastJsonRequest(url);
-        request.add("name", "chenying");
-        request.add("pwd", "123");
-        context.request(0, request, new HttpListener<JSONObject>() {
-
-            @Override
-            public void onSucceed(int what, Response<JSONObject> response) {
-                JSONObject jsonObject = response.get();
-                AppLog.Log("response:" + jsonObject.toString());
-            }
-
-            @Override
-            public void onFailed(int what, Response<JSONObject> response) {
-
-            }
-        }, true, true);
+//        Request<JSONObject> request = new FastJsonRequest(url);
+//        request.add("name", "chenying");
+//        request.add("pwd", "123");
+//        context.request(0, request, new HttpListener<JSONObject>() {
+//
+//            @Override
+//            public void onSucceed(int what, Response<JSONObject> response) {
+//                JSONObject jsonObject = response.get();
+//                AppLog.Log("response:" + jsonObject.toString());
+//            }
+//
+//            @Override
+//            public void onFailed(int what, Response<JSONObject> response) {
+//
+//            }
+//        }, true, true);
     }
 
     public static final int LOCATION_REQUEST_CODE = 1000;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.location_tv:
                 Intent intent = new Intent(context, LocationActivity.class);
-                startActivityForResult(intent,LOCATION_REQUEST_CODE);
+                startActivityForResult(intent, LOCATION_REQUEST_CODE);
                 break;
         }
     }
@@ -345,21 +355,11 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             String currentCity = data.getStringExtra("currentCity");
             if (!TextUtils.isEmpty(currentCity)) {
                 location_tv.setText(currentCity);
-                AppLog.Log("定位："+currentCity);
-                saveHistory(currentCity);
+                AppLog.Log("定位：" + currentCity);
             } else {
                 location_tv.setText("选择城市");
             }
         }
     }
 
-    /**
-     * 保存历史记录
-     * @param currentCity
-     *
-     * CREATE TABLE IF NOT EXISTS recentcity (id integer primary key autoincrement, name varchar(40), date INTEGER)"
-     */
-    private void saveHistory(String currentCity) {
-
-    }
 }

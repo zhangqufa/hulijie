@@ -41,6 +41,7 @@
         <activity android:name=".pro.firstpage.view.location.LocationActivity"
             android:windowSoftInputMode="adjustPan"
             android:configChanges="keyboardHidden"/>
+        <activity android:name=".pro.firstpage.view.AllCatetoryActivity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
