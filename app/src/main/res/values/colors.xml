@@ -7,11 +7,15 @@
 
 
     <color name="comm_grey_333333">#333333</color>
+    <color name="comm_grey_cccccc">#cccccc</color>
+    <color name="comm_grey_666666">#666666</color>
+    <color name="comm_grey_f5f5f5">#f5f5f5</color>
     <color name="comm_bg_app">#eeeeee</color>
     <color name="line_color">#eeeeee</color>
 
     <color name="line_color_tab">#cccccc</color>
     <color name="comm_grey_555555">#555555</color>
+    <color name="comm_grey_111111">#111111</color>
     <color name="comm_grey_EFEFEF">#EFEFEF</color>
     <color name="comm_red_ef0000">#ef0000</color>
     <color name="comm_green_32B8A9">#32B8A9</color>

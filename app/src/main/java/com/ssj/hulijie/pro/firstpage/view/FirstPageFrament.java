@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -117,6 +118,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         adapter.setHeaderView(header);
         location_tv = (TextView) header.findViewById(R.id.location_tv);
         location_tv.setOnClickListener(this);
+        header.findViewById(R.id.et_search).setOnClickListener(this);
 
 
         //init grid category
@@ -340,10 +342,15 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.location_tv:
-                Intent intent = new Intent(context, LocationActivity.class);
+                intent = new Intent(context, LocationActivity.class);
                 startActivityForResult(intent, LOCATION_REQUEST_CODE);
+                break;
+            case R.id.et_search:
+                intent = new Intent(context, SearchActivity.class);
+                startActivity(intent);
                 break;
         }
     }

@@ -25,7 +25,7 @@
     <application
         android:name=".base.HljAppliation"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -42,6 +42,7 @@
             android:windowSoftInputMode="adjustPan"
             android:configChanges="keyboardHidden"/>
         <activity android:name=".pro.firstpage.view.AllCatetoryActivity" />
+        <activity android:name=".pro.firstpage.view.SearchActivity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
