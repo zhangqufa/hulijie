@@ -65,7 +65,7 @@ public class GridViewAdapter extends BaseAdapter {
         if (this.mList != null) {
             final HashMap<String, Object> hashMap = this.mList.get(position);
             if (holder.button != null) {
-                holder.button.setText(hashMap.get(position+"").toString());
+                holder.button.setText(hashMap.get("content").toString());
                 holder.button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

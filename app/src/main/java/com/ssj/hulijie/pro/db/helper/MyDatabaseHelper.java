@@ -8,8 +8,8 @@ import com.ssj.hulijie.utils.AppLog;
 
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
-    public static final String DB_NAME = "jlm.db";
-    public static final int DB_VERSION = 2;
+    public static final String DB_NAME = "hlj.db";
+    public static final int DB_VERSION = 1;
 
 
     public MyDatabaseHelper(Context context) {
@@ -24,14 +24,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         try {
             db.execSQL("create table history(_hid integer primary key autoincrement, h_name varchar(20)," +
                     "addtime varchar(20));");
-            db.execSQL("create table footmark(_fid varchar(20) primary key," +
-                    "f_itemimg varchar(255)," +
-                    "f_itemtype varchar(20)," +
-                    "f_title varchar(255)," +
-                    "f_buyprice varchar(20)," +
-                    "f_couponbills varchar(20)," +
-                    "f_category integer," +
-                    "addtime varchar(20));");
+
+            db.execSQL("CREATE TABLE IF NOT EXISTS recentcity (id integer primary key autoincrement, name varchar(40), date INTEGER)");
+
             db.setTransactionSuccessful();//设置事务成功
 
 
@@ -51,14 +46,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             if (oldVersion == 1) {
-                db.execSQL("create table footmark(_fid varchar(20) primary key," +
-                        "f_itemimg varchar(255)," +
-                        "f_itemtype varchar(20)," +
-                        "f_title varchar(255)," +
-                        "f_buyprice varchar(20)," +
-                        "f_couponbills varchar(20)," +
-                        "f_category integer," +
-                        "addtime varchar(20));");
+//                db.execSQL("create table footmark(_fid varchar(20) primary key," +
+//                        "f_itemimg varchar(255)," +
+//                        "f_itemtype varchar(20)," +
+//                        "f_title varchar(255)," +
+//                        "f_buyprice varchar(20)," +
+//                        "f_couponbills varchar(20)," +
+//                        "f_category integer," +
+//                        "addtime varchar(20));");
             }
             db.setTransactionSuccessful();//设置事务成功
         } catch (Exception e) {

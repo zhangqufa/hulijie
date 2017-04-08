@@ -1,9 +1,9 @@
 package com.ssj.hulijie.pro.db.helper;
 
 public class Item {
-	private String column;
-	private String property;
-	private String type;
+	private String column;   //表 列名
+	private String property;  //bean 字段
+	private String type;      //类型
 	public String getColumn() {
 		return column;
 	}

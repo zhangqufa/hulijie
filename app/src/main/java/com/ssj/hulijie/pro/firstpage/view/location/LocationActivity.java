@@ -34,6 +34,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.ssj.hulijie.R;
+import com.ssj.hulijie.pro.db.helper.DBHelper;
+import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
+import com.ssj.hulijie.pro.db.model.City;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,7 +72,8 @@ public class LocationActivity extends AppCompatActivity implements OnScrollListe
 	private int locateProcess = 1; // 记录当前定位的状态 正在定位-定位成功-定位失败
 	private boolean isNeedFresh;
 
-	private DatabaseHelper helper;
+	private MyDatabaseHelper helper;
+	private WindowManager windowManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +88,7 @@ public class LocationActivity extends AppCompatActivity implements OnScrollListe
 		resultList = (ListView) findViewById(R.id.search_result);
 		sh = (EditText) findViewById(R.id.sh);
 		tv_noresult = (TextView) findViewById(R.id.tv_noresult);
-		helper = new DatabaseHelper(this);
+		helper = new MyDatabaseHelper(this);
 		sh.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -696,9 +700,19 @@ public class LocationActivity extends AppCompatActivity implements OnScrollListe
 				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
 						| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
 				PixelFormat.TRANSLUCENT);
-		WindowManager windowManager = (WindowManager) this
+		windowManager = (WindowManager) this
 				.getSystemService(Context.WINDOW_SERVICE);
 		windowManager.addView(overlay, lp);
+	}
+
+	/**
+	 * 释放 资源
+	 */
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (windowManager!=null&&overlay!=null)
+		windowManager.removeView(overlay);
 	}
 
 	private boolean isScroll = false;
