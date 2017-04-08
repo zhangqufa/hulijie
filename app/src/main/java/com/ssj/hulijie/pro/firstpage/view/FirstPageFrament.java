@@ -1,6 +1,14 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,18 +16,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.base.HljAppliation;
-import com.ssj.hulijie.nohttp.FastJsonRequest;
-import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainHeaderAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainHeaderMidImageAdapter;
@@ -32,8 +36,8 @@ import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.widget.recylerview.RecyclerViewHeader;
-import com.yanzhenjie.nohttp.rest.Request;
-import com.yanzhenjie.nohttp.rest.Response;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +94,9 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private TextView location_tv;  //location
     private LocationClient mLocationClient; //location
 
+    // 要申请的权限
+    private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
+
     @Override
     public int getContentView() {
         return R.layout.frag_one;
@@ -143,8 +150,84 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         MyLocationListener mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);
         InitLocation();
-        mLocationClient.start();
+
+        checkPermission();
+
+
     }
+
+    /**
+     * 针对于android 6.0 (SDK 23)动态获取权限
+     * <pre>
+     *
+     *
+     * </pre>
+     */
+    private void checkPermission() {
+        // 先判断是否有权限。
+        if(AndPermission.hasPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
+                &&AndPermission.hasPermission(context,Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // 有权限，直接do anything.
+            startLocation();
+        } else {
+            // 申请权限。
+            AndPermission.with(this)
+                    .requestCode(100)
+                    .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
+                    ,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE)
+                    .send();
+        }
+    }
+    /**
+     * 开始定位
+     */
+    private void startLocation() {
+        if (mLocationClient != null&&!mLocationClient.isStarted()) {
+            mLocationClient.start();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
+    }
+    private static final int REQUEST_CODE_SETTING = 300;
+    private PermissionListener listener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, List<String> grantedPermissions) {
+            // 权限申请成功回调。
+            if(requestCode == 100) {
+                // TODO 相应代码。
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, List<String> deniedPermissions) {
+            // 权限申请失败回调。
+
+            // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+            if (AndPermission.hasAlwaysDeniedPermission(context, deniedPermissions)) {
+
+//                 第二种：用自定义的提示语。
+                 AndPermission.defaultSettingDialog(context, REQUEST_CODE_SETTING)
+                 .setTitle("权限申请失败")
+                 .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
+                 .setPositiveButton("好，去设置")
+                 .show();
+
+                // 第三种：自定义dialog样式。
+                // SettingService settingService =
+                //    AndPermission.defineSettingDialog(this, REQUEST_CODE_SETTING);
+                // 你的dialog点击了确定调用：
+                // settingService.execute();
+                // 你的dialog点击了取消调用：
+                // settingService.cancel();
+            }
+        }
+    };
 
     private boolean isNeedFresh = true;
 
@@ -161,7 +244,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             }
             isNeedFresh = false;
             if (arg0.getCity() == null) {
-                AppToast.ShowToast("定位失败");
+                AppToast.ShowToast("定位失败: "+arg0.toJsonString());
                 return;
             }
             String currentCity = arg0.getCity().substring(0,
@@ -296,6 +379,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             frame.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    startLocation();
                     ptr.refreshComplete();
                 }
             }, 1800);

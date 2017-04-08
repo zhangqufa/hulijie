@@ -38,4 +38,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23+'
     compile 'com.facebook.fresco:fresco:1.2.0'
     compile files('libs/baidumapapi_v2_1_2.jar')
+
+    compile 'com.yanzhenjie:permission:1.0.5'
 }
