@@ -718,12 +718,18 @@ public class LocationActivity extends AppCompatActivity implements OnScrollListe
 
 	/**
 	 * 释放 资源
+	 *
+	 * <pre>
+	 *     我在onDestroy()里面调用了removeView方法，想要避免窗体泄露，但是这个方法并不管用，
+	 *     后来换成removeViewImmediate()就解决了这个问题，原因就是两个方法设计到线程同步问题，
+	 *     removeViewImmediate()是通知View立刻调用View.onDetachWindow()，这说明这个方法是通过一个监听或者观察者来实现的，
+	 *     因为线程的同步跟异步问题导致activity销毁了，但view还没有被remove完，于是就产生了所谓的窗体泄露。说到这里，我想大家也能明白这两个方法的区别了。
+	 * </pre>
 	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (windowManager!=null&&overlay!=null)
-		windowManager.removeView(overlay);
+		windowManager.removeViewImmediate(overlay);
 	}
 
 	private boolean isScroll = false;
