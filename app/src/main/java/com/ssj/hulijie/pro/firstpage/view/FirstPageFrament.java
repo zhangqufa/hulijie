@@ -1,10 +1,13 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -35,6 +38,7 @@ import com.ssj.hulijie.pro.firstpage.view.location.LocationActivity;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.PermissionUtil;
 import com.ssj.hulijie.widget.recylerview.RecyclerViewHeader;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -95,7 +99,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private LocationClient mLocationClient; //location
 
     // 要申请的权限
-    private String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
 
     @Override
     public int getContentView() {
@@ -151,56 +154,34 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         mLocationClient.registerLocationListener(mMyLocationListener);
         InitLocation();
 
-        checkPermission();
 
+        // after andrioid m,must request Permiision on runtime
+        getPersimmions();
 
     }
 
-    /**
-     * 针对于android 6.0 (SDK 23)动态获取权限
-     * <pre>
-     *
-     *
-     * </pre>
-     */
-    private void checkPermission() {
-        // 先判断是否有权限。
-        if(AndPermission.hasPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
-                &&AndPermission.hasPermission(context,Manifest.permission.ACCESS_FINE_LOCATION)) {
-            // 有权限，直接do anything.
-            startLocation();
-        } else {
-            // 申请权限。
+    private void getPersimmions() {
+        if (Build.VERSION.SDK_INT > 23) {
             AndPermission.with(this)
                     .requestCode(100)
-                    .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
-                    ,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE)
+                    .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE)
                     .send();
-        }
-    }
-    /**
-     * 开始定位
-     */
-    private void startLocation() {
-        if (mLocationClient != null&&!mLocationClient.isStarted()) {
-            mLocationClient.start();
+        } else {
+            startLocation();
         }
     }
 
+    private final int SDK_PERMISSION_REQUEST = 127;
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
-        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
-    }
-    private static final int REQUEST_CODE_SETTING = 300;
+
     private PermissionListener listener = new PermissionListener() {
         @Override
         public void onSucceed(int requestCode, List<String> grantedPermissions) {
             // 权限申请成功回调。
             if(requestCode == 100) {
-                // TODO 相应代码。
+                startLocation();
+            } else if(requestCode == 101) {
             }
         }
 
@@ -210,13 +191,15 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
             // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
             if (AndPermission.hasAlwaysDeniedPermission(context, deniedPermissions)) {
+                // 第一种：用默认的提示语。
+                AndPermission.defaultSettingDialog(context, SDK_PERMISSION_REQUEST).show();
 
-//                 第二种：用自定义的提示语。
-                 AndPermission.defaultSettingDialog(context, REQUEST_CODE_SETTING)
-                 .setTitle("权限申请失败")
-                 .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
-                 .setPositiveButton("好，去设置")
-                 .show();
+                // 第二种：用自定义的提示语。
+                // AndPermission.defaultSettingDialog(this, REQUEST_CODE_SETTING)
+                // .setTitle("权限申请失败")
+                // .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
+                // .setPositiveButton("好，去设置")
+                // .show();
 
                 // 第三种：自定义dialog样式。
                 // SettingService settingService =
@@ -229,39 +212,68 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         }
     };
 
+    @TargetApi(23)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
+    }
+
+    /**
+     * 开始定位
+     */
+    private void startLocation() {
+        if (mLocationClient != null && !mLocationClient.isStarted()) {
+            mLocationClient.start();
+        }
+    }
+
+
     private boolean isNeedFresh = true;
 
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                String location = (String) msg.obj;
+                location_tv.setText(location);
+
+            }
+        }
+    };
     /**
      * 实现实位回调监听
      */
     public class MyLocationListener implements BDLocationListener {
 
         @Override
-        public void onReceiveLocation(BDLocation arg0) {
-            Log.e("info", "city = " + arg0.getCity());
+        public void onReceiveLocation(BDLocation location) {
+            AppLog.Log("city = " + location.getCity());
             if (!isNeedFresh) {
                 return;
             }
             isNeedFresh = false;
-            if (arg0.getCity() == null) {
-                AppToast.ShowToast("定位失败: "+arg0.toJsonString());
+            if (location.getCity() == null) {
+                AppToast.ShowToast("定位失败");
                 return;
             }
-            String currentCity = arg0.getCity().substring(0,
-                    arg0.getCity().length() - 1);
+            String currentCity = location.getCity().substring(0,
+                    location.getCity().length() - 1);
             if (!TextUtils.isEmpty(currentCity)) {
-                location_tv.setText(currentCity);
+                mHandler.obtainMessage(0, currentCity).sendToTarget();
                 AppLog.Log("定位：" + currentCity);
             } else {
-                location_tv.setText("选择城市");
+                mHandler.obtainMessage(0, "选择城市").sendToTarget();
             }
 
         }
 
         @Override
-        public void onReceivePoi(BDLocation arg0) {
+        public void onConnectHotSpotMessage(String s, int i) {
 
         }
+
     }
 
     private void InitLocation() {
@@ -272,13 +284,13 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         // 需要地址信息，设置为其他任何值（string类型，且不能为null）时，都表示无地址信息。
         option.setAddrType("all");
         // 设置是否返回POI的电话和地址等详细信息。默认值为false，即不返回POI的电话和地址信息。
-        option.setPoiExtraInfo(true);
+//        option.setPoiExtraInfo(true);
         // 设置产品线名称。强烈建议您使用自定义的产品线名称，方便我们以后为您提供更高效准确的定位服务。
         option.setProdName("通过GPS定位我当前的位置");
         // 禁用启用缓存定位数据
         option.disableCache(true);
         // 设置最多可返回的POI个数，默认值为3。由于POI查询比较耗费流量，设置最多返回的POI个数，以便节省流量。
-        option.setPoiNumber(3);
+//        option.setPoiNumber(3);
         // 设置定位方式的优先级。
         // 当gps可用，而且获取了定位结果时，不再发起网络请求，直接返回给用户坐标。这个选项适合希望得到准确坐标位置的用户。如果gps不可用，再发起网络请求，进行定位。
         option.setPriority(LocationClientOption.GpsFirst);

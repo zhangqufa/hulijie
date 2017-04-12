@@ -1,8 +1,11 @@
 package com.ssj.hulijie.base;
 
 import android.app.Application;
+import android.app.Service;
 import android.content.Context;
+import android.os.Vibrator;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.ssj.hulijie.pro.db.helper.TemplateConfig;
 import com.ssj.hulijie.utils.AppLog;
@@ -34,11 +37,21 @@ public class HljAppliation extends Application {
         //init fresco
         Fresco.initialize(this);
 
-
         /**
          * init database
          */
         initDatabase();
+
+        //init baidu map
+        /***
+         * 初始化定位sdk，建议在Application中创建
+         */
+        initBaiduMap();
+
+    }
+
+    private void initBaiduMap() {
+        SDKInitializer.initialize(getApplicationContext());
     }
 
     private void initDatabase() {

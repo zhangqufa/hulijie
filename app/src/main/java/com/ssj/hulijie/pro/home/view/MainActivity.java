@@ -140,11 +140,11 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
 
     private void initTabData() {
         tabItemList = new ArrayList<>();
-        tabItemList.add(new TabItem(this, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.string.page_1, FirstPageFrament.class));
+        tabItemList.add(new TabItem(this, R.mipmap.first_page_off, R.mipmap.first_page_on, R.string.page_1, FirstPageFrament.class));
         //取消超级返功能
-        tabItemList.add(new TabItem(this, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.string.page_2, FirstPageFrament2.class));
-        tabItemList.add(new TabItem(this, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.string.page_3, FirstPageFrament3.class));
-        tabItemList.add(new TabItem(this, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.string.page_4, FirstPageFrament4.class));
+        tabItemList.add(new TabItem(this, R.mipmap.discover_off, R.mipmap.discover_on, R.string.page_2, FirstPageFrament2.class));
+        tabItemList.add(new TabItem(this, R.mipmap.msg_off, R.mipmap.msg_on, R.string.page_3, FirstPageFrament3.class));
+        tabItemList.add(new TabItem(this, R.mipmap.mine_off, R.mipmap.mine_on, R.string.page_4, FirstPageFrament4.class));
     }
 
     @Override

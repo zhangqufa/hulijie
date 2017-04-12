@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">狐狸街</string>
-    <string name="page_1">page_1</string>
-    <string name="page_2">page_2</string>
-    <string name="page_3">page_3</string>
-    <string name="page_4">page_4</string>
+    <string name="page_1">首页</string>
+    <string name="page_2">发现</string>
+    <string name="page_3">消息</string>
+    <string name="page_4">我的</string>
     <string name="page_5">page_5</string>
 </resources>

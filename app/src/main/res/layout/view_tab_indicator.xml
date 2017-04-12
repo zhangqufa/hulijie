@@ -21,8 +21,9 @@
             <ImageView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/iv_tab"
-                android:layout_width="24dp"
-                android:layout_height="22dp"
+                android:scaleType="fitXY"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@null"
                 android:src="@mipmap/ic_launcher" />
 

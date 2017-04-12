@@ -44,7 +44,11 @@ public class FirstPageMainHeaderAdapter extends RecyclerView.Adapter<FirstPageMa
     public void onBindViewHolder(FirstPageMainHeaderViewHolder holder, final int position) {
         final ItemFirstPageMainHeaderList item = data.get(position);
         holder.rv_header_rv_tv.setText(item.getTitle());
-        holder.rv_header_rv_iv.setImageURI(item.getImg());
+        if (position == 7) {
+            holder.rv_header_rv_iv.setImageResource(R.mipmap.more);
+        } else {
+            holder.rv_header_rv_iv.setImageURI(item.getImg());
+        }
 
         if(listener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
