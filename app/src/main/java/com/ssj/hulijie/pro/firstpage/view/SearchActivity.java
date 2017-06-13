@@ -1,5 +1,6 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.db.dao.SearchHistoryDao;
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.ItemSearchHistory;
+import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.widget.editext.ClearEditText;
@@ -115,12 +117,25 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
      */
     private void goSearchResult(String string) {
         savaDB(string);
-        AppToast.ShowToast(string);
+//        AppToast.ShowToast(string);
+        Intent intent = new Intent(this, SearchResultActivity.class);
+        intent.putExtra("key", string);
+        startActivity(intent);
+
     }
 
     private void savaDB(String string) {
         if (TextUtils.isEmpty(string)) {
             return;
+        }
+        List<ItemSearchHistory> all = dao.getAll();
+        if (all.size() > 0) {
+            for (ItemSearchHistory history : all) {
+                String name = history.getName();
+                if (string.equals(name)) {
+                    return;
+                }
+            }
         }
         ItemSearchHistory history = new ItemSearchHistory();
         history.setName(string);

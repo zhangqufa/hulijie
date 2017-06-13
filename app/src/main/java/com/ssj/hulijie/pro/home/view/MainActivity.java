@@ -11,13 +11,14 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
+import com.ssj.hulijie.pro.found.view.FoundFragment;
 import com.ssj.hulijie.pro.home.bean.TabItem;
-import com.ssj.hulijie.pro.page2.view.FirstPageFrament2;
-import com.ssj.hulijie.pro.page3.view.FirstPageFrament3;
-import com.ssj.hulijie.pro.page4.view.FirstPageFrament4;
+import com.ssj.hulijie.pro.msg.view.MsgFragment;
+import com.ssj.hulijie.pro.mine.view.MineFragment;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppManager;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.StatusBarColorUtils;
 import com.ssj.hulijie.widget.fragmenttabhost.MyFragmentTabHost;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarColorUtils.setWindowStatusBarColor(this,R.color.colorPrimary);
         getWindow().setBackgroundDrawable(null);
         setContentView(R.layout.activity_main);
         initTabData();
@@ -142,9 +144,9 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         tabItemList = new ArrayList<>();
         tabItemList.add(new TabItem(this, R.mipmap.first_page_off, R.mipmap.first_page_on, R.string.page_1, FirstPageFrament.class));
         //取消超级返功能
-        tabItemList.add(new TabItem(this, R.mipmap.discover_off, R.mipmap.discover_on, R.string.page_2, FirstPageFrament2.class));
-        tabItemList.add(new TabItem(this, R.mipmap.msg_off, R.mipmap.msg_on, R.string.page_3, FirstPageFrament3.class));
-        tabItemList.add(new TabItem(this, R.mipmap.mine_off, R.mipmap.mine_on, R.string.page_4, FirstPageFrament4.class));
+        tabItemList.add(new TabItem(this, R.mipmap.discover_off, R.mipmap.discover_on, R.string.page_2, FoundFragment.class));
+        tabItemList.add(new TabItem(this, R.mipmap.msg_off, R.mipmap.msg_on, R.string.page_3, MsgFragment.class));
+        tabItemList.add(new TabItem(this, R.mipmap.mine_off, R.mipmap.mine_on, R.string.page_4, MineFragment.class));
     }
 
     @Override

@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/comm_green_32B8A9</item>
+        <item name="android:listDivider">@drawable/shap_divider</item>
     </style>
 
     <!--<style name="tabLayoutTextSize" parent="Widget.Design.TabLayout">-->
@@ -14,7 +15,6 @@
         <!--<item name="tabPaddingEnd">12dp</item>-->
         <!--<item name="android:textSize">12dp</item>-->
         <!--<item name="android:textAllCaps">true</item>-->
-
     <!--</style>-->
 
     <style name="rb_style">
@@ -63,6 +63,14 @@
         <item name="android:backgroundDimEnabled">true</item>
         <!--设置dialog的背景-->
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+
+    <style name="SplashTheme" parent="AppTheme">
+        <!-- 欢迎页背景引用刚才写好的 -->
+        <!--<item name="android:windowBackground">@drawable/splash</item>-->
+        <item name="android:windowFullscreen">true</item>
+         <item name="android:windowIsTranslucent">true</item>   透明背景不要了
     </style>
 
 </resources>

@@ -7,11 +7,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.baidu.mapapi.map.Text;
 import com.ssj.hulijie.R;
+import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by vic_zhang .
@@ -19,14 +23,20 @@ import java.util.HashMap;
  */
 
 public class ListViewAdapter extends BaseAdapter {
-    private ArrayList<ArrayList<HashMap<String, Object>>> mList;
+    private List<CatetoryItem> mList;
     private Context mContext;
 
-    public ListViewAdapter(ArrayList<ArrayList<HashMap<String, Object>>> mList, Context mContext) {
+    public void setLists(List<CatetoryItem> lists) {
+        this.mList = lists;
+        notifyDataSetChanged();
+    }
+
+
+    public ListViewAdapter(Context mContext) {
         super();
-        this.mList = mList;
         this.mContext = mContext;
     }
+
     @Override
     public int getCount() {
         if (mList == null) {
@@ -35,6 +45,7 @@ public class ListViewAdapter extends BaseAdapter {
             return this.mList.size();
         }
     }
+
     @Override
     public Object getItem(int position) {
         if (mList == null) {
@@ -43,10 +54,12 @@ public class ListViewAdapter extends BaseAdapter {
             return this.mList.get(position);
         }
     }
+
     @Override
     public long getItemId(int position) {
         return position;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
@@ -56,6 +69,7 @@ public class ListViewAdapter extends BaseAdapter {
                     (this.mContext).inflate(R.layout.listview_item, null, false);
             holder.imageView = (ImageView) convertView.findViewById(R.id.listview_item_imageview);
             holder.gridView = (GridView) convertView.findViewById(R.id.listview_item_gridview);
+            holder.first_title = (TextView) convertView.findViewById(R.id.first_title);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -67,9 +81,14 @@ public class ListViewAdapter extends BaseAdapter {
                 holder.imageView.setImageDrawable
                         (mContext.getResources().getDrawable(R.mipmap.ic_launcher));
             }
+            if (holder.first_title != null) {
+                holder.first_title.setText(mList.get(position).getCate_name());
+            }
             if (holder.gridView != null) {
-                ArrayList<HashMap<String, Object>> arrayListForEveryGridView = this.mList.get(position);
-                GridViewAdapter gridViewAdapter=new GridViewAdapter(mContext, arrayListForEveryGridView);
+                CatetoryItem catetoryItem = mList.get(position);
+                List<CatetoryItem.CatetoryChildItem> child = catetoryItem.getChild();
+
+                GridViewAdapter gridViewAdapter = new GridViewAdapter(mContext, child);
                 holder.gridView.setAdapter(gridViewAdapter);
             }
         }
@@ -79,5 +98,6 @@ public class ListViewAdapter extends BaseAdapter {
     private class ViewHolder {
         ImageView imageView;
         GridView gridView;
+        TextView first_title;
     }
 }

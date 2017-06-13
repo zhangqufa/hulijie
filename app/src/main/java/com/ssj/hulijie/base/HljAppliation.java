@@ -6,9 +6,9 @@ import android.content.Context;
 import android.os.Vibrator;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.ssj.hulijie.pro.db.helper.TemplateConfig;
 import com.ssj.hulijie.utils.AppLog;
+import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.NoHttp;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -30,12 +30,12 @@ public class HljAppliation extends Application {
 
         //init nohttp
         NoHttp.initialize(this);
+        Logger.setDebug(true);
+
 
         //ptr refresh
         PtrFrameLayout.DEBUG = true;
 
-        //init fresco
-        Fresco.initialize(this);
 
         /**
          * init database

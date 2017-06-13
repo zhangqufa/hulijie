@@ -3,12 +3,14 @@
     android:id="@+id/rv_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     android:layout_gravity="center_horizontal|top"
     android:orientation="vertical">
 
     <LinearLayout
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="40dp">
 
         <TextView
             android:id="@+id/location_tv"
@@ -16,26 +18,17 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#71A4D2" />
+            android:text="台州"
+            android:textColor="@android:color/white" />
 
         <RelativeLayout
-            android:layout_marginRight="10dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="6"
+            android:layout_weight="2.5"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/shape_search_et">
 
-            <TextView
-                android:id="@+id/tv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="8dp"
-                android:text="搜索"
-                android:textColor="#71A4D2" />
 
             <TextView
                 android:id="@+id/et_search"
@@ -51,21 +44,63 @@
 
 
         </RelativeLayout>
-
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></LinearLayout>
 
     </LinearLayout>
+
+
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="20dp"
         android:id="@+id/rv_header_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    <View android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/app_bg"/>
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="20dp"
-        android:id="@+id/rv_header_rv_img"
+
+        android:id="@+id/rv_header_four_part"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <View android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/app_bg"/>
+
+    <LinearLayout
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:text="精 品 推 荐"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:text="RECOMMEND"
+            android:textSize="16sp"
+            android:textColor="@color/comm_grey_555555"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/app_bg" />
 
 </LinearLayout>

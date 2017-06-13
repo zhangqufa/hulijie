@@ -8,9 +8,8 @@ package com.ssj.hulijie.pro.firstpage.bean;
 public class ItemFirstPageMainHeaderList {
 
     private String id;
-    private String img;
-    private String title;
-    private int catetory;
+    private String pic;
+    private String name;
 
 
 
@@ -22,32 +21,37 @@ public class ItemFirstPageMainHeaderList {
         this.id = id;
     }
 
-    public String getImg() {
-        return img;
+    public String getPic() {
+        return pic;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getCatetory() {
-        return catetory;
-    }
-
-    public void setCatetory(int catetory) {
-        this.catetory = catetory;
-    }
 
     public ItemFirstPageMainHeaderList(String img, String title) {
-        this.img = img;
-        this.title = title;
+        this.pic = img;
+        this.name = title;
+    }
+
+    public ItemFirstPageMainHeaderList() {
+    }
+
+    @Override
+    public String toString() {
+        return "ItemFirstPageMainHeaderList{" +
+                "id='" + id + '\'' +
+                ", pic='" + pic + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

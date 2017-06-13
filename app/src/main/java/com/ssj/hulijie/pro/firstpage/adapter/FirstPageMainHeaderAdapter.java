@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
@@ -43,11 +43,11 @@ public class FirstPageMainHeaderAdapter extends RecyclerView.Adapter<FirstPageMa
     @Override
     public void onBindViewHolder(FirstPageMainHeaderViewHolder holder, final int position) {
         final ItemFirstPageMainHeaderList item = data.get(position);
-        holder.rv_header_rv_tv.setText(item.getTitle());
+        holder.rv_header_rv_tv.setText(item.getName());
         if (position == 7) {
             holder.rv_header_rv_iv.setImageResource(R.mipmap.more);
         } else {
-            holder.rv_header_rv_iv.setImageURI(item.getImg());
+            Glide.with(context).load(item.getPic()).into(holder.rv_header_rv_iv);
         }
 
         if(listener != null) {
@@ -68,13 +68,13 @@ public class FirstPageMainHeaderAdapter extends RecyclerView.Adapter<FirstPageMa
 
     public class FirstPageMainHeaderViewHolder extends RecyclerView.ViewHolder {
 
-        private SimpleDraweeView rv_header_rv_iv;
+        private ImageView rv_header_rv_iv;
         private TextView rv_header_rv_tv;
 
 
         public FirstPageMainHeaderViewHolder(View itemView) {
             super(itemView);
-            rv_header_rv_iv = (SimpleDraweeView) itemView.findViewById(R.id.rv_header_rv_iv);
+            rv_header_rv_iv = (ImageView) itemView.findViewById(R.id.rv_header_rv_iv);
             rv_header_rv_tv = (TextView) itemView.findViewById(R.id.rv_header_rv_tv);
         }
     }

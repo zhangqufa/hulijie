@@ -4,6 +4,7 @@
 package com.ssj.hulijie.utils;
 
 import android.content.Context;
+import android.content.res.ObbInfo;
 import android.widget.Toast;
 
 import com.ssj.hulijie.base.HljAppliation;
@@ -26,7 +27,6 @@ public class AppToast {
     }
 
     private static void ShowToast(Context context, String text, int duration) {
-
         if (toast == null) {
             toast = Toast.makeText(context,
                     text,

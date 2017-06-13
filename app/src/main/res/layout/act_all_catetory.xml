@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
-    <LinearLayout
-        android:gravity="center_vertical"
+    <RelativeLayout
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_45">
 
@@ -15,21 +14,24 @@
             android:layout_width="50dp"
             android:padding="8dp"
             android:layout_height="match_parent"
-            android:src="@mipmap/fanhui" />
+            android:src="@mipmap/back_red_circle" />
 
         <TextView
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:textSize="18sp"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="全部分类" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <ListView
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:scrollbars="none"
+        android:overScrollMode="never"
         android:background="@color/comm_grey_EFEFEF"
         android:divider="@drawable/shape_divider"
         android:id="@+id/listView"

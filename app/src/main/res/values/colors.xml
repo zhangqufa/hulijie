@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FF246E</color>
+    <color name="colorPrimaryDark">#FF246E</color>
+    <color name="colorAccent">#FF246E</color>
+
+    <color name="app_bg">#F2F2F2</color>
 
 
 
@@ -19,6 +21,8 @@
     <color name="comm_grey_EFEFEF">#EFEFEF</color>
     <color name="comm_red_ef0000">#ef0000</color>
     <color name="comm_green_32B8A9">#32B8A9</color>
+
+
 
 
 </resources>

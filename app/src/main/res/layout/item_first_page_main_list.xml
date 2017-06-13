@@ -1,13 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:background="@android:color/white"
+    android:layout_height="100dp">
 
-    <TextView
-        android:gravity="center"
-        android:id="@+id/item_tv"
-        android:layout_width="wrap_content"
-        android:text="111"
-        android:layout_height="40dp" />
+    <ImageView
+        android:layout_width="0dp"
+        android:id="@+id/img"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:text="iPhone6系外屏维修"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:lines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="1dp"
+            android:layout_below="@id/title"
+            android:id="@+id/sub_title"
+            android:lines="2"
+            android:text="原厂品质，专业维修，1小时上门，\n质保半年"
+            android:textColor="@color/comm_grey_555555"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_below="@id/sub_title"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/money"
+                android:text="198"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:text="元"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
 
 </LinearLayout>

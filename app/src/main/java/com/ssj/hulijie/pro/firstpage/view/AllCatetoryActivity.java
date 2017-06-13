@@ -6,11 +6,16 @@ import android.widget.ListView;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.ListViewAdapter;
+import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
+import com.ssj.hulijie.pro.firstpage.model.AllCatetoryModel;
+import com.ssj.hulijie.pro.firstpage.presenter.AllCatetoryPresenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by vic_zhang .
@@ -21,12 +26,14 @@ public class AllCatetoryActivity extends BaseActivity implements View.OnClickLis
 
     private ListView mListView;
     private ListViewAdapter mListViewAdapter;
-    private ArrayList<ArrayList<HashMap<String, Object>>> mArrayList;
+//    private ArrayList<ArrayList<HashMap<String, Object>>> mArrayList;
+    private AllCatetoryPresenter myPresenter;
 
 
     @Override
     public MvpBasePresenter bindPresenter() {
-        return null;
+        myPresenter =new AllCatetoryPresenter(this);
+        return myPresenter;
     }
 
     @Override
@@ -41,25 +48,21 @@ public class AllCatetoryActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.back).setOnClickListener(this);
         mListView = (ListView) findViewById(R.id.listView);
         initData();
-        mListViewAdapter = new ListViewAdapter(mArrayList, this);
+        mListViewAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mListViewAdapter);
+
     }
 
     private void initData() {
-        mArrayList = new ArrayList<>();
-        HashMap<String, Object> hashMap = null;
-        ArrayList<HashMap<String, Object>> arrayListForEveryGridView = null;
 
-        for (int i = 0; i < 10; i++) {
-            arrayListForEveryGridView = new ArrayList<>();
-            for (int j = 0; j < 5; j++) {
-                hashMap = new HashMap<>();
-                hashMap.put("content", "i=" + i + " ,j=" + j);
-                arrayListForEveryGridView.add(hashMap);
+        myPresenter.getAllcatetoryPresenter(this, new BasePresenter.OnUIThreadListener<List<CatetoryItem>>() {
+            @Override
+            public void onResult(List<CatetoryItem> result) {
+                if (result != null && result.size() > 0) {
+                    mListViewAdapter.setLists(result);
+                }
             }
-            mArrayList.add(arrayListForEveryGridView);
-        }
-
+        });
     }
 
     @Override

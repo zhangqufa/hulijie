@@ -2,21 +2,14 @@ package com.ssj.hulijie.pro.firstpage.view;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -27,22 +20,26 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.base.HljAppliation;
+import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
+import com.ssj.hulijie.pro.firstpage.adapter.FirstPageHeaderFourPartAdappter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainHeaderAdapter;
-import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainHeaderMidImageAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
+import com.ssj.hulijie.pro.firstpage.bean.FourpartData;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
-import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderMidImageList;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
+import com.ssj.hulijie.pro.firstpage.presenter.FirstPagePresenter;
 import com.ssj.hulijie.pro.firstpage.view.location.LocationActivity;
+import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
-import com.ssj.hulijie.utils.PermissionUtil;
 import com.ssj.hulijie.widget.recylerview.RecyclerViewHeader;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +51,9 @@ import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 import static android.app.Activity.RESULT_OK;
+import static com.baidu.location.h.j.s;
+import static com.ssj.hulijie.R.id.rv_first_page_main_list;
+import static com.ssj.hulijie.R.id.rv_header_rv;
 
 /**
  * Created by Administrator on 2017/3/26.
@@ -66,12 +66,13 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private PtrClassicFrameLayout ptr;  //ptr refresh widget
     private RecyclerView rv_first_page_main_list;
     private FirstPageMainListAdapter adapter;  //main list adapter
-    private List<ItemFirstPageMainList> data;
+    private List<ItemFirstPageMainList> data = new ArrayList<>();
     private RecyclerViewHeader rv_header;  //recylerview header
+    private int page = 1;
 
-    private String img[] = {
+    public static String img[] = {
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490931601761&di=d3d10e1a89b90ed3483816404519311a&imgtype=0&src=http%3A%2F%2Fimg9.3lian.com%2Fc1%2Fvector%2F10%2F06%2F018.jpg"
-            , "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1490921613&di=dba161e0057b024c54c39d165a1c72a5&src=http://www.yooyoo360.com/photo/2009-1-1/20090112190902810.jpg"
+            , "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490931601761&di=d3d10e1a89b90ed3483816404519311a&imgtype=0&src=http%3A%2F%2Fimg9.3lian.com%2Fc1%2Fvector%2F10%2F06%2F018.jpg"
             , "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490931701294&di=a18097f8873a16386e013931a022b6e8&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F10%2F81%2F46%2F88bOOOPICca.jpg"
             , "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1490921656&di=345f70a4888c4e6523ac62f6169efc16&src=http://pic1.cxtuku.com/00/07/42/b7823851b6ae.jpg"
             , "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1490921721&di=b278781570174fb400f412072ae60e99&src=http://img9.3lian.com/c1/vector/10/01/152.jpg"
@@ -80,16 +81,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             , "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1490921721&di=b030ccd52d0ae3b6271a613db7f36d8e&src=http://pic2.cxtuku.com/00/07/42/b767a93fe5a7.jpg"
     };
 
-    private String title[] = {
-            "保洁"
-            , "擦玻璃"
-            , "婚庆"
-            , "家电清洗"
-            , "家族清洁"
-            , "家装"
-            , "汽车"
-            , "全部分类"
-    };
 
     private String mid_img[] = {
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490934544694&di=86c3dad3b5d43b047b4af5744fc0d76c&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201512%2F16%2F20151216140942_2JXYr.thumb.700_0.jpeg"
@@ -97,6 +88,10 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     };
     private TextView location_tv;  //location
     private LocationClient mLocationClient; //location
+    private RecyclerView rv_header_four_part;
+    private FirstPagePresenter mPresenter;
+    private FirstPageMainHeaderAdapter rv_header_rv_adapter; //catetory adapter
+    private FirstPageHeaderFourPartAdappter adappter_four_part;
 
     // 要申请的权限
 
@@ -118,9 +113,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         //init RecyclerView
         rv_first_page_main_list = (RecyclerView) viewContent.findViewById(R.id.rv_first_page_main_list);
         rv_first_page_main_list.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new FirstPageMainListAdapter();
+        adapter = new FirstPageMainListAdapter(context);
         rv_first_page_main_list.setAdapter(adapter);
-        adapter.addDatas(getData());
 
 
         //init RecylerView Header
@@ -130,22 +124,21 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         location_tv.setOnClickListener(this);
         header.findViewById(R.id.et_search).setOnClickListener(this);
 
+        //init RecylerView header fout part
+        adappter_four_part = new FirstPageHeaderFourPartAdappter(context);
+        rv_header_four_part = (RecyclerView) header.findViewById(R.id.rv_header_four_part);
+        rv_header_four_part.setAdapter(adappter_four_part);
+        rv_header_four_part.setLayoutManager(new GridLayoutManager(context, 2));
+        rv_header_four_part.addItemDecoration(new DividerGridItemDecoration(context));
+        adappter_four_part.setOnItemClickListener(four_part_listener);
+
 
         //init grid category
         RecyclerView rv_header_rv = (RecyclerView) header.findViewById(R.id.rv_header_rv);
-        FirstPageMainHeaderAdapter rv_header_rv_adapter = new FirstPageMainHeaderAdapter(context);
+        rv_header_rv_adapter = new FirstPageMainHeaderAdapter(context);
         rv_header_rv.setAdapter(rv_header_rv_adapter);
         rv_header_rv.setLayoutManager(new GridLayoutManager(context, 4));
-        rv_header_rv_adapter.setData(getHeaderList());
         rv_header_rv_adapter.setOnItemClickListener(headrCatetoryListener);
-
-        //init middle pic
-
-        RecyclerView rv_header_rv_img = (RecyclerView) header.findViewById(R.id.rv_header_rv_img);
-        FirstPageMainHeaderMidImageAdapter rv_header_rv_img_adapter = new FirstPageMainHeaderMidImageAdapter(context);
-        rv_header_rv_img.setAdapter(rv_header_rv_img_adapter);
-        rv_header_rv_img.setLayoutManager(new LinearLayoutManager(context));
-        rv_header_rv_img_adapter.setData(getHeaderMidImgList());
 
 
         //init location
@@ -157,6 +150,30 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         // after andrioid m,must request Permiision on runtime
         getPersimmions();
+
+
+    }
+
+
+    @Override
+    public MvpBasePresenter bindPresenter() {
+        mPresenter = new FirstPagePresenter(context);
+        return mPresenter;
+    }
+
+    private void getListFourData() {
+
+        mPresenter.getMidFourPresenter(context, new BasePresenter.OnUIThreadListener<List<FourpartData>>() {
+            @Override
+            public void onResult(List<FourpartData> result) {
+                if (result != null) {
+                    for (int i = 0; i < result.size(); i++) {
+                        result.get(i).setPic(FirstPageFrament.img[i]);
+                    }
+                    adappter_four_part.setLists(result);
+                }
+            }
+        });
 
     }
 
@@ -179,9 +196,9 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         @Override
         public void onSucceed(int requestCode, List<String> grantedPermissions) {
             // 权限申请成功回调。
-            if(requestCode == 100) {
+            if (requestCode == 100) {
                 startLocation();
-            } else if(requestCode == 101) {
+            } else if (requestCode == 101) {
             }
         }
 
@@ -231,7 +248,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     private boolean isNeedFresh = true;
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -242,6 +259,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             }
         }
     };
+
     /**
      * 实现实位回调监听
      */
@@ -312,33 +330,36 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 }
             };
 
-    /**
-     * 测试数据  头部  中部 图片选项
-     *
-     * @return
-     */
-    private List<ItemFirstPageMainHeaderMidImageList> getHeaderMidImgList() {
-        List<ItemFirstPageMainHeaderMidImageList> lists = new ArrayList<>();
-        for (int i = 0; i < mid_img.length; i++) {
-            ItemFirstPageMainHeaderMidImageList item = new ItemFirstPageMainHeaderMidImageList(mid_img[i]);
-            lists.add(item);
-        }
-        return lists;
-    }
 
+    /**
+     * 头部four_part listener
+     */
+    private FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData> four_part_listener = new FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData>() {
+        @Override
+        public void onItemClick(int position, FourpartData data) {
+            AppToast.ShowToast(position + "");
+        }
+    };
 
     /**
      * 测试数据  头部 分类选项
      *
      * @return
      */
-    private List<ItemFirstPageMainHeaderList> getHeaderList() {
-        List<ItemFirstPageMainHeaderList> lists = new ArrayList<>();
-        for (int i = 0; i < img.length; i++) {
-            ItemFirstPageMainHeaderList item = new ItemFirstPageMainHeaderList(img[i], title[i]);
-            lists.add(item);
-        }
-        return lists;
+    private void getHeaderList() {
+        final List<ItemFirstPageMainHeaderList> lists = new ArrayList<>();
+        mPresenter.getCatetoryPresenter(context, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainHeaderList>>() {
+            @Override
+            public void onResult(List<ItemFirstPageMainHeaderList> result) {
+                for (int i = 0; i < result.size(); i++) {
+                    ItemFirstPageMainHeaderList item = result.get(i);
+                    item.setPic(img[i]);
+                    lists.add(item);
+                    rv_header_rv_adapter.setData(lists);
+                }
+            }
+        });
+
     }
 
     /**
@@ -378,60 +399,62 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private PtrHandler ptrHandler = new PtrDefaultHandler2() {
         @Override
         public void onLoadMoreBegin(PtrFrameLayout frame) {
-            frame.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ptr.refreshComplete();
-                }
-            }, 1800);
+            page++;
+            getData();
         }
 
         @Override
         public void onRefreshBegin(PtrFrameLayout frame) {
-            frame.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startLocation();
-                    ptr.refreshComplete();
-                }
-            }, 1800);
+            page = 1;
+            data.clear();
+            adapter.notifyDataSetChanged();
+            getData();
+
         }
     };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (ptr != null) {
+            ptr.refreshComplete();
+        }
+    }
 
     /**
      * 测试数据  首页主数据
      *
      * @return
      */
-    private List<ItemFirstPageMainList> getData() {
-        data = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            ItemFirstPageMainList item = new ItemFirstPageMainList();
-            item.setStr("数据：-->" + i);
-            data.add(item);
-        }
-        return data;
+    private void getData() {
+        mPresenter.getFirstDataPresenter(context, page, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainList>>() {
+            @Override
+            public void onResult(List<ItemFirstPageMainList> result) {
+                if (result != null) {
+                    if (result.size() > 0) {
+
+                        for (int i = 0; i < result.size(); i++) {
+                            ItemFirstPageMainList item = result.get(i);
+                            item.setPic(img[i]);
+                            data.add(item);
+                        }
+                        adapter.addDatas(data);
+                    }
+                }
+                ptr.refreshComplete();
+            }
+        });
     }
 
     @Override
     public void initData() {
-//        Request<JSONObject> request = new FastJsonRequest(url);
-//        request.add("name", "chenying");
-//        request.add("pwd", "123");
-//        context.request(0, request, new HttpListener<JSONObject>() {
-//
-//            @Override
-//            public void onSucceed(int what, Response<JSONObject> response) {
-//                JSONObject jsonObject = response.get();
-//                AppLog.Log("response:" + jsonObject.toString());
-//            }
-//
-//            @Override
-//            public void onFailed(int what, Response<JSONObject> response) {
-//
-//            }
-//        }, true, true);
+        /**
+         * 加载分类图标和类型
+         *
+         */
+        getHeaderList();
+        getListFourData();
+        getData();
     }
 
     public static final int LOCATION_REQUEST_CODE = 1000;
