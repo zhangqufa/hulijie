@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/app_bg"
+
+
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="发现"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
+        android:layout_height="@dimen/height_45" />
+
+   <RelativeLayout
+       android:paddingLeft="8dp"
+       android:background="@android:color/white"
+       android:layout_marginTop="10dp"
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/height_45">
+
+
+       <ImageView
+           android:id="@+id/temp_a"
+           android:src="@mipmap/ic_launcher"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+
+       <ImageView
+           android:id="@+id/temp_b"
+           android:layout_alignParentRight="true"
+           android:src="@mipmap/ic_launcher"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+       <TextView
+           android:layout_toRightOf="@id/temp_a"
+           android:text="邀请有礼"
+           android:layout_toLeftOf="@id/temp_b"
+           android:layout_marginLeft="10dp"
+           android:textSize="16sp"
+           android:gravity="center_vertical"
+           android:textColor="@android:color/black"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent" />
+
+
+
+
+   </RelativeLayout>
+
+
+    <RelativeLayout
+        android:paddingLeft="8dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_45">
+
+
+        <ImageView
+            android:id="@+id/temp_aa"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/temp_bb"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_toRightOf="@id/temp_aa"
+            android:text="台州停车"
+            android:layout_toLeftOf="@id/temp_bb"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/app_bg"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:paddingLeft="8dp"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_45">
+
+
+        <ImageView
+            android:id="@+id/temp_aaa"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/temp_bbb"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_toRightOf="@id/temp_aaa"
+            android:text="滴滴打车"
+            android:layout_toLeftOf="@id/temp_bbb"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:paddingLeft="8dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_45">
+
+
+        <ImageView
+            android:id="@+id/temp_aaaa"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/temp_bbbb"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_toRightOf="@id/temp_aaaa"
+            android:text="保洁聚会季"
+            android:layout_toLeftOf="@id/temp_bbbb"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
