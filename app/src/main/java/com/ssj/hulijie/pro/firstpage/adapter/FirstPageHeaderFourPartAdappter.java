@@ -20,6 +20,7 @@ import java.util.List;
 
 public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstPageHeaderFourPartAdappter.FourPartViewHolder>{
 
+
     private Context context;
 
     public FirstPageHeaderFourPartAdappter(Context context) {
