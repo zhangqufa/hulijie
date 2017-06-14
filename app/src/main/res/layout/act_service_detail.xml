@@ -19,7 +19,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:background="@color/comm_green_32B8A9" />
+                android:src="@mipmap/ic_launcher"
+                android:visibility="visible" />
 
 
             <TextView
@@ -205,11 +206,62 @@
                 android:textColor="#434343"
                 android:textSize="17sp" />
 
-
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/colorPrimary" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/shape_table_bg">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="#f3f4f6"
+                        android:gravity="center"
+                        android:text="服务品类"
+                        android:textColor="#89898b"
+                        android:textSize="11sp" />
+
+                    <include layout="@layout/com_line_vertical" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#f3f4f6"
+                        android:gravity="center"
+                        android:text="人工费"
+                        android:textColor="#89898b"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView
+                android:id="@+id/listView"
+                android:dividerHeight="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/shape_table_bg"
+                android:gravity="center"
+                android:text="备注: 我是备注信息"
+                android:textColor="#89898b"
+                android:layout_marginBottom="10dp"
+                android:textSize="11sp" />
 
 
             <include layout="@layout/horizontal_bg_8_dp" />
@@ -269,37 +321,36 @@
 
 
         <LinearLayout
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/shape_bt_huan_grey"
             android:layout_width="70dp"
-            android:gravity="center"
             android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_bt_huan_grey"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:src="@mipmap/contact"
                 android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_height="20dp"
+                android:src="@mipmap/contact" />
 
             <TextView
-                android:textSize="10sp"
-                android:text="联系商家"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
+                android:layout_height="wrap_content"
+                android:text="联系商家"
+                android:textSize="10sp" />
 
 
         </LinearLayout>
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
             android:background="@drawable/shape_bg_colorprimary"
+            android:gravity="center"
             android:text="立即预约"
             android:textColor="@android:color/white"
             android:textSize="19sp" />

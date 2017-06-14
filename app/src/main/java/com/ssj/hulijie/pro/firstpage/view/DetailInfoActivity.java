@@ -13,11 +13,17 @@ import android.widget.TextView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.adapter.ServicePriceAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
+import com.ssj.hulijie.pro.firstpage.bean.ServiceItem;
+import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.TitlebarUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -34,6 +40,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private boolean isFirst = true;
     private ImageView iv_navigation_back;
     private ImageView iv_navigation_right;
+    private ListViewInScrollView lv;
 
     @Override
     public MvpBasePresenter bindPresenter() {
@@ -59,6 +66,22 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         sv = (MyScrollView) getViewId(R.id.sv);
         sv.setScrollViewListener(listener);
 
+        lv = (ListViewInScrollView) findViewById(R.id.listView);
+        ServicePriceAdapter adapter = new ServicePriceAdapter(this);
+        lv.setAdapter(adapter);
+        adapter.setLists(getData());
+
+    }
+
+    private List<ServiceItem> getData() {
+        List<ServiceItem> data = new ArrayList<>();
+        for ( int i = 0 ;i<10;i++) {
+            ServiceItem item = new ServiceItem();
+            item.setName("name_" + i);
+            item.setPrice("price_" + i);
+            data.add(item);
+        }
+        return data;
     }
 
     @Override

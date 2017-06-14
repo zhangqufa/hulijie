@@ -365,7 +365,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             public void onResult(List<ItemFirstPageMainHeaderList> result) {
                 for (int i = 0; i < result.size(); i++) {
                     ItemFirstPageMainHeaderList item = result.get(i);
-//                    item.setPic(img[i]);
+                    item.setPic(img[i]);
                     lists.add(item);
                     rv_header_rv_adapter.setData(lists);
                 }
