@@ -86,13 +86,5 @@ public class HtmlActivity extends BaseActivity {
 
 
     private void initToolBar() {
-        String title = getIntent().getStringExtra("title");
-        RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
-        TitlebarUtil.inittoolBar(this, title_bar_base, true, title, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 }

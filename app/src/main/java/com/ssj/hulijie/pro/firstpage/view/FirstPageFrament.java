@@ -35,6 +35,7 @@ import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 import com.ssj.hulijie.widget.recylerview.RecyclerViewHeader;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -52,6 +53,7 @@ import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 import static android.app.Activity.RESULT_OK;
 import static com.baidu.location.h.j.s;
+import static com.baidu.location.h.j.t;
 import static com.ssj.hulijie.R.id.rv_first_page_main_list;
 import static com.ssj.hulijie.R.id.rv_header_rv;
 
@@ -115,6 +117,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         rv_first_page_main_list.setLayoutManager(new LinearLayoutManager(context));
         adapter = new FirstPageMainListAdapter(context);
         rv_first_page_main_list.setAdapter(adapter);
+        adapter.setOnItemClickListener(item_click);
 
 
         //init RecylerView Header
@@ -153,6 +156,15 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
 
     }
+
+    private BaseRecyclerAdapter.OnItemClickListener item_click = new BaseRecyclerAdapter.OnItemClickListener<ItemFirstPageMainList>() {
+        @Override
+        public void onItemClick(int position, ItemFirstPageMainList item) {
+            Intent intent = new Intent(context, DetailInfoActivity.class);
+            intent.putExtra("item", item);
+            startActivity(intent);
+        }
+    };
 
 
     @Override
@@ -353,7 +365,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             public void onResult(List<ItemFirstPageMainHeaderList> result) {
                 for (int i = 0; i < result.size(); i++) {
                     ItemFirstPageMainHeaderList item = result.get(i);
-                    item.setPic(img[i]);
+//                    item.setPic(img[i]);
                     lists.add(item);
                     rv_header_rv_adapter.setData(lists);
                 }

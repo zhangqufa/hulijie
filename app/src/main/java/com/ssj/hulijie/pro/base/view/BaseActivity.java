@@ -4,7 +4,9 @@ package com.ssj.hulijie.pro.base.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
@@ -21,7 +23,7 @@ import com.yanzhenjie.nohttp.rest.RequestQueue;
  * BaseActivity---是我们项目的activity
  * Created by Dream on 16/5/26.
  */
-public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivity<P> {
+public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivity<P>{
 
     //-------------- NoHttp -----------//
 
@@ -94,5 +96,9 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
     }
 
+
+    public <VT> VT getViewId(@IdRes int id) {
+        return (VT) findViewById(id);
+    }
 
 }

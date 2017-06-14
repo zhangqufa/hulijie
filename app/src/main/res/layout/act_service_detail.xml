@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:background="@color/comm_green_32B8A9"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+            <TextView
+                android:text="@string/my_txt"
+                android:textSize="40sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+
+
+    </com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/title_bar_base"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_45"
+        android:background="#00000000">
+
+        <ImageView
+            android:id="@+id/iv_navigation_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="13dp"
+            android:paddingRight="12dp"
+            android:src="@mipmap/back_btn_huan" />
+
+        <TextView
+            android:text="服务详情"
+            android:textColor="#00ffffff"
+            android:id="@+id/tv_navigation_center"
+            style="@style/item_style"
+            android:layout_width="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:lines="1"
+            android:textSize="18sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_navigation_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/share_btn_huan" />
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

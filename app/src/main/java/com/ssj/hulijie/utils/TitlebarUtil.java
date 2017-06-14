@@ -18,7 +18,7 @@ import com.ssj.hulijie.R;
  */
 public class TitlebarUtil {
 
-    public static void initTitilBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, View.OnClickListener listener) {
+    public static void initStatusTitilBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, View.OnClickListener listener) {
         if (Build.VERSION.SDK_INT >= 19) {
             LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) title_bar_base.getLayoutParams();
             layoutParams1.topMargin = layoutParams1.topMargin + StatusBarUtil.getStatusBarHeight(context);
@@ -35,35 +35,6 @@ public class TitlebarUtil {
         }
     }
 
-    public static void inittoolBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, View.OnClickListener listener) {
-        ((TextView) title_bar_base.findViewById(R.id.tv_navigation_center)).setText(center);
-
-        if (!leftShow) {
-            ImageView imageView = (ImageView) title_bar_base.findViewById(R.id.iv_navigation_back);
-            imageView.setVisibility(View.GONE);
-        } else {
-            ImageView imageView = (ImageView) title_bar_base.findViewById(R.id.iv_navigation_back);
-            imageView.setOnClickListener(listener);
-        }
-    }
-
-    public static void inittoolBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, boolean rightShow, String right, View.OnClickListener listener, View.OnClickListener listener_rigth) {
-        ((TextView) title_bar_base.findViewById(R.id.tv_navigation_center)).setText(center);
-
-        if (!leftShow) {
-            ImageView imageView = (ImageView) title_bar_base.findViewById(R.id.iv_navigation_back);
-            imageView.setVisibility(View.GONE);
-        } else {
-            ImageView imageView = (ImageView) title_bar_base.findViewById(R.id.iv_navigation_back);
-            imageView.setOnClickListener(listener);
-        }
-        if (rightShow) {
-            TextView tv_right = (TextView) title_bar_base.findViewById(R.id.tv_navigation_right);
-            tv_right.setVisibility(View.VISIBLE);
-            tv_right.setText(right);
-            tv_right.setOnClickListener(listener_rigth);
-        }
-    }
 
     public static void inittoolBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, boolean rightShow, int imgRes, View.OnClickListener listener, View.OnClickListener listener_rigth) {
         ((TextView) title_bar_base.findViewById(R.id.tv_navigation_center)).setText(center);
@@ -116,7 +87,7 @@ public class TitlebarUtil {
 
 
 
-    public static void initTitilBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, String rightText, View.OnClickListener listener1, View.OnClickListener listener2) {
+    public static void initStatusTitilBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, String rightText, View.OnClickListener listener1, View.OnClickListener listener2) {
         if (Build.VERSION.SDK_INT >= 19) {
             LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) title_bar_base.getLayoutParams();
             layoutParams1.topMargin = layoutParams1.topMargin + StatusBarUtil.getStatusBarHeight(context);
@@ -138,7 +109,7 @@ public class TitlebarUtil {
 
     }
 
-    public static void initTitilBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, boolean rightImgShow, int rightSrc, View.OnClickListener listener1, View.OnClickListener listener2) {
+    public static void initStatusTitilBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, boolean rightImgShow, int rightSrc, View.OnClickListener listener1, View.OnClickListener listener2) {
         if (Build.VERSION.SDK_INT >= 19) {
             LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) title_bar_base.getLayoutParams();
             layoutParams1.topMargin = layoutParams1.topMargin + StatusBarUtil.getStatusBarHeight(context);
@@ -239,40 +210,6 @@ public class TitlebarUtil {
 
     }
 
-//    public static void initToolbar(final Activity activity, String centerText) {
-//
-//        Toolbar toolbar_base = (Toolbar) activity.findViewById(R.id.toolbar_base);
-//        ((TextView) toolbar_base.findViewById(R.id.tv_navigation_center)).setText(centerText);
-//        ((ImageView) toolbar_base.findViewById(R.id.iv_navigation_back)).setOnClickListener(newimg View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                activity.finish();
-//            }
-//        });
-//        initTitilBar(activity, toolbar_base, 0);
-//
-//    }
-
-//    public static void initToolbar(final Activity activity, String centerText, String rightText, View.OnClickListener onClickListener) {
-//
-//        Toolbar toolbar_base = (Toolbar) activity.findViewById(R.id.toolbar_base);
-//        ((TextView) toolbar_base.findViewById(R.id.tv_navigation_center)).setText(centerText);
-//
-//        TextView tv_right = (TextView) toolbar_base.findViewById(R.id.tv_navigation_right);
-//        tv_right.setVisibility(View.VISIBLE);
-//        tv_right.setText(rightText);
-//        tv_right.setOnClickListener(onClickListener);
-//
-//        ((ImageView) toolbar_base.findViewById(R.id.iv_navigation_back)).setOnClickListener(newimg View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                activity.finish();
-//            }
-//        });
-//
-//        initTitilBar(activity, toolbar_base, 0);
-//
-//    }
 
 
 }

@@ -1,17 +1,42 @@
 package com.ssj.hulijie.pro.firstpage.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by vic_zhang .
  * on 2017/3/30
  */
 
-public class ItemFirstPageMainList {
+public class ItemFirstPageMainList implements Parcelable {
     private String id;
     private String name;
     private String pic;
     private String txt;
     private String price;
 
+    public ItemFirstPageMainList() {
+    }
+
+    protected ItemFirstPageMainList(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        pic = in.readString();
+        txt = in.readString();
+        price = in.readString();
+    }
+
+    public static final Creator<ItemFirstPageMainList> CREATOR = new Creator<ItemFirstPageMainList>() {
+        @Override
+        public ItemFirstPageMainList createFromParcel(Parcel in) {
+            return new ItemFirstPageMainList(in);
+        }
+
+        @Override
+        public ItemFirstPageMainList[] newArray(int size) {
+            return new ItemFirstPageMainList[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -63,5 +88,19 @@ public class ItemFirstPageMainList {
                 ", name='" + name + '\'' +
                 ", id='" + id + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(name);
+        parcel.writeString(pic);
+        parcel.writeString(txt);
+        parcel.writeString(price);
     }
 }
