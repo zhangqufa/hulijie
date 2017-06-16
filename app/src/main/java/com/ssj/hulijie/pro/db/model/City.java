@@ -1,33 +1,33 @@
 package com.ssj.hulijie.pro.db.model;
 
 public class City {
-	public String name;
-	public String pinyi;
+    public String name;
+    public String pinyi;
 
-	public City(String name, String pinyi) {
-		super();
-		this.name = name;
-		this.pinyi = pinyi;
-	}
+    public City(String name, String pinyi) {
+        super();
+        this.name = name;
+        this.pinyi = pinyi;
+    }
 
-	public City() {
-		super();
-	}
+    public City() {
+        super();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getPinyi() {
-		return pinyi;
-	}
+    public String getPinyi() {
+        return pinyi;
+    }
 
-	public void setPinyi(String pinyi) {
-		this.pinyi = pinyi;
-	}
+    public void setPinyi(String pinyi) {
+        this.pinyi = pinyi;
+    }
 
 }

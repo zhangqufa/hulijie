@@ -49,7 +49,7 @@ public class MsgFragment extends BaseFragment {
 
 
         mContext = (MainActivity) getActivity();
-        msg_rv = (RecyclerView)viewContent.findViewById(R.id.msg_rv);
+        msg_rv = (RecyclerView) viewContent.findViewById(R.id.msg_rv);
         msg_rv.setLayoutManager(new LinearLayoutManager(mContext));
         msg_rv.addItemDecoration(new DividerGridItemDecoration(mContext));
         MsgAdapter adapter = new MsgAdapter(mContext);
@@ -125,11 +125,11 @@ public class MsgFragment extends BaseFragment {
 
     private List<MsgData> getData() {
         List<MsgData> lists = new ArrayList<>();
-            for (int i = 0; i< FirstPageFrament.img.length; i++) {
-                MsgData data = new MsgData(FirstPageFrament.img[i],"title_"+i,
-                "sub_title_" + i, System.currentTimeMillis());
-                lists.add(data);
-            }
+        for (int i = 0; i < FirstPageFrament.img.length; i++) {
+            MsgData data = new MsgData(FirstPageFrament.img[i], "title_" + i,
+                    "sub_title_" + i, System.currentTimeMillis());
+            lists.add(data);
+        }
 
 
         return lists;

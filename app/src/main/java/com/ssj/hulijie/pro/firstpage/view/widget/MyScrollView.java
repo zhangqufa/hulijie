@@ -19,7 +19,7 @@ public class MyScrollView extends ScrollView {
     }
 
     public MyScrollView(Context context, AttributeSet attrs,
-                                int defStyle) {
+                        int defStyle) {
         super(context, attrs, defStyle);
     }
 

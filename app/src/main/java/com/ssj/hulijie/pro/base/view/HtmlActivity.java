@@ -3,16 +3,12 @@ package com.ssj.hulijie.pro.base.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.RelativeLayout;
-
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.utils.AppLog;
-import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.net.URISyntaxException;
 
@@ -82,7 +78,6 @@ public class HtmlActivity extends BaseActivity {
 
         wv.loadUrl(url);
     }
-
 
 
     private void initToolBar() {

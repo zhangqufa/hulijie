@@ -10,11 +10,8 @@ import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.ListViewAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
-import com.ssj.hulijie.pro.firstpage.model.AllCatetoryModel;
 import com.ssj.hulijie.pro.firstpage.presenter.AllCatetoryPresenter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,13 +23,13 @@ public class AllCatetoryActivity extends BaseActivity implements View.OnClickLis
 
     private ListView mListView;
     private ListViewAdapter mListViewAdapter;
-//    private ArrayList<ArrayList<HashMap<String, Object>>> mArrayList;
+    //    private ArrayList<ArrayList<HashMap<String, Object>>> mArrayList;
     private AllCatetoryPresenter myPresenter;
 
 
     @Override
     public MvpBasePresenter bindPresenter() {
-        myPresenter =new AllCatetoryPresenter(this);
+        myPresenter = new AllCatetoryPresenter(this);
         return myPresenter;
     }
 

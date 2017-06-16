@@ -1,9 +1,7 @@
 package com.ssj.hulijie.base;
 
 import android.app.Application;
-import android.app.Service;
 import android.content.Context;
-import android.os.Vibrator;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.ssj.hulijie.pro.db.helper.TemplateConfig;
@@ -11,6 +9,7 @@ import com.ssj.hulijie.utils.AppLog;
 import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.NoHttp;
 
+import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -48,6 +47,11 @@ public class HljAppliation extends Application {
          */
         initBaiduMap();
 
+        /**
+         * init 右滑返回
+         */
+        BGASwipeBackManager.getInstance().init(this);
+
     }
 
     private void initBaiduMap() {
@@ -59,8 +63,8 @@ public class HljAppliation extends Application {
         config = new TemplateConfig();
         try {
             String[] files = getAssets().list("");
-            for(String file:files){
-                if(file.endsWith(".orm.xml")){
+            for (String file : files) {
+                if (file.endsWith(".orm.xml")) {
                     config.mappings.put(file, config.parse(getAssets().open(file)));
                 }
             }

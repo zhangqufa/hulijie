@@ -17,6 +17,7 @@
         android:hint="输入城市名或拼音"
         android:padding="10dip"
         android:textColor="#515151"
+        android:background="@drawable/et_bg"
         android:textSize="16dp"></EditText>
 
     <ListView
@@ -70,7 +71,7 @@
         android:layout_width="fill_parent"
         android:layout_height="45dip"
         android:layout_alignParentTop="true"
-        android:background="#32B8A9">
+        android:background="@color/colorPrimary">
 
         <ImageView
             android:id="@+id/close"

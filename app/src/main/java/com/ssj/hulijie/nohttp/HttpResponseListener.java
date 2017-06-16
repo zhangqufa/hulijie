@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
-import com.ssj.hulijie.R;
 import com.ssj.hulijie.widget.dialog.WaitDialog;
 import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.error.NetworkError;
@@ -130,7 +129,7 @@ public class HttpResponseListener<T> implements OnResponseListener<T> {
         } else {
             err = "未知错误";
         }
-        Toast.makeText(mActivity, err,Toast.LENGTH_LONG).show();
+        Toast.makeText(mActivity, err, Toast.LENGTH_LONG).show();
         Logger.e("错误：" + exception.getMessage());
         if (callback != null)
             callback.onFailed(what, response);

@@ -2,12 +2,10 @@ package com.ssj.hulijie.pro.firstpage.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ssj.hulijie.R;
@@ -20,7 +18,6 @@ import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
 import com.ssj.hulijie.utils.AppLog;
-import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +72,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
     private List<ServiceItem> getData() {
         List<ServiceItem> data = new ArrayList<>();
-        for ( int i = 0 ;i<10;i++) {
+        for (int i = 0; i < 10; i++) {
             ServiceItem item = new ServiceItem();
             item.setName("name_" + i);
             item.setPrice("price_" + i);

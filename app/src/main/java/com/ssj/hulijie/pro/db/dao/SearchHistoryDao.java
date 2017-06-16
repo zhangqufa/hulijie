@@ -6,10 +6,9 @@ import com.ssj.hulijie.pro.db.model.ItemSearchHistory;
 
 public class SearchHistoryDao extends BaseDao<ItemSearchHistory> {
 
-	public SearchHistoryDao(MyDatabaseHelper helper) {
-		super(ItemSearchHistory.class, helper);
-	}
-
+    public SearchHistoryDao(MyDatabaseHelper helper) {
+        super(ItemSearchHistory.class, helper);
+    }
 
 
 }

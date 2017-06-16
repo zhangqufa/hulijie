@@ -49,7 +49,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
         nav_center_title.setText(key);
 
         //init RecyclerView
-       RecyclerView search_result_rv = (RecyclerView) findViewById(R.id.search_result_rv);
+        RecyclerView search_result_rv = (RecyclerView) findViewById(R.id.search_result_rv);
         search_result_rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new FirstPageMainListAdapter(context);
         search_result_rv.setAdapter(adapter);
@@ -62,11 +62,11 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
      * @return
      */
     private List<ItemFirstPageMainList> getData() {
-       List<ItemFirstPageMainList> data = new ArrayList<>();
+        List<ItemFirstPageMainList> data = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             ItemFirstPageMainList item = new ItemFirstPageMainList();
-            item.setName("title_"+i);
-            item.setTxt("sub_title_"+i);
+            item.setName("title_" + i);
+            item.setTxt("sub_title_" + i);
             double random = Math.random();
             DecimalFormat df = new DecimalFormat("0.00");
             item.setPrice(df.format(random));

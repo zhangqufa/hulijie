@@ -8,7 +8,6 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -35,10 +34,11 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.ssj.hulijie.R;
+import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.db.helper.DBHelper;
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.City;
-import com.ssj.hulijie.utils.StatusBarColorUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class LocationActivity extends AppCompatActivity implements OnScrollListener, OnClickListener {
+public class LocationActivity extends BaseActivity implements OnScrollListener, OnClickListener {
 	private BaseAdapter adapter;
 	private ResultListAdapter resultListAdapter;
 	private ListView personList;
@@ -80,7 +80,6 @@ public class LocationActivity extends AppCompatActivity implements OnScrollListe
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		StatusBarColorUtils.setWindowStatusBarColor(this,R.color.comm_grey_555555);
 		setContentView(R.layout.act_location);
 		findViewById(R.id.close).setOnClickListener(this);
 		personList = (ListView) findViewById(R.id.list_view);
@@ -177,6 +176,11 @@ public class LocationActivity extends AppCompatActivity implements OnScrollListe
 		mLocationClient.registerLocationListener(mMyLocationListener);
 		InitLocation();
 		mLocationClient.start();
+	}
+
+	@Override
+	public MvpBasePresenter bindPresenter() {
+		return null;
 	}
 
 	private void confirm(String currentCity) {

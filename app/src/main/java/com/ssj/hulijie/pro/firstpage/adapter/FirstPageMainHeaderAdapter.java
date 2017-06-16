@@ -1,7 +1,6 @@
 package com.ssj.hulijie.pro.firstpage.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
-import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ import java.util.List;
 
 public class FirstPageMainHeaderAdapter extends RecyclerView.Adapter<FirstPageMainHeaderAdapter.FirstPageMainHeaderViewHolder> {
     private Context context;
-    private List<ItemFirstPageMainHeaderList>  data;
+    private List<ItemFirstPageMainHeaderList> data;
 
     public FirstPageMainHeaderAdapter(Context context) {
         this.context = context;
@@ -50,7 +48,7 @@ public class FirstPageMainHeaderAdapter extends RecyclerView.Adapter<FirstPageMa
             Glide.with(context).load(item.getPic()).into(holder.rv_header_rv_iv);
         }
 
-        if(listener != null) {
+        if (listener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -63,7 +61,7 @@ public class FirstPageMainHeaderAdapter extends RecyclerView.Adapter<FirstPageMa
 
     @Override
     public int getItemCount() {
-        return data==null?0:data.size();
+        return data == null ? 0 : data.size();
     }
 
     public class FirstPageMainHeaderViewHolder extends RecyclerView.ViewHolder {
@@ -85,6 +83,7 @@ public class FirstPageMainHeaderAdapter extends RecyclerView.Adapter<FirstPageMa
     }
 
     private OnItemClickListener listener;
+
     public interface OnItemClickListener<T> {
         void onItemClick(int position, T data);
     }

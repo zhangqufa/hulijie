@@ -13,8 +13,6 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
-import java.util.List;
-
 /**
  * Created by vic_zhang .
  * on 2017/3/30
@@ -39,7 +37,7 @@ public class FirstPageMainListAdapter extends BaseRecyclerAdapter<ItemFirstPageM
     public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, ItemFirstPageMainList data) {
 
 
-        if(viewHolder instanceof FirstPageMainListViewHolder) {
+        if (viewHolder instanceof FirstPageMainListViewHolder) {
             FirstPageMainListViewHolder vh = (FirstPageMainListViewHolder) viewHolder;
             vh.title.setText(data.getName());
             vh.sub_title.setText(data.getTxt());
@@ -50,17 +48,17 @@ public class FirstPageMainListAdapter extends BaseRecyclerAdapter<ItemFirstPageM
     }
 
     private class FirstPageMainListViewHolder extends RecyclerView.ViewHolder {
-        private TextView title ;
-        private TextView sub_title ;
-        private ImageView img ;
-        private TextView money ;
+        private TextView title;
+        private TextView sub_title;
+        private ImageView img;
+        private TextView money;
 
         public FirstPageMainListViewHolder(View itemView) {
             super(itemView);
-            title= (TextView)itemView.findViewById(R.id.title);
-            sub_title= (TextView)itemView.findViewById(R.id.sub_title);
-            money= (TextView)itemView.findViewById(R.id.money);
-            img= (ImageView)itemView.findViewById(R.id.img);
+            title = (TextView) itemView.findViewById(R.id.title);
+            sub_title = (TextView) itemView.findViewById(R.id.sub_title);
+            money = (TextView) itemView.findViewById(R.id.money);
+            img = (ImageView) itemView.findViewById(R.id.img);
         }
     }
 }

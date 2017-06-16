@@ -14,7 +14,7 @@ import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 
 public class MineFragment extends BaseFragment {
 
-    private ImageView img ;
+    private ImageView img;
 
     @Override
     public int getContentView() {

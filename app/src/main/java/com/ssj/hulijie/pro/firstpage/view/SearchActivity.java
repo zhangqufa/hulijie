@@ -16,7 +16,6 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.db.dao.SearchHistoryDao;
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.ItemSearchHistory;
-import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.widget.editext.ClearEditText;
@@ -80,7 +79,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void addHotsearchDataForFlowView(String str,FlowLayout flowLayout,List<TextView> tvs_list) {
+    private void addHotsearchDataForFlowView(String str, FlowLayout flowLayout, List<TextView> tvs_list) {
         int ranHeight = DensityUtil.dip2px(this, 30);
         ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ranHeight);
         lp.setMargins(0, 0, DensityUtil.dip2px(this, 10), 0);
@@ -148,7 +147,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             long success = dao.insert(history);
             if (success > 0) {
                 AppToast.ShowToast("success:" + success);
-                addHotsearchDataForFlowView(string,fl_history_record,tvs_history_search);
+                addHotsearchDataForFlowView(string, fl_history_record, tvs_history_search);
             }
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

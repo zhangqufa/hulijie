@@ -13,12 +13,11 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 import com.ssj.hulijie.pro.found.view.FoundFragment;
 import com.ssj.hulijie.pro.home.bean.TabItem;
-import com.ssj.hulijie.pro.msg.view.MsgFragment;
 import com.ssj.hulijie.pro.mine.view.MineFragment;
+import com.ssj.hulijie.pro.msg.view.MsgFragment;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppManager;
 import com.ssj.hulijie.utils.AppToast;
-import com.ssj.hulijie.utils.StatusBarColorUtils;
 import com.ssj.hulijie.widget.fragmenttabhost.MyFragmentTabHost;
 
 import java.util.ArrayList;
@@ -31,11 +30,9 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
     private MyFragmentTabHost fragmentTabHost;
     private boolean isShowDlg;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarColorUtils.setWindowStatusBarColor(this,R.color.colorPrimary);
         getWindow().setBackgroundDrawable(null);
         setContentView(R.layout.activity_main);
         initTabData();
@@ -45,10 +42,11 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
 
     /**
      * 切换tab
+     *
      * @param tab
      */
     public void changeTab(int tab) {
-        AppLog.Log("chageTab: "+tab);
+        AppLog.Log("chageTab: " + tab);
         fragmentTabHost.setCurrentTab(tab);
     }
 
@@ -58,7 +56,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
             super.handleMessage(msg);
             if (msg.what == 0) {
 //                firstUserPresent();
-            }else if (msg.what == 1) {
+            } else if (msg.what == 1) {
                 int tab = (int) msg.obj;
                 fragmentTabHost.setCurrentTab(tab);
             }
@@ -130,9 +128,6 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
 //            tabItem.setXiaoxiGone();
 //        }
 //    }
-
-
-
 
 
     @Override
@@ -210,7 +205,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                AppToast.ShowToast("再按一次退出"+getString(R.string.app_name));
+                AppToast.ShowToast("再按一次退出" + getString(R.string.app_name));
             } else {
                 AppManager.getAppManager().AppExit();
             }
@@ -233,5 +228,10 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         if (resultCode == CHANGE_TAB_RESULT) {
             fragmentTabHost.setCurrentTab(0);
         }
+    }
+
+
+    public void startActivityForBack(Intent intent) {
+        mSwipeBackHelper.forward(intent);
     }
 }

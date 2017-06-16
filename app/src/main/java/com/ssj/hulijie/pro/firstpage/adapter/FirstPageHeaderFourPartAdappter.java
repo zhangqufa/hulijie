@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Administrator on 2017/5/14.
  */
 
-public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstPageHeaderFourPartAdappter.FourPartViewHolder>{
+public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstPageHeaderFourPartAdappter.FourPartViewHolder> {
 
     private Context context;
 
@@ -34,7 +34,6 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
     private List<FourpartData> lists;
 
 
-
     @Override
     public FourPartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.header_rv_four_part, parent, false);
@@ -42,7 +41,7 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
     }
 
     @Override
-    public void onBindViewHolder(FourPartViewHolder holder,final int position) {
+    public void onBindViewHolder(FourPartViewHolder holder, final int position) {
         final FourpartData item = lists.get(position);
         holder.tv_title.setText(item.getName());
         holder.tv_sub_titlle.setText(item.getTxt());
@@ -50,7 +49,7 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
 //        holder.iv_image.setImageURI(item.getPic());
 
 
-        if(listener != null) {
+        if (listener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -63,10 +62,10 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
 
     @Override
     public int getItemCount() {
-        return lists==null?0:lists.size();
+        return lists == null ? 0 : lists.size();
     }
 
-    class FourPartViewHolder extends RecyclerView.ViewHolder{
+    class FourPartViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tv_title;
         private TextView tv_sub_titlle;
@@ -74,8 +73,8 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
 
         public FourPartViewHolder(View itemView) {
             super(itemView);
-            tv_title = (TextView)itemView.findViewById(R.id.title);
-            tv_sub_titlle = (TextView)itemView.findViewById(R.id.sub_title);
+            tv_title = (TextView) itemView.findViewById(R.id.title);
+            tv_sub_titlle = (TextView) itemView.findViewById(R.id.sub_title);
             iv_image = (ImageView) itemView.findViewById(R.id.header_rv_four_part_iv);
         }
 
@@ -86,6 +85,7 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
     }
 
     private FirstPageHeaderFourPartAdappter.OnItemClickListener listener;
+
     public interface OnItemClickListener<T> {
         void onItemClick(int position, T data);
     }

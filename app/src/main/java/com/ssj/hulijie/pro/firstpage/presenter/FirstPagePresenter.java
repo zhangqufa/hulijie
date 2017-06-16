@@ -18,8 +18,6 @@ import com.yanzhenjie.nohttp.rest.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-
 /**
  * Created by Administrator on 2017/6/3.
  */
@@ -111,7 +109,7 @@ public class FirstPagePresenter extends BasePresenter<FirstPageModel> {
 
 
     public void getFirstDataPresenter(BaseActivity activity, int page, final OnUIThreadListener<List<ItemFirstPageMainList>> onUIThreadListener) {
-        getModel().getFirstDataModel(activity, page,new HttpListener<JSONObject>() {
+        getModel().getFirstDataModel(activity, page, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();

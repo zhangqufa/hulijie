@@ -8,9 +8,7 @@ import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
-import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
 import com.ssj.hulijie.pro.firstpage.model.AllCatetoryModel;
-import com.ssj.hulijie.pro.firstpage.view.AllCatetoryActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.Constant;
 import com.yanzhenjie.nohttp.rest.Response;
@@ -34,7 +32,7 @@ public class AllCatetoryPresenter extends BasePresenter<AllCatetoryModel> {
         return new AllCatetoryModel(getContext());
     }
 
-    public void getAllcatetoryPresenter(BaseActivity context,final OnUIThreadListener<List<CatetoryItem>> onUIThreadListener){
+    public void getAllcatetoryPresenter(BaseActivity context, final OnUIThreadListener<List<CatetoryItem>> onUIThreadListener) {
         getModel().getAllCatetoryModel(context, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {

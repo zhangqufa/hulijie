@@ -12,7 +12,6 @@ public class ItemFirstPageMainHeaderList {
     private String name;
 
 
-
     public String getId() {
         return id;
     }

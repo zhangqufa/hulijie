@@ -4,7 +4,6 @@
 package com.ssj.hulijie.utils;
 
 import android.content.Context;
-import android.content.res.ObbInfo;
 import android.widget.Toast;
 
 import com.ssj.hulijie.base.HljAppliation;

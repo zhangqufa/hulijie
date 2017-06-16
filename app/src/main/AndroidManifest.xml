@@ -60,13 +60,16 @@
         <activity android:name=".pro.firstpage.view.location.LocationActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent"
             android:configChanges="keyboardHidden"/>
-        <activity android:name=".pro.firstpage.view.AllCatetoryActivity" />
-        <activity android:name=".pro.firstpage.view.SearchActivity" />
+        <activity android:name=".pro.firstpage.view.AllCatetoryActivity" android:theme="@style/AppTheme.Transparent"/>
+        <activity android:name=".pro.firstpage.view.SearchActivity"  android:theme="@style/AppTheme.Transparent"/>
 
-        <activity android:name=".pro.firstpage.view.SearchResultActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".pro.firstpage.view.OrderActivity" android:screenOrientation="portrait" />
-        <activity android:name=".pro.firstpage.view.DetailInfoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pro.firstpage.view.SearchResultActivity" android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent"/>
+        <activity android:name=".pro.firstpage.view.OrderActivity" android:screenOrientation="portrait" android:theme="@style/AppTheme.Transparent"/>
+        <activity android:name=".pro.firstpage.view.DetailInfoActivity" android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent"/>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

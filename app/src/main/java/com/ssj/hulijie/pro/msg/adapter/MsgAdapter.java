@@ -33,7 +33,6 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MsgViewHolder> {
     }
 
 
-
     @Override
     public MsgViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MsgViewHolder(LayoutInflater.from(context).inflate(R.layout.item_msg, parent, false));
@@ -55,20 +54,21 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MsgViewHolder> {
 
     @Override
     public int getItemCount() {
-        return lists==null?0:lists.size();
+        return lists == null ? 0 : lists.size();
     }
 
-    class MsgViewHolder extends RecyclerView.ViewHolder{
+    class MsgViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView sub_title;
         private TextView time;
         private ImageView img;
+
         public MsgViewHolder(View itemView) {
             super(itemView);
-            title = (TextView)itemView.findViewById(R.id.title);
-            sub_title = (TextView)itemView.findViewById(R.id.sub_title);
-            time = (TextView)itemView.findViewById(R.id.time);
-            img= (ImageView)itemView.findViewById(R.id.img);
+            title = (TextView) itemView.findViewById(R.id.title);
+            sub_title = (TextView) itemView.findViewById(R.id.sub_title);
+            time = (TextView) itemView.findViewById(R.id.time);
+            img = (ImageView) itemView.findViewById(R.id.img);
         }
     }
 
@@ -77,6 +77,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MsgViewHolder> {
     }
 
     private MsgAdapter.OnItemClickListener listener;
+
     public interface OnItemClickListener<T> {
         void onItemClick(int position, T data);
     }

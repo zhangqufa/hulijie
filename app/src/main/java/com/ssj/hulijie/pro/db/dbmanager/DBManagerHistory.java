@@ -12,6 +12,6 @@ import com.ssj.hulijie.pro.db.model.ItemSearchHistory;
 public class DBManagerHistory extends DBManagerBaseImpl<ItemSearchHistory> {
 
     public DBManagerHistory(Context context) {
-        super(context,ItemSearchHistory.class);
+        super(context, ItemSearchHistory.class);
     }
 }

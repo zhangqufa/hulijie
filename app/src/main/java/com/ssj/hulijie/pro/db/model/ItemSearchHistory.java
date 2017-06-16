@@ -10,7 +10,6 @@ public class ItemSearchHistory {
     private long addtime;
 
 
-
     public ItemSearchHistory() {
     }
 

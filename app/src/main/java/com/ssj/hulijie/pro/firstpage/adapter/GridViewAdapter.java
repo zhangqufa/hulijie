@@ -13,12 +13,7 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
 import com.ssj.hulijie.pro.firstpage.view.OrderActivity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static android.R.attr.start;
-import static com.baidu.location.h.j.m;
 
 /**
  * Created by vic_zhang .
@@ -27,7 +22,7 @@ import static com.baidu.location.h.j.m;
 
 public class GridViewAdapter extends BaseAdapter {
     private Context mContext;
-//    private ArrayList<HashMap<String, Object>> mList;
+    //    private ArrayList<HashMap<String, Object>> mList;
     private List<CatetoryItem.CatetoryChildItem> mList;
 
 //    public GridViewAdapter(Context mContext, ArrayList<HashMap<String, Object>> mList) {
@@ -51,6 +46,7 @@ public class GridViewAdapter extends BaseAdapter {
             return this.mList.size();
         }
     }
+
     @Override
     public Object getItem(int position) {
         if (mList == null) {
@@ -59,10 +55,12 @@ public class GridViewAdapter extends BaseAdapter {
             return this.mList.get(position);
         }
     }
+
     @Override
     public long getItemId(int position) {
         return position;
     }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
@@ -70,7 +68,7 @@ public class GridViewAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = LayoutInflater.from
                     (this.mContext).inflate(R.layout.gridview_item, null, false);
-            holder.button = (Button)convertView.findViewById(R.id.gridview_item_button);
+            holder.button = (Button) convertView.findViewById(R.id.gridview_item_button);
             convertView.setTag(holder);
 
         } else {

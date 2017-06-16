@@ -40,8 +40,7 @@ public class DensityUtil {
      * 将sp值转换为px值，保证文字大小不变
      *
      * @param spValue
-     * @param spValue
-     *            （DisplayMetrics类中属性scaledDensity）
+     * @param spValue （DisplayMetrics类中属性scaledDensity）
      * @return
      */
     public static int sp2px(Context context, float spValue) {

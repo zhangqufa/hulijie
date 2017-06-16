@@ -86,7 +86,6 @@ public class TitlebarUtil {
     }
 
 
-
     public static void initStatusTitilBar(Context context, RelativeLayout title_bar_base, boolean leftShow, String center, String rightText, View.OnClickListener listener1, View.OnClickListener listener2) {
         if (Build.VERSION.SDK_INT >= 19) {
             LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) title_bar_base.getLayoutParams();
@@ -209,7 +208,6 @@ public class TitlebarUtil {
 
 
     }
-
 
 
 }

@@ -40,7 +40,6 @@ import com.ssj.hulijie.widget.recylerview.RecyclerViewHeader;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,10 +51,6 @@ import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 import static android.app.Activity.RESULT_OK;
-import static com.baidu.location.h.j.s;
-import static com.baidu.location.h.j.t;
-import static com.ssj.hulijie.R.id.rv_first_page_main_list;
-import static com.ssj.hulijie.R.id.rv_header_rv;
 
 /**
  * Created by Administrator on 2017/3/26.
@@ -481,7 +476,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.et_search:
                 intent = new Intent(context, SearchActivity.class);
-                startActivity(intent);
+                context.startActivityForBack(intent);
+//                startActivity(intent);
                 break;
         }
     }

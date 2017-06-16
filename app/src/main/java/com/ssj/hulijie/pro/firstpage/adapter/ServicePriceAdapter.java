@@ -32,7 +32,7 @@ public class ServicePriceAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return lists==null?0: lists.size();
+        return lists == null ? 0 : lists.size();
     }
 
     @Override
@@ -49,16 +49,16 @@ public class ServicePriceAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
 
         ServiceItem item = lists.get(i);
-        AppLog.Log("item: "+item);
+        AppLog.Log("item: " + item);
         ViewHolder holder = null;
         if (view == null) {
             holder = new ViewHolder();
-            view = LayoutInflater.from(context).inflate(R.layout.item_service_price,null, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_service_price, null, false);
             holder.name = (TextView) view.findViewById(R.id.service_name);
             holder.price = (TextView) view.findViewById(R.id.service_price);
             view.setTag(holder);
         } else {
-            holder =(ViewHolder)view.getTag();
+            holder = (ViewHolder) view.getTag();
         }
 
         holder.name.setText(item.getName());

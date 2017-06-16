@@ -7,7 +7,6 @@ import com.ssj.hulijie.nohttp.CallServer;
 import com.ssj.hulijie.nohttp.FastJsonRequest;
 import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.model.BaseModel;
-import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.utils.AppURL;
 import com.yanzhenjie.nohttp.RequestMethod;
@@ -36,7 +35,7 @@ public class FirstPageModel extends BaseModel {
         CallServer.getRequestInstance().add(activity, 0, request, listener, true, true);
     }
 
-    public void getFirstDataModel(BaseActivity activity,int page, HttpListener listener) {
+    public void getFirstDataModel(BaseActivity activity, int page, HttpListener listener) {
         String url = AppURL.URL_FIRSTPAGE_LIST;
         Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
         request.add("page", page);

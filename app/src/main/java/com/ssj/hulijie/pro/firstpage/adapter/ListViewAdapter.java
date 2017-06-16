@@ -9,12 +9,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.baidu.mapapi.map.Text;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

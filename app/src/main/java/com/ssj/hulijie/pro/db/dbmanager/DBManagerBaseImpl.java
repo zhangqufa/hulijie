@@ -2,7 +2,6 @@ package com.ssj.hulijie.pro.db.dbmanager;
 
 import android.content.Context;
 
-
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.helper.Orm;
 import com.ssj.hulijie.utils.AppLog;
@@ -21,11 +20,11 @@ import static com.ssj.hulijie.pro.db.helper.TemplateConfig.mappings;
 public class DBManagerBaseImpl<T> implements DBManagerBase<T> {
 
     private MyDatabaseHelper helper;
-    private Orm orm ;
+    private Orm orm;
 
-    public DBManagerBaseImpl(Context context ,Class clsTemplate) {
+    public DBManagerBaseImpl(Context context, Class clsTemplate) {
         this.helper = new MyDatabaseHelper(context);
-        this.orm =mappings.get(clsTemplate.getSimpleName() + ".orm.xml");
+        this.orm = mappings.get(clsTemplate.getSimpleName() + ".orm.xml");
     }
 
 
@@ -38,11 +37,11 @@ public class DBManagerBaseImpl<T> implements DBManagerBase<T> {
                 Object dao = constructor.newInstance(helper);
                 Method delete = daoCls.getMethod("deleteAll");
                 Object result = delete.invoke(dao);
-                return (int)result;
+                return (int) result;
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             AppLog.Log("没找到映射文件");
         }
         return 0;
@@ -61,7 +60,7 @@ public class DBManagerBaseImpl<T> implements DBManagerBase<T> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             AppLog.Log("没找到映射文件");
         }
 
@@ -77,13 +76,13 @@ public class DBManagerBaseImpl<T> implements DBManagerBase<T> {
                 Constructor constructor = daoCls.getDeclaredConstructor(new Class[]{MyDatabaseHelper.class});
                 Object dao = constructor.newInstance(helper);
                 Method count = daoCls.getMethod("count", new Class[]{});
-                Object invoke = count.invoke(dao,new Object[]{} );
-                return (int)invoke;
+                Object invoke = count.invoke(dao, new Object[]{});
+                return (int) invoke;
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-        }else {
+        } else {
             AppLog.Log("没找到映射文件");
         }
 
@@ -130,7 +129,6 @@ public class DBManagerBaseImpl<T> implements DBManagerBase<T> {
         }
         return null;
     }
-
 
 
     @Override
