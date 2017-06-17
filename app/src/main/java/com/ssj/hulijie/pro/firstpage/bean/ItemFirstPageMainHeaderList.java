@@ -1,5 +1,7 @@
 package com.ssj.hulijie.pro.firstpage.bean;
 
+import com.ssj.hulijie.utils.AppURL;
+
 /**
  * Created by vic_zhang .
  * on 2017/3/31
@@ -21,6 +23,9 @@ public class ItemFirstPageMainHeaderList {
     }
 
     public String getPic() {
+        if (!pic.contains(AppURL.URL_ROOT)) {
+            pic = AppURL.URL_ROOT+pic;
+        }
         return pic;
     }
 

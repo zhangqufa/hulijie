@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
+import com.ssj.hulijie.utils.AppLog;
 
 import java.util.List;
 
@@ -42,12 +43,8 @@ public class FirstPageMainHeaderAdapter extends RecyclerView.Adapter<FirstPageMa
     public void onBindViewHolder(FirstPageMainHeaderViewHolder holder, final int position) {
         final ItemFirstPageMainHeaderList item = data.get(position);
         holder.rv_header_rv_tv.setText(item.getName());
-        if (position == 7) {
-            holder.rv_header_rv_iv.setImageResource(R.mipmap.more);
-        } else {
-            Glide.with(context).load(item.getPic()).into(holder.rv_header_rv_iv);
-        }
 
+        Glide.with(context).load(item.getPic()).into(holder.rv_header_rv_iv);
         if (listener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
