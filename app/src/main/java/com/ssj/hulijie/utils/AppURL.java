@@ -14,4 +14,7 @@ public class AppURL {
     public static final String URL_FOUR_MODEL = URL_API + "/Home/active";
     public static final String URL_FIRSTPAGE_LIST = URL_API + "/Home/recommend";
     public static final String URL_CATETORY = URL_API + "/Home/all_cat";
+    public static final String URL_SERVICE_DETAIL = URL_API + "/Home/goods";
+
+
 }

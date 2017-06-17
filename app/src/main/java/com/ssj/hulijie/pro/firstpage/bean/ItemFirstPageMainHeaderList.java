@@ -1,6 +1,7 @@
 package com.ssj.hulijie.pro.firstpage.bean;
 
 import com.ssj.hulijie.utils.AppURL;
+import com.ssj.hulijie.utils.ImageUrlFormat;
 
 /**
  * Created by vic_zhang .
@@ -23,10 +24,7 @@ public class ItemFirstPageMainHeaderList {
     }
 
     public String getPic() {
-        if (!pic.contains(AppURL.URL_ROOT)) {
-            pic = AppURL.URL_ROOT+pic;
-        }
-        return pic;
+        return ImageUrlFormat.urlFormat(pic);
     }
 
     public void setPic(String pic) {
