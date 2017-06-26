@@ -1,5 +1,6 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.ssj.hulijie.utils.AppLog;
 
 import static android.R.attr.description;
 import static android.R.attr.resource;
+import static com.ssj.hulijie.R.id.cancel_action;
 import static com.ssj.hulijie.R.id.iv;
 
 
@@ -160,6 +162,8 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         detail_price = (TextView) findViewById(R.id.detail_price);
         detail_evaluate_count = (TextView) findViewById(R.id.detail_evaluate_count);
 
+        findViewById(R.id.order_btn).setOnClickListener(this);
+
     }
 
 
@@ -203,6 +207,11 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.iv_navigation_right:
 
+                break;
+
+            case R.id.order_btn:
+
+                startActivity(new Intent(this, OrderActivity.class));
                 break;
         }
     }

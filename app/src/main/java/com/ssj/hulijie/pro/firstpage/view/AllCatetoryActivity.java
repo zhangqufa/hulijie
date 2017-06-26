@@ -3,6 +3,7 @@ package com.ssj.hulijie.pro.firstpage.view;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
@@ -11,6 +12,7 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.ListViewAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
 import com.ssj.hulijie.pro.firstpage.presenter.AllCatetoryPresenter;
+import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.List;
 
@@ -42,12 +44,22 @@ public class AllCatetoryActivity extends BaseActivity implements View.OnClickLis
 
 
     private void init() {
-        findViewById(R.id.back).setOnClickListener(this);
+        initToolbar();
         mListView = (ListView) findViewById(R.id.listView);
         initData();
         mListViewAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mListViewAdapter);
 
+    }
+
+    private void initToolbar() {
+        RelativeLayout title_bar_base=(RelativeLayout)findViewById(R.id.title_bar_base);
+        TitlebarUtil.inittoolBar(this, title_bar_base, true, "全部分类", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        },null);
     }
 
     private void initData() {
@@ -66,9 +78,6 @@ public class AllCatetoryActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.back:
-                finish();
-                break;
         }
     }
 }
