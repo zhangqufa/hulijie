@@ -112,9 +112,6 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             //show detial pic
             String description = detail.getDescription();
             AppLog.Log("description:  " + description);
-//            Glide.with(this)
-//                    .load(description)
-//                    .into(detai_descript_img);
             Glide.with(this).asBitmap().load(description).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -127,6 +124,11 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
     }
 
+    /**
+     * 图片 按照ImageView宽度 来动态设置ImageView的高度
+     * @param resource 图片资源
+     * @param iv        图片控件
+     */
     private void showPic(Bitmap resource,ImageView iv) {
         int imageWidth = resource.getWidth();
         int imageHeight = resource.getHeight();

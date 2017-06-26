@@ -31,4 +31,7 @@ Toolbar 的高度layout_height必须明确指定，不能 “wrap_content”，�
 
 给需要有折叠效果的组件设置 layout_collapseMode属性。
     </string>
+
+    <string name="logoin_desc" >点击\"登录\",即表示同意</string>
+    <string name="logoin_desc_user">《狐狸街用户协议》</string>
 </resources>

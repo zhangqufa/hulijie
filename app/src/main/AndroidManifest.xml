@@ -71,6 +71,9 @@
         <activity android:name=".pro.firstpage.view.DetailInfoActivity" android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"/>
 
+        <activity android:name=".pro.mine.view.LoginActivity" android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent"/>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="dn5aQdfDEcE6rAEKdw4BT8Q5KxjKvWoX" />

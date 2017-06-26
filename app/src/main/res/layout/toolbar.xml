@@ -3,16 +3,15 @@
     android:id="@+id/title_bar_base"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_45"
-    android:background="?attr/colorPrimary">
+    android:background="@color/colorPrimary">
 
     <ImageView
         android:id="@+id/iv_navigation_back"
-        android:layout_width="wrap_content"
+        android:layout_width="45dp"
+        android:padding="10dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:background="@drawable/selector_press_bg"
-        android:paddingLeft="13dp"
-        android:paddingRight="12dp"
         android:src="@mipmap/ic_launcher" />
 
     <TextView

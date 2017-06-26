@@ -8,13 +8,13 @@
         android:layout_gravity="center"
 
         android:layout_width="wrap_content"
-        android:src="@mipmap/logo"
+        android:src="@mipmap/google"
         android:layout_height="wrap_content" />
 
 
     <TextView
         android:textSize="59sp"
-        android:text="狐狸街"
+        android:text="android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
