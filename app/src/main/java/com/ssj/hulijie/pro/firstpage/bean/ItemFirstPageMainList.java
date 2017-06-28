@@ -3,6 +3,8 @@ package com.ssj.hulijie.pro.firstpage.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.ssj.hulijie.utils.ImageUrlFormat;
+
 /**
  * Created by vic_zhang .
  * on 2017/3/30
@@ -55,7 +57,7 @@ public class ItemFirstPageMainList implements Parcelable {
     }
 
     public String getPic() {
-        return pic;
+        return ImageUrlFormat.urlFormat(pic);
     }
 
     public void setPic(String pic) {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
+import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
 /**

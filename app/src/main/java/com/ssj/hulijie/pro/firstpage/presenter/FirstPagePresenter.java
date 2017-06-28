@@ -2,6 +2,7 @@ package com.ssj.hulijie.pro.firstpage.presenter;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ssj.hulijie.nohttp.HttpListener;
@@ -119,7 +120,9 @@ public class FirstPagePresenter extends BasePresenter<FirstPageModel> {
                         int code = jsonObject.getIntValue("code");
                         if (code == Constant.SUCCESS_CODE) {
                             String data = jsonObject.getString("data");
-                            List<ItemFirstPageMainList> lists = new ArrayList<>(JSONArray.parseArray(data, ItemFirstPageMainList.class));
+                            JSONObject rows = JSON.parseObject(data);
+                            String rows1 = rows.getString("rows");
+                            List<ItemFirstPageMainList> lists = new ArrayList<>(JSONArray.parseArray(rows1, ItemFirstPageMainList.class));
                             onUIThreadListener.onResult(lists);
                             AppLog.Log("firstList: " + lists.toString());
                         }

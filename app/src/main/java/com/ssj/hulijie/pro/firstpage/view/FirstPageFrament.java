@@ -32,6 +32,7 @@ import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.pro.firstpage.presenter.FirstPagePresenter;
 import com.ssj.hulijie.pro.firstpage.view.location.LocationActivity;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
+import com.ssj.hulijie.pro.firstpage.view.widget.DividerItemDecoration;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
@@ -110,6 +111,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         //init RecyclerView
         rv_first_page_main_list = (RecyclerView) viewContent.findViewById(R.id.rv_first_page_main_list);
         rv_first_page_main_list.setLayoutManager(new LinearLayoutManager(context));
+        rv_first_page_main_list.addItemDecoration(new DividerItemDecoration(context,LinearLayoutManager.VERTICAL));
         adapter = new FirstPageMainListAdapter(context);
         rv_first_page_main_list.setAdapter(adapter);
         adapter.setOnItemClickListener(item_click);
@@ -125,6 +127,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         //init RecylerView header fout part
         adappter_four_part = new FirstPageHeaderFourPartAdappter(context);
         rv_header_four_part = (RecyclerView) header.findViewById(R.id.rv_header_four_part);
+        rv_header_four_part.setFocusable(false);////解决上滑回弹的问题
         rv_header_four_part.setAdapter(adappter_four_part);
         rv_header_four_part.setLayoutManager(new GridLayoutManager(context, 2));
         rv_header_four_part.addItemDecoration(new DividerGridItemDecoration(context));
@@ -133,6 +136,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         //init grid category
         RecyclerView rv_header_rv = (RecyclerView) header.findViewById(R.id.rv_header_rv);
+        rv_header_rv.setFocusable(false);  //解决上滑回弹的问题
         rv_header_rv_adapter = new FirstPageMainHeaderAdapter(context);
         rv_header_rv.setAdapter(rv_header_rv_adapter);
         rv_header_rv.setLayoutManager(new GridLayoutManager(context, 4));
@@ -375,27 +379,22 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         @Override
         public void onUIReset(PtrFrameLayout frame) {
 
-
         }
 
         @Override
         public void onUIRefreshPrepare(PtrFrameLayout frame) {
-
         }
 
         @Override
         public void onUIRefreshBegin(PtrFrameLayout frame) {
-
         }
 
         @Override
         public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
-
         }
 
         @Override
         public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
-
         }
     };
 
@@ -413,7 +412,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         public void onRefreshBegin(PtrFrameLayout frame) {
             page = 1;
             data.clear();
-            adapter.notifyDataSetChanged();
+            adapter.addDatas(data);
             getData();
 
         }
@@ -428,7 +427,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     }
 
     /**
-     * 测试数据  首页主数据
+     *   首页主数据
      *
      * @return
      */
@@ -441,7 +440,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
                         for (int i = 0; i < result.size(); i++) {
                             ItemFirstPageMainList item = result.get(i);
-                            item.setPic(img[i]);
                             data.add(item);
                         }
                         adapter.addDatas(data);
