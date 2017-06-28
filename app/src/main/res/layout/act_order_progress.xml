@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg"
@@ -7,121 +7,136 @@
 
     <include layout="@layout/toolbar" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginBottom="10dp"
+    <ScrollView
         android:layout_marginTop="2dp"
-        android:background="@android:color/white">
-
-
-        <ImageView
-            android:id="@+id/order_img"
-            android:layout_width="74dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:src="@mipmap/ic_launcher" />
+        android:layout_below="@+id/title_bar_base"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/order_img"
-            android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/order_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:text="卫浴洁具安装"
-                android:textColor="#151515"
-                android:textSize="16sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/white">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:text="￥30"
-                android:textColor="#c42a60"
-                android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/order_img"
+                    android:layout_width="74dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/order_img"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/order_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text="卫浴洁具安装"
+                        android:textColor="#151515"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text="￥30"
+                        android:textColor="#c42a60"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="50dp"
+                android:layout_marginBottom="0.5dp"
+                android:background="@android:color/white">
+
+                <ImageView
+                    android:id="@+id/item_img1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/item_img1"
+                    android:text="购买数量"
+                    android:textColor="#030303"
+                    android:textSize="16sp" />
+
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical">
+
+                    <Button
+                        android:id="@+id/order_sub"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/selecteor_add_sub_btn"
+                        android:clickable="false"
+                        android:gravity="center"
+                        android:src="@mipmap/ic_launcher"
+                        android:text="-"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+
+                    <TextView
+                        android:id="@+id/order_buy_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="1"
+                        android:textColor="#030303"
+                        android:textSize="16sp" />
+
+
+                    <Button
+                        android:id="@+id/order_add"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selecteor_add_sub_btn"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="+"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
         </LinearLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@android:color/white">
-
-        <ImageView
-            android:id="@+id/item_img1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:src="@mipmap/ic_launcher" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/item_img1"
-            android:text="购买数量"
-            android:textColor="#030303"
-            android:textSize="16sp" />
+    </ScrollView>
 
 
-        <LinearLayout
-
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical">
-
-            <Button
-                android:id="@+id/order_sub"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/selecteor_add_sub_btn"
-                android:clickable="false"
-                android:gravity="center"
-                android:src="@mipmap/ic_launcher"
-                android:text="-"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp" />
-
-
-            <TextView
-                android:id="@+id/order_buy_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:text="1"
-                android:textColor="#030303"
-                android:textSize="16sp" />
-
-
-            <Button
-                android:id="@+id/order_add"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/selecteor_add_sub_btn"
-                android:clickable="true"
-                android:gravity="center"
-                android:text="+"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-
-</LinearLayout>
+</RelativeLayout>
