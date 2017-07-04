@@ -67,7 +67,8 @@
 
         <activity android:name=".pro.firstpage.view.SearchResultActivity" android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"/>
-        <activity android:name=".pro.firstpage.view.OrderActivity" android:screenOrientation="portrait" android:theme="@style/AppTheme.Transparent"/>
+        <activity android:name=".pro.firstpage.view.OrderActivity"
+            android:windowSoftInputMode="adjustResize|stateVisible"  android:screenOrientation="portrait" android:theme="@style/AppTheme.Transparent"/>
         <activity android:name=".pro.firstpage.view.DetailInfoActivity" android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"/>
 

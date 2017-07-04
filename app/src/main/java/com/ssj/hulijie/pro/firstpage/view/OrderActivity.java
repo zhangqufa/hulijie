@@ -3,6 +3,7 @@ package com.ssj.hulijie.pro.firstpage.view;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
+import static com.ssj.hulijie.R.id.et_name;
 
 
 /**
@@ -21,6 +23,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     private TextView order_buy_count;  //购买数量
     private int count = 1;
     private Button order_sub;
+    private boolean isVisible ;
 
 
     @Override
@@ -42,6 +45,10 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
         order_sub.setOnClickListener(this);
         order_sub.setClickable(false);
         order_buy_count = (TextView)findViewById(R.id.order_buy_count);
+
+        EditText et_name=(EditText)findViewById(R.id.et_name);
+        EditText et_mobile=(EditText)findViewById(R.id.et_mobile);
+        EditText et_mark=(EditText)findViewById(R.id.et_mark);
     }
 
     private void initToolbar() {
@@ -53,6 +60,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
             }
         },null);
     }
+
+
 
     @Override
     public void onClick(View view) {
