@@ -18,6 +18,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.base.HljAppliation;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
@@ -154,6 +156,18 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         getPersimmions();
 
 
+
+    }
+
+
+    /**
+     * 计算两坐标的距离
+     * @param s
+     * @param e
+     */
+    private void textJuli(LatLng s,LatLng e) {
+        double distance = DistanceUtil.getDistance(s, e);
+        AppLog.Log("长度:" + distance);
     }
 
     private BaseRecyclerAdapter.OnItemClickListener item_click = new BaseRecyclerAdapter.OnItemClickListener<ItemFirstPageMainList>() {
@@ -278,6 +292,16 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         @Override
         public void onReceiveLocation(BDLocation location) {
+
+            if (location != null) {
+                double altitude = location.getAltitude();
+                double latitude = location.getLatitude();
+
+                LatLng start = new LatLng(altitude, latitude);
+                LatLng end = new LatLng(altitude + 1, latitude + 1);
+                textJuli(start,end);
+            }
+
             AppLog.Log("city = " + location.getCity());
             if (!isNeedFresh) {
                 return;
