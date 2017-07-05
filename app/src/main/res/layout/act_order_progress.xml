@@ -147,6 +147,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/select_address"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="0.5dp"

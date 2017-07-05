@@ -1,5 +1,6 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -30,6 +31,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     private View bottom_btn;
     private View scroll_btn;
     private TextView tv_mark;
+
+    public final static int REQUEST_ADDRESS = 100;
 
 
     @Override
@@ -65,6 +68,9 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
         String html_str = "<font color='#FF246E'>请仔细核对您填写的手机号</font>，并保持电话畅通，商家会在服务开始前与此号码沟通服务具体事宜";
         Spanned spanned = Html.fromHtml(html_str);
         tv_mark.setText(spanned);
+
+
+        findViewById(R.id.select_address).setOnClickListener(this);
     }
 
 
@@ -106,8 +112,15 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
                     changeBuyCount();
                 }
                 break;
+
+            case R.id.select_address:
+                Intent intent = new Intent(this, SelectAddressActivity.class);
+                startActivityForResult(intent, REQUEST_ADDRESS);
+                break;
         }
     }
+
+
 
     private void changeBuyCount(){
         if (count > 1) {
