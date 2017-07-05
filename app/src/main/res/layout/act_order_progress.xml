@@ -7,6 +7,17 @@
 
     <include layout="@layout/toolbar" />
 
+    <LinearLayout
+        android:id="@+id/getfocus"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
+
+        <requestFocus />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -71,8 +82,9 @@
 
                 <ImageView
                     android:id="@+id/item_img1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:src="@mipmap/ic_launcher" />
 
@@ -104,7 +116,7 @@
                         android:src="@mipmap/ic_launcher"
                         android:text="-"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="16sp" />
+                        android:textSize="20sp" />
 
 
                     <TextView
@@ -128,7 +140,7 @@
                         android:gravity="center"
                         android:text="+"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="16sp" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
@@ -139,12 +151,14 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="0.5dp"
                 android:background="@android:color/white">
+
                 <ImageView
                     android:id="@+id/address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/address_icon_position" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -152,26 +166,30 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/address"
-                    android:text="购买数量"
-                    android:textColor="#030303"
+                    android:text="请选择服务地址"
+                    android:textColor="@color/comm_grey_666666"
                     android:textSize="16sp" />
+
                 <ImageView
-                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:src="@mipmap/to_right_grey" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="0.5dp"
                 android:background="@android:color/white">
+
                 <ImageView
                     android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:src="@mipmap/ic_launcher" />
 
@@ -184,10 +202,11 @@
                     android:text="请选择上门时间"
                     android:textColor="@color/comm_grey_666666"
                     android:textSize="16sp" />
+
                 <ImageView
-                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:src="@mipmap/to_right_grey" />
 
@@ -195,58 +214,63 @@
 
 
             <RelativeLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="0.5dp"
+                android:layout_marginTop="10dp"
                 android:background="@android:color/white">
+
                 <ImageView
                     android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:src="@mipmap/ic_launcher" />
 
                 <EditText
                     android:id="@+id/et_name"
-                    android:textCursorDrawable="@null"
-                    android:background="@null"
-                    android:textSize="16sp"
-                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/name"
-                    android:hint="联系人姓名"/>
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="联系人姓名"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="0.5dp"
                 android:background="@android:color/white">
+
                 <ImageView
                     android:id="@+id/mobile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/address_icon_phone" />
 
                 <EditText
-                    android:textCursorDrawable="@null"
-                    android:layout_toRightOf="@id/mobile"
-                    android:background="@null"
-                    android:textSize="16sp"
-                    android:gravity="center_vertical"
+                    android:id="@+id/et_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="15867006543"
-                    android:layout_marginLeft="10dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:id="@+id/et_mobile" />
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/mobile"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="15867006543"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 
@@ -255,88 +279,144 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="0.5dp"
                 android:background="@android:color/white">
+
                 <ImageView
                     android:id="@+id/mark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/address_icon_mark" />
 
                 <EditText
                     android:id="@+id/et_mark"
-                    android:textCursorDrawable="@null"
-                    android:background="@null"
-                    android:textSize="16sp"
-                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/mark"
+                    android:background="@null"
+                    android:gravity="center_vertical"
                     android:hint="您有什么要求，请告知我们"
-                    />
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 
             <LinearLayout
-
-                android:layout_marginTop="0.5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0.5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp">
 
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="温馨提示"
+                    android:textColor="#030303" />
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="·" />
 
+                    <TextView
+                        android:id="@+id/tv_mark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="·" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="支付时可使用代金券(仅限使用一张)、会员卡" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="·" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="发票由商家提供" />
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/scroll_btn"
-                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
                 android:layout_marginTop="0.5dp"
                 android:background="@android:color/white"
-                android:layout_alignParentBottom="true"
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:visibility="invisible">
+
                 <View
-                    android:layout_alignParentTop="true"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_standard_one"
-                    android:background="@color/line_color"/>
+                    android:layout_alignParentTop="true"
+                    android:background="@color/line_color" />
 
                 <TextView
                     android:id="@+id/temp2"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="16sp"
-                    android:layout_centerVertical="true"
-                    android:text="待支付:"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="待支付:"
+                    android:textSize="16sp" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/temp2"
                     android:layout_toRightOf="@id/temp2"
                     android:text="¥30元"
-                    android:layout_alignBaseline="@id/temp2"
-                    android:textSize="20sp"
                     android:textColor="@color/colorPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="20sp" />
 
 
                 <Button
-                    android:gravity="center"
-                    android:layout_centerVertical="true"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_margin="10dp"
-                    android:textSize="20sp"
+                    android:background="@drawable/shape_bg_colorprimary"
+                    android:gravity="center"
                     android:text="去支付"
                     android:textColor="@android:color/white"
-                    android:background="@drawable/shape_bg_colorprimary"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent" />
+                    android:textSize="20sp" />
 
 
             </RelativeLayout>
@@ -345,47 +425,48 @@
     </ScrollView>
 
     <RelativeLayout
-       android:id="@+id/bottom_btn"
-        android:background="@android:color/white"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/bottom_btn"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white">
+
         <View
-            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_standard_one"
-            android:background="@color/line_color"/>
+            android:layout_alignParentTop="true"
+            android:background="@color/line_color" />
 
         <TextView
             android:id="@+id/temp1"
-            android:layout_marginLeft="10dp"
-            android:textSize="16sp"
-            android:layout_centerVertical="true"
-            android:text="待支付:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="待支付:"
+            android:textSize="16sp" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/temp1"
             android:layout_toRightOf="@id/temp1"
             android:text="¥30元"
-            android:layout_alignBaseline="@id/temp1"
-            android:textSize="20sp"
             android:textColor="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="20sp" />
 
 
         <Button
-            android:gravity="center"
-            android:layout_centerVertical="true"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:textSize="20sp"
+            android:background="@drawable/shape_bg_colorprimary"
+            android:gravity="center"
             android:text="去支付"
             android:textColor="@android:color/white"
-            android:background="@drawable/shape_bg_colorprimary"
-            android:layout_width="100dp"
-            android:layout_height="match_parent" />
+            android:textSize="20sp" />
 
 
     </RelativeLayout>

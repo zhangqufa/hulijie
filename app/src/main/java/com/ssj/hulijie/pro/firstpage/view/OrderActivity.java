@@ -1,6 +1,8 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +13,7 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.utils.TitlebarUtil;
+import com.ssj.hulijie.utils.WatcherAdapter;
 
 import static com.ssj.hulijie.R.id.et_name;
 
@@ -23,7 +26,10 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     private TextView order_buy_count;  //购买数量
     private int count = 1;
     private Button order_sub;
-    private boolean isVisible ;
+    private boolean isVisible ;  //表示scrollview里面的view是否显示
+    private View bottom_btn;
+    private View scroll_btn;
+    private TextView tv_mark;
 
 
     @Override
@@ -47,9 +53,33 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
         order_buy_count = (TextView)findViewById(R.id.order_buy_count);
 
         EditText et_name=(EditText)findViewById(R.id.et_name);
+        et_name.setOnFocusChangeListener(listener);
         EditText et_mobile=(EditText)findViewById(R.id.et_mobile);
-        EditText et_mark=(EditText)findViewById(R.id.et_mark);
+        et_mobile.setOnFocusChangeListener(listener);
+        EditText et_mark = (EditText) findViewById(R.id.et_mark);
+        et_mark.setOnFocusChangeListener(listener);
+        bottom_btn = findViewById(R.id.bottom_btn);
+        scroll_btn = findViewById(R.id.scroll_btn);
+
+        tv_mark=(TextView)findViewById(R.id.tv_mark);
+        String html_str = "<font color='#FF246E'>请仔细核对您填写的手机号</font>，并保持电话畅通，商家会在服务开始前与此号码沟通服务具体事宜";
+        Spanned spanned = Html.fromHtml(html_str);
+        tv_mark.setText(spanned);
     }
+
+
+    private View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (!isVisible) {
+                if (b) {
+                    isVisible = true;
+                    bottom_btn.setVisibility(View.GONE);
+                    scroll_btn.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    };
 
     private void initToolbar() {
         RelativeLayout title_bar_base=(RelativeLayout)findViewById(R.id.title_bar_base);
