@@ -7,16 +7,21 @@
 
     <include layout="@layout/toolbar" />
 
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/title_bar_base"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
 
 
-
-
-
-    </ScrollView>
-
-
+    <Button
+        android:onClick="addAddress"
+        android:layout_alignParentBottom="true"
+        android:text="+添加新地址"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:background="@drawable/shape_bg_huan_666666"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
 
 </RelativeLayout>

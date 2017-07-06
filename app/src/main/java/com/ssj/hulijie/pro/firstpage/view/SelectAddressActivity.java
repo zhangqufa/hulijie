@@ -1,5 +1,6 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -15,6 +16,9 @@ import com.ssj.hulijie.utils.TitlebarUtil;
  */
 
 public class SelectAddressActivity extends BaseActivity {
+
+    public static final int REQUESTCODE = 101;
+
     @Override
     public MvpBasePresenter bindPresenter() {
         return null;
@@ -36,5 +40,10 @@ public class SelectAddressActivity extends BaseActivity {
                 finish();
             }
         },null);
+    }
+
+    public void addAddress(View view) {
+        Intent intent = new Intent(this, AddressActivity.class);
+        startActivityForResult(intent, REQUESTCODE);
     }
 }

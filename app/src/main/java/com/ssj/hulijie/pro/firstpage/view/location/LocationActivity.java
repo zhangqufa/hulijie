@@ -389,10 +389,6 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
 			mHandler.sendEmptyMessage(0);
 		}
 
-		@Override
-		public void onConnectHotSpotMessage(String s, int i) {
-
-		}
 
 	}
 

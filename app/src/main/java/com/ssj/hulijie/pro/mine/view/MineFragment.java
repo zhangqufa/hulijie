@@ -15,6 +15,8 @@ import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 
 public class MineFragment extends BaseFragment implements View.OnClickListener {
 
+    
+    
     private ImageView img;
 
     @Override
@@ -29,6 +31,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 .into(img);
 
         viewContent.findViewById(R.id.login).setOnClickListener(this);
+        
+        //// TODO: 2017/7/6 去掉代金券、邀请有礼、微信绑定、添加上“企业加盟” 
     }
 
 

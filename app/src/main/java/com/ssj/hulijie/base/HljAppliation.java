@@ -21,6 +21,8 @@ public class HljAppliation extends Application {
 
     public static Context context;
     public static TemplateConfig config;
+    public static String currentCity="台州";
+
 
     @Override
     public void onCreate() {
@@ -54,6 +56,7 @@ public class HljAppliation extends Application {
 
     }
 
+
     private void initBaiduMap() {
         SDKInitializer.initialize(getApplicationContext());
     }
@@ -78,4 +81,5 @@ public class HljAppliation extends Application {
     public static Context getContext() {
         return context;
     }
+
 }

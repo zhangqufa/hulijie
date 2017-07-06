@@ -30,6 +30,7 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
      */
     private Object object = new Object();
 
+
     /**
      * 请求队列。
      */
@@ -174,4 +175,5 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         }
         mSwipeBackHelper.backward();
     }
+
 }

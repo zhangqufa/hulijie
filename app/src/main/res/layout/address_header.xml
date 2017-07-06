@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"
+        android:background="@color/comm_grey_cccccc"
+        android:layout_width="match_parent"
+        android:text="为了更好的为您服务，请填写服务地址"
+        android:layout_height="40dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+
+        <com.ssj.hulijie.widget.editext.ClearEditText
+            android:id="@+id/et_address"
+            android:paddingRight="10dp"
+            android:layout_width="match_parent"
+            android:background="@null"
+            android:hint="请搜索您的小区或大厦、街道名称"
+            android:layout_toRightOf="@id/img1"
+            android:textCursorDrawable="@null"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:background="@color/app_bg"
+            android:layout_height="0.5dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/base_et_meng"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/img2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+
+        <com.ssj.hulijie.widget.editext.ClearEditText
+            android:id="@+id/et_meng"
+            android:paddingRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@id/img2"
+            android:hint="请填写您的门牌号"
+            android:background="@null"
+            android:textCursorDrawable="@null"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:background="@color/app_bg"
+            android:layout_height="0.5dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_near"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"
+        android:background="@color/comm_grey_cccccc"
+        android:layout_width="match_parent"
+        android:text="附近位置"
+        android:layout_height="40dp" />
+
+</LinearLayout>

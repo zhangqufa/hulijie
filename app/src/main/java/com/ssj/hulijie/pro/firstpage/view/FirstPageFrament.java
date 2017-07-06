@@ -24,6 +24,7 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.base.HljAppliation;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
+import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageHeaderFourPartAdappter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainHeaderAdapter;
@@ -313,6 +314,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             }
             String currentCity = location.getCity().substring(0,
                     location.getCity().length() - 1);
+            HljAppliation.currentCity = currentCity;
             if (!TextUtils.isEmpty(currentCity)) {
                 mHandler.obtainMessage(0, currentCity).sendToTarget();
                 AppLog.Log("定位：" + currentCity);
@@ -322,10 +324,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         }
 
-        @Override
-        public void onConnectHotSpotMessage(String s, int i) {
-
-        }
 
     }
 
