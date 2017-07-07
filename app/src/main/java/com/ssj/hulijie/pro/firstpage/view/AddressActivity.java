@@ -53,9 +53,8 @@ public class AddressActivity extends BaseActivity {
     private RelativeLayout base_et_meng;
     private TextView tv_near;
     private PoiSearch mPoiSearch;
-    private SuggestionSearch mSuggestionSearch;
     private List<PoiSearchResults> lists = new ArrayList<>();
-    private boolean isTextWatcher = true;
+    private boolean isTextWatcher = true;  //是否监听 Text变化， 主要解决， removeTextWatcher，不及时，导致remove后还会去执行监听
 
     @Override
     public MvpBasePresenter bindPresenter() {
@@ -75,7 +74,6 @@ public class AddressActivity extends BaseActivity {
         // 初始化搜索模块，注册搜索事件监听
         mPoiSearch = PoiSearch.newInstance();
         mPoiSearch.setOnGetPoiSearchResultListener(poiListener);
-        mSuggestionSearch = SuggestionSearch.newInstance();
     }
 
     private void initToolbar() {
@@ -99,6 +97,7 @@ public class AddressActivity extends BaseActivity {
         et_meng = (EditText) header.findViewById(R.id.et_meng);
         tv_near = (TextView) header.findViewById(R.id.tv_near);
         et_address.addTextChangedListener(listener);
+        et_address.setOnFocusChangeListener(listener_focus);
         adatper = new AddressAdapter(this);
         adatper.setOnItemClickListener(itemClickListener);
         adatper.setHeaderView(header);
@@ -109,10 +108,26 @@ public class AddressActivity extends BaseActivity {
         AppLog.Log("location:" + HljAppliation.currentCity);
     }
 
+    private View.OnFocusChangeListener listener_focus = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (b) {
+                et_address.addTextChangedListener(listener);
+                isTextWatcher = true;
+            } else {
+                et_address.removeTextChangedListener(listener);
+                isTextWatcher = false;
+            }
+
+        }
+    };
+
     private AddressAdapter.OnItemClickListener<PoiSearchResults> itemClickListener = new BaseRecyclerAdapter.OnItemClickListener<PoiSearchResults>() {
         @Override
         public void onItemClick(int position, PoiSearchResults data) {
+            AppLog.Log("remove before");
             et_address.removeTextChangedListener(listener);
+            isTextWatcher = false;
             et_address.setText(data.getMname());
             et_meng.setFocusable(true);
             et_meng.setFocusableInTouchMode(true);
@@ -148,19 +163,15 @@ public class AddressActivity extends BaseActivity {
         @Override
         public void onTextChanged(CharSequence cs, int arg1, int arg2,
                                   int arg3) {
-            if (cs.length() <= 0) {
+            if (!isTextWatcher||cs.length() <= 0) {
                 return;
             }
-
+            AppLog.Log("remove after");
             /**
              * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
              */
-
-            mSuggestionSearch
-                    .requestSuggestion((new SuggestionSearchOption())
-                            .keyword(cs.toString()).city(HljAppliation.currentCity));
             PoiCitySearchOption poiCitySearchOption = new PoiCitySearchOption().city(HljAppliation.currentCity)
-                    .keyword(et_address.getText().toString());
+                    .keyword(cs.toString());
             mPoiSearch.searchInCity(poiCitySearchOption);
 
         }
@@ -173,8 +184,8 @@ public class AddressActivity extends BaseActivity {
 
             } else {
                 uiShow();
-                List<PoiSearchResults> data = new ArrayList<>();
-                adatper.addDatas(data);
+                lists.clear();
+                adatper.addDatas(lists);
             }
 
         }
@@ -251,4 +262,10 @@ public class AddressActivity extends BaseActivity {
         }
 
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPoiSearch.destroy();
+    }
 }
