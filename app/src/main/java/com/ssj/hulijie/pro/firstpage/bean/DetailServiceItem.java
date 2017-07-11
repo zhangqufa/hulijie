@@ -4,6 +4,8 @@ import com.ssj.hulijie.utils.ImageUrlFormat;
 
 import java.util.List;
 
+import static android.R.attr.description;
+
 /**
  * Created by Administrator on 2017/6/17.
  */
@@ -16,7 +18,7 @@ public class DetailServiceItem {
     private String cate_id;         //商品分类
     private String cate_name;       //商品分类名称
     private String default_image;   //图片
-    private String description;     //描述
+    private List<String> img;     //描述图片
     private long last_update;       //最后更新时间
     private String price;           //服务价格
 
@@ -70,12 +72,12 @@ public class DetailServiceItem {
         this.default_image = default_image;
     }
 
-    public String getDescription() {
-        return ImageUrlFormat.urlFormat(description);
+    public List<String> getImg() {
+        return img;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setImg(List<String> img) {
+        this.img = img;
     }
 
     public long getLast_update() {
@@ -96,18 +98,16 @@ public class DetailServiceItem {
 
     @Override
     public String toString() {
-        return "DetailItem{" +
-                "price='" + price + '\'' +
-                ", last_update=" + last_update +
-                ", description='" + description + '\'' +
-                ", default_image='" + default_image + '\'' +
-                ", cate_name='" + cate_name + '\'' +
-                ", cate_id='" + cate_id + '\'' +
-                ", add_time=" + add_time +
+        return "DetailServiceItem{" +
+                "goods_id='" + goods_id + '\'' +
                 ", goods_name='" + goods_name + '\'' +
-                ", goods_id='" + goods_id + '\'' +
+                ", add_time=" + add_time +
+                ", cate_id='" + cate_id + '\'' +
+                ", cate_name='" + cate_name + '\'' +
+                ", default_image='" + default_image + '\'' +
+                ", img=" + img +
+                ", last_update=" + last_update +
+                ", price='" + price + '\'' +
                 '}';
     }
-
-
 }

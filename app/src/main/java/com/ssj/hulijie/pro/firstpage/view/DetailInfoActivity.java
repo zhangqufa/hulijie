@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,14 +21,18 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.adapter.DetailImageAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceAndEvaluateItem;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.pro.firstpage.presenter.DetailPresenter;
 import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
+import com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
 import com.ssj.hulijie.utils.AppLog;
+
+import java.util.List;
 
 import static android.R.attr.description;
 import static android.R.attr.resource;
@@ -55,6 +61,8 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private TextView detail_price;
     private ImageView detail_descript_img;  //详情图片
     private TextView detail_evaluate_count; //评论数
+    private RecylerViewInScrollView detail_descript_img_rv;
+    private DetailImageAdapter adapter;
 
 
     @Override
@@ -80,11 +88,12 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             return;
         }
 
-        mPresenter.getDetailPresenter(this, item.getId(), new BasePresenter.OnUIThreadListener<DetailServiceAndEvaluateItem>() {
+
+        mPresenter.getDetailPresenter(this, "3173", new BasePresenter.OnUIThreadListener<DetailServiceAndEvaluateItem>() {
             @Override
             public void onResult(DetailServiceAndEvaluateItem result) {
-                AppLog.Log("wait: " + result.toString());
                 if (result != null) {
+                    AppLog.Log("detail: " + result.toString());
                     updateUI(result);
                 }
             }
@@ -97,13 +106,6 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             //show pic
             String default_image_rul = detail.getDefault_image();
             AppLog.Log("default_image_rul:  " + default_image_rul);
-            Glide.with(this).asBitmap().load(default_image_rul).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                @Override
-                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                    showPic(resource, detail_img);
-
-                }
-            });
             //show title
             String cate_name = detail.getGoods_name();
             detail_title.setText(cate_name);
@@ -112,36 +114,17 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             detail_price.setText("¥ " + price);
 
             //show detial pic
-            String description = detail.getDescription();
-            AppLog.Log("description:  " + description);
-            Glide.with(this).asBitmap().load(description).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                @Override
-                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                    showPic(resource, detail_descript_img);
+            List<String> img = detail.getImg();
+            AppLog.Log("img: "+img);
+            adapter.setLists(img);
 
-                }
-            });
 
         }
 
     }
 
-    /**
-     * 图片 按照ImageView宽度 来动态设置ImageView的高度
-     * @param resource 图片资源
-     * @param iv        图片控件
-     */
-    private void showPic(Bitmap resource,ImageView iv) {
-        int imageWidth = resource.getWidth();
-        int imageHeight = resource.getHeight();
-        int width = iv.getWidth();
-        LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) iv.getLayoutParams();
-        int height =width * imageHeight / imageWidth;
-        para.height = height;
-        para.width = width;
-        iv.setLayoutParams(para);
-        iv.setImageBitmap(resource);
-    }
+
+
 
 
     private void initView() {
@@ -164,6 +147,10 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
         findViewById(R.id.order_btn).setOnClickListener(this);
 
+        detail_descript_img_rv = (RecylerViewInScrollView) findViewById(R.id.detail_descript_img_rv);
+        detail_descript_img_rv.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new DetailImageAdapter(this);
+        detail_descript_img_rv.setAdapter(adapter);
     }
 
 

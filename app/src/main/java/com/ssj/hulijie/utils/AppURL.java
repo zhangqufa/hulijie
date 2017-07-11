@@ -15,6 +15,7 @@ public class AppURL {
     public static final String URL_FIRSTPAGE_LIST = URL_API + "/Home/recommend";
     public static final String URL_CATETORY = URL_API + "/Home/all_cat";
     public static final String URL_SERVICE_DETAIL = URL_API + "/Home/goods";
+    public static final String URL_ADDRESS_LIST = URL_API + "/Home/address";
 
 
 }

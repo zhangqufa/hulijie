@@ -2,13 +2,23 @@ package com.ssj.hulijie.pro.firstpage.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.adapter.AddressManagerAdapter;
+import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
+import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
+import com.ssj.hulijie.pro.firstpage.view.widget.DividerItemDecoration;
 import com.ssj.hulijie.utils.TitlebarUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vic_zhang .
@@ -18,10 +28,16 @@ import com.ssj.hulijie.utils.TitlebarUtil;
 public class SelectAddressActivity extends BaseActivity {
 
     public static final int REQUESTCODE = 101;
+    private RecyclerView rv_address;
+    private AddressManagerAdapter adapter;
+    private AddressManagerPresenter presenter;
+    private List<AddressItem> lists = new ArrayList<>();
+
 
     @Override
     public MvpBasePresenter bindPresenter() {
-        return null;
+        presenter = new AddressManagerPresenter(this);
+        return presenter;
     }
 
     @Override
@@ -29,6 +45,41 @@ public class SelectAddressActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_select_address);
         initToolbar();
+        initView();
+        initData();
+
+    }
+
+    private String uer_id ="1";
+    private String addr_id = "";
+    private void initData() {
+        presenter.getAddressPresenter(this, uer_id, addr_id, new BasePresenter.OnUIThreadListener<List<AddressItem>>() {
+            @Override
+            public void onResult(List<AddressItem> result) {
+                if (result != null&&result.size()>0) {
+                    for (int i  =0;i<result.size();i++) {
+                        if (i == 0) {
+                            AddressItem addressItem = result.get(i);
+                            addressItem.setDefault(true);
+                        }
+                    }
+                    lists = result;
+                    adapter.setLists(lists);
+                }
+            }
+        });
+    }
+
+
+
+
+    private void initView() {
+        rv_address=(RecyclerView)findViewById(R.id.rv_address);
+        rv_address.setLayoutManager(new LinearLayoutManager(this));
+        rv_address.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+        adapter = new AddressManagerAdapter(this);
+        rv_address.setAdapter(adapter);
+
     }
 
 
@@ -45,5 +96,13 @@ public class SelectAddressActivity extends BaseActivity {
     public void addAddress(View view) {
         Intent intent = new Intent(this, AddressActivity.class);
         startActivityForResult(intent, REQUESTCODE);
+    }
+
+    public void editAddress(View view) {
+        for (AddressItem item : lists) {
+            item.setEdit(true);
+            item.setDefault(false);
+        }
+        adapter.setLists(lists);
     }
 }

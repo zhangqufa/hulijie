@@ -5,13 +5,13 @@ android {
         release {
             keyAlias 'hulijie'
             keyPassword '123456'
-            storeFile file('H:/Hulijie/key.jks')
+            storeFile file('J:/Hulijie/key.jks')
             storePassword '123456'
         }
         debug {
             keyAlias 'hulijie'
             keyPassword '123456'
-            storeFile file('H:/Hulijie/key.jks')
+            storeFile file('J:/Hulijie/key.jks')
             storePassword '123456'
         }
     }
@@ -34,6 +34,7 @@ android {
     }
     sourceSets {
         main {
+
             jniLibs.srcDirs = ['libs']
         }
     }
@@ -55,5 +56,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
     compile 'cn.bingoogolapple:bga-swipebacklayout:1.0.8@aar'
     compile files('libs/httpmime-4.1.2.jar')
-    compile files('libs/baidumapapi_base_v4_3_1.jar')
+
 }

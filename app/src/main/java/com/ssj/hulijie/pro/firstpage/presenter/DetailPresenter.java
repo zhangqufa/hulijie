@@ -46,39 +46,43 @@ public class DetailPresenter extends BasePresenter<DetailModel> {
                         int code = jsonObject.getIntValue("code");
                         if (code == Constant.SUCCESS_CODE) {
                             String data = jsonObject.getString("data");
-                             data="{\n" +
-                                    "    \"info\": {\n" +
-                                    "        \"goods_id\": \"3230\",\n" +
-                                    "        \"goods_name\": \"空调清洗\",\n" +
-                                    "        \"add_time\": \"1487788526\",\n" +
-                                    "        \"cate_id\": \"1981\",\n" +
-                                    "        \"cate_name\": \"家政空调清洗\",\n" +
-                                    "        \"default_image\": \"/data/files/store_431/goods_94/small_201702231034546855.jpg\",\n" +
-                                    "        \"description\": \"/ueditor/php/upload/image/20170223/1487817297187612.jpg\",\n" +
-                                    "        \"last_update\": \"1487788526\",\n" +
-                                    "        \"price\": \"170.00\"\n" +
-                                    "    },\n" +
-                                    "    \"evaluate\": [\n" +
-                                    "        {\n" +
-                                    "            \"evaluation\": \"5\",\n" +
-                                    "            \"comment\": \"哈哈哈哈啊哈，测试数据\",\n" +
-                                    "            \"subscore1\": \"5\",\n" +
-                                    "            \"subscore2\": \"5\",\n" +
-                                    "            \"subscore3\": \"5\",\n" +
-                                    "            \"images\": \"../uploads/20170617//5944fc3d0a99b.jpg\",\n" +
-                                    "            \"commentdate\": \"1497664447\"\n" +
-                                    "        }\n" +
-                                    "    ]\n" +
-                                    "}";
+                            AppLog.Log("detail_info: "+data);
+//                             data="{\n" +
+//                                    "    \"info\": {\n" +
+//                                    "        \"goods_id\": \"3230\",\n" +
+//                                    "        \"goods_name\": \"空调清洗\",\n" +
+//                                    "        \"add_time\": \"1487788526\",\n" +
+//                                    "        \"cate_id\": \"1981\",\n" +
+//                                    "        \"cate_name\": \"家政空调清洗\",\n" +
+//                                    "        \"default_image\": \"/data/files/store_431/goods_94/small_201702231034546855.jpg\",\n" +
+//                                    "        \"description\": \"/ueditor/php/upload/image/20170223/1487817297187612.jpg\",\n" +
+//                                    "        \"last_update\": \"1487788526\",\n" +
+//                                    "        \"price\": \"170.00\"\n" +
+//                                    "    },\n" +
+//                                    "    \"evaluate\": [\n" +
+//                                    "        {\n" +
+//                                    "            \"evaluation\": \"5\",\n" +
+//                                    "            \"comment\": \"哈哈哈哈啊哈，测试数据\",\n" +
+//                                    "            \"subscore1\": \"5\",\n" +
+//                                    "            \"subscore2\": \"5\",\n" +
+//                                    "            \"subscore3\": \"5\",\n" +
+//                                    "            \"images\": \"../uploads/20170617//5944fc3d0a99b.jpg\",\n" +
+//                                    "            \"commentdate\": \"1497664447\"\n" +
+//                                    "        }\n" +
+//                                    "    ]\n" +
+//                                    "}";
                             JSONObject data_temp = JSONObject.parseObject(data);
                             String info = data_temp.getString("info");
-//                            AppLog.Log("info: " + info);
+                            AppLog.Log("info: " + info);
                             String evaluate = data_temp.getString("evaluate");
-//                            AppLog.Log("evaluate: "+evaluate);
+                            AppLog.Log("evaluate: "+evaluate);
+                            JSONObject evaluate_ojb=JSON.parseObject(evaluate);
+                            String rows = evaluate_ojb.getString("rows");
+                            AppLog.Log("rows: "+rows);
                             DetailServiceItem detailServiceItem1 = JSON.parseObject(info, DetailServiceItem.class);
-//                            AppLog.Log("detailServiceItem1:" + detailServiceItem1);
-                            List<EvaluateItem> evaluateItems = new ArrayList<>(JSONArray.parseArray(evaluate, EvaluateItem.class));
-//                            AppLog.Log("evaluateItem: "+evaluateItems);
+                            AppLog.Log("detailServiceItem1:" + detailServiceItem1);
+                            List<EvaluateItem> evaluateItems = new ArrayList<>(JSONArray.parseArray(rows, EvaluateItem.class));
+                            AppLog.Log("evaluateItem: "+evaluateItems);
                             DetailServiceAndEvaluateItem item = new DetailServiceAndEvaluateItem();
                             item.setDetail(detailServiceItem1);
                             item.setEvaluate(evaluateItems);

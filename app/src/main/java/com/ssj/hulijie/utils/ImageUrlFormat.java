@@ -7,10 +7,12 @@ package com.ssj.hulijie.utils;
 public class ImageUrlFormat {
 
     public static String urlFormat(String pic) {
-        if (!pic.startsWith("/")) {
-            pic = "/" + pic;
-        }
+
+
         if (!pic.contains(AppURL.URL_ROOT)) {
+            if (!pic.startsWith("/")) {
+                pic = "/" + pic;
+            }
             pic = AppURL.URL_ROOT + pic;
         }
         return pic;

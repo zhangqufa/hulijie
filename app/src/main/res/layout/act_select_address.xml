@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/app_bg"
     android:layout_height="match_parent"
+    android:background="@color/app_bg"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_address"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/title_bar_base"
+        android:layout_marginTop="1dp" />
+
+
+    <LinearLayout
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
-    <Button
-        android:onClick="addAddress"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
-        android:text="+添加新地址"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:background="@drawable/shape_bg_huan_666666"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="45dp" />
+        android:orientation="horizontal">
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="2"
+            android:background="@drawable/shape_bg_huan_666666"
+            android:gravity="center"
+            android:onClick="addAddress"
+            android:text="+添加新地址"
+            android:textSize="20sp" />
+
+        <Button
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_bg_huan_666666"
+            android:gravity="center"
+            android:onClick="editAddress"
+            android:text="编辑"
+            android:textSize="20sp" />
+    </LinearLayout>
 </RelativeLayout>

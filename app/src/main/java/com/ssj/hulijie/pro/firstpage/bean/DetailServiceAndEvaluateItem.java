@@ -8,15 +8,15 @@ import java.util.List;
 
 public class DetailServiceAndEvaluateItem {
 
-    private DetailServiceItem detail;
+    private DetailServiceItem info;
     private List<EvaluateItem> evaluate;
 
     public DetailServiceItem getDetail() {
-        return detail;
+        return info;
     }
 
-    public void setDetail(DetailServiceItem detail) {
-        this.detail = detail;
+    public void setDetail(DetailServiceItem info) {
+        this.info = info;
     }
 
     public List<EvaluateItem> getEvaluate() {
@@ -30,7 +30,7 @@ public class DetailServiceAndEvaluateItem {
     @Override
     public String toString() {
         return "DetailServiceAndEvaluateItem{" +
-                "detail=" + detail +
+                "info=" + info +
                 ", evaluate=" + evaluate +
                 '}';
     }
