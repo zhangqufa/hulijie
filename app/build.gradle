@@ -5,13 +5,13 @@ android {
         release {
             keyAlias 'hulijie'
             keyPassword '123456'
-            storeFile file('J:/Hulijie/key.jks')
+            storeFile file('H:/Hulijie/key.jks')
             storePassword '123456'
         }
         debug {
             keyAlias 'hulijie'
             keyPassword '123456'
-            storeFile file('J:/Hulijie/key.jks')
+            storeFile file('H:/Hulijie/key.jks')
             storePassword '123456'
         }
     }
@@ -56,5 +56,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
     compile 'cn.bingoogolapple:bga-swipebacklayout:1.0.8@aar'
     compile files('libs/httpmime-4.1.2.jar')
-
+    compile project(':wheelview')
 }

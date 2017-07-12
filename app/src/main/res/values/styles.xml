@@ -28,6 +28,13 @@
     </style>
 
 
+    <style name="AnimBottom">
+        <item name="android:windowEnterAnimation">@anim/pop_in</item>
+        <!-- 指定显示的动画xml -->
+        <item name="android:windowExitAnimation">@anim/pop_out</item>
+        <!-- 指定消失的动画xml -->
+    </style>
+
     <style name="ShowActTheme" parent="AppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>

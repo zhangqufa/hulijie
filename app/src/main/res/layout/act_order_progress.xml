@@ -181,6 +181,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/select_service_time_base"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="0.5dp"
@@ -195,6 +196,7 @@
                     android:src="@mipmap/ic_launcher" />
 
                 <TextView
+                    android:id="@+id/select_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -471,6 +473,11 @@
 
 
     </RelativeLayout>
-
+    <View
+        android:id="@+id/ll"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:background="#44000000"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

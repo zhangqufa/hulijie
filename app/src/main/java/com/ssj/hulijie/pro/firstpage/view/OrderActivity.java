@@ -4,26 +4,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
+import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.TitlebarUtil;
-import com.ssj.hulijie.utils.WatcherAdapter;
 
-import static com.ssj.hulijie.R.id.et_name;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
  * Created by Administrator on 2017/5/15.
  */
 
-public class OrderActivity extends BaseActivity implements View.OnClickListener {
+public class OrderActivity extends BaseActivity implements View.OnClickListener ,SelectPopWindow.SelectCallBack {
     private TextView order_buy_count;  //购买数量
     private int count = 1;
     private Button order_sub;
@@ -31,8 +36,12 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     private View bottom_btn;
     private View scroll_btn;
     private TextView tv_mark;
+    private String date;
+    private String time;
 
     public final static int REQUEST_ADDRESS = 100;
+    private SelectPopWindow menuWindow;
+    private TextView select_time;
 
 
     @Override
@@ -71,6 +80,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
 
 
         findViewById(R.id.select_address).setOnClickListener(this);
+        findViewById(R.id.select_service_time_base).setOnClickListener(this);
+        select_time = (TextView) findViewById(R.id.select_time);
     }
 
 
@@ -117,9 +128,82 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
                 Intent intent = new Intent(this, SelectAddressActivity.class);
                 startActivityForResult(intent, REQUEST_ADDRESS);
                 break;
+            case R.id.select_service_time_base:
+                open(view);
+
+                break;
         }
     }
 
+    public void open(View view) {
+        findViewById(R.id.ll).setVisibility(View.VISIBLE);
+        menuWindow = new SelectPopWindow(this, itemsOnClick);
+        menuWindow.setFirt_strs(createMainDatas());
+        menuWindow.setMap(createSubDatas());
+        menuWindow.initWheel1();
+        menuWindow.setCallback(this);
+        //显示窗口
+        menuWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+        menuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                findViewById(R.id.ll).setVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    //为弹出窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.btn_cancel:
+                    break;
+                case R.id.btn_done:
+                    show();
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+    };
+
+    private List<String> createMainDatas() {
+        String[] strings = {"7月13日(周四)", "7月14日(周五)", "7月15日(周六)"};
+        return Arrays.asList(strings);
+    }
+
+    private HashMap<String, List<String>> createSubDatas() {
+        HashMap<String, List<String>> map = new HashMap<>();
+        String[] strings = {"7月13日(周四)", "7月14日(周五)", "7月15日(周六)"};
+        String[] s1 = {"8:30-9:00", "9:00-9:30", "9:30-10:00"};
+        String[] s2 = {"10:00-10:30", "10:30-11:00","11:00-11:30","11:30-12:00"};
+        String[] s3 = {"12:00-12:30", "12:30-13:00", "13:00-13:30", "13:30-14:00","14:00-14:30"};
+        String[][] ss = {s1, s2, s3};
+        for (int i = 0; i < strings.length; i++) {
+            map.put(strings[i], Arrays.asList(ss[i]));
+        }
+        return map;
+    }
+
+    @Override
+    public void selectDataCallBack(String data) {
+        this.date = data;
+    }
+
+    @Override
+    public void selectTimeCallBack(String time) {
+        this.time = time;
+    }
+
+    private void show(){
+        select_time.setText(date+" "+time);
+    }
 
 
     private void changeBuyCount(){
