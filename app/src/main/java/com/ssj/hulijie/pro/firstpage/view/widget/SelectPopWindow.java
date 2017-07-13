@@ -52,7 +52,7 @@ public class SelectPopWindow extends PopupWindow {
         //设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         //设置SelectPicPopupWindow弹出窗体的高
-        this.setHeight(dip2px(context, 220));
+        this.setHeight(dip2px(context, 280));
 //        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         //设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
@@ -126,6 +126,7 @@ public class SelectPopWindow extends PopupWindow {
         mainWheelView.setWheelAdapter(new ArrayWheelAdapter(cotext));
         mainWheelView.setSkin(WheelView.Skin.Holo);
         mainWheelView.setWheelData(firt_strs);
+        mainWheelView.setWheelSize(5);
         WheelView.WheelViewStyle style = new WheelView.WheelViewStyle();
         style.selectedTextSize = 20;
         style.textSize = 16;
@@ -135,6 +136,7 @@ public class SelectPopWindow extends PopupWindow {
         mainWheelView.setOnWheelItemSelectedListener(listener);
 
         WheelView subWheelView = (WheelView) mMenuView.findViewById(R.id.sub_wheelview);
+        subWheelView.setWheelSize(5);
         subWheelView.setWheelAdapter(new ArrayWheelAdapter(cotext));
         subWheelView.setSkin(WheelView.Skin.Holo);
         subWheelView.setWheelData(map.get(firt_strs.get(mainWheelView.getSelection())));
