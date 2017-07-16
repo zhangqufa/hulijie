@@ -30,6 +30,8 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
 
     <application
         android:name=".base.HljAppliation"
@@ -100,8 +102,18 @@
         <activity
             android:name=".pro.firstpage.view.AddressActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:theme="@style/AppTheme.Transparent"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".pro.mine.view.ProvincesCityAddressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" /> <activity
+            android:name=".pro.mine.view.CompanyShopInActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
+
+
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

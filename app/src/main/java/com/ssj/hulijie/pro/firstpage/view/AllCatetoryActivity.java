@@ -12,6 +12,7 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.ListViewAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
 import com.ssj.hulijie.pro.firstpage.presenter.AllCatetoryPresenter;
+import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.List;
@@ -42,13 +43,13 @@ public class AllCatetoryActivity extends BaseActivity implements View.OnClickLis
         init();
     }
 
-
     private void init() {
         initToolbar();
         mListView = (ListView) findViewById(R.id.listView);
         initData();
         mListViewAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mListViewAdapter);
+
 
     }
 
@@ -69,6 +70,7 @@ public class AllCatetoryActivity extends BaseActivity implements View.OnClickLis
             public void onResult(List<CatetoryItem> result) {
                 if (result != null && result.size() > 0) {
                     mListViewAdapter.setLists(result);
+
                 }
             }
         });

@@ -22,15 +22,7 @@ import java.util.List;
 
 public class GridViewAdapter extends BaseAdapter {
     private Context mContext;
-    //    private ArrayList<HashMap<String, Object>> mList;
     private List<CatetoryItem.CatetoryChildItem> mList;
-
-//    public GridViewAdapter(Context mContext, ArrayList<HashMap<String, Object>> mList) {
-//        super();
-//        this.mContext = mContext;
-//        this.mList = mList;
-//    }
-
 
     public GridViewAdapter(Context mContext, List<CatetoryItem.CatetoryChildItem> mList) {
         this.mContext = mContext;
@@ -40,20 +32,12 @@ public class GridViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (mList == null) {
-            return 0;
-        } else {
-            return this.mList.size();
-        }
+        return mList == null ? 0 : mList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        if (mList == null) {
-            return null;
-        } else {
-            return this.mList.get(position);
-        }
+        return mList == null ? null : mList.get(position);
     }
 
     @Override
@@ -77,7 +61,6 @@ public class GridViewAdapter extends BaseAdapter {
 
 
         if (this.mList != null) {
-//            final HashMap<String, Object> hashMap = this.mList.get(position);
             if (holder.button != null) {
                 holder.button.setText(mList.get(position).getCate_name());
                 holder.button.setOnClickListener(new View.OnClickListener() {

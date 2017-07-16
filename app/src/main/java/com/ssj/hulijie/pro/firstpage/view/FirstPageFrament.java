@@ -117,6 +117,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         rv_first_page_main_list.addItemDecoration(new DividerItemDecoration(context,LinearLayoutManager.VERTICAL));
         adapter = new FirstPageMainListAdapter(context);
         rv_first_page_main_list.setAdapter(adapter);
+        rv_first_page_main_list.addOnScrollListener(recyclerView_listener);
         adapter.setOnItemClickListener(item_click);
 
 
@@ -160,6 +161,33 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     }
 
+    /**
+     * 监听recylerview 是否滑动到底部
+     */
+    private RecyclerView.OnScrollListener recyclerView_listener= new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (isSlideToBottom(recyclerView)) {
+                loadMore();
+            }
+
+
+        }
+    };
+
+    protected boolean isSlideToBottom(RecyclerView recyclerView) {
+        if (recyclerView == null) return false;
+        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange())
+            return true;
+        return false;
+    }
+
 
     /**
      * 计算两坐标的距离
@@ -168,7 +196,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
      */
     private void textJuli(LatLng s,LatLng e) {
         double distance = DistanceUtil.getDistance(s, e);
-        AppLog.Log("长度:" + distance);
+//        AppLog.Log("长度:" + distance);
     }
 
     private BaseRecyclerAdapter.OnItemClickListener item_click = new BaseRecyclerAdapter.OnItemClickListener<ItemFirstPageMainList>() {
@@ -303,7 +331,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 textJuli(start,end);
             }
 
-            AppLog.Log("city = " + location.getCity());
+//            AppLog.Log("city = " + location.getCity());
             if (!isNeedFresh) {
                 return;
             }
@@ -317,7 +345,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             HljAppliation.currentCity = currentCity;
             if (!TextUtils.isEmpty(currentCity)) {
                 mHandler.obtainMessage(0, currentCity).sendToTarget();
-                AppLog.Log("定位：" + currentCity);
+//                AppLog.Log("定位：" + currentCity);
             } else {
                 mHandler.obtainMessage(0, "选择城市").sendToTarget();
             }
@@ -420,14 +448,18 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         }
     };
 
+
+    private void loadMore(){
+        page++;
+        getData();
+    }
     /**
      * ptr data update
      */
     private PtrHandler ptrHandler = new PtrDefaultHandler2() {
         @Override
         public void onLoadMoreBegin(PtrFrameLayout frame) {
-            page++;
-            getData();
+            loadMore();
         }
 
         @Override
@@ -465,6 +497,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                             data.add(item);
                         }
                         adapter.addDatas(data);
+                    } else {
+                        AppToast.ShowToast("已加载全部商品");
                     }
                 }
                 ptr.refreshComplete();
