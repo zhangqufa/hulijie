@@ -45,7 +45,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         viewContent.findViewById(R.id.login).setOnClickListener(this);
 
-        //// TODO: 2017/7/6 去掉代金券、邀请有礼、微信绑定、添加上“企业加盟”
         viewContent.findViewById(R.id.mine_address).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_contact).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_company_add).setOnClickListener(this);

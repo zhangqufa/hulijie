@@ -1,12 +1,15 @@
 package com.ssj.hulijie.pro.mine.bean;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/16.
  */
 
-public class AddrJsonBean {
+public class AddrJsonBean  implements Serializable{
 
     private List<ProvincesBean> provinces;
 
@@ -25,7 +28,7 @@ public class AddrJsonBean {
                 '}';
     }
 
-    public static class ProvincesBean {
+    public static class ProvincesBean implements Serializable {
         /**
          * name : 北京市
          * citys : ["东城区","西城区","崇文区","宣武区","朝阳区","海淀区","丰台区","石景山区","房山区","通州区","顺义区","昌平区","大兴区","怀柔区","平谷区","门头沟区","密云区","延庆区","其他"]
