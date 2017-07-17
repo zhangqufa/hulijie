@@ -1,5 +1,6 @@
 package com.ssj.hulijie.pro.mine.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -67,8 +68,12 @@ public class ProvincesCityAddressActivity extends BaseActivity {
 
     @Subscribe
     public void onEventMainThread(CityGridItem event) {
-        AppToast.ShowToast(event.getProvince()+"_"+event.getCity());
+//        AppToast.ShowToast(event.getProvince()+"_"+event.getCity());
 
+        Intent intent = new Intent();
+        intent.putExtra("event", event);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 
     private void initView() {

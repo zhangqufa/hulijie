@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.mine.bean.CityGridItem;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 
@@ -17,6 +18,10 @@ import com.ssj.hulijie.utils.TitlebarUtil;
  */
 
 public class CompanyShopInActivity extends BaseActivity implements View.OnClickListener {
+    private static final int REQUEST_CODE = 100;
+    private TextView shopin_addr;
+
+
     @Override
     public MvpBasePresenter bindPresenter() {
         return null;
@@ -32,6 +37,7 @@ public class CompanyShopInActivity extends BaseActivity implements View.OnClickL
 
     private void initView() {
         findViewById(R.id.shopin_address_select).setOnClickListener(this);
+        shopin_addr = (TextView) findViewById(R.id.shopin_addr);
     }
 
     private void initToolBar() {
@@ -47,15 +53,24 @@ public class CompanyShopInActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        Intent intent =null;
         switch (view.getId()) {
             case R.id.shopin_address_select:
-                intent = new Intent(this, ProvincesCityAddressActivity.class);
+                Intent intent = new Intent(this, ProvincesCityAddressActivity.class);
+                startActivityForResult(intent,REQUEST_CODE);
                 break;
         }
-        if (intent != null) {
-            startActivity(intent);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            CityGridItem item = data.getParcelableExtra("event");
+            if (item != null) {
+                shopin_addr.setText(item.getCity());
+
+            }
         }
     }
 }
