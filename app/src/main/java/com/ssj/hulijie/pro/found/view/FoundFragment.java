@@ -33,14 +33,16 @@ public class FoundFragment extends BaseFragment implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.toDidi:
                 HashMap<String, String> map = null;
-                boolean login = DIOpenSDK.isLogin(getActivity());
-                if (!login) {
-                    map = new HashMap<>();
-                    map.put("finish", "home_page");
-                    DIOpenSDK.openPage(getActivity(), "login", map, null);
-                }
+//                boolean login = DIOpenSDK.isLogin(getActivity());
+//                if (!login) {
+//                    map = new HashMap<>();
+//                    map.put("finish", "home_page");
+//                    DIOpenSDK.openPage(getActivity(), "login", map, null);
+//                }
                 map = new HashMap<>();
                 DIOpenSDK.showDDPage(getActivity(), map);
+
+
                 break;
         }
     }
