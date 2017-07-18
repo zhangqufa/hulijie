@@ -24,15 +24,19 @@
 
 
        <ImageView
+           android:layout_marginLeft="10dp"
+           android:layout_centerVertical="true"
            android:id="@+id/temp_a"
            android:src="@mipmap/ic_launcher"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content" />
+           android:layout_width="30dp"
+           android:layout_height="30dp" />
 
        <ImageView
+           android:layout_centerVertical="true"
+           android:layout_marginRight="10dp"
            android:id="@+id/temp_b"
            android:layout_alignParentRight="true"
-           android:src="@mipmap/ic_launcher"
+           android:src="@mipmap/to_right_grey"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content" />
        <TextView
@@ -61,15 +65,18 @@
 
 
         <ImageView
+            android:layout_marginLeft="10dp"
             android:id="@+id/temp_aa"
             android:src="@mipmap/ic_launcher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/temp_bb"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/to_right_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -94,6 +101,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/toDidi"
         android:paddingLeft="8dp"
         android:background="@android:color/white"
         android:layout_width="match_parent"
@@ -101,15 +109,19 @@
 
 
         <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
             android:id="@+id/temp_aaa"
-            android:src="@mipmap/ic_launcher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:src="@mipmap/didi"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/temp_bbb"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/to_right_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -137,15 +149,18 @@
 
 
         <ImageView
+            android:layout_marginLeft="10dp"
             android:id="@+id/temp_aaaa"
             android:src="@mipmap/ic_launcher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/temp_bbbb"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/to_right_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView

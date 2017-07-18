@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('didi_sdk_for_common_v1.1.0_05_28.aar'))

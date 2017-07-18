@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.sdu.didi.openapi.DIOpenSDK;
 import com.ssj.hulijie.pro.db.helper.TemplateConfig;
 import com.ssj.hulijie.utils.AppLog;
 import com.yanzhenjie.nohttp.Logger;
@@ -53,6 +54,12 @@ public class HljAppliation extends Application {
          * init 右滑返回
          */
         BGASwipeBackManager.getInstance().init(this);
+
+        /**
+         * init 滴滴
+         */
+        DIOpenSDK.registerApp(this, "didi64434B4A62696C346A6A6D735263434D", "4cdbc061d5000e4f242dde6f3fca9453");
+
 
     }
 
