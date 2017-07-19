@@ -1,5 +1,6 @@
 package com.ssj.hulijie.pro.mine.view;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,7 +9,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ssj.hulijie.R;
@@ -16,6 +19,7 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +51,7 @@ public class MineOrderListActivity extends BaseActivity {
         setContentView(R.layout.act_mine_order_list);
         defaultPage = getIntent().getIntExtra(DEFAULT_PAGE, 0);
         initToolBar();
-
         initView();
-        //// 设置是否仅仅跟踪左侧边缘的滑动返回。默认值为 true
-        mSwipeBackHelper.setIsOnlyTrackingLeftEdge(false);
     }
 
     private void initView() {
@@ -60,7 +61,54 @@ public class MineOrderListActivity extends BaseActivity {
         initContent();
         initTab();
         mContentVp.setCurrentItem(defaultPage);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mTabTl.post(new Runnable() {
+            @Override
+            public void run() {
+                setIndicator(mTabTl, 15, 15);
+            }
+        });
+    }
+
+    /**
+     * tab 下划线 左右的padding
+     * @param tabs
+     * @param leftDip
+     * @param rightDip
+     */
+    public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
+        Class<?> tabLayout = tabs.getClass();
+        Field tabStrip = null;
+        try {
+            tabStrip = tabLayout.getDeclaredField("mTabStrip");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        tabStrip.setAccessible(true);
+        LinearLayout llTab = null;
+        try {
+            llTab = (LinearLayout) tabStrip.get(tabs);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, leftDip, Resources.getSystem().getDisplayMetrics());
+        int right = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rightDip, Resources.getSystem().getDisplayMetrics());
+
+        for (int i = 0; i < llTab.getChildCount(); i++) {
+            View child = llTab.getChildAt(i);
+            child.setPadding(0, 0, 0, 0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            params.leftMargin = left;
+            params.rightMargin = right;
+            child.setLayoutParams(params);
+            child.invalidate();
+        }
     }
 
 
