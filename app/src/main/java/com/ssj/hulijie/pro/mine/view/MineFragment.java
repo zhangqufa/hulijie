@@ -48,6 +48,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         viewContent.findViewById(R.id.mine_address).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_contact).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_company_add).setOnClickListener(this);
+        viewContent.findViewById(R.id.mine_order_list).setOnClickListener(this);
+        viewContent.findViewById(R.id.mine_no_complete).setOnClickListener(this);
+        viewContent.findViewById(R.id.mine_complete).setOnClickListener(this);
+        viewContent.findViewById(R.id.mine_wait_evaluate).setOnClickListener(this);
+        viewContent.findViewById(R.id.mine_all_order).setOnClickListener(this);
 
 
     }
@@ -137,6 +142,26 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.mine_company_add:
                 intent = new Intent(getContext(), CompanyShopInActivity.class);
+                break;
+            case R.id.mine_order_list:
+                intent  = new Intent(getContext(),MineOrderListActivity.class);
+
+                break;
+            case R.id.mine_no_complete:
+                intent  = new Intent(getContext(),MineOrderListActivity.class);
+                intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 0);
+                break;
+            case R.id.mine_complete:
+                intent  = new Intent(getContext(),MineOrderListActivity.class);
+                intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 1);
+                break;
+            case R.id.mine_wait_evaluate:
+                intent  = new Intent(getContext(),MineOrderListActivity.class);
+                intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 2);
+                break;
+            case R.id.mine_all_order:
+                intent  = new Intent(getContext(),MineOrderListActivity.class);
+                intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 3);
                 break;
         }
 

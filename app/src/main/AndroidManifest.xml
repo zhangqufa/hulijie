@@ -108,11 +108,15 @@
         <activity
             android:name=".pro.mine.view.ProvincesCityAddressActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Transparent" /> <activity
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
             android:name=".pro.mine.view.CompanyShopInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
-
+        <activity
+            android:name=".pro.mine.view.MineOrderListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
 
 
         <meta-data
