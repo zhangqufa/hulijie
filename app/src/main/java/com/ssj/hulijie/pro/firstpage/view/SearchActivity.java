@@ -117,7 +117,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private void goSearchResult(String string) {
         savaDB(string);
 //        AppToast.ShowToast(string);
-        Intent intent = new Intent(this, SearchResultActivity.class);
+        Intent intent = new Intent(this, SearchResultEditActivity.class);
         intent.putExtra("key", string);
         startActivity(intent);
 

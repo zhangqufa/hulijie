@@ -11,12 +11,11 @@
         android:id="@+id/toolbar_base"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_45"
-        android:background="@color/colorPrimary">
+        android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/iv_navigation_back"
             android:layout_height="match_parent"
-            android:background="@drawable/selector_press_bg"
             android:layout_width="50dp"
             android:padding="8dp"
             android:paddingRight="12dp"
@@ -39,7 +38,7 @@
             android:layout_height="29dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/tv_search"
-            android:background="@drawable/shape_bg_white"
+            android:background="@drawable/shape_bg_gray_4_rad"
             android:layout_toRightOf="@+id/iv_navigation_back">
 
             <ImageView

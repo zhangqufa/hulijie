@@ -82,6 +82,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity
+            android:name=".pro.firstpage.view.SearchResultEditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
             android:name=".pro.firstpage.view.OrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"

@@ -14,7 +14,6 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
-import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.text.DecimalFormat;
@@ -28,15 +27,16 @@ import static com.ssj.hulijie.base.HljAppliation.context;
  * Created by Administrator on 2017/5/15.
  */
 
-public class SearchResultActivity extends BaseActivity implements View.OnClickListener {
+public class SearchResultEditActivity extends BaseActivity implements View.OnClickListener {
     private TextView nav_center_title;
     private FirstPageMainListAdapter adapter;
     private String key;
+    private TextView iv_navigation_center;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_search_result);
+        setContentView(R.layout.act_search_result_edit);
 
         key = getIntent().getStringExtra("key");
         initToolbar();
@@ -45,18 +45,10 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initToolbar() {
-        RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
-        TitlebarUtil.inittoolBar(this, title_bar_base, true, key, android.R.color.white, 0, R.mipmap.back__btn_re, true, R.mipmap.share_red, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        }, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        findViewById(R.id.iv_navigation_back).setOnClickListener(this);
+        iv_navigation_center=(TextView)findViewById(R.id.iv_navigation_center);
+        iv_navigation_center.setOnClickListener(this);
+        iv_navigation_center.setText(key);
 
     }
 
@@ -101,6 +93,10 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_navigation_back:
+            case R.id.iv_navigation_center:
+                finish();
+                break;
         }
     }
 }

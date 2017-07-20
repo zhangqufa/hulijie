@@ -16,7 +16,7 @@
     <ImageView
         android:layout_width="46dp"
         android:layout_height="48dp"
-        android:src="@mipmap/logo" />
+        android:src="@mipmap/logo1" />
 
     <TextView
         android:layout_width="wrap_content"

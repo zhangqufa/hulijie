@@ -383,9 +383,16 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             new FirstPageMainHeaderAdapter.OnItemClickListener<ItemFirstPageMainHeaderList>() {
                 @Override
                 public void onItemClick(int position, ItemFirstPageMainHeaderList data) {
-                    AppToast.ShowToast(position + "");
+                    Intent intent = null;
                     if (position == 7) {
-                        Intent intent = new Intent(context, AllCatetoryActivity.class);
+                         intent = new Intent(context, AllCatetoryActivity.class);
+
+                    } else {
+                        intent = new Intent(context, SearchResultActivity.class);
+                        intent.putExtra("key", data.getName());
+                    }
+
+                    if (intent != null) {
                         startActivity(intent);
                     }
                 }

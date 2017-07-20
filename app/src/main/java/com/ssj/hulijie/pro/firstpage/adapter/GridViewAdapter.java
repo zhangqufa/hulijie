@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
 import com.ssj.hulijie.pro.firstpage.view.OrderActivity;
+import com.ssj.hulijie.pro.firstpage.view.SearchResultActivity;
 
 import java.util.List;
 
@@ -67,7 +68,8 @@ public class GridViewAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(mContext, mList.get(position).getParent_id() + "_" + mList.get(position).getCate_id(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(mContext, OrderActivity.class);
+                        Intent intent = new Intent(mContext, SearchResultActivity.class);
+                        intent.putExtra("key", mList.get(position).getCate_name());
                         mContext.startActivity(intent);
                     }
                 });
