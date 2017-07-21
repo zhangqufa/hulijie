@@ -405,7 +405,10 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData> four_part_listener = new FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData>() {
         @Override
         public void onItemClick(int position, FourpartData data) {
-            AppToast.ShowToast(position + "");
+            ItemFirstPageMainList item = new ItemFirstPageMainList();
+            Intent intent = new Intent(getActivity(), DetailInfoActivity.class);
+            intent.putExtra("item", item);
+            startActivity(intent);
         }
     };
 

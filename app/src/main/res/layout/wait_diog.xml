@@ -14,15 +14,15 @@
         <!--android:visibility="gone" />-->
 
     <ImageView
+        android:visibility="gone"
         android:layout_width="46dp"
         android:layout_height="48dp"
-        android:src="@mipmap/logo1" />
+        android:src="@mipmap/logo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
         android:text="加载中" />
 
 
