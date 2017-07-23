@@ -1,10 +1,13 @@
 package com.ssj.hulijie.pro.msg.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Administrator on 2017/5/16.
  */
 
-public class MsgData {
+public class MsgData implements Parcelable {
     private String img;
     private String title;
     private String sub_title;
@@ -16,6 +19,25 @@ public class MsgData {
         this.sub_title = sub_title;
         this.time = time;
     }
+
+    protected MsgData(Parcel in) {
+        img = in.readString();
+        title = in.readString();
+        sub_title = in.readString();
+        time = in.readLong();
+    }
+
+    public static final Creator<MsgData> CREATOR = new Creator<MsgData>() {
+        @Override
+        public MsgData createFromParcel(Parcel in) {
+            return new MsgData(in);
+        }
+
+        @Override
+        public MsgData[] newArray(int size) {
+            return new MsgData[size];
+        }
+    };
 
     public String getImg() {
         return img;
@@ -47,5 +69,18 @@ public class MsgData {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(img);
+        parcel.writeString(title);
+        parcel.writeString(sub_title);
+        parcel.writeLong(time);
     }
 }

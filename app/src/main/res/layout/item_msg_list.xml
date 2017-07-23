@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/id_diver_time"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_bg_grey_cccccc_2_rad"
+        android:text="2017-07-20"
+        android:textColor="@android:color/white" />
+
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="0dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:text="优惠活动\n一些标题"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2017-07-20" />
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="良心好礼，安装下单立减10元"
+            android:textSize="@dimen/font_size_16" />
+
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/app_bg" />
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="立即查看"
+                android:textColor="@android:color/holo_green_dark" />
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/to_right_grey" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

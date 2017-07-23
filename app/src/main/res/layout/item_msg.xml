@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:layout_height="100dp"
+    android:layout_height="70dp"
     android:orientation="horizontal">
 
     <ImageView
+        android:layout_marginLeft="10dp"
         android:id="@+id/img"
-        android:padding="8dp"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent" />
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
 
     <RelativeLayout
-        android:padding="8dp"
+        android:padding="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_weight="3"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/title"
             android:lines="1"
             android:text="优惠活动"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@android:color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -32,7 +30,7 @@
 
         <TextView
             android:id="@+id/sub_title"
-            android:textSize="@dimen/font_size_16"
+            android:textSize="14sp"
             android:text="良心好礼，安装下单立减10元"
             android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"

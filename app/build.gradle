@@ -59,4 +59,5 @@ dependencies {
     compile project(':wheelview')
     compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':didi_sdk_for_common_v1.1.0_05_28')
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

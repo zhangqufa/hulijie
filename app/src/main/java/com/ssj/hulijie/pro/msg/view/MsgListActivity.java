@@ -1,19 +1,22 @@
 package com.ssj.hulijie.pro.msg.view;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.ssj.hulijie.R;
-import com.ssj.hulijie.pro.base.view.BaseFragment;
+import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.pro.msg.adapter.MsgAdapter;
+import com.ssj.hulijie.pro.msg.adapter.MsgListAdapter;
 import com.ssj.hulijie.pro.msg.bean.MsgData;
-import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.pro.msg.bean.MsgListData;
+import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,43 +28,60 @@ import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
-import static com.ssj.hulijie.R.id.ptr_msg;
+import static com.ssj.hulijie.R.id.msg_rv;
+
 
 /**
- * Created by Administrator on 2017/3/26.
+ * Created by Administrator on 2017/7/23.
  */
 
-public class MsgFragment extends BaseFragment {
+public class MsgListActivity extends BaseActivity {
+
 
     private RecyclerView msg_rv;
-    private MainActivity mContext;
     private PtrClassicFrameLayout ptr;
+    private MsgData item;
+
 
     @Override
-    public int getContentView() {
-        return R.layout.frag_msg;
+    public MvpBasePresenter bindPresenter() {
+        return null;
     }
 
     @Override
-    public void initContentView(View viewContent) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_msg_list);
+        item =getIntent().getParcelableExtra("item");
+        initView();
+        initToolbar();
+    }
 
-        ptr = (PtrClassicFrameLayout) viewContent.findViewById(ptr_msg);
-        ptr.setMode(PtrFrameLayout.Mode.NONE);
+    private void initToolbar() {
+        RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
+        TitlebarUtil.inittoolBar(this, title_bar_base, true, item==null?"消息":item.getTitle(), android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              finish();
+            }
+        },null);
+    }
+
+    private void initView() {
+        ptr = (PtrClassicFrameLayout) findViewById(R.id.ptr_msg_list);
         ptr.setLastUpdateTimeRelateObject(this);
         ptr.addPtrUIHandler(handler);
         ptr.setPtrHandler(ptrHandler);
 
 
-        mContext = (MainActivity) getActivity();
-        msg_rv = (RecyclerView) viewContent.findViewById(R.id.msg_rv);
-        msg_rv.setLayoutManager(new LinearLayoutManager(mContext));
-        msg_rv.addItemDecoration(new DividerGridItemDecoration(mContext));
-        MsgAdapter adapter = new MsgAdapter(mContext);
+        msg_rv = (RecyclerView) findViewById(R.id.msg_rv);
+        msg_rv.setLayoutManager(new LinearLayoutManager(this));
+        msg_rv.addItemDecoration(new DividerGridItemDecoration(this));
+        MsgListAdapter adapter = new MsgListAdapter(this);
         msg_rv.setAdapter(adapter);
         adapter.setLists(getData());
         adapter.setOnItemClickListener(onClickListener);
     }
-
 
     @Override
     public void onResume() {
@@ -127,26 +147,23 @@ public class MsgFragment extends BaseFragment {
         }
     };
 
-    private List<MsgData> getData() {
-        MsgData msgData = null;
-        List<MsgData> lists = new ArrayList<>();
-        msgData = new MsgData(FirstPageFrament.img[0],"装修课堂","墙面开裂、漏水？",System.currentTimeMillis());
-        lists.add(msgData);
-        msgData = new MsgData(FirstPageFrament.img[1],"活动消息","什么风格适合你？10秒测试装修风格",System.currentTimeMillis());
-        lists.add(msgData);
-        msgData = new MsgData(FirstPageFrament.img[2],"问答消息","有问题，来这里",System.currentTimeMillis());
-        lists.add(msgData);
+    private List<MsgListData> getData() {
+        List<MsgListData> lists = new ArrayList<>();
+        for (int i = 0; i < FirstPageFrament.img.length; i++) {
+            MsgListData data = new MsgListData(FirstPageFrament.img[i], "title_" + i,
+                    "sub_title_" + i, System.currentTimeMillis());
+            lists.add(data);
+        }
+
 
         return lists;
 
     }
 
-    private MsgAdapter.OnItemClickListener<MsgData> onClickListener = new MsgAdapter.OnItemClickListener<MsgData>() {
+    private MsgListAdapter.OnItemClickListener<MsgData> onClickListener = new MsgListAdapter.OnItemClickListener<MsgData>() {
         @Override
         public void onItemClick(int position, MsgData data) {
-            Intent intent = new Intent(mContext, MsgListActivity.class);
-            intent.putExtra("item",data);
-            startActivity(intent);
+
         }
     };
 }
