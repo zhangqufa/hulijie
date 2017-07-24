@@ -76,6 +76,9 @@
         <activity
             android:name=".pro.firstpage.view.SearchActivity"
             android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".pro.firstpage.view.CheckAllEvaluateActivity"
+            android:theme="@style/AppTheme.Transparent" />
 
         <activity
             android:name=".pro.firstpage.view.SearchResultActivity"

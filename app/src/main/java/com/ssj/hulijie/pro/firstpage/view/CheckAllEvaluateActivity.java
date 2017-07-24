@@ -1,4 +1,4 @@
-package com.ssj.hulijie.pro.msg.view;
+package com.ssj.hulijie.pro.firstpage.view;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,10 +9,9 @@ import android.widget.RelativeLayout;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
+import com.ssj.hulijie.pro.firstpage.adapter.AllEvaluateAdapter;
+import com.ssj.hulijie.pro.firstpage.bean.EvaluateItem;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
-import com.ssj.hulijie.pro.home.view.MainActivity;
-import com.ssj.hulijie.pro.msg.adapter.MsgAdapter;
 import com.ssj.hulijie.pro.msg.adapter.MsgListAdapter;
 import com.ssj.hulijie.pro.msg.bean.MsgData;
 import com.ssj.hulijie.pro.msg.bean.MsgListData;
@@ -28,20 +27,16 @@ import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
-import static com.ssj.hulijie.R.id.msg_rv;
-
 
 /**
  * Created by Administrator on 2017/7/23.
  */
 
-public class MsgListActivity extends BaseActivity {
-
+public class CheckAllEvaluateActivity extends BaseActivity {
 
     private RecyclerView msg_rv;
     private PtrClassicFrameLayout ptr;
-    private MsgData item;
-
+    private EvaluateItem evaluateItem;
 
     @Override
     public MvpBasePresenter bindPresenter() {
@@ -51,24 +46,23 @@ public class MsgListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_msg_list);
-        item =getIntent().getParcelableExtra("item");
+        setContentView(R.layout.act_all_evaluate);
         initView();
         initToolbar();
     }
 
     private void initToolbar() {
         RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
-        TitlebarUtil.inittoolBar(this, title_bar_base, true, item==null?"消息":item.getTitle(), android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
+        TitlebarUtil.inittoolBar(this, title_bar_base, true, "评价", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              finish();
+                finish();
             }
-        },null);
+        }, null);
     }
 
     private void initView() {
-        ptr = (PtrClassicFrameLayout) findViewById(R.id.ptr_msg_list);
+        ptr = (PtrClassicFrameLayout) findViewById(R.id.ptr_all_evaluate_list);
         ptr.setLastUpdateTimeRelateObject(this);
         ptr.addPtrUIHandler(handler);
         ptr.setPtrHandler(ptrHandler);
@@ -77,7 +71,7 @@ public class MsgListActivity extends BaseActivity {
         msg_rv = (RecyclerView) findViewById(R.id.msg_rv);
         msg_rv.setLayoutManager(new LinearLayoutManager(this));
         msg_rv.addItemDecoration(new DividerGridItemDecoration(this));
-        MsgListAdapter adapter = new MsgListAdapter(this);
+        AllEvaluateAdapter adapter = new AllEvaluateAdapter(this);
         msg_rv.setAdapter(adapter);
         adapter.setLists(getData());
         adapter.setOnItemClickListener(onClickListener);
@@ -147,11 +141,11 @@ public class MsgListActivity extends BaseActivity {
         }
     };
 
-    private List<MsgListData> getData() {
-        List<MsgListData> lists = new ArrayList<>();
+    private List<EvaluateItem> getData() {
+        List<EvaluateItem> lists = new ArrayList<>();
         for (int i = 0; i < FirstPageFrament.img.length; i++) {
-            MsgListData data = new MsgListData(FirstPageFrament.img[i], "title_" + i,
-                    "sub_title_" + i, System.currentTimeMillis());
+            EvaluateItem data = new EvaluateItem();
+            //// TODO: 2017/7/23  
             lists.add(data);
         }
 
@@ -160,9 +154,9 @@ public class MsgListActivity extends BaseActivity {
 
     }
 
-    private MsgListAdapter.OnItemClickListener<MsgListData> onClickListener = new MsgListAdapter.OnItemClickListener<MsgListData>() {
+    private AllEvaluateAdapter.OnItemClickListener<EvaluateItem> onClickListener = new AllEvaluateAdapter.OnItemClickListener<EvaluateItem>() {
         @Override
-        public void onItemClick(int position, MsgListData data) {
+        public void onItemClick(int position, EvaluateItem data) {
 
         }
     };

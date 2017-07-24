@@ -29,12 +29,14 @@ import com.ssj.hulijie.pro.firstpage.bean.DetailServiceAndEvaluateItem;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.pro.firstpage.presenter.DetailPresenter;
+import com.ssj.hulijie.pro.firstpage.view.location.PingYinUtil;
 import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.PictureUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -47,6 +49,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.R.attr.breadCrumbShortTitle;
 import static android.R.attr.description;
 import static android.R.attr.resource;
 import static com.ssj.hulijie.R.id.cancel_action;
@@ -159,6 +162,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         detail_evaluate_count = (TextView) findViewById(R.id.detail_evaluate_count);
 
         findViewById(R.id.order_btn).setOnClickListener(this);
+        findViewById(R.id.check_all_evaluate).setOnClickListener(this);
 
         detail_descript_img_rv = (RecylerViewInScrollView) findViewById(R.id.detail_descript_img_rv);
         detail_descript_img_rv.setLayoutManager(new LinearLayoutManager(this));
@@ -209,12 +213,18 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 Bitmap bitmap = getBitmapByView(sv);
 //                Bitmap bitmap1 = compressImage(bitmap);
                 String s = savePic(bitmap);
-                AppLog.Log("path:"+s);
+                Bitmap smallBitmap = PictureUtil.getSmallBitmap(s, 640, 800);
+                String s1 = savePic(smallBitmap);
+
+                AppLog.Log("path_s:"+s+" , path_s1:"+ s1);
                 break;
 
             case R.id.order_btn:
 
                 startActivity(new Intent(this, OrderActivity.class));
+                break;
+            case R.id.check_all_evaluate:
+                startActivity(new Intent(this,CheckAllEvaluateActivity.class));
                 break;
         }
     }
@@ -289,7 +299,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         try {
             fos = new FileOutputStream(fname);
             if (null != fos) {
-                b.compress(Bitmap.CompressFormat.PNG, 90, fos);
+                b.compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.flush();
                 fos.close();
             }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="158****6543"
+            android:textColor="#656669"
+            android:textSize="17sp" />
+
+        <android.support.v7.widget.AppCompatRatingBar
+            style="@style/MyRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dip"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/comm_grey_cccccc"
+            android:progressTint="@color/colorAccent"
+            android:rating="3.5"
+            android:secondaryProgressTint="@color/comm_grey_cccccc"
+            android:stepSize="0.5" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="挺不错的，师傅弄完以后，下水道立马就不臭了。而且安的管道质量一看就是属于还不错呢!"
+        android:textColor="#1a1a1b"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:text="2017.07.20 19:12  服务方式：上门服务"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+
+        android:id="@+id/evaluate_img_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
