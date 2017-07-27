@@ -172,6 +172,7 @@ public class AddressActivity extends BaseActivity {
              */
             PoiCitySearchOption poiCitySearchOption = new PoiCitySearchOption().city(HljAppliation.currentCity)
                     .keyword(cs.toString());
+            AppLog.Log("搜索城市：" + HljAppliation.currentCity);
             mPoiSearch.searchInCity(poiCitySearchOption);
 
         }

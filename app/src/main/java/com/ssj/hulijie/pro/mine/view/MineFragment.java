@@ -5,8 +5,10 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
@@ -14,12 +16,18 @@ import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.view.AddressActivity;
 import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 import com.ssj.hulijie.pro.firstpage.view.SelectAddressActivity;
+import com.ssj.hulijie.pro.home.view.MainActivity;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
+import com.ssj.hulijie.utils.StringFormat;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.List;
 
 import static com.baidu.location.b.g.A;
+import static com.baidu.location.b.g.G;
+import static com.baidu.location.b.g.S;
 import static com.ssj.hulijie.base.HljAppliation.context;
 
 /**
@@ -30,7 +38,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
     private ImageView img;
-    private static final int REQUESTPERSIMMIONCODE= 100;
+    private static final int REQUESTPERSIMMIONCODE = 100;
+    private static final int REQUEST_LOGIN_CODE = 101;
+    private TextView user, user_des;
 
     @Override
     public int getContentView() {
@@ -38,7 +48,26 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        boolean isLogined = SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false);
+        if (!isLogined) {
+            user.setText("立即登录");
+            user_des.setVisibility(View.GONE);
+            user_des.setText("");
+        } else {
+            String user_name = SharedUtil.getPreferStr(SharedKey.USER_NAME);
+            String mobile = SharedUtil.getPreferStr(SharedKey.USER_MOBILE);
+            user.setText(TextUtils.isEmpty(user_name) ? "小狐狸" : user_name);
+            user_des.setVisibility(View.VISIBLE);
+            user_des.setText(StringFormat.toMobile(mobile));
+        }
+    }
+
+    @Override
     public void initContentView(View viewContent) {
+
+
         img = (ImageView) viewContent.findViewById(R.id.img);
         Glide.with(getActivity()).load(FirstPageFrament.img[0])
                 .into(img);
@@ -54,6 +83,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         viewContent.findViewById(R.id.mine_wait_evaluate).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_all_order).setOnClickListener(this);
 
+        //show user_name
+        user = (TextView) viewContent.findViewById(R.id.user);
+        //show person info
+        user_des = (TextView) viewContent.findViewById(R.id.user_des);
 
     }
 
@@ -127,8 +160,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         switch (view.getId()) {
             case R.id.login:
-                intent = new Intent(getContext(), LoginActivity.class);
-
+                if (!SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false)) {
+                    intent = new Intent(getContext(), LoginActivity.class);
+                } else {
+                    intent = new Intent(getContext(), SettingActivity.class);
+                }
                 break;
             case R.id.mine_address:
                 intent = new Intent(getContext(), SelectAddressActivity.class);
@@ -144,31 +180,34 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 intent = new Intent(getContext(), CompanyShopInActivity.class);
                 break;
             case R.id.mine_order_list:
-                intent  = new Intent(getContext(),MineOrderListActivity.class);
+                intent = new Intent(getContext(), MineOrderListActivity.class);
 
                 break;
             case R.id.mine_no_complete:
-                intent  = new Intent(getContext(),MineOrderListActivity.class);
+                intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 0);
                 break;
             case R.id.mine_complete:
-                intent  = new Intent(getContext(),MineOrderListActivity.class);
+                intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 1);
                 break;
             case R.id.mine_wait_evaluate:
-                intent  = new Intent(getContext(),MineOrderListActivity.class);
+                intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 2);
                 break;
             case R.id.mine_all_order:
-                intent  = new Intent(getContext(),MineOrderListActivity.class);
+                intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 3);
                 break;
         }
+
 
         if (intent != null) {
             startActivity(intent);
 
         }
+
+
     }
 
 }

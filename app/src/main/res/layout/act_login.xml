@@ -42,18 +42,18 @@
 
         <com.ssj.hulijie.widget.editext.ClearEditText
             android:id="@+id/edt_phone"
-            android:paddingRight="10dp"
-            android:background="@null"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_toLeftOf="@id/btn_getmsgcode"
             android:layout_toRightOf="@id/login_phone"
+            android:background="@null"
             android:hint="输入手机号码"
             android:inputType="number"
-            android:textCursorDrawable="@null"
             android:maxLength="11"
+            android:paddingRight="10dp"
             android:textColor="#ff000000"
             android:textColorHint="#ffb2b8c2"
+            android:textCursorDrawable="@null"
             android:textSize="15.0sp" />
 
         <View
