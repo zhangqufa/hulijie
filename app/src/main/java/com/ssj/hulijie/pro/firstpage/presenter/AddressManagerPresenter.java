@@ -69,4 +69,35 @@ public class AddressManagerPresenter extends BasePresenter<AddressManagerModel> 
             }
         });
     }
+
+    public void addAddressPresenter(BaseActivity content, String region_name, String address, String phone_mob, String user_id, String addr_id, String key,
+        final OnUIThreadListener<List<AddressItem>> onUIThreadListener) {
+        getModel().addAddressModel(content, region_name,address,phone_mob,user_id,addr_id,key, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+
+                if (jsonObject != null) {
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (code == Constant.SUCCESS_CODE) {
+                            AppLog.Log("address success!!");
+                            onUIThreadListener.onResult(null);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(null);
+                    }
+
+                } else {
+                    onUIThreadListener.onResult(null);
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(null);
+            }
+        });
+    }
 }
