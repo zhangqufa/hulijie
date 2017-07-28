@@ -4,14 +4,6 @@
         "source": "H:\\Hulijie\\ptr-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ptr_rotate_arrow.png"
     },
     {
-        "merged": "J:\\Hulijie\\ptr-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ptr_rotate_arrow_up.png",
-        "source": "J:\\Hulijie\\ptr-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ptr_rotate_arrow_up.png"
-    },
-    {
-        "merged": "J:\\Hulijie\\ptr-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ptr_rotate_arrow.png",
-        "source": "J:\\Hulijie\\ptr-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ptr_rotate_arrow.png"
-    },
-    {
         "merged": "H:\\Hulijie\\ptr-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ptr_rotate_arrow_up.png",
         "source": "H:\\Hulijie\\ptr-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ptr_rotate_arrow_up.png"
     }

@@ -1,6 +1,12 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
@@ -12,6 +18,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -87,12 +98,14 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490934544694&di=86c3dad3b5d43b047b4af5744fc0d76c&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201512%2F16%2F20151216140942_2JXYr.thumb.700_0.jpeg"
             , "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490934544695&di=9395c6b67a1a66a089998a4cc013e54a&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fphotoblog%2F1110%2F18%2Fc6%2F9309619_9309619_1318915453187.jpg"
     };
-    private TextView location_tv;  //location
+    private TextView location_tv,location_tv_right;  //location
     private LocationClient mLocationClient; //location
     private RecyclerView rv_header_four_part;
     private FirstPagePresenter mPresenter;
     private FirstPageMainHeaderAdapter rv_header_rv_adapter; //catetory adapter
     private FirstPageHeaderFourPartAdappter adappter_four_part;
+    private int width; //location_tv width
+    private boolean isHidden;
 
     // 要申请的权限
 
@@ -114,7 +127,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         //init RecyclerView
         rv_first_page_main_list = (RecyclerView) viewContent.findViewById(R.id.rv_first_page_main_list);
         rv_first_page_main_list.setLayoutManager(new LinearLayoutManager(context));
-        rv_first_page_main_list.addItemDecoration(new DividerItemDecoration(context,LinearLayoutManager.VERTICAL));
+        rv_first_page_main_list.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
         adapter = new FirstPageMainListAdapter(context);
         rv_first_page_main_list.setAdapter(adapter);
         rv_first_page_main_list.addOnScrollListener(recyclerView_listener);
@@ -125,6 +138,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         View header = LayoutInflater.from(context).inflate(R.layout.header_rv, rv_first_page_main_list, false);
         adapter.setHeaderView(header);
         location_tv = (TextView) header.findViewById(R.id.location_tv);
+        location_tv_right = (TextView) header.findViewById(R.id.location_tv_right);
         location_tv.setOnClickListener(this);
         header.findViewById(R.id.et_search).setOnClickListener(this);
 
@@ -159,12 +173,13 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
 
 
+
     }
 
     /**
      * 监听recylerview 是否滑动到底部
      */
-    private RecyclerView.OnScrollListener recyclerView_listener= new RecyclerView.OnScrollListener() {
+    private RecyclerView.OnScrollListener recyclerView_listener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
@@ -191,10 +206,11 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     /**
      * 计算两坐标的距离
+     *
      * @param s
      * @param e
      */
-    private void textJuli(LatLng s,LatLng e) {
+    private void textJuli(LatLng s, LatLng e) {
         double distance = DistanceUtil.getDistance(s, e);
 //        AppLog.Log("长度:" + distance);
     }
@@ -310,6 +326,12 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 String location = (String) msg.obj;
                 location_tv.setText(location);
 
+            } else if (msg.what == 1) {
+                int width = (int) msg.obj;
+
+                zoomInViewSize(location_tv, width);
+                zoomInViewSize(location_tv_right, width);
+                isHidden = true;
             }
         }
     };
@@ -328,7 +350,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
                 LatLng start = new LatLng(altitude, latitude);
                 LatLng end = new LatLng(altitude + 1, latitude + 1);
-                textJuli(start,end);
+                textJuli(start, end);
             }
 
 //            AppLog.Log("city = " + location.getCity());
@@ -385,7 +407,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 public void onItemClick(int position, ItemFirstPageMainHeaderList data) {
                     Intent intent = null;
                     if (position == 7) {
-                         intent = new Intent(context, AllCatetoryActivity.class);
+                        intent = new Intent(context, AllCatetoryActivity.class);
 
                     } else {
                         intent = new Intent(context, SearchResultActivity.class);
@@ -459,10 +481,11 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     };
 
 
-    private void loadMore(){
+    private void loadMore() {
         page++;
         getData();
     }
+
     /**
      * ptr data update
      */
@@ -488,10 +511,19 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         if (ptr != null) {
             ptr.refreshComplete();
         }
+
+        if (isHidden) {
+            location_tv.setScaleX(1);
+            location_tv.setScaleY(1);
+            zoomInViewSize(location_tv, width);
+            zoomInViewSize(location_tv_right,width);
+        }
     }
 
+
+
     /**
-     *   首页主数据
+     * 首页主数据
      *
      * @return
      */
@@ -538,12 +570,52 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 startActivityForResult(intent, LOCATION_REQUEST_CODE);
                 break;
             case R.id.et_search:
-                intent = new Intent(context, SearchActivity.class);
-                context.startActivityForBack(intent);
-//                startActivity(intent);
+                if (!isHidden) {
+                    width = location_tv.getWidth();
+                }
+                AnimatorSet set = new AnimatorSet();
+
+                ObjectAnimator animator_x = ObjectAnimator.ofFloat(location_tv, "scaleX", 1f, 0);
+                ObjectAnimator animator_y = ObjectAnimator.ofFloat(location_tv, "scaleY", 1f, 0);
+
+                ValueAnimator animator = ValueAnimator.ofObject(new TypeEvaluator() {
+                    @Override
+                    public Object evaluate(float v, Object o, Object t1) {
+                        int i = (int) ((1-v) * (int) o);
+                        return i;
+                    }
+                }, width, 0);
+
+                set.playTogether(animator_x, animator_y, animator);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        int animatedValue = (int) valueAnimator.getAnimatedValue();
+                        mHandler.obtainMessage(1,animatedValue).sendToTarget();
+                    }
+                });
+                set.setDuration(200);
+                set.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        Intent intent = new Intent(context, SearchActivity.class);
+                        context.startActivityForBack(intent);
+                    }
+                });
+                set.start();
+
                 break;
         }
     }
+
+    private void zoomInViewSize(View v,int w)
+    {
+        ViewGroup.LayoutParams  lp = v.getLayoutParams();
+        lp.width =w;
+        v.setLayoutParams(lp);
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

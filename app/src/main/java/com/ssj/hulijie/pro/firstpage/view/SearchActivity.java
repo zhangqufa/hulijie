@@ -1,5 +1,7 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationSet;
 import android.widget.TextView;
 
 import com.ssj.hulijie.R;
@@ -92,6 +95,15 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         tv.setLines(1);
         tv.setBackgroundResource(R.drawable.shape_btn_grey_f5f5f5);
         tvs_list.add(tv);  //add onclick event
+
+        //add 显示动画
+        ObjectAnimator animator_x = ObjectAnimator.ofFloat(tv, "scaleX", 0.3f, 1f);
+        ObjectAnimator animator_y = ObjectAnimator.ofFloat(tv, "scaleY", 0.3f, 1f);
+        AnimatorSet set  = new AnimatorSet();
+        set.playTogether(animator_x, animator_y);
+        set.setDuration(300);
+        set.start();
+
         flowLayout.addView(tv, lp);
 
         //监听点击
