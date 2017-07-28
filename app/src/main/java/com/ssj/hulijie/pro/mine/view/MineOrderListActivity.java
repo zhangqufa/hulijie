@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.mine.view.widget.TabPageIndicator;
+import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.lang.reflect.Field;
@@ -31,7 +33,7 @@ import java.util.List;
 public class MineOrderListActivity extends BaseActivity {
 
     public static final String DEFAULT_PAGE = "default_page";
-    private TabLayout mTabTl;
+    private TabPageIndicator mTabTl;
     private ViewPager mContentVp;
 
     private List<String> tabIndicators;
@@ -55,7 +57,8 @@ public class MineOrderListActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTabTl = (TabLayout) findViewById(R.id.tl_tab);
+        mTabTl = (TabPageIndicator) findViewById(R.id.tl_tab);
+        mTabTl.setBackgroundColor(getColor(android.R.color.white));
         mContentVp = (ViewPager) findViewById(R.id.vp_content);
 
         initContent();
@@ -63,62 +66,30 @@ public class MineOrderListActivity extends BaseActivity {
         mContentVp.setCurrentItem(defaultPage);
     }
 
+    private void initTab() {
+
+        mTabTl.setIndicatorMode(TabPageIndicator.IndicatorMode.MODE_WEIGHT_NOEXPAND_SAME);// 设置模式，一定要先设置模式
+//        mTabTl.setDividerColor(R.color.colorPrimary);// 设置分割线的颜色
+//        mTabTl.setDividerPadding(DensityUtil.dip2px(this, 10));
+        mTabTl.setIndicatorPaddingLeft(DensityUtil.dip2px(this,10));
+        mTabTl.setIndicatorPaddingRight(DensityUtil.dip2px(this,10));
+        mTabTl.setIndicatorHeight(DensityUtil.dip2px(this, 2));
+        mTabTl.setIndicatorColorResource(R.color.colorPrimary);// 设置底部导航线的颜色
+        mTabTl.setTextColorSelectedResource(R.color.colorPrimary);// 设置tab标题选中的颜色
+        mTabTl.setTextColorResource(R.color.comm_grey_666666);// 设置tab标题未被选中的颜色
+        mTabTl.setTextSize(DensityUtil.sp2px(this, 14));// 设置字体大小
+        mTabTl.setUnderlineHeight(1);
+    }
+
+
     @Override
     protected void onStart() {
         super.onStart();
-        mTabTl.post(new Runnable() {
-            @Override
-            public void run() {
-                setIndicator(mTabTl, 15, 15);
-            }
-        });
-    }
-
-    /**
-     * tab 下划线 左右的padding
-     * @param tabs
-     * @param leftDip
-     * @param rightDip
-     */
-    public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
-        Class<?> tabLayout = tabs.getClass();
-        Field tabStrip = null;
-        try {
-            tabStrip = tabLayout.getDeclaredField("mTabStrip");
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-        tabStrip.setAccessible(true);
-        LinearLayout llTab = null;
-        try {
-            llTab = (LinearLayout) tabStrip.get(tabs);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, leftDip, Resources.getSystem().getDisplayMetrics());
-        int right = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rightDip, Resources.getSystem().getDisplayMetrics());
-
-        for (int i = 0; i < llTab.getChildCount(); i++) {
-            View child = llTab.getChildAt(i);
-            child.setPadding(0, 0, 0, 0);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-            params.leftMargin = left;
-            params.rightMargin = right;
-            child.setLayoutParams(params);
-            child.invalidate();
-        }
     }
 
 
-    private void initTab() {
-        mTabTl.setTabMode(TabLayout.MODE_FIXED);
-        mTabTl.setTabTextColors(ContextCompat.getColor(this, android.R.color.darker_gray), ContextCompat.getColor(this, R.color.colorPrimary));
-        mTabTl.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        ViewCompat.setElevation(mTabTl, 10);
-        mTabTl.setupWithViewPager(mContentVp);
-    }
+
+
 
     private void initContent() {
         tabIndicators = new ArrayList<>();
@@ -141,6 +112,7 @@ public class MineOrderListActivity extends BaseActivity {
                 mSwipeBackHelper.setSwipeBackEnable(i == 0);
             }
         });
+        mTabTl.setViewPager(mContentVp);
     }
 
 
