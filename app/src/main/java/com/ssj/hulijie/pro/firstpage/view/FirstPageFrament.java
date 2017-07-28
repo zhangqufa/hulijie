@@ -50,6 +50,7 @@ import com.ssj.hulijie.pro.firstpage.view.widget.DividerItemDecoration;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 import com.ssj.hulijie.widget.recylerview.RecyclerViewHeader;
 import com.yanzhenjie.permission.AndPermission;
@@ -105,7 +106,9 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private FirstPageMainHeaderAdapter rv_header_rv_adapter; //catetory adapter
     private FirstPageHeaderFourPartAdappter adappter_four_part;
     private int width; //location_tv width
+    private int heigth; // et_search height
     private boolean isHidden;
+    private TextView et_search;
 
     // 要申请的权限
 
@@ -140,7 +143,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         location_tv = (TextView) header.findViewById(R.id.location_tv);
         location_tv_right = (TextView) header.findViewById(R.id.location_tv_right);
         location_tv.setOnClickListener(this);
-        header.findViewById(R.id.et_search).setOnClickListener(this);
+        et_search = (TextView)header.findViewById(R.id.et_search);
+        et_search.setOnClickListener(this);
 
         //init RecylerView header fout part
         adappter_four_part = new FirstPageHeaderFourPartAdappter(context);
@@ -327,10 +331,12 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 location_tv.setText(location);
 
             } else if (msg.what == 1) {
-                int width = (int) msg.obj;
+                int width = msg.arg1;
+                int heigth =  msg.arg2;
 
-                zoomInViewSize(location_tv, width);
-                zoomInViewSize(location_tv_right, width);
+                zoomInViewSizeW(location_tv, width);
+                zoomInViewSizeW(location_tv_right, width);
+                zoomInViewSizeH(et_search,heigth);
                 isHidden = true;
             }
         }
@@ -513,10 +519,12 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         }
 
         if (isHidden) {
+            isHidden = false;
             location_tv.setScaleX(1);
             location_tv.setScaleY(1);
-            zoomInViewSize(location_tv, width);
-            zoomInViewSize(location_tv_right,width);
+            zoomInViewSizeH(et_search,heigth);
+            zoomInViewSizeW(location_tv, width);
+            zoomInViewSizeW(location_tv_right,width);
         }
     }
 
@@ -571,13 +579,17 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.et_search:
                 if (!isHidden) {
+                    heigth = et_search.getHeight();
                     width = location_tv.getWidth();
                 }
                 AnimatorSet set = new AnimatorSet();
 
+
+                //loacation_tv 缩放
                 ObjectAnimator animator_x = ObjectAnimator.ofFloat(location_tv, "scaleX", 1f, 0);
                 ObjectAnimator animator_y = ObjectAnimator.ofFloat(location_tv, "scaleY", 1f, 0);
 
+                //location_tv  通过估值器改宽度大小至0
                 ValueAnimator animator = ValueAnimator.ofObject(new TypeEvaluator() {
                     @Override
                     public Object evaluate(float v, Object o, Object t1) {
@@ -591,7 +603,11 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
                         int animatedValue = (int) valueAnimator.getAnimatedValue();
-                        mHandler.obtainMessage(1,animatedValue).sendToTarget();
+
+                        //et_search 减少6dp
+                        int et_search_height = heigth-(int)(DensityUtil.dip2px(context,6)*(1-animatedValue*1f/width));
+
+                        mHandler.obtainMessage(1,animatedValue,et_search_height).sendToTarget();
                     }
                 });
                 set.setDuration(200);
@@ -609,10 +625,16 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void zoomInViewSize(View v,int w)
+    private void zoomInViewSizeW(View v, int w)
     {
         ViewGroup.LayoutParams  lp = v.getLayoutParams();
         lp.width =w;
+        v.setLayoutParams(lp);
+    }
+    private void zoomInViewSizeH(View v, int h)
+    {
+        ViewGroup.LayoutParams  lp = v.getLayoutParams();
+        lp.height =h;
         v.setLayoutParams(lp);
     }
 
