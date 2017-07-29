@@ -29,11 +29,16 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.base.HljAppliation;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.AddressAdapter;
+import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
 import com.ssj.hulijie.pro.firstpage.bean.PoiSearchResults;
+import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 import com.ssj.hulijie.utils.WatcherAdapter;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
@@ -58,7 +63,7 @@ public class AddressActivity extends BaseActivity {
 
     @Override
     public MvpBasePresenter bindPresenter() {
-        return null;
+        return new AddressManagerPresenter(this);
     }
 
     @Override
@@ -155,7 +160,30 @@ public class AddressActivity extends BaseActivity {
 
     }
 
+    /**
+     * "addr_id": "3",
+     * "region_name": "中国	浙江省	台州	路桥区	十里长街",
+     * "address": "椒江",
+     * "phone_mob": "18868813294"
+     *
+     * @param view
+     */
     public void btn_commit(View view) {
+        ((AddressManagerPresenter) presenter).addAddressPresenter(this
+                , et_address.getText().toString(), et_meng.getText().toString(), SharedUtil.getPreferStr(SharedKey.USER_MOBILE)
+                , SharedUtil.getPreferStr(SharedKey.USER_ID)
+                , ""
+               , new BasePresenter.OnUIThreadListener<Boolean>() {
+                    @Override
+                    public void onResult(Boolean result) {
+                        if (result) {
+                            finish();
+                        } else {
+                            AppToast.ShowToast("提交失败！");
+                        }
+                    }
+                });
+
 
     }
 
@@ -163,7 +191,7 @@ public class AddressActivity extends BaseActivity {
         @Override
         public void onTextChanged(CharSequence cs, int arg1, int arg2,
                                   int arg3) {
-            if (!isTextWatcher||cs.length() <= 0) {
+            if (!isTextWatcher || cs.length() <= 0) {
                 return;
             }
             AppLog.Log("remove after");

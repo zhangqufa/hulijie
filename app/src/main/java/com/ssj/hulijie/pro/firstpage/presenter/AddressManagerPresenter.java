@@ -41,7 +41,7 @@ public class AddressManagerPresenter extends BasePresenter<AddressManagerModel> 
                 JSONObject jsonObject = response.get();
 
                 if (jsonObject != null) {
-
+                    AppLog.Log("addressList: " + jsonObject.toString());
                     try {
                         int code = jsonObject.getIntValue("code");
                         if (code == Constant.SUCCESS_CODE) {
@@ -70,19 +70,20 @@ public class AddressManagerPresenter extends BasePresenter<AddressManagerModel> 
         });
     }
 
-    public void addAddressPresenter(BaseActivity content, String region_name, String address, String phone_mob, String user_id, String addr_id, String key,
-        final OnUIThreadListener<List<AddressItem>> onUIThreadListener) {
-        getModel().addAddressModel(content, region_name,address,phone_mob,user_id,addr_id,key, new HttpListener<JSONObject>() {
+    public void addAddressPresenter(BaseActivity content, String region_name, String address, String phone_mob, String user_id, String addr_id,
+        final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().addAddressModel(content, region_name,address,phone_mob,user_id,addr_id, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
 
                 if (jsonObject != null) {
+                    AppLog.Log("add_address: "+jsonObject.toString());
                     try {
                         int code = jsonObject.getIntValue("code");
                         if (code == Constant.SUCCESS_CODE) {
                             AppLog.Log("address success!!");
-                            onUIThreadListener.onResult(null);
+                            onUIThreadListener.onResult(true);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

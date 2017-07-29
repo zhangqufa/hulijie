@@ -16,6 +16,8 @@
 package com.ssj.hulijie.nohttp;
 
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.download.DownloadQueue;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -90,7 +92,7 @@ public class CallServer {
 //            }
 //
 //        }
-
+        request.add("key", SharedUtil.getPreferStr(SharedKey.USER_KEY));
         requestQueue.add(what, request, new HttpResponseListener<T>(context, request, callback, canCancel, isLoading));
     }
 

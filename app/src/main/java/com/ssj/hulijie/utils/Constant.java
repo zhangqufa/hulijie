@@ -11,5 +11,6 @@ public class Constant {
     public static final boolean LOG_DEBUG = true;
     public static final boolean Proxy = false;
     public static final int SUCCESS_CODE = 10000;
+    public static final int ERROR_OVERDUE_CODE = 12007;
 
 }

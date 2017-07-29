@@ -15,6 +15,8 @@ import com.ssj.hulijie.pro.firstpage.adapter.AddressManagerAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
 import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerItemDecoration;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.ArrayList;
@@ -46,14 +48,18 @@ public class SelectAddressActivity extends BaseActivity {
         setContentView(R.layout.act_select_address);
         initToolbar();
         initView();
-        initData();
+
 
     }
 
-    private String uer_id ="1";
-    private String addr_id = "";
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+    }
+
     private void initData() {
-        presenter.getAddressPresenter(this, uer_id, addr_id, new BasePresenter.OnUIThreadListener<List<AddressItem>>() {
+        presenter.getAddressPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID), "", new BasePresenter.OnUIThreadListener<List<AddressItem>>() {
             @Override
             public void onResult(List<AddressItem> result) {
                 if (result != null&&result.size()>0) {

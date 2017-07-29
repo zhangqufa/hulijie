@@ -134,9 +134,6 @@ public class MsgFragment extends BaseFragment {
         lists.add(msgData);
         msgData = new MsgData(FirstPageFrament.img[1],"活动消息","什么风格适合你？10秒测试装修风格",System.currentTimeMillis());
         lists.add(msgData);
-        msgData = new MsgData(FirstPageFrament.img[2],"问答消息","有问题，来这里",System.currentTimeMillis());
-        lists.add(msgData);
-
         return lists;
 
     }
@@ -147,6 +144,7 @@ public class MsgFragment extends BaseFragment {
             Intent intent = new Intent(mContext, MsgListActivity.class);
             intent.putExtra("item",data);
             startActivity(intent);
+
         }
     };
 }

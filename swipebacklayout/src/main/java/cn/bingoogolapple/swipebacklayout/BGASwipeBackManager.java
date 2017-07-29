@@ -16,12 +16,20 @@
 
 package cn.bingoogolapple.swipebacklayout;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Application;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 
 import java.util.Stack;
 
@@ -100,7 +108,9 @@ public class BGASwipeBackManager implements Application.ActivityLifecycleCallbac
             Activity activity = getInstance().getPenultimateActivity();
             if (activity != null) {
                 View decorView = activity.getWindow().getDecorView();
-                ViewCompat.setTranslationX(decorView, -(decorView.getMeasuredWidth() / 3.0f) * (1 - slideOffset));
+                ViewCompat.setTranslationX(decorView, -(decorView.getMeasuredWidth() * 0.1f) * (1 - slideOffset));
+                ViewCompat.setScaleX(decorView, (float) (0.98 + 0.02 * slideOffset));
+                ViewCompat.setScaleY(decorView, (float) (0.98 + 0.02 * slideOffset));
             }
         } catch (Exception e) {
         }

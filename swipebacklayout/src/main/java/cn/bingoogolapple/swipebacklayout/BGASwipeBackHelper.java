@@ -308,6 +308,7 @@ public class BGASwipeBackHelper {
         executeBackwardAnim();
     }
 
+
     public interface Delegate {
         /**
          * 是否支持滑动返回
