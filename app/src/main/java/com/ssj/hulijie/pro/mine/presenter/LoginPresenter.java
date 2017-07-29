@@ -47,21 +47,21 @@ public class LoginPresenter extends BasePresenter<LoginModel> {
                             String data = jsonObject.getString("data");
                             VerifyCode item = JSON.parseObject(data, VerifyCode.class);
                             AppLog.Log("verify_code: "+item);
-                            onUIThreadListener.onResult(item);
+                            onUIThreadListener.onResult(item,code);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null);
+                        onUIThreadListener.onResult(null,0);
                     }
 
                 } else {
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
             }
         });
     }
@@ -80,21 +80,21 @@ public class LoginPresenter extends BasePresenter<LoginModel> {
                             String data = jsonObject.getString("data");
                             LoginItem item = JSON.parseObject(data, LoginItem.class);
                             AppLog.Log("login: "+item);
-                            onUIThreadListener.onResult(item);
+                            onUIThreadListener.onResult(item,code);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null);
+                        onUIThreadListener.onResult(null,0);
                     }
 
                 } else {
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
             }
         });
     }

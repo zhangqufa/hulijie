@@ -45,24 +45,24 @@ public class AllCatetoryPresenter extends BasePresenter<AllCatetoryModel> {
                         if (code == Constant.SUCCESS_CODE) {
                             String data = jsonObject.getString("data");
                             List<CatetoryItem> lists = new ArrayList<>(JSONArray.parseArray(data, CatetoryItem.class));
-                            onUIThreadListener.onResult(lists);
+                            onUIThreadListener.onResult(lists,code);
                             AppLog.Log("allcatetory: " + lists.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null);
+                        onUIThreadListener.onResult(null,0);
                         AppLog.Log("allcatetory_exception: " + e.toString());
                     }
 
                 } else {
                     AppLog.Log("allcatetory is null");
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                onUIThreadListener.onResult(null);
+                onUIThreadListener.onResult(null,0);
             }
         });
     }

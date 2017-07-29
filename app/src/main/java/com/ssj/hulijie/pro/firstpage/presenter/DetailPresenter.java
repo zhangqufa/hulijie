@@ -91,23 +91,23 @@ public class DetailPresenter extends BasePresenter<DetailModel> {
 
 
 
-                            onUIThreadListener.onResult(item);
+                            onUIThreadListener.onResult(item,code);
                             AppLog.Log("服务详情: " + item.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null);
+                        onUIThreadListener.onResult(null,0);
                         AppLog.Log("服务详情: " + e.toString());
                     }
 
                 } else {
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
             }
         });
     }

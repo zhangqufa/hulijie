@@ -61,7 +61,7 @@ public class SelectAddressActivity extends BaseActivity {
     private void initData() {
         presenter.getAddressPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID), "", new BasePresenter.OnUIThreadListener<List<AddressItem>>() {
             @Override
-            public void onResult(List<AddressItem> result) {
+            public void onResult(List<AddressItem> result,int return_code) {
                 if (result != null&&result.size()>0) {
                     for (int i  =0;i<result.size();i++) {
                         if (i == 0) {

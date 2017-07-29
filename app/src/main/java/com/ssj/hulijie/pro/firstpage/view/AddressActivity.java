@@ -175,7 +175,7 @@ public class AddressActivity extends BaseActivity {
                 , ""
                , new BasePresenter.OnUIThreadListener<Boolean>() {
                     @Override
-                    public void onResult(Boolean result) {
+                    public void onResult(Boolean result,int return_code) {
                         if (result) {
                             finish();
                         } else {

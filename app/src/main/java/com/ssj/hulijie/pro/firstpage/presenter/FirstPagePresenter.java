@@ -49,24 +49,24 @@ public class FirstPagePresenter extends BasePresenter<FirstPageModel> {
                         if (code == Constant.SUCCESS_CODE) {
                             String data = jsonObject.getString("data");
                             List<ItemFirstPageMainHeaderList> lists = new ArrayList<>(JSONArray.parseArray(data, ItemFirstPageMainHeaderList.class));
-                            onUIThreadListener.onResult(lists);
+                            onUIThreadListener.onResult(lists,code);
                             AppLog.Log("catetory: " + lists.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null);
+                        onUIThreadListener.onResult(null,0);
                         AppLog.Log("catetory_exception: " + e.toString());
                     }
 
                 } else {
                     AppLog.Log("catetory is null");
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                onUIThreadListener.onResult(null);
+                onUIThreadListener.onResult(null,0);
             }
         });
     }
@@ -86,24 +86,24 @@ public class FirstPagePresenter extends BasePresenter<FirstPageModel> {
                         if (code == Constant.SUCCESS_CODE) {
                             String data = jsonObject.getString("data");
                             List<FourpartData> lists = new ArrayList<>(JSONArray.parseArray(data, FourpartData.class));
-                            onUIThreadListener.onResult(lists);
+                            onUIThreadListener.onResult(lists,code);
                             AppLog.Log("four_model: " + lists.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null);
+                        onUIThreadListener.onResult(null,0);
                         AppLog.Log("four_model: " + e.toString());
                     }
 
                 } else {
                     AppLog.Log("four_model is null");
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                onUIThreadListener.onResult(null);
+                onUIThreadListener.onResult(null,0);
             }
         });
     }
@@ -123,24 +123,24 @@ public class FirstPagePresenter extends BasePresenter<FirstPageModel> {
                             JSONObject rows = JSON.parseObject(data);
                             String rows1 = rows.getString("rows");
                             List<ItemFirstPageMainList> lists = new ArrayList<>(JSONArray.parseArray(rows1, ItemFirstPageMainList.class));
-                            onUIThreadListener.onResult(lists);
+                            onUIThreadListener.onResult(lists,code);
                             AppLog.Log("firstList: " + lists.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null);
+                        onUIThreadListener.onResult(null,0);
                         AppLog.Log("firstList: " + e.toString());
                     }
 
                 } else {
                     AppLog.Log("firstList is null");
-                    onUIThreadListener.onResult(null);
+                    onUIThreadListener.onResult(null,0);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                onUIThreadListener.onResult(null);
+                onUIThreadListener.onResult(null,0);
             }
         });
     }

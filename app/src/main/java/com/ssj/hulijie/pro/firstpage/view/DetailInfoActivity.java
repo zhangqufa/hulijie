@@ -107,7 +107,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
         mPresenter.getDetailPresenter(this, "3173", new BasePresenter.OnUIThreadListener<DetailServiceAndEvaluateItem>() {
             @Override
-            public void onResult(DetailServiceAndEvaluateItem result) {
+            public void onResult(DetailServiceAndEvaluateItem result,int return_code) {
                 if (result != null) {
                     AppLog.Log("detail: " + result.toString());
                     updateUI(result);

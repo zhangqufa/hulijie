@@ -237,7 +237,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         mPresenter.getMidFourPresenter(context, new BasePresenter.OnUIThreadListener<List<FourpartData>>() {
             @Override
-            public void onResult(List<FourpartData> result) {
+            public void onResult(List<FourpartData> result,int return_code) {
                 if (result != null) {
                     for (int i = 0; i < result.size(); i++) {
                         result.get(i).setPic(FirstPageFrament.img[i]);
@@ -447,7 +447,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         final List<ItemFirstPageMainHeaderList> lists = new ArrayList<>();
         mPresenter.getCatetoryPresenter(context, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainHeaderList>>() {
             @Override
-            public void onResult(List<ItemFirstPageMainHeaderList> result) {
+            public void onResult(List<ItemFirstPageMainHeaderList> result,int return_code) {
                 for (int i = 0; i < result.size(); i++) {
                     ItemFirstPageMainHeaderList item = result.get(i);
                     lists.add(item);
@@ -528,7 +528,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private void getData() {
         mPresenter.getFirstDataPresenter(context, page, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainList>>() {
             @Override
-            public void onResult(List<ItemFirstPageMainList> result) {
+            public void onResult(List<ItemFirstPageMainList> result,int return_code) {
                 if (result != null) {
                     if (result.size() > 0) {
 

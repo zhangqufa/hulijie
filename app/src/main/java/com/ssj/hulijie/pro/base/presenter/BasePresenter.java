@@ -31,6 +31,11 @@ public abstract class BasePresenter<M extends BaseModel> extends MvpBasePresente
     public abstract M bindModel();
 
     public interface OnUIThreadListener<T> {
-        void onResult(T result);
+        /**
+         *
+         * @param result 返回数据
+         * @param return_code  返回码
+         */
+        void onResult(T result,int return_code);
     }
 }

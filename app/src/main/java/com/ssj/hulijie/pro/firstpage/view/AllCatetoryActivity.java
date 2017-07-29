@@ -67,7 +67,7 @@ public class AllCatetoryActivity extends BaseActivity implements View.OnClickLis
 
         myPresenter.getAllcatetoryPresenter(this, new BasePresenter.OnUIThreadListener<List<CatetoryItem>>() {
             @Override
-            public void onResult(List<CatetoryItem> result) {
+            public void onResult(List<CatetoryItem> result,int return_code) {
                 if (result != null && result.size() > 0) {
                     mListViewAdapter.setLists(result);
 
