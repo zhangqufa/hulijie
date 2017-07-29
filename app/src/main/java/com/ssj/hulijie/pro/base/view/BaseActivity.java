@@ -156,7 +156,7 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         // 设置是否仅仅跟踪左侧边缘的滑动返回。默认值为 true
         mSwipeBackHelper.setIsOnlyTrackingLeftEdge(true);
         // 设置是否是微信滑动返回样式。默认值为 true
-        mSwipeBackHelper.setIsWeChatStyle(true);
+        mSwipeBackHelper.setIsWeChatStyle(false);
         // 设置阴影资源 id。默认值为 R.drawable.bga_sbl_shadow
         mSwipeBackHelper.setShadowResId(R.drawable.bga_sbl_shadow);
         // 设置是否显示滑动返回的阴影效果。默认值为 true
