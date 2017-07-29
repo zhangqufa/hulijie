@@ -41,7 +41,6 @@ public class MineOrderListActivity extends BaseActivity {
     private ContentPagerAdapter contentAdapter;
     private int defaultPage = 0;
 
-
     @Override
     public MvpBasePresenter bindPresenter() {
         return null;
@@ -86,10 +85,6 @@ public class MineOrderListActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
     }
-
-
-
-
 
     private void initContent() {
         tabIndicators = new ArrayList<>();

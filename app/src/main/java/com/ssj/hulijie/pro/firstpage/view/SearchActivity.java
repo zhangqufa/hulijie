@@ -19,6 +19,7 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.db.dao.SearchHistoryDao;
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.ItemSearchHistory;
+import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.widget.editext.ClearEditText;
@@ -188,5 +189,11 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 fl_history_record.removeAllViews();
                 break;
         }
+    }
+
+    @Override
+    public void onSwipeBackLayoutSlide(float slideOffset) {
+        AppLog.Log("slideOffset_search: "+slideOffset);
+
     }
 }

@@ -22,6 +22,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DensityUtil;
+import com.ssj.hulijie.utils.ViewUtil;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 import com.ssj.hulijie.widget.recylerview.RecyclerViewHeader;
 import com.yanzhenjie.permission.AndPermission;
@@ -99,7 +101,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490934544694&di=86c3dad3b5d43b047b4af5744fc0d76c&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201512%2F16%2F20151216140942_2JXYr.thumb.700_0.jpeg"
             , "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490934544695&di=9395c6b67a1a66a089998a4cc013e54a&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fphotoblog%2F1110%2F18%2Fc6%2F9309619_9309619_1318915453187.jpg"
     };
-    private TextView location_tv,location_tv_right;  //location
+    private TextView location_tv, location_tv_right;  //location
     private LocationClient mLocationClient; //location
     private RecyclerView rv_header_four_part;
     private FirstPagePresenter mPresenter;
@@ -123,7 +125,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         //init ptr-lib
         ptr = (PtrClassicFrameLayout) viewContent.findViewById(R.id.ptr_refresh);
         ptr.setLastUpdateTimeRelateObject(this);
-        ptr.addPtrUIHandler(handler);
         ptr.setPtrHandler(ptrHandler);
 
 
@@ -143,7 +144,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         location_tv = (TextView) header.findViewById(R.id.location_tv);
         location_tv_right = (TextView) header.findViewById(R.id.location_tv_right);
         location_tv.setOnClickListener(this);
-        et_search = (TextView)header.findViewById(R.id.et_search);
+        et_search = (TextView) header.findViewById(R.id.et_search);
         et_search.setOnClickListener(this);
 
         //init RecylerView header fout part
@@ -174,9 +175,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         // after andrioid m,must request Permiision on runtime
         getPersimmions();
-
-
-
 
     }
 
@@ -332,12 +330,12 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
             } else if (msg.what == 1) {
                 int width = msg.arg1;
-                int heigth =  msg.arg2;
+                int heigth = msg.arg2;
 
-                zoomInViewSizeW(location_tv, width);
-                zoomInViewSizeW(location_tv_right, width);
-                zoomInViewSizeH(et_search,heigth);
-                isHidden = true;
+                ViewUtil.zoomInViewSizeW(location_tv, width);
+                ViewUtil.zoomInViewSizeW(location_tv_right, width);
+                ViewUtil.zoomInViewSizeH(et_search, heigth);
+
             }
         }
     };
@@ -460,33 +458,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     }
 
-    /**
-     * ptr ui listener
-     */
-    private PtrUIHandler handler = new PtrUIHandler() {
-        @Override
-        public void onUIReset(PtrFrameLayout frame) {
-
-        }
-
-        @Override
-        public void onUIRefreshPrepare(PtrFrameLayout frame) {
-        }
-
-        @Override
-        public void onUIRefreshBegin(PtrFrameLayout frame) {
-        }
-
-        @Override
-        public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
-        }
-
-        @Override
-        public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
-        }
-    };
-
-
     private void loadMore() {
         page++;
         getData();
@@ -517,18 +488,37 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         if (ptr != null) {
             ptr.refreshComplete();
         }
-
-        if (isHidden) {
-            isHidden = false;
-            location_tv.setScaleX(1);
-            location_tv.setScaleY(1);
-            zoomInViewSizeH(et_search,heigth);
-            zoomInViewSizeW(location_tv, width);
-            zoomInViewSizeW(location_tv_right,width);
-        }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
 
+        /**
+         * 过度动画结束后，恢复控件状态
+         */
+        if (isHidden) {
+            isHidden = false;
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            location_tv.setScaleX(1);
+                            location_tv.setScaleY(1);
+                            ViewUtil.zoomInViewSizeH(et_search, heigth);
+                            ViewUtil.zoomInViewSizeW(location_tv, width);
+                            ViewUtil.zoomInViewSizeW(location_tv_right, width);
+
+                        }
+                    });
+
+                }
+            }, 300);
+        }
+    }
 
     /**
      * 首页主数据
@@ -584,7 +574,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 }
                 AnimatorSet set = new AnimatorSet();
 
-
                 //loacation_tv 缩放
                 ObjectAnimator animator_x = ObjectAnimator.ofFloat(location_tv, "scaleX", 1f, 0);
                 ObjectAnimator animator_y = ObjectAnimator.ofFloat(location_tv, "scaleY", 1f, 0);
@@ -593,7 +582,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 ValueAnimator animator = ValueAnimator.ofObject(new TypeEvaluator() {
                     @Override
                     public Object evaluate(float v, Object o, Object t1) {
-                        int i = (int) ((1-v) * (int) o);
+                        int i = (int) ((1 - v) * (int) o);
                         return i;
                     }
                 }, width, 0);
@@ -605,9 +594,10 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                         int animatedValue = (int) valueAnimator.getAnimatedValue();
 
                         //et_search 减少6dp
-                        int et_search_height = heigth-(int)(DensityUtil.dip2px(context,6)*(1-animatedValue*1f/width));
+                        int et_search_height = heigth - (int) (DensityUtil.dip2px(context, 6) * (1 - animatedValue * 1f / width));
 
-                        mHandler.obtainMessage(1,animatedValue,et_search_height).sendToTarget();
+                        mHandler.obtainMessage(1, animatedValue, et_search_height).sendToTarget();
+
                     }
                 });
                 set.setDuration(200);
@@ -615,8 +605,10 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
+                        isHidden = true;
                         Intent intent = new Intent(context, SearchActivity.class);
                         context.startActivityForBack(intent);
+
                     }
                 });
                 set.start();
@@ -625,18 +617,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void zoomInViewSizeW(View v, int w)
-    {
-        ViewGroup.LayoutParams  lp = v.getLayoutParams();
-        lp.width =w;
-        v.setLayoutParams(lp);
-    }
-    private void zoomInViewSizeH(View v, int h)
-    {
-        ViewGroup.LayoutParams  lp = v.getLayoutParams();
-        lp.height =h;
-        v.setLayoutParams(lp);
-    }
+
+
 
 
     @Override

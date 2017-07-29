@@ -61,9 +61,9 @@ public class TabPageIndicator extends HorizontalScrollView {
     private int underlineColor = 0xFFdcdcdc;// 默认指示线的颜色
     private int dividerColor = 0x00000000;// 分割线的颜色
 
-    private boolean isSameLine;// 设置导航先是否跟文字长度一至
+    private boolean isSameLine;// 设置导航条是否跟文字长度一致
     private boolean textAllCaps;
-    private int lineLongerDim=20;  //导航线长文字多少 ,默认20dp
+    private int lineLongerDim = 20;  //导航线长文字多少 ,默认20dp
 
     private boolean isExpand;// 是否可扩展
     private boolean isExpandSameLine;// 可扩展并且导标一致
@@ -129,7 +129,7 @@ public class TabPageIndicator extends HorizontalScrollView {
         super(context, attrs, defStyle);
         this.mContext = context;
         setFillViewport(true);
-        setWillNotDraw(false);
+        setWillNotDraw(false); //要让onDraw函数被强制调用在view的构造函数调用setWillNotDraw(boolean )设置为false
 
         tabsContainer = new LinearLayout(context);
         tabsContainer.setOrientation(LinearLayout.HORIZONTAL);
@@ -191,41 +191,52 @@ public class TabPageIndicator extends HorizontalScrollView {
         }
     }
 
+    /**
+     * MODE_WEIGHT_NOEXPAND_SAME(0), // 平均分配，导航线跟标题相等
+     * MODE_WEIGHT_NOEXPAND_NOSAME(1), // 平均分配，导航线跟标题不相等
+     * MODE_NOWEIGHT_NOEXPAND_SAME(2),// 非平均分配，非扩展，导标相等
+     * MODE_NOWEIGHT_NOEXPAND_NOSAME(3),// 非平均分配，非扩展，导标不相等
+     * MODE_NOWEIGHT_EXPAND_SAME(4),// 可扩展，导标相等
+     * MODE_NOWEIGHT_EXPAND_NOSAME(5),// 不可扩展，导标不相等
+     * MODE_WEIGHT_NOEXPAND_NOSAME_LINE_LONGER(6); // 平均分配，导航线跟标题相等
+     *
+     * @param indicatorMode
+     */
 
     // 根据不同的Mode设置不同的展现效果
     public void setIndicatorMode(IndicatorMode indicatorMode) {
         switch (indicatorMode) {
-            case MODE_WEIGHT_NOEXPAND_SAME:
+            case MODE_WEIGHT_NOEXPAND_SAME:// 平均分配，导航线跟标题相等
                 isExpand = false;
                 isSameLine = true;
                 break;
-            case MODE_WEIGHT_NOEXPAND_NOSAME_LINE_LONGER:
+            case MODE_WEIGHT_NOEXPAND_NOSAME_LINE_LONGER:// 平均分配，导航线跟标题相等
                 isExpand = false;
                 isSameLine = true;
                 break;
 
-            case MODE_WEIGHT_NOEXPAND_NOSAME:
+            case MODE_WEIGHT_NOEXPAND_NOSAME:// 平均分配，导航线跟标题不相等
                 isExpand = false;
                 isSameLine = false;
                 break;
-            case MODE_NOWEIGHT_NOEXPAND_SAME:
+            case MODE_NOWEIGHT_NOEXPAND_SAME:// 非平均分配，非扩展，导标相等
                 isExpand = false;
                 isSameLine = true;
                 isExpandSameLine = true;
                 tabPadding = dip2px(10);
                 break;
-            case MODE_NOWEIGHT_NOEXPAND_NOSAME:
+            case MODE_NOWEIGHT_NOEXPAND_NOSAME:// 非平均分配，非扩展，导标不相等
                 isExpand = false;
                 isSameLine = true;
                 isExpandSameLine = true;
                 tabPadding = dip2px(10);
                 break;
-            case MODE_NOWEIGHT_EXPAND_SAME:
+            case MODE_NOWEIGHT_EXPAND_SAME:// 可扩展，导标相等
                 isExpand = true;
                 isExpandSameLine = true;
                 tabPadding = dip2px(10);
                 break;
-            case MODE_NOWEIGHT_EXPAND_NOSAME:
+            case MODE_NOWEIGHT_EXPAND_NOSAME:// 不可扩展，导标不相等
                 isExpand = true;
                 isExpandSameLine = false;
                 tabPadding = dip2px(10);
@@ -394,10 +405,7 @@ public class TabPageIndicator extends HorizontalScrollView {
             lastScrollX = newScrollX;
             scrollTo(newScrollX, 0);
         }
-
     }
-
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -442,7 +450,7 @@ public class TabPageIndicator extends HorizontalScrollView {
         }
         if (currentIndicatorMode == IndicatorMode.MODE_NOWEIGHT_NOEXPAND_NOSAME) {
             canvas.drawRect(lineLeft - tabPadding, height - indicatorHeight, lineRight + tabPadding, height, rectPaint);
-        }else {
+        } else {
             canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
         }
 //        if(isExpand&&!isExpandSameLine){
