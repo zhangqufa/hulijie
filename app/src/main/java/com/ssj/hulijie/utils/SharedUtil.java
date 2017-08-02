@@ -320,9 +320,15 @@ public final class SharedUtil {
         }
     }
 
-    public static void init() {
-        setPreferBool(SharedKey.USER_LOGINED, false);
-
+    /**
+     * 清除配置信息
+     * @param mthis
+     */
+    public static void init(Context mthis) {
+        SharedPreferences sp = mthis.getSharedPreferences(getPackageName(mthis), 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.apply();
     }
 
 }

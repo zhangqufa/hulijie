@@ -2,6 +2,7 @@ package com.ssj.hulijie.pro.mine.view;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -40,6 +41,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private ImageView img;
     private static final int REQUESTPERSIMMIONCODE = 100;
     private static final int REQUEST_LOGIN_CODE = 101;
+    private static final int REQUEST_TO_ORDER_LIST = 102;
     private TextView user, user_des;
 
     @Override
@@ -157,6 +159,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Intent intent = null;
+        boolean isForResult = false;
 
         switch (view.getId()) {
             case R.id.login:
@@ -180,29 +183,38 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 intent = new Intent(getContext(), CompanyShopInActivity.class);
                 break;
             case R.id.mine_order_list:
+                isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
 
                 break;
             case R.id.mine_no_complete:
+                isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 0);
                 break;
             case R.id.mine_complete:
+                isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 1);
                 break;
             case R.id.mine_wait_evaluate:
+                isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 2);
                 break;
             case R.id.mine_all_order:
+                isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 3);
                 break;
         }
 
-
-        if (intent != null) {
+        if (intent == null) {
+            return;
+        }
+        if (isForResult) {
+            startActivityForResult(intent, REQUEST_TO_ORDER_LIST);
+        } else {
             startActivity(intent);
 
         }
@@ -210,4 +222,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TO_ORDER_LIST && resultCode == Activity.RESULT_OK) {
+            ((MainActivity) getActivity()).changeTab(0);
+        }
+    }
 }

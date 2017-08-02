@@ -15,6 +15,8 @@
  */
 package com.ssj.hulijie.nohttp;
 
+import android.text.TextUtils;
+
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
@@ -92,7 +94,9 @@ public class CallServer {
 //            }
 //
 //        }
-        request.add("key", SharedUtil.getPreferStr(SharedKey.USER_KEY));
+        if (!TextUtils.isEmpty(SharedUtil.getPreferStr(SharedKey.USER_KEY))) {
+            request.add("key", SharedUtil.getPreferStr(SharedKey.USER_KEY));
+        }
         requestQueue.add(what, request, new HttpResponseListener<T>(context, request, callback, canCancel, isLoading));
     }
 

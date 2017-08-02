@@ -170,12 +170,14 @@ public class AddressActivity extends BaseActivity {
      */
     public void btn_commit(View view) {
         ((AddressManagerPresenter) presenter).addAddressPresenter(this
-                , et_address.getText().toString(), et_meng.getText().toString(), SharedUtil.getPreferStr(SharedKey.USER_MOBILE)
+                , et_address.getText().toString()
+                , et_meng.getText().toString()
+                , SharedUtil.getPreferStr(SharedKey.USER_MOBILE)
                 , SharedUtil.getPreferStr(SharedKey.USER_ID)
                 , ""
-               , new BasePresenter.OnUIThreadListener<Boolean>() {
+                , new BasePresenter.OnUIThreadListener<Boolean>() {
                     @Override
-                    public void onResult(Boolean result,int return_code) {
+                    public void onResult(Boolean result, int return_code) {
                         if (result) {
                             finish();
                         } else {
@@ -183,8 +185,6 @@ public class AddressActivity extends BaseActivity {
                         }
                     }
                 });
-
-
     }
 
     private TextWatcher listener = new WatcherAdapter() {

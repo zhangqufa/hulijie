@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,4 +7,37 @@
         android:layout_width="match_parent"
         android:id="@+id/temp_tv"
         android:layout_height="match_parent" />
-</LinearLayout>
+
+    <LinearLayout
+        android:background="@color/app_bg"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/order"
+            android:layout_height="wrap_content" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="还没有已完成的订单，赶紧去下一单吧！"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/toOrder"
+            android:layout_width="100dp"
+            android:text="立即预约"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_bg_huan_primary"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+</RelativeLayout>
