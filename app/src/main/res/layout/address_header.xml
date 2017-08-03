@@ -22,15 +22,16 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"
-            android:layout_width="35dp"
-            android:layout_height="35dp" />
+            android:src="@mipmap/address_city"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
 
         <com.ssj.hulijie.widget.editext.ClearEditText
             android:id="@+id/et_address"
             android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:background="@null"
+            android:textSize="15sp"
             android:hint="请搜索您的小区或大厦、街道名称"
             android:layout_toRightOf="@id/img1"
             android:textCursorDrawable="@null"
@@ -63,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_toRightOf="@id/img2"
             android:hint="请填写您的门牌号"
+            android:textSize="15sp"
             android:background="@null"
             android:textCursorDrawable="@null"
             android:layout_height="match_parent" />

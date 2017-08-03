@@ -46,7 +46,7 @@ public class TabContentFragment extends BaseFragment implements View.OnClickList
             case R.id.toOrder:
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
-
+                getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
                 break;
         }
     }

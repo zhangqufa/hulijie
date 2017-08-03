@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.mvp.view.MvpView;
 import com.ssj.hulijie.utils.AppManager;
@@ -41,7 +42,7 @@ public abstract class MvpActivity<P extends MvpBasePresenter> extends AppCompatA
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-//        overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
+        overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
     }
 
     @Override

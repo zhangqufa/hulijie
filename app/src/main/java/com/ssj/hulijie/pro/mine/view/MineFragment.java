@@ -84,6 +84,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         viewContent.findViewById(R.id.mine_complete).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_wait_evaluate).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_all_order).setOnClickListener(this);
+        viewContent.findViewById(R.id.btn_go_server).setOnClickListener(this);
 
         //show user_name
         user = (TextView) viewContent.findViewById(R.id.user);
@@ -206,6 +207,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 3);
+                break;
+            case R.id.btn_go_server:
+                intent = new Intent(getContext(), ServiceActivity.class);
                 break;
         }
 

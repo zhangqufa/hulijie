@@ -62,6 +62,22 @@
                         android:layout_marginTop="10dp"
                         android:text="个人信息" />
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_go_server"
+                    android:background="@drawable/shape_left_top_left_bottom_radius"
+                    android:gravity="right|center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:text="我的服务者"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:layout_height="40dp" />
             </RelativeLayout>
 
 

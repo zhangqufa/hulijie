@@ -127,9 +127,18 @@
         <activity
             android:name=".pro.mine.view.CompanyShopInActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Transparent" />
+            android:theme="@style/AppTheme.Transparent"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".pro.mine.view.MineOrderListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".pro.mine.view.ServiceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".pro.mine.view.ServiceTempPicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
 
