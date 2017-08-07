@@ -19,6 +19,7 @@ public class AppURL {
     public static final String URL_GET_VERIFY_CODE = URL_API + "/Home/sendcode";
     public static final String URL_LOGIN = URL_API + "/Home/logreg";
     public static final String URL_EDIT_ADDRESS = URL_API + "/Home/address_edit";
+    public static final String URL_DELETE_ADDRESS = URL_API + "/Home/address_del";
 
 
 }

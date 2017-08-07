@@ -36,15 +36,12 @@ public class FirstPageMainListAdapter extends BaseRecyclerAdapter<ItemFirstPageM
 
     @Override
     public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, ItemFirstPageMainList data) {
-
-
         if (viewHolder instanceof FirstPageMainListViewHolder) {
             FirstPageMainListViewHolder vh = (FirstPageMainListViewHolder) viewHolder;
             vh.title.setText(data.getName());
             vh.sub_title.setText(data.getTxt());
             vh.money.setText(data.getPrice());
-            Glide.with(context).load(data.getPic()).into(vh.img);
-
+            Glide.with(context).load(data.getPic()).crossFade().into(vh.img); //加载图片
         }
     }
 

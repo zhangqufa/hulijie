@@ -101,4 +101,37 @@ public class AddressManagerPresenter extends BasePresenter<AddressManagerModel> 
             }
         });
     }
+
+
+    public void deleteAddressPresenter(BaseActivity content, String user_id, String addr_id,
+                                    final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().deleteddressModel(content, user_id,addr_id, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+
+                if (jsonObject != null) {
+                    AppLog.Log("delete_address: "+jsonObject.toString());
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (code == Constant.SUCCESS_CODE) {
+                            AppLog.Log("address success!!");
+                            onUIThreadListener.onResult(true,code);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(null,0);
+                    }
+
+                } else {
+                    onUIThreadListener.onResult(null,0);
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(null,0);
+            }
+        });
+    }
 }

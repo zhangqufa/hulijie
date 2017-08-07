@@ -175,8 +175,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
                 default:
                     break;
             }
-
-
         }
 
     };

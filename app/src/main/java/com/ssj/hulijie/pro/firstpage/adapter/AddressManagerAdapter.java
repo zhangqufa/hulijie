@@ -43,8 +43,8 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
     }
 
     @Override
-    public void onBindViewHolder(AddressManagerViewHolder holder, int position) {
-        AddressItem addressItem = lists.get(position);
+    public void onBindViewHolder(AddressManagerViewHolder holder, final int position) {
+        final AddressItem addressItem = lists.get(position);
         AppLog.Log("addressItem: "+addressItem);
         holder.item_select_address.setText(addressItem.getRegion_name());
         holder.item_address_iv.setVisibility(View.GONE);
@@ -56,6 +56,15 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
         if (addressItem.isEdit()) {
             holder.item_address_delete.setVisibility(View.VISIBLE);
         }
+
+        holder.item_address_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (deleteCallback != null) {
+                   deleteCallback.deleteCallback(addressItem ,position);
+                }
+            }
+        });
     }
 
     @Override
@@ -74,4 +83,16 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
             item_address_delete = (ImageView)itemView.findViewById(R.id.item_address_delete);
         }
     }
+
+    public interface AddressDeleteCallback<T>{
+        void  deleteCallback(T t,int position);
+    }
+
+    private AddressDeleteCallback deleteCallback;
+
+    public void setDeleteCallback(AddressDeleteCallback callback) {
+        this.deleteCallback = callback;
+    }
+
+
 }

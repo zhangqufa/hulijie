@@ -26,17 +26,19 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/addAddress"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="2"
             android:background="@drawable/shape_bg_huan_666666"
             android:gravity="center"
             android:onClick="addAddress"
+            android:layout_marginRight="10dp"
             android:text="+添加新地址"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <Button
-            android:layout_marginLeft="10dp"
+            android:id="@+id/editAddress"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
@@ -44,6 +46,6 @@
             android:gravity="center"
             android:onClick="editAddress"
             android:text="编辑"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>

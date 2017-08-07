@@ -46,5 +46,13 @@ public class AddressManagerModel extends BaseModel {
         CallServer.getRequestInstance().add(content,0,request,httpListener,true,true);
 
     }
+    public void deleteddressModel(BaseActivity content, String user_id, String addr_id,HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_DELETE_ADDRESS;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("user_id", user_id);
+        request.add("addr_id", addr_id);
+        CallServer.getRequestInstance().add(content,0,request,httpListener,true,true);
+
+    }
 
 }
