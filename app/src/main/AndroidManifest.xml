@@ -141,6 +141,10 @@
             android:name=".pro.mine.view.ServiceTempPicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".pro.firstpage.view.PayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
 
 
         <meta-data

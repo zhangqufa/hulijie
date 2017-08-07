@@ -10,6 +10,7 @@ import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceAndEvaluateItem;
+import com.ssj.hulijie.pro.firstpage.bean.DetailServiceEvaluate;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.pro.firstpage.bean.EvaluateItem;
 import com.ssj.hulijie.pro.firstpage.model.DetailModel;
@@ -42,6 +43,7 @@ public class DetailPresenter extends BasePresenter<DetailModel> {
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
                 if (jsonObject != null) {
+                    AppLog.Log("服务详情_original: " + jsonObject.toString());
                     try {
                         int code = jsonObject.getIntValue("code");
                         if (code == Constant.SUCCESS_CODE) {
@@ -73,24 +75,12 @@ public class DetailPresenter extends BasePresenter<DetailModel> {
 //                                    "}";
                             JSONObject data_temp = JSONObject.parseObject(data);
                             String info = data_temp.getString("info");
-                            AppLog.Log("info: " + info);
                             String evaluate = data_temp.getString("evaluate");
-                            AppLog.Log("evaluate: "+evaluate);
-                            JSONObject evaluate_ojb=JSON.parseObject(evaluate);
-                            String rows = evaluate_ojb.getString("rows");
-                            AppLog.Log("rows: "+rows);
                             DetailServiceItem detailServiceItem1 = JSON.parseObject(info, DetailServiceItem.class);
-                            AppLog.Log("detailServiceItem1:" + detailServiceItem1);
-                            List<EvaluateItem> evaluateItems = new ArrayList<>(JSONArray.parseArray(rows, EvaluateItem.class));
-                            AppLog.Log("evaluateItem: "+evaluateItems);
+                            DetailServiceEvaluate evaluateItems = JSON.parseObject(evaluate, DetailServiceEvaluate.class);
                             DetailServiceAndEvaluateItem item = new DetailServiceAndEvaluateItem();
                             item.setDetail(detailServiceItem1);
                             item.setEvaluate(evaluateItems);
-
-
-
-
-
                             onUIThreadListener.onResult(item,code);
                             AppLog.Log("服务详情: " + item.toString());
                         }

@@ -10,16 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.utils.ImageUrlFormat;
 
 import java.util.List;
-
-import static android.R.attr.description;
-import static com.ssj.hulijie.R.id.detail_descript_img;
 
 /**
  * Created by Administrator on 2017/7/11.
@@ -28,9 +24,11 @@ import static com.ssj.hulijie.R.id.detail_descript_img;
 public class DetailImageAdapter extends RecyclerView.Adapter <DetailImageAdapter.DetailImageViewHolder>{
    private Context context;
     private List<String> lists;
+    private int width ;
 
-    public DetailImageAdapter(Context context) {
+    public DetailImageAdapter(Context context,int width) {
         this.context = context;
+        this.width = width;
     }
 
     public void setLists(List<String> lists) {
@@ -47,13 +45,20 @@ public class DetailImageAdapter extends RecyclerView.Adapter <DetailImageAdapter
     @Override
     public void onBindViewHolder(final DetailImageViewHolder holder, int position) {
         String url = lists.get(position);
-        String url_format = ImageUrlFormat.urlFormat(url);
-        Glide.with(context).asBitmap().load(url_format).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-            @Override
-            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                showPic(resource, holder.detail_descript_img);
-            }
-        });
+        final String url_format = ImageUrlFormat.urlFormat(url);
+//        AppLog.Log("url_images: "+url_format);
+        Glide.with(context)
+                .load(url_format)
+                .asBitmap()
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.loading_error)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        showPic(resource, holder.detail_descript_img);
+                    }
+                });
+
     }
 
     /**
@@ -64,13 +69,12 @@ public class DetailImageAdapter extends RecyclerView.Adapter <DetailImageAdapter
     private void showPic(Bitmap resource,ImageView iv) {
         int imageWidth = resource.getWidth();
         int imageHeight = resource.getHeight();
-        int width = iv.getWidth();
         LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) iv.getLayoutParams();
-        int height =width * imageHeight / imageWidth;
-        para.height = height;
+        para.height = width * imageHeight / imageWidth;
         para.width = width;
         iv.setLayoutParams(para);
         iv.setImageBitmap(resource);
+
     }
 
     @Override

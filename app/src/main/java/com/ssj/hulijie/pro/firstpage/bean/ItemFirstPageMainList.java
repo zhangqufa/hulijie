@@ -11,7 +11,7 @@ import com.ssj.hulijie.utils.ImageUrlFormat;
  */
 
 public class ItemFirstPageMainList implements Parcelable {
-    private String id;
+    private String goods_id;
     private String name;
     private String pic;
     private String txt;
@@ -21,7 +21,7 @@ public class ItemFirstPageMainList implements Parcelable {
     }
 
     protected ItemFirstPageMainList(Parcel in) {
-        id = in.readString();
+        goods_id = in.readString();
         name = in.readString();
         pic = in.readString();
         txt = in.readString();
@@ -40,12 +40,12 @@ public class ItemFirstPageMainList implements Parcelable {
         }
     };
 
-    public String getId() {
-        return id;
+    public String getGoods_id() {
+        return goods_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setGoods_id(String goods_id) {
+        this.goods_id = goods_id;
     }
 
     public String getName() {
@@ -88,7 +88,7 @@ public class ItemFirstPageMainList implements Parcelable {
                 ", txt='" + txt + '\'' +
                 ", pic='" + pic + '\'' +
                 ", name='" + name + '\'' +
-                ", id='" + id + '\'' +
+                ", goods_id='" + goods_id + '\'' +
                 '}';
     }
 
@@ -99,7 +99,7 @@ public class ItemFirstPageMainList implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
+        parcel.writeString(goods_id);
         parcel.writeString(name);
         parcel.writeString(pic);
         parcel.writeString(txt);

@@ -21,8 +21,7 @@
                 android:id="@+id/detail_img"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:src="@mipmap/ic_launcher"
-                android:visibility="visible" />
+                />
 
 
             <TextView
@@ -99,6 +98,12 @@
             <include layout="@layout/horizontal_bg_8_dp" />
 
 
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/evaluate_base"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <RelativeLayout
                 android:id="@+id/check_all_evaluate"
                 android:layout_width="match_parent"
@@ -153,6 +158,7 @@
                 android:layout_height="45dp">
 
                 <TextView
+                    android:id="@+id/evaluate_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -169,6 +175,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dip"
                     android:isIndicator="true"
+                    android:id="@+id/evaluate_level"
                     android:numStars="5"
                     android:progressBackgroundTint="@color/comm_grey_cccccc"
                     android:progressTint="@color/colorAccent"
@@ -179,6 +186,7 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/evaluate_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -190,6 +198,7 @@
 
             <include layout="@layout/horizontal_bg_8_dp" />
 
+            </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="45dp"

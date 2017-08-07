@@ -43,7 +43,6 @@
         android:id="@+id/header_rv_four_part_iv"
         android:layout_width="50dp"
         android:layout_marginRight="10dp"
-        android:src="@mipmap/ic_launcher"
         android:layout_height="50dp" />
 
 

@@ -16,8 +16,7 @@
             android:id="@+id/listview_item_imageview"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_marginRight="10dp" />
 
         <TextView
             android:id="@+id/first_title"

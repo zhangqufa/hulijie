@@ -27,7 +27,7 @@ public class AddressManagerModel extends BaseModel {
 
     public void getAddressModel(BaseActivity content,String user_id,String addr_id, HttpListener listener){
         String url = AppURL.URL_ADDRESS_LIST;
-        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.GET);
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
         request.add("user_id", user_id);
         request.add("addr_id", addr_id);
         CallServer.getRequestInstance().add(content,0,request,listener,true,true);

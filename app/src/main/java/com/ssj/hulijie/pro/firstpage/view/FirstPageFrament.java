@@ -18,12 +18,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -36,7 +30,6 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.base.HljAppliation;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
-import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageHeaderFourPartAdappter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainHeaderAdapter;
@@ -65,8 +58,6 @@ import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
-import in.srain.cube.views.ptr.PtrUIHandler;
-import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -432,9 +423,11 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         @Override
         public void onItemClick(int position, FourpartData data) {
             ItemFirstPageMainList item = new ItemFirstPageMainList();
+            item.setGoods_id("3173"); //// TODO: 2017/8/7
             Intent intent = new Intent(getActivity(), DetailInfoActivity.class);
             intent.putExtra("item", item);
             startActivity(intent);
+
         }
     };
 

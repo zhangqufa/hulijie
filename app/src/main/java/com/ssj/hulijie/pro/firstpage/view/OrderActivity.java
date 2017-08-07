@@ -15,8 +15,8 @@ import android.widget.TextView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
-import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.Arrays;
@@ -42,6 +42,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     public final static int REQUEST_ADDRESS = 100;
     private SelectPopWindow menuWindow;
     private TextView select_time;
+    private ItemFirstPageMainList item;
 
 
     @Override
@@ -53,6 +54,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_order_progress);
+        item = getIntent().getParcelableExtra("item");
         initView();
     }
 
@@ -81,6 +83,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
 
         findViewById(R.id.select_address).setOnClickListener(this);
         findViewById(R.id.select_service_time_base).setOnClickListener(this);
+        findViewById(R.id.btn_pay).setOnClickListener(this);
         select_time = (TextView) findViewById(R.id.select_time);
     }
 
@@ -131,6 +134,11 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
             case R.id.select_service_time_base:
                 open(view);
 
+                break;
+            case R.id.btn_pay:
+                Intent intent1 = new Intent(this, PayActivity.class);
+                intent1.putExtra("item", item);
+                startActivity(intent1);
                 break;
         }
     }

@@ -9,7 +9,7 @@ import java.util.List;
 public class DetailServiceAndEvaluateItem {
 
     private DetailServiceItem info;
-    private List<EvaluateItem> evaluate;
+    private DetailServiceEvaluate evaluate;
 
     public DetailServiceItem getDetail() {
         return info;
@@ -19,12 +19,12 @@ public class DetailServiceAndEvaluateItem {
         this.info = info;
     }
 
-    public List<EvaluateItem> getEvaluate() {
-        return evaluate;
+    public DetailServiceItem getInfo() {
+        return info;
     }
 
-    public void setEvaluate(List<EvaluateItem> evaluate) {
-        this.evaluate = evaluate;
+    public void setInfo(DetailServiceItem info) {
+        this.info = info;
     }
 
     @Override
@@ -33,5 +33,13 @@ public class DetailServiceAndEvaluateItem {
                 "info=" + info +
                 ", evaluate=" + evaluate +
                 '}';
+    }
+
+    public DetailServiceEvaluate getEvaluate() {
+        return evaluate;
+    }
+
+    public void setEvaluate(DetailServiceEvaluate evaluate) {
+        this.evaluate = evaluate;
     }
 }

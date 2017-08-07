@@ -54,9 +54,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"
-            android:layout_width="35dp"
-            android:layout_height="35dp" />
+            android:src="@mipmap/door"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
 
         <com.ssj.hulijie.widget.editext.ClearEditText
             android:id="@+id/et_meng"

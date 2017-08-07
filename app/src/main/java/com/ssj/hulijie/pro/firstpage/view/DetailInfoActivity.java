@@ -6,9 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.AppCompatRatingBar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,25 +15,27 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.DetailImageAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceAndEvaluateItem;
+import com.ssj.hulijie.pro.firstpage.bean.DetailServiceEvaluate;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
+import com.ssj.hulijie.pro.firstpage.bean.EvaluateItem;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.pro.firstpage.presenter.DetailPresenter;
-import com.ssj.hulijie.pro.firstpage.view.location.PingYinUtil;
+import com.ssj.hulijie.pro.firstpage.view.widget.LinearLayoutManagerInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
 import com.ssj.hulijie.utils.AppLog;
-import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.DensityUtil;
+import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.PictureUtil;
 
 import java.io.ByteArrayInputStream;
@@ -49,12 +49,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.R.attr.breadCrumbShortTitle;
-import static android.R.attr.description;
-import static android.R.attr.resource;
-import static com.ssj.hulijie.R.id.cancel_action;
-import static com.ssj.hulijie.R.id.iv;
-
 
 /**
  * Created by Administrator on 2017/6/13.
@@ -62,7 +56,6 @@ import static com.ssj.hulijie.R.id.iv;
 
 public class DetailInfoActivity extends BaseActivity implements View.OnClickListener {
     private ItemFirstPageMainList item;
-    private Toolbar toolbar;
     private MyScrollView sv;
     private int height;
     private TextView nav_center_title;
@@ -79,7 +72,11 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private TextView detail_evaluate_count; //评论数
     private RecylerViewInScrollView detail_descript_img_rv;
     private DetailImageAdapter adapter;
+    private LinearLayout evaluate_base;
 
+    private TextView evaluate_user;
+    private TextView evaluate_txt;
+    private AppCompatRatingBar evaluate_level;
 
     @Override
     public MvpBasePresenter bindPresenter() {
@@ -93,9 +90,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         setContentView(R.layout.act_service_detail);
         item = getIntent().getParcelableExtra("item");
         AppLog.Log("Item: " + item);
-
         initView();
-
         initData();
     }
 
@@ -105,7 +100,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         }
 
 
-        mPresenter.getDetailPresenter(this, "3173", new BasePresenter.OnUIThreadListener<DetailServiceAndEvaluateItem>() {
+        mPresenter.getDetailPresenter(this, item.getGoods_id(), new BasePresenter.OnUIThreadListener<DetailServiceAndEvaluateItem>() {
             @Override
             public void onResult(DetailServiceAndEvaluateItem result,int return_code) {
                 if (result != null) {
@@ -119,9 +114,50 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private void updateUI(DetailServiceAndEvaluateItem result) {
         if (result != null) {
             DetailServiceItem detail = result.getDetail();
+            DetailServiceEvaluate evaluate = result.getEvaluate();
+            //show evaluate
+            if (evaluate != null && evaluate.getRows()!=null&&evaluate.getRows().size() > 0) {
+                evaluate_base.setVisibility(View.VISIBLE);
+                //show evaluate count
+                detail_evaluate_count.setText("("+evaluate.getCount()+")");
+                //show first evaluate title
+                EvaluateItem evaluateItem = evaluate.getRows().get(0);
+                if (evaluate != null) {
+
+                    evaluate_user.setText(""); //// TODO: 2017/8/7 评论没有传用户
+                    //show evaluate level
+                    evaluate_level.setRating(evaluateItem.getEvaluation());
+
+                    //show first evaluate describe
+                    evaluate_txt.setText(evaluateItem.getComment());
+                }
+            } else {
+                evaluate_base.setVisibility(View.GONE);
+            }
+
             //show pic
             String default_image_rul = detail.getDefault_image();
             AppLog.Log("default_image_rul:  " + default_image_rul);
+
+            Glide.with(this)
+                    .load(default_image_rul)
+                    .asBitmap()
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.loading_error)
+                    .thumbnail(0.1f)
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            int imageWidth = resource.getWidth();
+                            int imageHeight = resource.getHeight();
+                            LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) detail_img.getLayoutParams();
+                            para.height = DisplayUtils.screenWidth * imageHeight / imageWidth;
+                            para.width = DisplayUtils.screenWidth;
+                            detail_img.setLayoutParams(para);
+                            detail_img.setImageBitmap(resource);
+                        }
+                    });
+
             //show title
             String cate_name = detail.getGoods_name();
             detail_title.setText(cate_name);
@@ -144,8 +180,12 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
 
     private void initView() {
+        evaluate_level = (AppCompatRatingBar) findViewById(R.id.evaluate_level);
         toolbar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
+        evaluate_base = (LinearLayout) findViewById(R.id.evaluate_base);
 
+        evaluate_user = (TextView) findViewById(R.id.evaluate_user);
+        evaluate_txt = (TextView) findViewById(R.id.evaluate_txt);
         nav_center_title = (TextView) findViewById(R.id.tv_navigation_center);
         iv_navigation_back = (ImageView) findViewById(R.id.iv_navigation_back);
         iv_navigation_right = (ImageView) findViewById(R.id.iv_navigation_right);
@@ -165,8 +205,11 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.check_all_evaluate).setOnClickListener(this);
 
         detail_descript_img_rv = (RecylerViewInScrollView) findViewById(R.id.detail_descript_img_rv);
-        detail_descript_img_rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new DetailImageAdapter(this);
+        detail_descript_img_rv.setLayoutManager(new LinearLayoutManagerInScrollView(this));
+        DisplayUtils.initScreen(this);
+        int screenWidth = DisplayUtils.screenWidth- DensityUtil.dip2px(this,20);
+        AppLog.Log("screenWidth:" + screenWidth);
+        adapter = new DetailImageAdapter(this,screenWidth);
         detail_descript_img_rv.setAdapter(adapter);
     }
 
@@ -221,7 +264,9 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
             case R.id.order_btn:
 
-                startActivity(new Intent(this, OrderActivity.class));
+                Intent i = new Intent(this, OrderActivity.class);
+                i.putExtra("item", item);
+                startActivity(i);
                 break;
             case R.id.check_all_evaluate:
                 startActivity(new Intent(this,CheckAllEvaluateActivity.class));

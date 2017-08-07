@@ -44,7 +44,7 @@ public class FirstPageMainHeaderAdapter extends RecyclerView.Adapter<FirstPageMa
         final ItemFirstPageMainHeaderList item = data.get(position);
         holder.rv_header_rv_tv.setText(item.getName());
 
-        Glide.with(context).load(item.getPic()).into(holder.rv_header_rv_iv);
+        Glide.with(context).load(item.getPic()).animate(R.anim.scale_pic).into(holder.rv_header_rv_iv);
         if (listener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -9,8 +9,7 @@
     <ImageView
         android:id="@+id/rv_header_rv_iv"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_height="50dp"/>
 
     <TextView
         android:id="@+id/rv_header_rv_tv"
