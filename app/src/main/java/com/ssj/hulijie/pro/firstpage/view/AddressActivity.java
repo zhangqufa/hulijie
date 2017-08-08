@@ -176,8 +176,13 @@ public class AddressActivity extends BaseActivity {
      * @param view
      */
     public void btn_commit(View view) {
+        if (TextUtils.isEmpty(et_address.getText().toString()) || TextUtils.isEmpty(et_meng.getText().toString())) {
+            AppToast.ShowToast("内容不可为空");
+            return;
+        }
+
         ((AddressManagerPresenter) presenter).addAddressPresenter(this
-                , poiSearchResults.getMaddress()
+                , poiSearchResults==null?"":poiSearchResults.getMaddress()
                 , et_address.getText().toString() + " " + et_meng.getText().toString()
                 , SharedUtil.getPreferStr(SharedKey.USER_MOBILE)
                 , SharedUtil.getPreferStr(SharedKey.USER_ID)

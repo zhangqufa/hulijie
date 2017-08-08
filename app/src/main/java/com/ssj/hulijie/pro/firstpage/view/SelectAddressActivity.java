@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.ssj.hulijie.R;
@@ -88,7 +87,7 @@ public class SelectAddressActivity extends BaseActivity {
         rv_address=(RecyclerView)findViewById(R.id.rv_address);
         rv_address.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AddressManagerAdapter(this);
-        adapter.setDeleteCallback(callback);
+        adapter.setDeleteCallback(deleteCallback);
         if (TextUtils.isEmpty(mine_to_select)&&!MineFragment.MINE_TO_SELECTADRESS.equals(mine_to_select)) {
             adapter.setSelectCallBack(selectCallBack);
         }
@@ -107,7 +106,7 @@ public class SelectAddressActivity extends BaseActivity {
         }
     };
 
-    private AddressManagerAdapter.AddressDeleteCallback callback    = new AddressManagerAdapter.AddressDeleteCallback<AddressItem>() {
+    private AddressManagerAdapter.AddressDeleteCallback deleteCallback = new AddressManagerAdapter.AddressDeleteCallback<AddressItem>() {
 
         @Override
         public void deleteCallback(AddressItem addressItem, final int position) {
@@ -139,8 +138,9 @@ public class SelectAddressActivity extends BaseActivity {
             @Override
             public void onResult(Boolean result, int return_code) {
                 if (return_code == Constant.SUCCESS_CODE) {
-                    lists.remove(position);
-                    adapter.notifyItemChanged(position);
+//                    lists.remove(position);
+//                    adapter.notifyItemChanged(position);
+                    initData();
                 }
             }
         });
