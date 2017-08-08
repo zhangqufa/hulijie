@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="45dp">
+
+
+    <TextView
+
+        android:layout_marginLeft="10dp"
+        android:text="飞跃集团28号"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_select_address"
+        android:textSize="15sp"
+        />
+
+    <ImageView
+        android:id="@+id/item_address_iv"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/address_sel_seleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/item_address_delete"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/address_icon_sel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

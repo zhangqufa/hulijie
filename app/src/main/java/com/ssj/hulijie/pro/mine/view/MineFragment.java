@@ -17,6 +17,7 @@ import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.view.AddressActivity;
 import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 import com.ssj.hulijie.pro.firstpage.view.SelectAddressActivity;
+import com.ssj.hulijie.pro.firstpage.view.SelectAddressManagerActivity;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
@@ -43,6 +44,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private static final int REQUEST_LOGIN_CODE = 101;
     private static final int REQUEST_TO_ORDER_LIST = 102;
     private TextView user, user_des;
+
+    public static final String MINE_TO_SELECTADRESS = "mine_to_select_address";
 
     @Override
     public int getContentView() {
@@ -172,6 +175,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.mine_address:
                 intent = new Intent(getContext(), SelectAddressActivity.class);
+                intent.putExtra(MINE_TO_SELECTADRESS, MINE_TO_SELECTADRESS);
                 break;
             case R.id.mine_contact:
                 //用intent启动拨打电话

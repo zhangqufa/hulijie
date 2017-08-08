@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,8 @@ public class AddressActivity extends BaseActivity {
     private PoiSearch mPoiSearch;
     private List<PoiSearchResults> lists = new ArrayList<>();
     private boolean isTextWatcher = true;  //是否监听 Text变化， 主要解决， removeTextWatcher，不及时，导致remove后还会去执行监听
-
+    private  AddressItem addressItem;
+    private PoiSearchResults poiSearchResults;
     @Override
     public MvpBasePresenter bindPresenter() {
         return new AddressManagerPresenter(this);
@@ -70,6 +72,7 @@ public class AddressActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_address);
+         addressItem  = getIntent().getParcelableExtra("addressItem");
         initToolbar();
         initView();
         initSearchPoi();
@@ -130,7 +133,11 @@ public class AddressActivity extends BaseActivity {
     private AddressAdapter.OnItemClickListener<PoiSearchResults> itemClickListener = new BaseRecyclerAdapter.OnItemClickListener<PoiSearchResults>() {
         @Override
         public void onItemClick(int position, PoiSearchResults data) {
-            AppLog.Log("remove before");
+            AppLog.Log("data:"+data.toString());
+            if (data == null) {
+                return;
+            }
+            poiSearchResults = data;
             et_address.removeTextChangedListener(listener);
             isTextWatcher = false;
             et_address.setText(data.getMname());
@@ -170,11 +177,11 @@ public class AddressActivity extends BaseActivity {
      */
     public void btn_commit(View view) {
         ((AddressManagerPresenter) presenter).addAddressPresenter(this
-                , et_address.getText().toString()
-                , et_meng.getText().toString()
+                , poiSearchResults.getMaddress()
+                , et_address.getText().toString() + " " + et_meng.getText().toString()
                 , SharedUtil.getPreferStr(SharedKey.USER_MOBILE)
                 , SharedUtil.getPreferStr(SharedKey.USER_ID)
-                , ""
+                , addressItem==null? "" : addressItem.getAddr_id()
                 , new BasePresenter.OnUIThreadListener<Boolean>() {
                     @Override
                     public void onResult(Boolean result, int return_code) {

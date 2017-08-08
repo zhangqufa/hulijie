@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
 import com.ssj.hulijie.utils.TitlebarUtil;
@@ -36,6 +37,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     private View bottom_btn;
     private View scroll_btn;
     private TextView tv_mark;
+    private TextView order_address;
     private String date;
     private String time;
 
@@ -75,6 +77,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
         bottom_btn = findViewById(R.id.bottom_btn);
         scroll_btn = findViewById(R.id.scroll_btn);
 
+        order_address=(TextView)findViewById(R.id.order_address);
         tv_mark=(TextView)findViewById(R.id.tv_mark);
         String html_str = "<font color='#FF246E'>请仔细核对您填写的手机号</font>，并保持电话畅通，商家会在服务开始前与此号码沟通服务具体事宜";
         Spanned spanned = Html.fromHtml(html_str);
@@ -110,6 +113,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
             }
         },null);
     }
+
 
 
 
@@ -219,5 +223,17 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
             order_sub.setClickable(false);
         }
         order_buy_count.setText(count + "");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ADDRESS && resultCode == RESULT_OK) {
+            AddressItem addressItem = data.getParcelableExtra("addressItem");
+            if (addressItem != null) {
+                order_address.setText(addressItem.getAddress());
+
+            }
+        }
     }
 }

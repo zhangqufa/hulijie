@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -18,7 +17,7 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.AddressManagerAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
 import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
-import com.ssj.hulijie.pro.mine.view.MineFragment;
+import com.ssj.hulijie.pro.firstpage.view.widget.DividerItemDecoration;
 import com.ssj.hulijie.utils.Constant;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
@@ -32,14 +31,16 @@ import java.util.List;
  * on 2017/7/5
  */
 
-public class SelectAddressActivity extends BaseActivity {
+public class SelectAddressManagerActivity extends BaseActivity {
 
     public static final int REQUESTCODE = 101;
     private RecyclerView rv_address;
     private AddressManagerAdapter adapter;
     private AddressManagerPresenter presenter;
     private List<AddressItem> lists = new ArrayList<>();
-    private String mine_to_select;
+    private Button addAddress;
+    private int defaultAddress;
+
 
 
     @Override
@@ -51,8 +52,7 @@ public class SelectAddressActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_select_address);
-        mine_to_select = getIntent().getStringExtra(MineFragment.MINE_TO_SELECTADRESS);
+        setContentView(R.layout.act_select_address_manager);
         initToolbar();
         initView();
     }
@@ -70,6 +70,7 @@ public class SelectAddressActivity extends BaseActivity {
                 if (result != null&&result.size()>0) {
                     for (int i  =0;i<result.size();i++) {
                         if (i == 0) {
+                            defaultAddress = 0;
                             AddressItem addressItem = result.get(i);
                             addressItem.setDefault(true);
                         }
@@ -87,25 +88,14 @@ public class SelectAddressActivity extends BaseActivity {
     private void initView() {
         rv_address=(RecyclerView)findViewById(R.id.rv_address);
         rv_address.setLayoutManager(new LinearLayoutManager(this));
+        rv_address.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
         adapter = new AddressManagerAdapter(this);
         adapter.setDeleteCallback(callback);
-        if (TextUtils.isEmpty(mine_to_select)&&!MineFragment.MINE_TO_SELECTADRESS.equals(mine_to_select)) {
-            adapter.setSelectCallBack(selectCallBack);
-        }
         rv_address.setAdapter(adapter);
 
+        addAddress = (Button) findViewById(R.id.addAddress);
 
     }
-
-    private AddressManagerAdapter.AddressSelectCallBack selectCallBack  = new AddressManagerAdapter.AddressSelectCallBack<AddressItem>() {
-        @Override
-        public void onAddressSelectCallBack(AddressItem o, int position) {
-            Intent intent = new Intent();
-            intent.putExtra("addressItem", o);
-            setResult(RESULT_OK,intent);
-            finish();
-        }
-    };
 
     private AddressManagerAdapter.AddressDeleteCallback callback    = new AddressManagerAdapter.AddressDeleteCallback<AddressItem>() {
 
@@ -135,7 +125,7 @@ public class SelectAddressActivity extends BaseActivity {
     }
 
     private void requestDeleteNet(AddressItem addressItem,final int position) {
-        presenter.deleteAddressPresenter(SelectAddressActivity.this, SharedUtil.getPreferStr(SharedKey.USER_ID), addressItem.getAddr_id(), new BasePresenter.OnUIThreadListener<Boolean>() {
+        presenter.deleteAddressPresenter(SelectAddressManagerActivity.this, SharedUtil.getPreferStr(SharedKey.USER_ID), addressItem.getAddr_id(), new BasePresenter.OnUIThreadListener<Boolean>() {
             @Override
             public void onResult(Boolean result, int return_code) {
                 if (return_code == Constant.SUCCESS_CODE) {
