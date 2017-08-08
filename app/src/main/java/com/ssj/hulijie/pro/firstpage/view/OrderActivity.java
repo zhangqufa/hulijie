@@ -8,10 +8,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
@@ -46,6 +48,11 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     private TextView select_time;
     private ItemFirstPageMainList item;
 
+    private ImageView order_img;
+    private TextView order_title;
+    private TextView order_price;
+    private TextView order_price_total;
+
 
     @Override
     public MvpBasePresenter bindPresenter() {
@@ -58,6 +65,19 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.act_order_progress);
         item = getIntent().getParcelableExtra("item");
         initView();
+
+        updateUI();
+    }
+
+    private void updateUI() {
+        if (item != null) {
+
+            Glide.with(this).load(item.getPic()).into(order_img);
+            order_title.setText(item.getName());
+            order_price.setText("￥"+item.getPrice());
+            order_price_total.setText("￥"+item.getPrice());
+        }
+
     }
 
     private void initView() {
@@ -88,6 +108,11 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.select_service_time_base).setOnClickListener(this);
         findViewById(R.id.btn_pay).setOnClickListener(this);
         select_time = (TextView) findViewById(R.id.select_time);
+        order_price = (TextView) findViewById(R.id.order_price);
+        order_title = (TextView) findViewById(R.id.order_title);
+        order_price_total = (TextView) findViewById(R.id.order_price_total);
+
+        order_img = (ImageView) findViewById(R.id.order_img);
     }
 
 
@@ -223,6 +248,9 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
             order_sub.setClickable(false);
         }
         order_buy_count.setText(count + "");
+
+        float v = Float.valueOf(order_buy_count.getText().toString()) * Float.valueOf(item.getPrice());
+        order_price_total.setText("￥"+v);
     }
 
     @Override

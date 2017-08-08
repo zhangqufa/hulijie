@@ -175,7 +175,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.mine_address:
                 intent = new Intent(getContext(), SelectAddressActivity.class);
-                intent.putExtra(MINE_TO_SELECTADRESS, MINE_TO_SELECTADRESS);
+                intent.putExtra(MINE_TO_SELECTADRESS, MINE_TO_SELECTADRESS);  //由我的 页进入地址管理 不注册 itemclick
                 break;
             case R.id.mine_contact:
                 //用intent启动拨打电话

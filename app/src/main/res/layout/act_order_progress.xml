@@ -63,6 +63,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/order_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lines="1"
@@ -432,8 +433,10 @@
         android:id="@+id/bottom_btn"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@android:color/white"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white">
+        android:layout_toRightOf="@+id/getfocus"
+        android:layout_toEndOf="@+id/getfocus">
 
         <View
             android:layout_width="match_parent"
@@ -451,6 +454,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/order_price_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/temp1"
