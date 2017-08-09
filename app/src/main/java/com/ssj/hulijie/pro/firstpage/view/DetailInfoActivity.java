@@ -1,11 +1,17 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,10 +39,13 @@ import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
+import com.ssj.hulijie.pro.mine.view.MineFragment;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.PictureUtil;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -48,6 +57,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static com.ssj.hulijie.pro.mine.view.MineFragment.REQUESTPERSIMMIONCODE;
 
 
 /**
@@ -102,7 +113,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
         mPresenter.getDetailPresenter(this, item.getGoods_id(), new BasePresenter.OnUIThreadListener<DetailServiceAndEvaluateItem>() {
             @Override
-            public void onResult(DetailServiceAndEvaluateItem result,int return_code) {
+            public void onResult(DetailServiceAndEvaluateItem result, int return_code) {
                 if (result != null) {
                     AppLog.Log("detail: " + result.toString());
                     updateUI(result);
@@ -116,10 +127,10 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             DetailServiceItem detail = result.getDetail();
             DetailServiceEvaluate evaluate = result.getEvaluate();
             //show evaluate
-            if (evaluate != null && evaluate.getRows()!=null&&evaluate.getRows().size() > 0) {
+            if (evaluate != null && evaluate.getRows() != null && evaluate.getRows().size() > 0) {
                 evaluate_base.setVisibility(View.VISIBLE);
                 //show evaluate count
-                detail_evaluate_count.setText("("+evaluate.getCount()+")");
+                detail_evaluate_count.setText("(" + evaluate.getCount() + ")");
                 //show first evaluate title
                 EvaluateItem evaluateItem = evaluate.getRows().get(0);
                 if (evaluate != null) {
@@ -167,16 +178,13 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
             //show detial pic
             List<String> img = detail.getImg();
-            AppLog.Log("img: "+img);
+            AppLog.Log("img: " + img);
             adapter.setLists(img);
 
 
         }
 
     }
-
-
-
 
 
     private void initView() {
@@ -203,13 +211,14 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
         findViewById(R.id.order_btn).setOnClickListener(this);
         findViewById(R.id.check_all_evaluate).setOnClickListener(this);
+        findViewById(R.id.ll_call_seller).setOnClickListener(this);
 
         detail_descript_img_rv = (RecylerViewInScrollView) findViewById(R.id.detail_descript_img_rv);
         detail_descript_img_rv.setLayoutManager(new LinearLayoutManagerInScrollView(this));
         DisplayUtils.initScreen(this);
-        int screenWidth = DisplayUtils.screenWidth- DensityUtil.dip2px(this,20);
+        int screenWidth = DisplayUtils.screenWidth - DensityUtil.dip2px(this, 20);
         AppLog.Log("screenWidth:" + screenWidth);
-        adapter = new DetailImageAdapter(this,screenWidth);
+        adapter = new DetailImageAdapter(this, screenWidth);
         detail_descript_img_rv.setAdapter(adapter);
     }
 
@@ -259,7 +268,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 Bitmap smallBitmap = PictureUtil.getSmallBitmap(s, 640, 800);
                 String s1 = savePic(smallBitmap);
 
-                AppLog.Log("path_s:"+s+" , path_s1:"+ s1);
+                AppLog.Log("path_s:" + s + " , path_s1:" + s1);
                 break;
 
             case R.id.order_btn:
@@ -269,13 +278,63 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 startActivity(i);
                 break;
             case R.id.check_all_evaluate:
-                startActivity(new Intent(this,CheckAllEvaluateActivity.class));
+                startActivity(new Intent(this, CheckAllEvaluateActivity.class));
+                break;
+            case R.id.ll_call_seller:
+                callPhone();
                 break;
         }
     }
 
+
+    private void callPhone() {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "13806583199"));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(intent);
+        } else {
+            if (Build.VERSION.SDK_INT > 23) {
+                AndPermission.with(this)
+                        .requestCode(REQUESTPERSIMMIONCODE)
+                        .permission(Manifest.permission.CALL_PHONE)
+                        .send();
+            }
+        }
+
+    }
+
+
+    private final int SDK_PERMISSION_REQUEST = 127;
+    private PermissionListener listener_permissions = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, List<String> grantedPermissions) {
+            // 权限申请成功回调。
+            if (requestCode == REQUESTPERSIMMIONCODE) {
+                callPhone();
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, List<String> deniedPermissions) {
+            // 权限申请失败回调。
+
+            // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+            if (AndPermission.hasAlwaysDeniedPermission(DetailInfoActivity.this, deniedPermissions)) {
+                // 第一种：用默认的提示语。
+                AndPermission.defaultSettingDialog(DetailInfoActivity.this, SDK_PERMISSION_REQUEST).show();
+            }
+        }
+    };
+
+    @TargetApi(23)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener_permissions);
+    }
+
     /**
      * 截取scrollview的屏幕
+     *
      * @param scrollView
      * @return
      */
@@ -283,8 +342,8 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         int h = 0;
         Bitmap bitmap = null;
         // 获取scrollview实际高度
-        for (int i = 0; i < scrollView.getChildCount(); i++ ) {
-            h  = scrollView.getChildAt(i).getHeight();
+        for (int i = 0; i < scrollView.getChildCount(); i++) {
+            h = scrollView.getChildAt(i).getHeight();
             scrollView.getChildAt(i).setBackgroundColor(
                     Color.parseColor("#ffffff"));
         }
@@ -298,6 +357,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 压缩图片
+     *
      * @param image
      * @return
      */
@@ -324,6 +384,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 保存到sdcard
+     *
      * @param b
      * @return
      */
@@ -339,7 +400,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 e.printStackTrace();
             }
         }
-        String fname = outfile  + "/"+   sdf.format(new Date()) +  ".png";
+        String fname = outfile + "/" + sdf.format(new Date()) + ".png";
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(fname);

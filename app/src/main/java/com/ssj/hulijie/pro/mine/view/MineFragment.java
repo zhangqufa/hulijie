@@ -33,7 +33,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
     private ImageView img;
-    private static final int REQUESTPERSIMMIONCODE = 100;
+    public static final int REQUESTPERSIMMIONCODE = 100;
     private static final int REQUEST_LOGIN_CODE = 101;
     private static final int REQUEST_TO_ORDER_LIST = 102;
     private TextView user, user_des;

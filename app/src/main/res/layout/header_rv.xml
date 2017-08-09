@@ -33,17 +33,31 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/et_search"
+        <LinearLayout
+            android:background="@drawable/shape_search_et"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_search_et"
-            android:gravity="center_vertical"
-            android:hint="请输入商品名称"
-            android:maxLines="1"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:layout_weight="1">
+
+            <ImageView
+
+                android:layout_marginLeft="10dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/sousuohuise" />
+
+            <TextView
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+
+                android:gravity="center_vertical"
+                android:hint="请输入商品名称"
+                android:maxLines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+        </LinearLayout>
 
 
         <TextView
