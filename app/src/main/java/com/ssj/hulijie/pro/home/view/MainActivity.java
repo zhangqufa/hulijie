@@ -18,6 +18,7 @@ import com.ssj.hulijie.pro.msg.view.MsgFragment;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppManager;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.StatusBarColorUtils;
 import com.ssj.hulijie.widget.fragmenttabhost.MyFragmentTabHost;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         super.onCreate(savedInstanceState);
         getWindow().setBackgroundDrawable(null);
         setContentView(R.layout.activity_main);
+        StatusBarColorUtils.setWindowStatusBarColor(this,R.color.colorPrimary);
         initTabData();
         initTabHost();
     }

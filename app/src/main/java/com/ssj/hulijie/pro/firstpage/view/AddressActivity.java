@@ -1,5 +1,6 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,8 +37,10 @@ import com.ssj.hulijie.pro.firstpage.adapter.AddressAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
 import com.ssj.hulijie.pro.firstpage.bean.PoiSearchResults;
 import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
+import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.Constant;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;

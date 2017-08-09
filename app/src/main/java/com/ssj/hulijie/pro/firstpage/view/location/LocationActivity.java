@@ -39,6 +39,7 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.db.helper.DBHelper;
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.City;
+import com.ssj.hulijie.utils.StatusBarColorUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.act_location);
+		StatusBarColorUtils.setWindowStatusBarColor(this,R.color.colorPrimary);
 		findViewById(R.id.close).setOnClickListener(this);
 		personList = (ListView) findViewById(R.id.list_view);
 		allCity_lists = new ArrayList<>();

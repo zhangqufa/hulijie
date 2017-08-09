@@ -10,6 +10,7 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.mvp.view.impl.MvpActivity;
 import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.nohttp.HttpResponseListener;
+import com.ssj.hulijie.utils.StatusBarColorUtils;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
@@ -41,7 +42,7 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         initSwipeBackFinish();
         super.onCreate(savedInstanceState);
         // 初始化请求队列，传入的参数是请求并发值。
-//        StatusBarColorUtils.setWindowStatusBarColor(this,R.color.colorPrimary);
+        StatusBarColorUtils.setWindowStatusBarColor(this,R.color.comm_grey_666666);
         mQueue = NoHttp.newRequestQueue(1);
     }
 
