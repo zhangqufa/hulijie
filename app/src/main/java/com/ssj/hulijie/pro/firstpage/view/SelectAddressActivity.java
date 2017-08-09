@@ -18,6 +18,7 @@ import com.ssj.hulijie.pro.firstpage.adapter.AddressManagerAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
 import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
 import com.ssj.hulijie.pro.mine.view.MineFragment;
+import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.Constant;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
@@ -67,12 +68,6 @@ public class SelectAddressActivity extends BaseActivity {
             @Override
             public void onResult(List<AddressItem> result,int return_code) {
                 if (result != null&&result.size()>0) {
-                    for (int i  =0;i<result.size();i++) {
-                        if (i == 0) {
-                            AddressItem addressItem = result.get(i);
-                            addressItem.setDefault(true);
-                        }
-                    }
                     lists = result;
                     adapter.setLists(lists);
                 }
@@ -91,7 +86,9 @@ public class SelectAddressActivity extends BaseActivity {
         if (TextUtils.isEmpty(mine_to_select)&&!MineFragment.MINE_TO_SELECTADRESS.equals(mine_to_select)) {
             adapter.setSelectCallBack(selectCallBack);
         }
+        adapter.setDefaultCallback(defaultCallback);
         rv_address.setAdapter(adapter);
+
 
 
     }
@@ -117,6 +114,35 @@ public class SelectAddressActivity extends BaseActivity {
         }
     };
 
+    private AddressManagerAdapter.AddressSetDefaultCallback  defaultCallback = new AddressManagerAdapter.AddressSetDefaultCallback<AddressItem>() {
+        @Override
+        public void onAddressSetDefaultCallBack(AddressItem o, int postion) {
+            requestDefaultNet(o, postion);
+        }
+    };
+
+    private void requestDefaultNet(AddressItem o, int postion) {
+       presenter.addAddressPresenter(this
+                , o.getRegion_name()
+                , o.getAddress()
+                , SharedUtil.getPreferStr(SharedKey.USER_MOBILE)
+                , SharedUtil.getPreferStr(SharedKey.USER_ID)
+                , o.getAddr_id()
+               ,1
+                , new BasePresenter.OnUIThreadListener<Boolean>() {
+                    @Override
+                    public void onResult(Boolean result, int return_code) {
+                        if (result) {
+                            initData();
+
+                        } else {
+                            AppToast.ShowToast("提交失败！");
+                        }
+                    }
+                });
+
+    }
+
     private void showConfirmAlert(final AddressItem addressItem,final int position) {
         AlertDialog.Builder builder   = new AlertDialog.Builder(this).setMessage("确定要删除该地址吗?").setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -132,6 +158,7 @@ public class SelectAddressActivity extends BaseActivity {
         builder.create();
         builder.show();
     }
+
 
     private void requestDeleteNet(AddressItem addressItem,final int position) {
         presenter.deleteAddressPresenter(SelectAddressActivity.this, SharedUtil.getPreferStr(SharedKey.USER_ID), addressItem.getAddr_id(), new BasePresenter.OnUIThreadListener<Boolean>() {

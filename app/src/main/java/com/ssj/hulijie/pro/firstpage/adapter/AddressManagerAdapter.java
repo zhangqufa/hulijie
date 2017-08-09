@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ssj.hulijie.R;
@@ -55,7 +56,7 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
         holder.item_address_user_phone.setText(SharedUtil.getPreferStr(SharedKey.USER_MOBILE));
         holder.item_select_address_simple.setText(addressItem.getAddress());
 
-        if (addressItem.isDefault()) {
+        if (addressItem.getDefault_addr()==1) {
             holder.item_address_iv.setImageResource(R.mipmap.address_sel_seleted);
             holder.item_address_default_tv.setText("默认地址");
         } else {
@@ -79,6 +80,16 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
                 Intent intent = new Intent(context, AddressActivity.class);
                 intent.putExtra("addressItem", addressItem);
                 context.startActivity(intent);
+
+            }
+        });
+
+        holder.ll_default.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (defaultCallback != null) {
+                    defaultCallback.onAddressSetDefaultCallBack(addressItem,position);
+                }
 
             }
         });
@@ -107,8 +118,11 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
         private TextView item_address_user_phone;
         private ImageView item_address_iv;
         private TextView item_address_delete;
+
+        private LinearLayout ll_default;
         public AddressManagerViewHolder(View itemView) {
             super(itemView);
+            ll_default = (LinearLayout) itemView.findViewById(R.id.ll_default);
             item_address_edit=(TextView)itemView.findViewById(R.id.item_address_edit);
             item_select_address_simple=(TextView)itemView.findViewById(R.id.item_select_address_simple);
             item_address_default_tv=(TextView)itemView.findViewById(R.id.item_address_default_tv);
@@ -137,5 +151,15 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
 
     public void setSelectCallBack(AddressSelectCallBack selectCallBack) {
         this.selectCallBack = selectCallBack;
+    }
+
+    public interface AddressSetDefaultCallback<T>{
+        void onAddressSetDefaultCallBack(T t,int postion);
+
+    }
+    private AddressSetDefaultCallback defaultCallback;
+
+    public void setDefaultCallback(AddressSetDefaultCallback defaultCallback){
+        this.defaultCallback = defaultCallback;
     }
 }

@@ -14,10 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
-import com.ssj.hulijie.pro.firstpage.view.AddressActivity;
 import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 import com.ssj.hulijie.pro.firstpage.view.SelectAddressActivity;
-import com.ssj.hulijie.pro.firstpage.view.SelectAddressManagerActivity;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
@@ -26,11 +24,6 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.List;
-
-import static com.baidu.location.b.g.A;
-import static com.baidu.location.b.g.G;
-import static com.baidu.location.b.g.S;
-import static com.ssj.hulijie.base.HljAppliation.context;
 
 /**
  * Created by Administrator on 2017/3/26.

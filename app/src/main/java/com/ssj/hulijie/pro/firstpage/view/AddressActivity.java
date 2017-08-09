@@ -190,6 +190,7 @@ public class AddressActivity extends BaseActivity {
                 , SharedUtil.getPreferStr(SharedKey.USER_MOBILE)
                 , SharedUtil.getPreferStr(SharedKey.USER_ID)
                 , addressItem==null? "" : addressItem.getAddr_id()
+                ,1
                 , new BasePresenter.OnUIThreadListener<Boolean>() {
                     @Override
                     public void onResult(Boolean result, int return_code) {

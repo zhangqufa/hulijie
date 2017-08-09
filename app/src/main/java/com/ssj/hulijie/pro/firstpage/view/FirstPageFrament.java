@@ -1,12 +1,6 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
@@ -18,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -44,8 +39,6 @@ import com.ssj.hulijie.pro.firstpage.view.widget.DividerItemDecoration;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
-import com.ssj.hulijie.utils.DensityUtil;
-import com.ssj.hulijie.utils.ViewUtil;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 import com.ssj.hulijie.widget.recylerview.RecyclerViewHeader;
 import com.yanzhenjie.permission.AndPermission;
@@ -58,6 +51,8 @@ import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.PtrUIHandler;
+import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -92,7 +87,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490934544694&di=86c3dad3b5d43b047b4af5744fc0d76c&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201512%2F16%2F20151216140942_2JXYr.thumb.700_0.jpeg"
             , "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490934544695&di=9395c6b67a1a66a089998a4cc013e54a&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fphotoblog%2F1110%2F18%2Fc6%2F9309619_9309619_1318915453187.jpg"
     };
-    private TextView location_tv, location_tv_right;  //location
+    private TextView location_tv, location_tv_out, location_tv_right;  //location
     private LocationClient mLocationClient; //location
     private RecyclerView rv_header_four_part;
     private FirstPagePresenter mPresenter;
@@ -102,6 +97,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private int heigth; // et_search height
     private boolean isHidden;
     private TextView et_search;
+    private LinearLayout ll_out; //外层
 
     // 要申请的权限
 
@@ -113,10 +109,21 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     @Override
     public void initContentView(View viewContent) {
         context = (MainActivity) getActivity();
+        //外层header
+        ll_out = (LinearLayout) viewContent.findViewById(R.id.ll_out);
+        location_tv_out = (TextView) ll_out.findViewById(R.id.location_tv);
+        location_tv_out.setOnClickListener(this);
+        et_search = (TextView) viewContent.findViewById(R.id.et_search);
+        et_search.setOnClickListener(this);
+
         //init ptr-lib
         ptr = (PtrClassicFrameLayout) viewContent.findViewById(R.id.ptr_refresh);
         ptr.setLastUpdateTimeRelateObject(this);
         ptr.setPtrHandler(ptrHandler);
+        ptr.addPtrUIHandler(ptrUihandler);
+
+
+
 
 
         //init RecyclerView
@@ -133,10 +140,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         View header = LayoutInflater.from(context).inflate(R.layout.header_rv, rv_first_page_main_list, false);
         adapter.setHeaderView(header);
         location_tv = (TextView) header.findViewById(R.id.location_tv);
-        location_tv_right = (TextView) header.findViewById(R.id.location_tv_right);
-        location_tv.setOnClickListener(this);
-        et_search = (TextView) header.findViewById(R.id.et_search);
-        et_search.setOnClickListener(this);
 
         //init RecylerView header fout part
         adappter_four_part = new FirstPageHeaderFourPartAdappter(context);
@@ -168,6 +171,40 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         getPersimmions();
 
     }
+
+    /**
+     * ptr ui listener
+     */
+    private PtrUIHandler ptrUihandler = new PtrUIHandler() {
+        @Override
+        public void onUIReset(PtrFrameLayout frame) {
+            AppLog.Log("onUIReset");
+
+            ll_out.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onUIRefreshPrepare(PtrFrameLayout frame) {
+            AppLog.Log("onUIRefreshPrepare");
+            ll_out.setVisibility(View.GONE);
+
+        }
+
+        @Override
+        public void onUIRefreshBegin(PtrFrameLayout frame) {
+            AppLog.Log("onUIRefreshBegin");
+        }
+
+        @Override
+        public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
+            AppLog.Log("onUIRefreshComplete");
+        }
+
+        @Override
+        public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
+            AppLog.Log("onUIPositionChange");
+        }
+    };
 
     /**
      * 监听recylerview 是否滑动到底部
@@ -228,7 +265,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         mPresenter.getMidFourPresenter(context, new BasePresenter.OnUIThreadListener<List<FourpartData>>() {
             @Override
-            public void onResult(List<FourpartData> result,int return_code) {
+            public void onResult(List<FourpartData> result, int return_code) {
                 if (result != null) {
                     for (int i = 0; i < result.size(); i++) {
                         result.get(i).setPic(FirstPageFrament.img[i]);
@@ -318,14 +355,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             if (msg.what == 0) {
                 String location = (String) msg.obj;
                 location_tv.setText(location);
-
-            } else if (msg.what == 1) {
-                int width = msg.arg1;
-                int heigth = msg.arg2;
-
-                ViewUtil.zoomInViewSizeW(location_tv, width);
-                ViewUtil.zoomInViewSizeW(location_tv_right, width);
-                ViewUtil.zoomInViewSizeH(et_search, heigth);
+                location_tv_out.setText(location);
 
             }
         }
@@ -440,7 +470,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         final List<ItemFirstPageMainHeaderList> lists = new ArrayList<>();
         mPresenter.getCatetoryPresenter(context, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainHeaderList>>() {
             @Override
-            public void onResult(List<ItemFirstPageMainHeaderList> result,int return_code) {
+            public void onResult(List<ItemFirstPageMainHeaderList> result, int return_code) {
                 for (int i = 0; i < result.size(); i++) {
                     ItemFirstPageMainHeaderList item = result.get(i);
                     lists.add(item);
@@ -483,36 +513,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        /**
-         * 过度动画结束后，恢复控件状态
-         */
-        if (isHidden) {
-            isHidden = false;
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            location_tv.setScaleX(1);
-                            location_tv.setScaleY(1);
-                            ViewUtil.zoomInViewSizeH(et_search, heigth);
-                            ViewUtil.zoomInViewSizeW(location_tv, width);
-                            ViewUtil.zoomInViewSizeW(location_tv_right, width);
-
-                        }
-                    });
-
-                }
-            }, 300);
-        }
-    }
-
     /**
      * 首页主数据
      *
@@ -521,7 +521,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private void getData() {
         mPresenter.getFirstDataPresenter(context, page, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainList>>() {
             @Override
-            public void onResult(List<ItemFirstPageMainList> result,int return_code) {
+            public void onResult(List<ItemFirstPageMainList> result, int return_code) {
                 if (result != null) {
                     if (result.size() > 0) {
 
@@ -561,57 +561,11 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 startActivityForResult(intent, LOCATION_REQUEST_CODE);
                 break;
             case R.id.et_search:
-                if (!isHidden) {
-                    heigth = et_search.getHeight();
-                    width = location_tv.getWidth();
-                }
-                AnimatorSet set = new AnimatorSet();
-
-                //loacation_tv 缩放
-                ObjectAnimator animator_x = ObjectAnimator.ofFloat(location_tv, "scaleX", 1f, 0);
-                ObjectAnimator animator_y = ObjectAnimator.ofFloat(location_tv, "scaleY", 1f, 0);
-
-                //location_tv  通过估值器改宽度大小至0
-                ValueAnimator animator = ValueAnimator.ofObject(new TypeEvaluator() {
-                    @Override
-                    public Object evaluate(float v, Object o, Object t1) {
-                        int i = (int) ((1 - v) * (int) o);
-                        return i;
-                    }
-                }, width, 0);
-
-                set.playTogether(animator_x, animator_y, animator);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        int animatedValue = (int) valueAnimator.getAnimatedValue();
-
-                        //et_search 减少6dp
-                        int et_search_height = heigth - (int) (DensityUtil.dip2px(context, 6) * (1 - animatedValue * 1f / width));
-
-                        mHandler.obtainMessage(1, animatedValue, et_search_height).sendToTarget();
-
-                    }
-                });
-                set.setDuration(200);
-                set.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        isHidden = true;
-                        Intent intent = new Intent(context, SearchActivity.class);
-                        context.startActivityForBack(intent);
-
-                    }
-                });
-                set.start();
-
+                Intent intent1 = new Intent(context, SearchActivity.class);
+                context.startActivityForBack(intent1);
                 break;
         }
     }
-
-
-
 
 
     @Override
@@ -621,9 +575,11 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             String currentCity = data.getStringExtra("currentCity");
             if (!TextUtils.isEmpty(currentCity)) {
                 location_tv.setText(currentCity);
+                location_tv_out.setText(currentCity);
                 AppLog.Log("定位：" + currentCity);
             } else {
                 location_tv.setText("选择城市");
+                location_tv_out.setText("选择城市");
             }
         }
     }

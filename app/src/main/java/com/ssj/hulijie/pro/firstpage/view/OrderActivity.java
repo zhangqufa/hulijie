@@ -16,10 +16,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
+import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
 import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.Arrays;
@@ -67,6 +71,22 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
         initView();
 
         updateUI();
+
+        getAddressNet();
+    }
+
+    private void getAddressNet() {
+        AddressManagerPresenter presenter = new AddressManagerPresenter(this);
+        presenter.getAddressPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID), "", new BasePresenter.OnUIThreadListener<List<AddressItem>>() {
+            @Override
+            public void onResult(List<AddressItem> result, int return_code) {
+                if (result != null) {
+                    for (AddressItem item : result) {
+
+                    }
+                }
+            }
+        });
     }
 
     private void updateUI() {

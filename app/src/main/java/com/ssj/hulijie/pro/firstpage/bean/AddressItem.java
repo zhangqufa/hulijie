@@ -20,7 +20,7 @@ public class AddressItem implements Parcelable{
     private String region_name;
     private String address;
     private String phone_mob;
-    private boolean isDefault;
+    private int default_addr;
 
     public AddressItem() {
     }
@@ -30,7 +30,7 @@ public class AddressItem implements Parcelable{
         region_name = in.readString();
         address = in.readString();
         phone_mob = in.readString();
-        isDefault = in.readByte() != 0;
+        default_addr = in.readInt();
     }
 
     public static final Creator<AddressItem> CREATOR = new Creator<AddressItem>() {
@@ -45,12 +45,12 @@ public class AddressItem implements Parcelable{
         }
     };
 
-    public boolean isDefault() {
-        return isDefault;
+    public int getDefault_addr() {
+        return default_addr;
     }
 
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
+    public void setDefault_addr(int default_addr) {
+        this.default_addr = default_addr;
     }
 
     public String getAddr_id() {
@@ -92,7 +92,7 @@ public class AddressItem implements Parcelable{
                 ", region_name='" + region_name + '\'' +
                 ", address='" + address + '\'' +
                 ", phone_mob='" + phone_mob + '\'' +
-                ", isDefault=" + isDefault +
+                ", default_addr =" + default_addr +
                 '}';
     }
 
@@ -107,6 +107,6 @@ public class AddressItem implements Parcelable{
         parcel.writeString(region_name);
         parcel.writeString(address);
         parcel.writeString(phone_mob);
-        parcel.writeByte((byte) (isDefault ? 1 : 0));
+        parcel.writeInt(default_addr);
     }
 }
