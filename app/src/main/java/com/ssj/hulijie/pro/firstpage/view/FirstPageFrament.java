@@ -273,8 +273,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             if (isSlideToBottom(recyclerView)) {
                 loadMore();
             }
-
-
         }
     };
 
@@ -474,28 +472,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         option.setPriority(LocationClientOption.GpsFirst);
         mLocationClient.setLocOption(option);
     }
-
-    /**
-     * 头部分类点击listener
-     */
-    private FirstPageMainHeaderAdapter.OnItemClickListener<ItemFirstPageMainHeaderList> headrCatetoryListener =
-            new FirstPageMainHeaderAdapter.OnItemClickListener<ItemFirstPageMainHeaderList>() {
-                @Override
-                public void onItemClick(int position, ItemFirstPageMainHeaderList data) {
-                    Intent intent = null;
-                    if (position == 7) {
-                        intent = new Intent(context, AllCatetoryActivity.class);
-
-                    } else {
-                        intent = new Intent(context, SearchResultActivity.class);
-                        intent.putExtra("key", data.getName());
-                    }
-
-                    if (intent != null) {
-                        startActivity(intent);
-                    }
-                }
-            };
 
 
     /**

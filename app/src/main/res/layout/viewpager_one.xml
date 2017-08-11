@@ -8,6 +8,7 @@
         android:id="@+id/gv_one"
         android:layout_width="match_parent"
         android:numColumns="4"
+        android:verticalSpacing="10dp"
         android:scrollbars="none"
         android:scrollingCache="false"
         android:stretchMode="columnWidth"
