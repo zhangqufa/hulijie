@@ -8,15 +8,14 @@
     <include layout="@layout/toolbar" />
 
     <android.support.v7.widget.RecyclerView
-        android:paddingTop="10dp"
+        android:paddingTop="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:id="@+id/rv_address"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/title_bar_base"
-        android:layout_marginBottom="55dp"
-        android:layout_marginTop="1dp" />
+        android:layout_marginBottom="55dp" />
 
 
     <LinearLayout

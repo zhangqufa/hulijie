@@ -490,15 +490,15 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
                 if (result != null) {
                     int size = result.size();
-                    if (size <= 8) {
-                        ll_indicator.setVisibility(View.GONE);
-                        category_vp.setScollHoritial(false);
-                    }
+//                    if (size <= 8) {
+//                        ll_indicator.setVisibility(View.GONE);
+//                        category_vp.setScollHoritial(false);
+//                    }
                     List<ItemFirstPageMainHeaderList> list1 = new ArrayList<>();
                     List<ItemFirstPageMainHeaderList> list2 = new ArrayList<>();
 
                     for (int i = 0;i<size;i++) {
-                        if (i < 8) {
+                        if (i < 7) {
                             list1.add(result.get(i));
                         } else if (i<16){
                             list2.add(result.get(i));
