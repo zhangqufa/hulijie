@@ -83,6 +83,7 @@
         android:overScrollMode="never"
         android:layout_height="160dp"/>
     <LinearLayout
+        android:id="@+id/ll_indicator"
         android:gravity="center"
         android:background="@android:color/white"
         android:layout_width="match_parent"

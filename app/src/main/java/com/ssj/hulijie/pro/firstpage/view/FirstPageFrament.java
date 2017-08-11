@@ -108,6 +108,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private List<View> pagerView;
     private MyViewPaper category_vp;
     private GridView gv_one, gv_two;
+    private LinearLayout ll_indicator; //indicator viewgroup
 
     // 要申请的权限
 
@@ -163,7 +164,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         iv_one = (ImageView) header.findViewById(R.id.iv_one);
         iv_two = (ImageView) header.findViewById(R.id.iv_two);
 
-
+        ll_indicator = (LinearLayout) header.findViewById(R.id.ll_indicator);
         View view1 = LayoutInflater.from(getContext()).inflate(R.layout.viewpager_one, null);
         View view2 = LayoutInflater.from(getContext()).inflate(R.layout.viewpager_two, null);
         gv_one = (GridView) view1.findViewById(R.id.gv_one);
@@ -505,13 +506,16 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 //                        rv_header_rv_adapter.setData(lists);
 
                     int size = result.size();
+                    if (size < 8) {
+                        ll_indicator.setVisibility(View.GONE);
+                    }
                     List<ItemFirstPageMainHeaderList> list1 = new ArrayList<>();
                     List<ItemFirstPageMainHeaderList> list2 = new ArrayList<>();
 
                     for (int i = 0;i<size;i++) {
-                        if (i < size / 2+1) {
+                        if (i < 8) {
                             list1.add(result.get(i));
-                        } else {
+                        } else if (i<16){
                             list2.add(result.get(i));
                         }
                     }
