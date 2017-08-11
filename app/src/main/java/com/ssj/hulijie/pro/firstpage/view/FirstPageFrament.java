@@ -30,7 +30,6 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageHeaderFourPartAdappter;
-import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainHeaderAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.MyViewPagerAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.MygridviewAdapter;
@@ -97,7 +96,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private LocationClient mLocationClient; //location
     private RecyclerView rv_header_four_part;
     private FirstPagePresenter mPresenter;
-    private FirstPageMainHeaderAdapter rv_header_rv_adapter; //catetory adapter
     private FirstPageHeaderFourPartAdappter adappter_four_part;
     private int width; //location_tv width
     private int heigth; // et_search height
@@ -160,7 +158,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
 
 //        //init grid category
-
         iv_one = (ImageView) header.findViewById(R.id.iv_one);
         iv_two = (ImageView) header.findViewById(R.id.iv_two);
 
@@ -203,15 +200,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 ptr.disableWhenHorizontalMove(true);
             }
         });
-
-
-//        RecyclerView rv_header_rv = (RecyclerView) header.findViewById(R.id.rv_header_rv);
-//        rv_header_rv.setFocusable(false);  //解决上滑回弹的问题
-//        rv_header_rv_adapter = new FirstPageMainHeaderAdapter(context);
-//        rv_header_rv.setAdapter(rv_header_rv_adapter);
-//        rv_header_rv.setLayoutManager(new GridLayoutManager(context, 4));
-//        rv_header_rv_adapter.setOnItemClickListener(headrCatetoryListener);
-
 
         //init location
         mLocationClient = new LocationClient(HljAppliation.getContext());
@@ -501,13 +489,10 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             public void onResult(List<ItemFirstPageMainHeaderList> result, int return_code) {
 
                 if (result != null) {
-//                    ItemFirstPageMainHeaderList item = result.get(i);
-//                        lists.add(item);
-//                        rv_header_rv_adapter.setData(lists);
-
                     int size = result.size();
-                    if (size < 8) {
+                    if (size <= 8) {
                         ll_indicator.setVisibility(View.GONE);
+                        category_vp.setScollHoritial(false);
                     }
                     List<ItemFirstPageMainHeaderList> list1 = new ArrayList<>();
                     List<ItemFirstPageMainHeaderList> list2 = new ArrayList<>();

@@ -11,6 +11,7 @@
         android:verticalSpacing="10dp"
         android:scrollbars="none"
         android:scrollingCache="false"
+        android:layout_marginBottom="10dp"
         android:stretchMode="columnWidth"
         android:layout_height="wrap_content" >
     </GridView>

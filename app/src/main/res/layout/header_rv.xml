@@ -67,21 +67,13 @@
 
     </LinearLayout>
 
-
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/rv_header_rv"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:focusable="false" />-->
-
     <com.ssj.hulijie.pro.firstpage.view.widget.MyViewPaper
         android:id="@+id/category_vp"
         android:paddingTop="10dp"
         android:background="@android:color/white"
         android:layout_width="match_parent"
         android:overScrollMode="never"
-        android:layout_height="160dp"/>
+        android:layout_height="170dp"/>
     <LinearLayout
         android:id="@+id/ll_indicator"
         android:gravity="center"

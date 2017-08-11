@@ -11,6 +11,9 @@ import android.view.MotionEvent;
  */
 
 public class MyViewPaper extends ViewPager {
+    private boolean isScroll = true;
+
+
     public MyViewPaper(Context context) {
         super(context);
     }
@@ -19,24 +22,36 @@ public class MyViewPaper extends ViewPager {
         super(context, attrs);
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return super.dispatchTouchEvent(ev);
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent arg0) {
+        if (isScroll)
+            return super.onInterceptTouchEvent(arg0);
+        else
+            return false;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-                requestDisallowInterceptTouchEvent(true);
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                requestDisallowInterceptTouchEvent(false);
-                break;
+        if (isScroll) {
+
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_MOVE:
+                    requestDisallowInterceptTouchEvent(true);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    requestDisallowInterceptTouchEvent(false);
+                    break;
+            }
+            return super.onTouchEvent(ev);
+        } else {
+            return false;
         }
-        return super.onTouchEvent(ev);
+    }
+
+    public void setScollHoritial(boolean isScroll) {
+        this.isScroll = isScroll;
     }
 }
