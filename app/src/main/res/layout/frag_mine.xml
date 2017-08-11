@@ -75,6 +75,7 @@
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
                     android:text="我的服务者"
+
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:layout_height="36dp" />
