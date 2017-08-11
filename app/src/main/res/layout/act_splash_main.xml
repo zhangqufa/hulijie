@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:gravity="center"
     android:layout_height="match_parent">
 
+
+
     <ImageView
-        android:layout_gravity="center"
-
-        android:layout_width="wrap_content"
-        android:src="@mipmap/google"
-        android:layout_height="wrap_content" />
-
-
+        android:id="@+id/iv_flash"
+        android:scaleY="0"
+        android:scaleX="0"
+        android:layout_centerInParent="true"
+        android:layout_width="100dp"
+        android:src="@mipmap/logo"
+        android:layout_height="100dp" />
     <TextView
-        android:textSize="59sp"
-        android:text="android"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_flash"
+        android:textSize="30sp"
+        android:text="狐狸街"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+</RelativeLayout>

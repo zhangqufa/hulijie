@@ -19,4 +19,11 @@
         android:src="@mipmap/to_right_grey"
         android:layout_marginRight="10dp"
         android:layout_height="wrap_content" />
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:id="@+id/level_bg"
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="@color/app_bg" />
 </RelativeLayout>

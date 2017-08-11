@@ -67,7 +67,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
         img = (ImageView) viewContent.findViewById(R.id.img);
-        Glide.with(getActivity()).load(FirstPageFrament.img[0])
+        Glide.with(getActivity()).load(R.mipmap.header)
                 .into(img);
 
         viewContent.findViewById(R.id.login).setOnClickListener(this);

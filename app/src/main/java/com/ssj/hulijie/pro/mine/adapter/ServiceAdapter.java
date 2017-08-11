@@ -35,6 +35,11 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceH
     @Override
     public void onBindViewHolder(ServiceHolder serviceHolder, final int i) {
         serviceHolder.tv.setText(lists.get(i));
+        serviceHolder.level_bg.setVisibility(View.GONE);
+        if (i % 2 != 0) {
+            serviceHolder.level_bg.setVisibility(View.VISIBLE);
+
+        }
         serviceHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,10 +58,11 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceH
     class ServiceHolder extends RecyclerView.ViewHolder{
 
         private TextView tv;
-
+        private View level_bg;
         public ServiceHolder(View itemView) {
             super(itemView);
             tv=(TextView)itemView.findViewById(R.id.item_service_tv);
+            level_bg=itemView.findViewById(R.id.level_bg);
         }
     }
 

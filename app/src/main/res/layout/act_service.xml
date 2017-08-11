@@ -7,7 +7,7 @@
     <include layout="@layout/toolbar" />
 
     <android.support.v7.widget.RecyclerView
-        android:paddingTop="10dp"
+        android:paddingTop="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:layout_width="match_parent"

@@ -13,6 +13,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/listview_item_imageview"
             android:layout_width="20dp"
             android:layout_height="20dp"

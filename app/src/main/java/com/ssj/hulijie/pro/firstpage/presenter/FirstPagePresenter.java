@@ -145,4 +145,41 @@ public class FirstPagePresenter extends BasePresenter<FirstPageModel> {
         });
     }
 
+    public void getFirstForCategoryPresenter(BaseActivity activity,String cate_id, int page, final OnUIThreadListener<List<ItemFirstPageMainList>> onUIThreadListener) {
+        getModel().getFirstForCategoryDataModel(activity, cate_id,page, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("firstcateList: " + jsonObject.toString());
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (code == Constant.SUCCESS_CODE) {
+
+                            String data = jsonObject.getString("data");
+                            JSONObject rows = JSON.parseObject(data);
+                            String rows1 = rows.getString("rows");
+                            List<ItemFirstPageMainList> lists = new ArrayList<>(JSONArray.parseArray(rows1, ItemFirstPageMainList.class));
+                            onUIThreadListener.onResult(lists,code);
+                            AppLog.Log("firstcateList: " + lists.toString());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(null,0);
+                        AppLog.Log("firstList: " + e.toString());
+                    }
+
+                } else {
+                    AppLog.Log("firstList is null");
+                    onUIThreadListener.onResult(null,0);
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(null,0);
+            }
+        });
+    }
+
 }
