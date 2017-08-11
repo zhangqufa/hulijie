@@ -64,12 +64,6 @@ public class ServiceActivity extends BaseActivity {
                     intent = new Intent(ServiceActivity.this, ServiceTempPicActivity.class);
                     intent.putExtra("flag", ServiceTempPicActivity.MINE_EVALUATE);
                     break;
-                case 4:
-
-                    break;
-                case 5:
-
-                    break;
             }
             if (intent != null) {
                 startActivity(intent);
@@ -84,8 +78,6 @@ public class ServiceActivity extends BaseActivity {
         lists.add("我的订单");
         lists.add("我的收入");
         lists.add("我的评价");
-        lists.add("实名认证");
-        lists.add("常见问题");
         return lists;
     }
 
