@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ml="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rv_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -69,12 +68,39 @@
     </LinearLayout>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_header_rv"
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/rv_header_rv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:focusable="false" />-->
+
+    <com.ssj.hulijie.pro.firstpage.view.widget.MyViewPaper
+        android:id="@+id/category_vp"
+        android:paddingTop="10dp"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:focusable="false" />
+        android:overScrollMode="never"
+        android:layout_height="180dp"/>
+    <LinearLayout
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="15dp">
+
+        <ImageView
+            android:id="@+id/iv_one"
+            android:background="@drawable/vipager_doc_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_two"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/vipager_doc_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

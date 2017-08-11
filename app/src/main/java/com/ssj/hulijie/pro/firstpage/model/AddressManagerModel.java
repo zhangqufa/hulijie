@@ -43,7 +43,7 @@ public class AddressManagerModel extends BaseModel {
         request.add("phone_mob", phone_mob);
         request.add("user_id", user_id);
         request.add("addr_id", addr_id);
-        request.add("default", default_addr);
+        request.add("default_addr", default_addr);
         CallServer.getRequestInstance().add(content,0,request,httpListener,true,true);
 
     }

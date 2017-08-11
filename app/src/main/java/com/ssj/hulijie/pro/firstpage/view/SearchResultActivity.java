@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
+import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.TitlebarUtil;
@@ -31,22 +33,30 @@ import static com.ssj.hulijie.base.HljAppliation.context;
 public class SearchResultActivity extends BaseActivity implements View.OnClickListener {
     private TextView nav_center_title;
     private FirstPageMainListAdapter adapter;
+    private ItemFirstPageMainHeaderList item;
     private String key;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_search_result);
-
         key = getIntent().getStringExtra("key");
+        item = getIntent().getParcelableExtra("item");
         initToolbar();
         initView();
 
     }
 
     private void initToolbar() {
+        String center = "";
+        if (!TextUtils.isEmpty(key)) {
+            center = key;
+        }
+        if (item != null && !TextUtils.isEmpty(item.getName())) {
+            center = item.getName();
+        }
         RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
-        TitlebarUtil.inittoolBar(this, title_bar_base, true, key, android.R.color.white, 0, R.mipmap.back__btn_re, true, R.mipmap.share_red, new View.OnClickListener() {
+        TitlebarUtil.inittoolBar(this, title_bar_base, true, center, android.R.color.white, 0, R.mipmap.back__btn_re, true, R.mipmap.share_red, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -54,7 +64,6 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
         }, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
             }
         });
 

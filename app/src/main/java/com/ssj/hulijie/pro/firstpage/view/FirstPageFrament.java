@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +32,8 @@ import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageHeaderFourPartAdappter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainHeaderAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
+import com.ssj.hulijie.pro.firstpage.adapter.MyViewPagerAdapter;
+import com.ssj.hulijie.pro.firstpage.adapter.MygridviewAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.FourpartData;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
@@ -36,6 +41,7 @@ import com.ssj.hulijie.pro.firstpage.presenter.FirstPagePresenter;
 import com.ssj.hulijie.pro.firstpage.view.location.LocationActivity;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerItemDecoration;
+import com.ssj.hulijie.pro.firstpage.view.widget.MyViewPaper;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
@@ -98,6 +104,10 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private boolean isHidden;
     private TextView et_search;
     private LinearLayout ll_out; //外层
+    private ImageView iv_one, iv_two;
+    private List<View> pagerView;
+    private MyViewPaper category_vp;
+    private GridView gv_one, gv_two;
 
     // 要申请的权限
 
@@ -121,9 +131,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         ptr.setLastUpdateTimeRelateObject(this);
         ptr.setPtrHandler(ptrHandler);
         ptr.addPtrUIHandler(ptrUihandler);
-
-
-
 
 
         //init RecyclerView
@@ -151,13 +158,58 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         adappter_four_part.setOnItemClickListener(four_part_listener);
 
 
-        //init grid category
-        RecyclerView rv_header_rv = (RecyclerView) header.findViewById(R.id.rv_header_rv);
-        rv_header_rv.setFocusable(false);  //解决上滑回弹的问题
-        rv_header_rv_adapter = new FirstPageMainHeaderAdapter(context);
-        rv_header_rv.setAdapter(rv_header_rv_adapter);
-        rv_header_rv.setLayoutManager(new GridLayoutManager(context, 4));
-        rv_header_rv_adapter.setOnItemClickListener(headrCatetoryListener);
+//        //init grid category
+
+        iv_one = (ImageView) header.findViewById(R.id.iv_one);
+        iv_two = (ImageView) header.findViewById(R.id.iv_two);
+
+
+        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.viewpager_one, null);
+        View view2 = LayoutInflater.from(getContext()).inflate(R.layout.viewpager_two, null);
+        gv_one = (GridView) view1.findViewById(R.id.gv_one);
+        gv_two = (GridView) view2.findViewById(R.id.gv_two);
+
+        pagerView = new ArrayList<>();
+        pagerView.add(view1);
+        pagerView.add(view2);
+
+        category_vp = (MyViewPaper) header.findViewById(R.id.category_vp);
+        MyViewPagerAdapter pagerAdapter = new MyViewPagerAdapter(getActivity(), pagerView);
+        category_vp.setAdapter(pagerAdapter);
+        iv_one.setSelected(true);
+        category_vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int arg0) {
+                if (arg0 == 0) {
+                    iv_one.setSelected(true);
+                    iv_two.setSelected(false);
+                } else {
+                    iv_one.setSelected(false);
+                    iv_two.setSelected(true);
+                }
+
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+
+                ptr.disableWhenHorizontalMove(true);
+            }
+        });
+
+
+//        RecyclerView rv_header_rv = (RecyclerView) header.findViewById(R.id.rv_header_rv);
+//        rv_header_rv.setFocusable(false);  //解决上滑回弹的问题
+//        rv_header_rv_adapter = new FirstPageMainHeaderAdapter(context);
+//        rv_header_rv.setAdapter(rv_header_rv_adapter);
+//        rv_header_rv.setLayoutManager(new GridLayoutManager(context, 4));
+//        rv_header_rv_adapter.setOnItemClickListener(headrCatetoryListener);
 
 
         //init location
@@ -467,14 +519,30 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
      * @return
      */
     private void getHeaderList() {
-        final List<ItemFirstPageMainHeaderList> lists = new ArrayList<>();
         mPresenter.getCatetoryPresenter(context, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainHeaderList>>() {
             @Override
             public void onResult(List<ItemFirstPageMainHeaderList> result, int return_code) {
-                for (int i = 0; i < result.size(); i++) {
-                    ItemFirstPageMainHeaderList item = result.get(i);
-                    lists.add(item);
-                    rv_header_rv_adapter.setData(lists);
+
+                if (result != null) {
+//                    ItemFirstPageMainHeaderList item = result.get(i);
+//                        lists.add(item);
+//                        rv_header_rv_adapter.setData(lists);
+
+                    int size = result.size();
+                    List<ItemFirstPageMainHeaderList> list1 = new ArrayList<>();
+                    List<ItemFirstPageMainHeaderList> list2 = new ArrayList<>();
+
+                    for (int i = 0;i<size;i++) {
+                        if (i < size / 2+1) {
+                            list1.add(result.get(i));
+                        } else {
+                            list2.add(result.get(i));
+                        }
+                    }
+                    MygridviewAdapter mgAdapter1 = new MygridviewAdapter(getActivity(), list1);
+                    gv_one.setAdapter(mgAdapter1);
+                    MygridviewAdapter mgAdapter2 = new MygridviewAdapter(getActivity(), list2);
+                    gv_two.setAdapter(mgAdapter2);
                 }
             }
         });

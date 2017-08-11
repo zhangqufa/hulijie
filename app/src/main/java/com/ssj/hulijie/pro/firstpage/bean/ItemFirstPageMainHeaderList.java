@@ -1,5 +1,8 @@
 package com.ssj.hulijie.pro.firstpage.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.ssj.hulijie.utils.AppURL;
 import com.ssj.hulijie.utils.ImageUrlFormat;
 
@@ -8,12 +11,30 @@ import com.ssj.hulijie.utils.ImageUrlFormat;
  * on 2017/3/31
  */
 
-public class ItemFirstPageMainHeaderList {
+public class ItemFirstPageMainHeaderList implements Parcelable {
 
     private String id;
     private String pic;
     private String name;
 
+
+    protected ItemFirstPageMainHeaderList(Parcel in) {
+        id = in.readString();
+        pic = in.readString();
+        name = in.readString();
+    }
+
+    public static final Creator<ItemFirstPageMainHeaderList> CREATOR = new Creator<ItemFirstPageMainHeaderList>() {
+        @Override
+        public ItemFirstPageMainHeaderList createFromParcel(Parcel in) {
+            return new ItemFirstPageMainHeaderList(in);
+        }
+
+        @Override
+        public ItemFirstPageMainHeaderList[] newArray(int size) {
+            return new ItemFirstPageMainHeaderList[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -55,5 +76,17 @@ public class ItemFirstPageMainHeaderList {
                 ", pic='" + pic + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(pic);
+        parcel.writeString(name);
     }
 }

@@ -18,7 +18,7 @@
             android:id="@+id/title"
             android:text="保洁聚惠"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -28,7 +28,7 @@
             android:id="@+id/sub_title"
             android:text="最高减150元"
             android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
