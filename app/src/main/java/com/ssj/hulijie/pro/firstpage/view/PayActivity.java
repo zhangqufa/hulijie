@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
@@ -20,7 +21,7 @@ import com.ssj.hulijie.utils.TitlebarUtil;
  */
 
 public class PayActivity extends BaseActivity implements View.OnClickListener {
-    private ItemFirstPageMainList item;
+    private DetailServiceItem detail;
     private ImageView wechat_select, alipay_select;
     private PayStatus currentPayStatus = PayStatus.WECHAT;
     private Button btn_pay;
@@ -62,7 +63,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        item = getIntent().getParcelableExtra("item");
+        detail = getIntent().getParcelableExtra("detail");
         setContentView(R.layout.act_pay);
         initToolbar();
         initView();

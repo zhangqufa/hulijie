@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -19,27 +20,36 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
-import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
+import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
 import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
+import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+
+import static android.R.attr.firstDayOfWeek;
+import static android.R.attr.format;
 
 
 /**
  * Created by Administrator on 2017/5/15.
  */
 
-public class OrderActivity extends BaseActivity implements View.OnClickListener ,SelectPopWindow.SelectCallBack {
+public class OrderActivity extends BaseActivity implements View.OnClickListener, SelectPopWindow.SelectCallBack {
     private TextView order_buy_count;  //购买数量
     private int count = 1;
     private Button order_sub;
-    private boolean isVisible ;  //表示scrollview里面的view是否显示
+    private boolean isVisible;  //表示scrollview里面的view是否显示
     private View bottom_btn;
     private View scroll_btn;
     private TextView tv_mark;
@@ -50,12 +60,15 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     public final static int REQUEST_ADDRESS = 100;
     private SelectPopWindow menuWindow;
     private TextView select_time;
-    private ItemFirstPageMainList item;
+    private DetailServiceItem detail;
 
     private ImageView order_img;
     private TextView order_title;
     private TextView order_price;
     private TextView order_price_total;
+
+    private int startHour;
+    private int startMinute;
 
 
     @Override
@@ -67,7 +80,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_order_progress);
-        item = getIntent().getParcelableExtra("item");
+        detail = getIntent().getParcelableExtra("detail");
         initView();
 
         updateUI();
@@ -90,35 +103,218 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void updateUI() {
-        if (item != null) {
+        if (detail != null) {
 
-            Glide.with(this).load(item.getPic()).into(order_img);
-            order_title.setText(item.getName());
-            order_price.setText("￥"+item.getPrice());
-            order_price_total.setText("￥"+item.getPrice());
+            Glide.with(this).load(detail.getDefault_image()).into(order_img);
+            order_title.setText(detail.getGoods_name());
+            order_price.setText("￥" + detail.getPrice());
+            order_price_total.setText("￥" + detail.getPrice());
+
+
+            /**
+             * <pre>
+             *  9:05预约10:00，9:06预约10:30
+             *  9:35预约10:30，9:36预约11:00
+             *  1.判断分钟如果  <5分钟              当日的起始时间   hour+1 :00
+             *           如果  >5分钟 && < 35分钟                  hour+1 :30
+             *  2.判断分钟如果  >35分钟                            hour+2 :00
+             * </pre>
+             */
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH_mm");
+
+            String hh_mm = dateFormat.format(detail.getSystem_time() * 1000);
+            String[] split = hh_mm.split("_");
+
+            int hour = Integer.valueOf(split[0]);
+            int minute = Integer.valueOf(split[1]);
+            AppLog.Log("minute: " + minute);
+            if (minute < 5) {
+                startHour = hour + 1;
+                startMinute = 0;
+            } else if (minute > 5 && minute < 35) {
+                startHour = hour + 1;
+                startMinute = 30;
+            } else if (minute > 35) {
+                startHour = hour + 2;
+                startMinute = 0;
+            }
+            setMainDatas();
+            setSubDatas();
+
         }
 
     }
 
+
+    private HashMap<String, List<String>> map = new HashMap<>();
+
+    private void setSubDatas() {
+        String[] strings = new String[lists.size()];
+        for (int i = 0; i < lists.size(); i++) {
+            strings[i] = lists.get(i);
+        }
+
+
+        String start_time = startHour + ":" + ((startMinute == 0) ? "00" : "30");
+        AppLog.Log("start_time: " + start_time);
+        List<String> first_list = new ArrayList<>();
+
+        if (9 < startHour && startHour < 18) {
+
+
+            first_list.add(start_time);
+
+            if (startMinute == 0) {
+                first_list.clear();
+                while (startHour < 18) {
+                    first_list.add(startHour + ":30");
+
+                    first_list.add((startHour + 1) + ":00");
+                    startHour++;
+                }
+            } else if (startMinute ==30) {
+                first_list.clear();
+                while (startHour < 18) {
+                    int i = startHour + 1;
+                    first_list.add(i + ":00");
+                    if (i!=18)
+                    first_list.add(i + ":30");
+                    startHour++;
+                }
+            }
+
+
+
+            String[] s1  = new String[first_list.size()];
+            for (int i = 0;i<first_list.size();i++) {
+                s1[i] = first_list.get(i);
+            }
+
+            String[] s2 = {"9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"};
+            String[][] ss = {s1, s2, s2, s2, s2, s2, s2};
+            for (int i = 0; i < strings.length; i++) {
+                map.put(strings[i], Arrays.asList(ss[i]));
+            }
+        } else {
+            String[] s2 = {"9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"};
+            String[][] ss = {s2, s2, s2, s2, s2, s2, s2};
+            for (int i = 0; i < strings.length; i++) {
+                map.put(strings[i], Arrays.asList(ss[i]));
+            }
+        }
+
+
+    }
+
+    private HashMap<String, List<String>> createSubDatas() {
+        return map;
+    }
+
+
+    private List<String> lists = new ArrayList<>();
+
+    private void setMainDatas() {
+        long currentTime = detail.getSystem_time() * 1000;
+        long day = 24 * 60 * 60 * 1000;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM月dd日(E)");
+
+
+        if (startHour < 18) {
+            lists.clear();
+            String first = dateFormat.format(currentTime);
+            AppLog.Log("format: first_  " + first);
+            long l2 = currentTime + day;
+            String second = dateFormat.format(l2);
+            AppLog.Log("format: second_  " + second);
+            long l3 = currentTime + day * 2;
+            String third = dateFormat.format(l3);
+            AppLog.Log("format: third_  " + third);
+            long l4 = currentTime + day * 3;
+            String fourth = dateFormat.format(l4);
+            AppLog.Log("format: fourth_  " + fourth);
+
+            long l5 = currentTime + day * 4;
+            String fifth = dateFormat.format(l5);
+            AppLog.Log("format: fifth_  " + fifth);
+
+            long l6 = currentTime + day * 5;
+            String sixth = dateFormat.format(l6);
+            AppLog.Log("format: sixth_  " + sixth);
+
+            long l7 = currentTime + day * 6;
+            String seventh = dateFormat.format(l7);
+            AppLog.Log("format: seventh_  " + seventh);
+
+
+            lists.add(first);
+            lists.add(second);
+            lists.add(third);
+            lists.add(fourth);
+            lists.add(fifth);
+            lists.add(sixth);
+            lists.add(seventh);
+        } else if (startHour > 18) {
+            lists.clear();
+            String first = dateFormat.format(currentTime + day);
+            AppLog.Log("format: first_  " + first);
+            long l2 = currentTime + day + day;
+            String second = dateFormat.format(l2);
+            AppLog.Log("format: second_  " + second);
+            long l3 = currentTime + day * 2 + day;
+            String third = dateFormat.format(l3);
+            AppLog.Log("format: third_  " + third);
+            long l4 = currentTime + day * 3 + day;
+            String fourth = dateFormat.format(l4);
+            AppLog.Log("format: fourth_  " + fourth);
+
+            long l5 = currentTime + day * 4 + day;
+            String fifth = dateFormat.format(l5);
+            AppLog.Log("format: fifth_  " + fifth);
+
+            long l6 = currentTime + day * 5 + day;
+            String sixth = dateFormat.format(l6);
+            AppLog.Log("format: sixth_  " + sixth);
+
+            long l7 = currentTime + day * 6 + day;
+            String seventh = dateFormat.format(l7);
+            AppLog.Log("format: seventh_  " + seventh);
+
+
+            lists.add(first);
+            lists.add(second);
+            lists.add(third);
+            lists.add(fourth);
+            lists.add(fifth);
+            lists.add(sixth);
+            lists.add(seventh);
+        }
+
+
+    }
+
+    private List<String> createMainDatas() {
+        return lists;
+    }
+
     private void initView() {
         initToolbar();
-        order_sub = (Button)findViewById(R.id.order_sub);
+        order_sub = (Button) findViewById(R.id.order_sub);
         findViewById(R.id.order_add).setOnClickListener(this);
         order_sub.setOnClickListener(this);
         order_sub.setClickable(false);
-        order_buy_count = (TextView)findViewById(R.id.order_buy_count);
+        order_buy_count = (TextView) findViewById(R.id.order_buy_count);
 
-        EditText et_name=(EditText)findViewById(R.id.et_name);
+        EditText et_name = (EditText) findViewById(R.id.et_name);
         et_name.setOnFocusChangeListener(listener);
-        EditText et_mobile=(EditText)findViewById(R.id.et_mobile);
+        EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
         et_mobile.setOnFocusChangeListener(listener);
         EditText et_mark = (EditText) findViewById(R.id.et_mark);
         et_mark.setOnFocusChangeListener(listener);
         bottom_btn = findViewById(R.id.bottom_btn);
         scroll_btn = findViewById(R.id.scroll_btn);
 
-        order_address=(TextView)findViewById(R.id.order_address);
-        tv_mark=(TextView)findViewById(R.id.tv_mark);
+        order_address = (TextView) findViewById(R.id.order_address);
+        tv_mark = (TextView) findViewById(R.id.tv_mark);
         String html_str = "<font color='#FF246E'>请仔细核对您填写的手机号</font>，并保持电话畅通，商家会在服务开始前与此号码沟通服务具体事宜";
         Spanned spanned = Html.fromHtml(html_str);
         tv_mark.setText(spanned);
@@ -150,16 +346,14 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     };
 
     private void initToolbar() {
-        RelativeLayout title_bar_base=(RelativeLayout)findViewById(R.id.title_bar_base);
+        RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
         TitlebarUtil.inittoolBar(this, title_bar_base, true, "预约下单", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
-        },null);
+        }, null);
     }
-
-
 
 
     @Override
@@ -186,7 +380,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.btn_pay:
                 Intent intent1 = new Intent(this, PayActivity.class);
-                intent1.putExtra("item", item);
+                intent1.putExtra("detail", detail);
                 startActivity(intent1);
                 break;
         }
@@ -228,23 +422,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
 
     };
 
-    private List<String> createMainDatas() {
-        String[] strings = {"7月13日(周四)", "7月14日(周五)", "7月15日(周六)"};
-        return Arrays.asList(strings);
-    }
-
-    private HashMap<String, List<String>> createSubDatas() {
-        HashMap<String, List<String>> map = new HashMap<>();
-        String[] strings = {"7月13日(周四)", "7月14日(周五)", "7月15日(周六)"};
-        String[] s1 = {"8:30-9:00", "9:00-9:30", "9:30-10:00"};
-        String[] s2 = {"10:00-10:30", "10:30-11:00","11:00-11:30","11:30-12:00"};
-        String[] s3 = {"12:00-12:30", "12:30-13:00", "13:00-13:30", "13:30-14:00","14:00-14:30"};
-        String[][] ss = {s1, s2, s3};
-        for (int i = 0; i < strings.length; i++) {
-            map.put(strings[i], Arrays.asList(ss[i]));
-        }
-        return map;
-    }
 
     @Override
     public void selectDataCallBack(String data) {
@@ -256,21 +433,21 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
         this.time = time;
     }
 
-    private void show(){
-        select_time.setText(date+" "+time);
+    private void show() {
+        select_time.setText(date + " " + time);
     }
 
 
-    private void changeBuyCount(){
+    private void changeBuyCount() {
         if (count > 1) {
-           order_sub.setClickable(true);
+            order_sub.setClickable(true);
         } else if (count == 1) {
             order_sub.setClickable(false);
         }
         order_buy_count.setText(count + "");
 
-        float v = Float.valueOf(order_buy_count.getText().toString()) * Float.valueOf(item.getPrice());
-        order_price_total.setText("￥"+v);
+        float v = Float.valueOf(order_buy_count.getText().toString()) * Float.valueOf(detail.getPrice());
+        order_price_total.setText("￥" + v);
     }
 
     @Override

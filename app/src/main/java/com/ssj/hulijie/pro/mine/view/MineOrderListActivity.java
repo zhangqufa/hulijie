@@ -1,17 +1,11 @@
 package com.ssj.hulijie.pro.mine.view;
 
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ssj.hulijie.R;
@@ -21,7 +15,6 @@ import com.ssj.hulijie.pro.mine.view.widget.TabPageIndicator;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 

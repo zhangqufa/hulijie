@@ -89,6 +89,8 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private TextView evaluate_txt;
     private AppCompatRatingBar evaluate_level;
 
+    private DetailServiceItem detail;
+
     @Override
     public MvpBasePresenter bindPresenter() {
         mPresenter = new DetailPresenter(this);
@@ -124,7 +126,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
     private void updateUI(DetailServiceAndEvaluateItem result) {
         if (result != null) {
-            DetailServiceItem detail = result.getDetail();
+            detail = result.getDetail();
             DetailServiceEvaluate evaluate = result.getEvaluate();
             //show evaluate
             if (evaluate != null && evaluate.getRows() != null && evaluate.getRows().size() > 0) {
@@ -274,7 +276,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             case R.id.order_btn:
 
                 Intent i = new Intent(this, OrderActivity.class);
-                i.putExtra("item", item);
+                i.putExtra("detail", detail);
                 startActivity(i);
                 break;
             case R.id.check_all_evaluate:
