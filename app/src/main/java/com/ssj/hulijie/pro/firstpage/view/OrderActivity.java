@@ -94,9 +94,16 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onResult(List<AddressItem> result, int return_code) {
                 if (result != null) {
-                    for (AddressItem item : result) {
 
+
+                    for (int i =0 ;i<result.size();i++) {
+                        if (result.get(i).getDefault_addr() == 1) {
+                            order_address.setText(result.get(i).getAddress());
+                        } else {
+                            order_address.setText(result.get(0).getAddress());
+                        }
                     }
+
                 }
             }
         });
@@ -104,15 +111,15 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
     private void updateUI() {
         if (detail != null) {
-
             Glide.with(this).load(detail.getDefault_image()).into(order_img);
             order_title.setText(detail.getGoods_name());
             order_price.setText("￥" + detail.getPrice());
             order_price_total.setText("￥" + detail.getPrice());
 
-
             /**
              * <pre>
+             *
+             *  预约时间 从 9:00 ~ 18:00
              *  9:05预约10:00，9:06预约10:30
              *  9:35预约10:30，9:36预约11:00
              *  1.判断分钟如果  <5分钟              当日的起始时间   hour+1 :00
@@ -121,7 +128,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
              * </pre>
              */
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH_mm");
-
             String hh_mm = dateFormat.format(detail.getSystem_time() * 1000);
             String[] split = hh_mm.split("_");
 
@@ -146,50 +152,40 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    private HashMap<String, List<String>> map = new HashMap<>();
+    private HashMap<String, List<String>> map = new HashMap<>(); //存放wheel第二列数据
 
+    /**
+     * 设置wheel 第二列数据
+     */
     private void setSubDatas() {
         String[] strings = new String[lists.size()];
         for (int i = 0; i < lists.size(); i++) {
             strings[i] = lists.get(i);
         }
-
-
         String start_time = startHour + ":" + ((startMinute == 0) ? "00" : "30");
         AppLog.Log("start_time: " + start_time);
         List<String> first_list = new ArrayList<>();
-
         if (9 < startHour && startHour < 18) {
-
-
             first_list.add(start_time);
-
             if (startMinute == 0) {
-                first_list.clear();
                 while (startHour < 18) {
                     first_list.add(startHour + ":30");
-
                     first_list.add((startHour + 1) + ":00");
                     startHour++;
                 }
-            } else if (startMinute ==30) {
-                first_list.clear();
+            } else if (startMinute == 30) {
                 while (startHour < 18) {
                     int i = startHour + 1;
                     first_list.add(i + ":00");
-                    if (i!=18)
-                    first_list.add(i + ":30");
+                    if (i != 18)
+                        first_list.add(i + ":30");
                     startHour++;
                 }
             }
-
-
-
-            String[] s1  = new String[first_list.size()];
-            for (int i = 0;i<first_list.size();i++) {
+            String[] s1 = new String[first_list.size()];
+            for (int i = 0; i < first_list.size(); i++) {
                 s1[i] = first_list.get(i);
             }
-
             String[] s2 = {"9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"};
             String[][] ss = {s1, s2, s2, s2, s2, s2, s2};
             for (int i = 0; i < strings.length; i++) {
@@ -202,96 +198,40 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 map.put(strings[i], Arrays.asList(ss[i]));
             }
         }
-
-
     }
 
+    /**
+     * 获取wheel 第二列数据
+     */
     private HashMap<String, List<String>> createSubDatas() {
         return map;
     }
 
+    private List<String> lists = new ArrayList<>(); //存放wheel 第一列数据
 
-    private List<String> lists = new ArrayList<>();
-
+    /**
+     * 设置wheel 第一列数据
+     */
     private void setMainDatas() {
         long currentTime = detail.getSystem_time() * 1000;
         long day = 24 * 60 * 60 * 1000;
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM月dd日(E)");
-
-
+        lists.clear();
         if (startHour < 18) {
-            lists.clear();
-            String first = dateFormat.format(currentTime);
-            AppLog.Log("format: first_  " + first);
-            long l2 = currentTime + day;
-            String second = dateFormat.format(l2);
-            AppLog.Log("format: second_  " + second);
-            long l3 = currentTime + day * 2;
-            String third = dateFormat.format(l3);
-            AppLog.Log("format: third_  " + third);
-            long l4 = currentTime + day * 3;
-            String fourth = dateFormat.format(l4);
-            AppLog.Log("format: fourth_  " + fourth);
-
-            long l5 = currentTime + day * 4;
-            String fifth = dateFormat.format(l5);
-            AppLog.Log("format: fifth_  " + fifth);
-
-            long l6 = currentTime + day * 5;
-            String sixth = dateFormat.format(l6);
-            AppLog.Log("format: sixth_  " + sixth);
-
-            long l7 = currentTime + day * 6;
-            String seventh = dateFormat.format(l7);
-            AppLog.Log("format: seventh_  " + seventh);
-
-
-            lists.add(first);
-            lists.add(second);
-            lists.add(third);
-            lists.add(fourth);
-            lists.add(fifth);
-            lists.add(sixth);
-            lists.add(seventh);
+            for (int i = 0; i < 7; i++) {
+                String format = dateFormat.format(currentTime + i * day);
+                lists.add(format);
+            }
         } else if (startHour > 18) {
-            lists.clear();
-            String first = dateFormat.format(currentTime + day);
-            AppLog.Log("format: first_  " + first);
-            long l2 = currentTime + day + day;
-            String second = dateFormat.format(l2);
-            AppLog.Log("format: second_  " + second);
-            long l3 = currentTime + day * 2 + day;
-            String third = dateFormat.format(l3);
-            AppLog.Log("format: third_  " + third);
-            long l4 = currentTime + day * 3 + day;
-            String fourth = dateFormat.format(l4);
-            AppLog.Log("format: fourth_  " + fourth);
-
-            long l5 = currentTime + day * 4 + day;
-            String fifth = dateFormat.format(l5);
-            AppLog.Log("format: fifth_  " + fifth);
-
-            long l6 = currentTime + day * 5 + day;
-            String sixth = dateFormat.format(l6);
-            AppLog.Log("format: sixth_  " + sixth);
-
-            long l7 = currentTime + day * 6 + day;
-            String seventh = dateFormat.format(l7);
-            AppLog.Log("format: seventh_  " + seventh);
-
-
-            lists.add(first);
-            lists.add(second);
-            lists.add(third);
-            lists.add(fourth);
-            lists.add(fifth);
-            lists.add(sixth);
-            lists.add(seventh);
+            for (int i = 0; i < 7; i++) {
+                String format = dateFormat.format(currentTime + i * day + day);
+                lists.add(format);
+            }
         }
-
-
     }
-
+    /**
+     * 获取wheel 第一列数据
+     */
     private List<String> createMainDatas() {
         return lists;
     }
