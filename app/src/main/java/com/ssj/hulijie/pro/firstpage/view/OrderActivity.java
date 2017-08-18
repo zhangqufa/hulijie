@@ -222,7 +222,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 String format = dateFormat.format(currentTime + i * day);
                 lists.add(format);
             }
-        } else if (startHour > 18) {
+        } else if (startHour >= 18) {
             for (int i = 0; i < 7; i++) {
                 String format = dateFormat.format(currentTime + i * day + day);
                 lists.add(format);
