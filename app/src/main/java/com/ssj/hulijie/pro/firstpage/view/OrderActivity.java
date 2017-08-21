@@ -96,7 +96,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 if (result != null) {
 
 
-                    for (int i =0 ;i<result.size();i++) {
+                    for (int i = 0; i < result.size(); i++) {
                         if (result.get(i).getDefault_addr() == 1) {
                             order_address.setText(result.get(i).getAddress());
                         } else {
@@ -165,7 +165,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         String start_time = startHour + ":" + ((startMinute == 0) ? "00" : "30");
         AppLog.Log("start_time: " + start_time);
         List<String> first_list = new ArrayList<>();
-        if (9 < startHour && startHour < 18) {
+        if (9 <= startHour && startHour < 18) {
             first_list.add(start_time);
             if (startMinute == 0) {
                 while (startHour < 18) {
@@ -182,6 +182,17 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     startHour++;
                 }
             }
+            String[] s1 = new String[first_list.size()];
+            for (int i = 0; i < first_list.size(); i++) {
+                s1[i] = first_list.get(i);
+            }
+            String[] s2 = {"9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"};
+            String[][] ss = {s1, s2, s2, s2, s2, s2, s2};
+            for (int i = 0; i < strings.length; i++) {
+                map.put(strings[i], Arrays.asList(ss[i]));
+            }
+        } else if (startHour == 18 && startMinute == 0) {
+            first_list.add(start_time);
             String[] s1 = new String[first_list.size()];
             for (int i = 0; i < first_list.size(); i++) {
                 s1[i] = first_list.get(i);
@@ -222,13 +233,27 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 String format = dateFormat.format(currentTime + i * day);
                 lists.add(format);
             }
-        } else if (startHour >= 18) {
+
+        } else if (startHour == 18) {
+            if (startMinute == 0) {
+                for (int i = 0; i < 7; i++) {
+                    String format = dateFormat.format(currentTime + i * day);
+                    lists.add(format);
+                }
+            } else {
+                for (int i = 0; i < 7; i++) {
+                    String format = dateFormat.format(currentTime + i * day + day);
+                    lists.add(format);
+                }
+            }
+        } else if (startHour > 18) {
             for (int i = 0; i < 7; i++) {
                 String format = dateFormat.format(currentTime + i * day + day);
                 lists.add(format);
             }
         }
     }
+
     /**
      * 获取wheel 第一列数据
      */

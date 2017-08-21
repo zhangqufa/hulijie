@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ssj.hulijie.R;
+import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.ImageUrlFormat;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter <DetailImageAdapter
     public void onBindViewHolder(final DetailImageViewHolder holder, int position) {
         String url = lists.get(position);
         final String url_format = ImageUrlFormat.urlFormat(url);
-//        AppLog.Log("url_images: "+url_format);
+        AppLog.Log("url_images: "+url_format);
         Glide.with(context)
                 .load(url_format)
                 .asBitmap()

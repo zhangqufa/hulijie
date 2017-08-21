@@ -91,14 +91,6 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         super.onPause();
     }
 
-
-    @Override
-    public void startActivity(Intent intent) {
-        super.startActivity(intent);
-        overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
-    }
-
-
     public <VT> VT getViewId(@IdRes int id) {
         return (VT) findViewById(id);
     }
