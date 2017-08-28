@@ -498,7 +498,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                     List<ItemFirstPageMainHeaderList> list2 = new ArrayList<>();
 
                     for (int i = 0;i<size;i++) {
-                        if (i < 7) {
+                        if (i < 8) {
                             list1.add(result.get(i));
                         } else if (i<16){
                             list2.add(result.get(i));
