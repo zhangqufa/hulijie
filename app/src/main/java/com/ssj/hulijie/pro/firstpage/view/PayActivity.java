@@ -1,6 +1,5 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,12 +21,12 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.utils.AppLog;
-import com.ssj.hulijie.utils.EncryptUtil;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 import com.ssj.hulijie.wxapi.ConstantsWechat;
 import com.ssj.hulijie.wxapi.ItemWechatPayResopse;
+import com.ssj.hulijie.wxapi.WxUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -40,13 +39,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
+
 
 /**
  * Created by vic_zhang .
@@ -92,49 +89,12 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     private IWXAPI api;
 
-    /**
-     * 获取一定长度的随机字符串
-     *
-     * @param length 指定字符串长度
-     * @return 一定长度的字符串
-     */
-    public static String getRandomStringByLength(int length) {
-        String base = "abcdefghijklmnopqrstuvwxyz0123456789";
-        Random random = new Random();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < length; i++) {
-            int number = random.nextInt(base.length());
-            sb.append(base.charAt(number));
-        }
-        return sb.toString();
-    }
 
-    /**
-     * 参数进行XML化
-     *
-     * @param map,sign
-     * @return
-     */
-    public static String parseString2Xml(Map<String, String> map, String sign) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("<xml>");
-        Set es = map.entrySet();
-        Iterator iterator = es.iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            String k = (String) entry.getKey();
-            String v = (String) entry.getValue();
-            sb.append("<" + k + ">" + v + "</" + k + ">");
-        }
-        sb.append("<sign>" + sign + "</sign>");
-        sb.append("</xml>");
-        return sb.toString();
-    }
 
     private void payForWechat() {
         SharedUtil.setPreferBool(SharedKey.PAY_SUCCESS, false);
         String outTradeNo = OrderInfoUtil2_0.getOutTradeNo();
-        String nonce_str = getRandomStringByLength(8);
+        String nonce_str = WxUtil.getRandomStringByLength(8);
         //1.统一下单 ：
         final String str_tongyi = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         SortedMap<String, String> params = new TreeMap<>();
@@ -147,7 +107,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         params.put("total_fee", "1"); //单位分
         params.put("trade_type", "APP");
         params.put("notify_url", "http://www.weixin.qq.com/wxpay/pay.php");
-        final String xml_str = parseString2Xml(params, getSign(params));
+        final String xml_str = WxUtil.parseString2Xml(params, WxUtil.getSign(params));
         AppLog.Log("xml_str:" + xml_str);
 
         new Thread(new Runnable() {
@@ -198,12 +158,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
 
                     // xml解析
-                    String version = null;
-                    String seqID = null;
                     XmlPullParser parser = Xml.newPullParser();
-                    String resultCode = "";
-                    parser.setInput(new ByteArrayInputStream(string
-                            .getBytes("UTF-8")), "UTF-8");
+                    parser.setInput(new ByteArrayInputStream(string.getBytes("UTF-8")), "UTF-8");
                     ItemWechatPayResopse item = new ItemWechatPayResopse();
                     int eventType = parser.getEventType();
                     while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -252,10 +208,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
             }
         }).start();
-
-
-
-
     }
     private Handler mHandler   = new Handler(){
         @Override
@@ -288,29 +240,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         params.put("noncestr", req.nonceStr);
         params.put("timestamp", req.timeStamp);
         params.put("package", req.packageValue);
-        req.sign = getSign(params);
+        req.sign = WxUtil.getSign(params);
         api.sendReq(req);
     }
 
-    private String getSign(Map<String, String> params) {
-        Map<String, String> sortMap = new TreeMap<>();
-        sortMap.putAll(params);
-        // 以k1=v1&k2=v2...方式拼接参数
-        StringBuilder builder = new StringBuilder();
-        for (Map.Entry<String, String> s : sortMap.entrySet()) {
-            String k = s.getKey();
-            String v = s.getValue();
-            if (TextUtils.isEmpty(v)) {// 过滤空值
-                continue;
-            }
-            builder.append(k).append("=").append(v).append("&");
-        }
-        if (!sortMap.isEmpty()) {
-            builder.deleteCharAt(builder.length() - 1);
-        }
-        builder.append("&key=" + ConstantsWechat.KEY);
-        return EncryptUtil.getMD5(builder.toString()).toUpperCase();
-    }
+
 
 
     private void payForAlipay() {
