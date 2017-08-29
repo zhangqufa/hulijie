@@ -1,9 +1,11 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,23 +18,33 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.alipay.Constants;
 import com.ssj.hulijie.alipay.OrderInfoUtil2_0;
 import com.ssj.hulijie.alipay.PayResult;
-import com.ssj.hulijie.alipay.SignUtils;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
-import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.utils.AppLog;
-import com.ssj.hulijie.utils.AppToast;
-import com.ssj.hulijie.utils.Constant;
+import com.ssj.hulijie.utils.EncryptUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
+import com.ssj.hulijie.wxapi.ConstantsWechat;
+import com.ssj.hulijie.wxapi.ItemWechatPayResopse;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.xmlpull.v1.XmlPullParser;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.UUID;
 
 /**
  * Created by vic_zhang .
@@ -61,7 +73,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btn_pay:
                 if (currentPayStatus == PayStatus.ALIPAY) {
                     payForAlipay();
-                } else if(currentPayStatus == PayStatus.WECHAT){
+                } else if (currentPayStatus == PayStatus.WECHAT) {
                     payForWechat();
                 }
 
@@ -69,12 +81,232 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private void payForWechat() {
+    private IWXAPI api;
+
+    /**
+     * 获取一定长度的随机字符串
+     *
+     * @param length 指定字符串长度
+     * @return 一定长度的字符串
+     */
+    public static String getRandomStringByLength(int length) {
+        String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
     }
 
-    private void payForAlipay() {
-        alipay(detail.getGoods_name(),detail.getGoods_name(),"0.01");
+    /**
+     * 参数进行XML化
+     *
+     * @param map,sign
+     * @return
+     */
+    public static String parseString2Xml(Map<String, String> map, String sign) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("<xml>");
+        Set es = map.entrySet();
+        Iterator iterator = es.iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String k = (String) entry.getKey();
+            String v = (String) entry.getValue();
+            sb.append("<" + k + ">" + v + "</" + k + ">");
+        }
+        sb.append("<sign>" + sign + "</sign>");
+        sb.append("</xml>");
+        return sb.toString();
     }
+
+    private void payForWechat() {
+        String outTradeNo = OrderInfoUtil2_0.getOutTradeNo();
+        String nonce_str = getRandomStringByLength(8);
+        //1.统一下单 ：
+        final String str_tongyi = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+        SortedMap<String, String> params = new TreeMap<>();
+        params.put("appid", ConstantsWechat.APPID);
+        params.put("mch_id", ConstantsWechat.MCH_ID);
+        params.put("device_info", UUID.randomUUID().toString()); //设备号
+        params.put("nonce_str", nonce_str);
+        params.put("body", detail.getGoods_name());//商品描述
+        params.put("out_trade_no", outTradeNo);
+        params.put("total_fee", "1"); //单位分
+        params.put("trade_type", "APP");
+        params.put("notify_url", "http://www.weixin.qq.com/wxpay/pay.php");
+        final String xml_str = parseString2Xml(params, getSign(params));
+        AppLog.Log("xml_str:" + xml_str);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    byte[] xmlbyte = xml_str.toString().getBytes("UTF-8");
+
+                    System.out.println(xmlbyte);
+
+                    URL url = new URL(str_tongyi);
+
+
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(5000);
+                    conn.setDoOutput(true);// 允许输出
+                    conn.setDoInput(true);
+                    conn.setUseCaches(false);// 不使用缓存
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
+                    conn.setRequestProperty("Charset", "UTF-8");
+                    conn.setRequestProperty("Content-Length",
+                            String.valueOf(xmlbyte.length));
+                    conn.setRequestProperty("Content-Type", "text/xml; charset=UTF-8");
+                    conn.setRequestProperty("X-ClientType", "2");//发送自定义的头信息
+
+                    conn.getOutputStream().write(xmlbyte);
+                    conn.getOutputStream().flush();
+                    conn.getOutputStream().close();
+
+
+                    if (conn.getResponseCode() != 200)
+                        throw new RuntimeException("请求url失败");
+
+                    InputStream is = conn.getInputStream();// 获取返回数据
+
+                    // 使用输出流来输出字符(可选)
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ((len = is.read(buf)) != -1) {
+                        out.write(buf, 0, len);
+                    }
+                    String string = out.toString("UTF-8");
+                    AppLog.Log(string);
+                    out.close();
+
+
+                    // xml解析
+                    String version = null;
+                    String seqID = null;
+                    XmlPullParser parser = Xml.newPullParser();
+                    String resultCode = "";
+                    parser.setInput(new ByteArrayInputStream(string
+                            .getBytes("UTF-8")), "UTF-8");
+                    ItemWechatPayResopse item = new ItemWechatPayResopse();
+                    int eventType = parser.getEventType();
+                    while (eventType != XmlPullParser.END_DOCUMENT) {
+                        if (eventType == XmlPullParser.START_TAG) {
+                            if ("return_code".equals(parser.getName())) {
+                                String return_code = parser.nextText();
+                                item.setReturn_code(return_code);
+                            } else if ("return_msg".equals(parser.getName())) {
+                                String return_msg = parser.nextText();
+                                item.setReturn_msg(return_msg);
+                            } else if ("appid".equals(parser.getName())) {
+                                String appid = parser.nextText();
+                                item.setAppid(appid);
+                            }else if ("mch_id".equals(parser.getName())) {
+                                String mch_id = parser.nextText();
+                                item.setMch_id(mch_id);
+                            }else if ("device_info".equals(parser.getName())) {
+                                String device_info = parser.nextText();
+                                item.setDevice_info(device_info);
+                            }else if ("nonce_str".equals(parser.getName())) {
+                                String nonce_str = parser.nextText();
+                                item.setNonce_str(nonce_str);
+                            }else if ("sign".equals(parser.getName())) {
+                                String sign = parser.nextText();
+                                item.setSign(sign);
+                            }else if ("result_code".equals(parser.getName())) {
+                                String result_code = parser.nextText();
+                                item.setResult_code(result_code);
+                            }else if ("prepay_id".equals(parser.getName())) {
+                                String prepay_id = parser.nextText();
+                                item.setPrepay_id(prepay_id);
+                            }else if ("trade_type".equals(parser.getName())) {
+                                String trade_type = parser.nextText();
+                                item.setTrade_type(trade_type);
+                            }
+
+                        }
+                        eventType = parser.next();
+                    }
+                    AppLog.Log("item: "+item.toString());
+                    mHandler.obtainMessage(0, item).sendToTarget();
+
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
+            }
+        }).start();
+
+
+
+
+    }
+    private Handler mHandler   = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            ItemWechatPayResopse itemWechatPayResopse  =(ItemWechatPayResopse) msg.obj;
+            callWeChatPay(itemWechatPayResopse);
+        }
+    };
+    private void callWeChatPay(ItemWechatPayResopse item) {
+        if (item == null) {
+            return;
+        }
+        api = WXAPIFactory.createWXAPI(this, null);
+        api.registerApp(ConstantsWechat.APPID);
+        PayReq req = new PayReq();
+        //req.appId = "wxf8b4f85f3a794e77";  // 测试用appId
+        req.appId =item.getAppid();
+        req.partnerId = item.getMch_id();
+        req.prepayId = item.getPrepay_id();
+        req.nonceStr = item.getNonce_str();
+        req.timeStamp =""+System.currentTimeMillis()/1000;
+        req.packageValue = "Sign=WXPay";
+
+        SortedMap<String, String> params = new TreeMap<>();
+        params.put("appid", req.appId);
+        params.put("partnerid", req.partnerId);
+        params.put("prepayid", req.prepayId);
+        params.put("noncestr", req.nonceStr);
+        params.put("timestamp", req.timeStamp);
+        params.put("package", req.packageValue);
+        req.sign = getSign(params);
+        api.sendReq(req);
+    }
+
+    private String getSign(Map<String, String> params) {
+        Map<String, String> sortMap = new TreeMap<>();
+        sortMap.putAll(params);
+        // 以k1=v1&k2=v2...方式拼接参数
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<String, String> s : sortMap.entrySet()) {
+            String k = s.getKey();
+            String v = s.getValue();
+            if (TextUtils.isEmpty(v)) {// 过滤空值
+                continue;
+            }
+            builder.append(k).append("=").append(v).append("&");
+        }
+        if (!sortMap.isEmpty()) {
+            builder.deleteCharAt(builder.length() - 1);
+        }
+        builder.append("&key=" + ConstantsWechat.KEY);
+        return EncryptUtil.getMD5(builder.toString()).toUpperCase();
+    }
+
+
+    private void payForAlipay() {
+        alipay(detail.getGoods_name(), detail.getGoods_name(), "0.01");
+    }
+
     private static final int SDK_PAY_FLAG = 100;
     private Handler handler = new Handler() {
         @Override
@@ -109,8 +341,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     // payInfo:支付满足要求的订单信息
     private void alipay(String subject, String body, String price) {
         String content = getOrderInfo(subject, body, price);
-        AppLog.Log("content: " + content);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constants.PARTNER,content, true);
+        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constants.PARTNER, content, true);
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
 
         String sign = OrderInfoUtil2_0.getSign(params, Constants.RSA2_PRIVATE, true);
@@ -134,13 +365,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     *
-     * @param subject
-     *            订单名称
-     * @param body
-     *            订单描述
-     * @param price
-     *            订单价格
+     * @param subject 订单名称
+     * @param body    订单描述
+     * @param price   订单价格
      * @return
      */
     private String getOrderInfo(String subject, String body, String price) {
@@ -155,8 +382,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    enum PayStatus{
-        WECHAT,ALIPAY
+    enum PayStatus {
+        WECHAT, ALIPAY
     }
 
     @Override
@@ -191,5 +418,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 finish();
             }
         }, null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppLog.Log("查询后台信息");
     }
 }

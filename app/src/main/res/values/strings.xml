@@ -5,6 +5,7 @@
     <string name="page_3">消息</string>
     <string name="page_4">我的</string>
     <string name="page_5">page_5</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
 
 
     <string name="my_txt">当未折叠时显示的是大的Title，可以通过CollapsingToolbarLayout的setTitle()来设置，并通过setExpandedTitleColor来设置其颜色

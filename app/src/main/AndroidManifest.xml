@@ -162,6 +162,12 @@
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
 
+        <!--wechat-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="dn5aQdfDEcE6rAEKdw4BT8Q5KxjKvWoX" />
