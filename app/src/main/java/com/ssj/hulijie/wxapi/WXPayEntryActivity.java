@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -51,6 +53,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 		AppLog.Log("onPayFinish, errCode = " + resp.errCode);
 		if (resp.errCode == 0) {
 			AppToast.ShowToast("支付成功");
+			SharedUtil.setPreferBool(SharedKey.PAY_SUCCESS, true);
 			finish();
 		}
 

@@ -23,6 +23,8 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.EncryptUtil;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 import com.ssj.hulijie.wxapi.ConstantsWechat;
 import com.ssj.hulijie.wxapi.ItemWechatPayResopse;
@@ -81,6 +83,13 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+
+    private void finishClose() {
+        AppLog.Log("payact");
+        setResult(RESULT_OK);
+        finish();
+    }
+
     private IWXAPI api;
 
     /**
@@ -123,6 +132,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void payForWechat() {
+        SharedUtil.setPreferBool(SharedKey.PAY_SUCCESS, false);
         String outTradeNo = OrderInfoUtil2_0.getOutTradeNo();
         String nonce_str = getRandomStringByLength(8);
         //1.统一下单 ：
@@ -324,6 +334,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        finishClose();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(PayActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
@@ -424,5 +435,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         AppLog.Log("查询后台信息");
+        boolean pay_result = SharedUtil.getPreferBool(SharedKey.PAY_SUCCESS, false);
+        if (pay_result) {
+            SharedUtil.setPreferBool(SharedKey.PAY_SUCCESS,false);
+            finishClose();
+        }
+
     }
 }

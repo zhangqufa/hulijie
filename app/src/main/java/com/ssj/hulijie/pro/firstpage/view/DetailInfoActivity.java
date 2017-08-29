@@ -277,7 +277,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
                 Intent i = new Intent(this, OrderActivity.class);
                 i.putExtra("detail", detail);
-                startActivity(i);
+                startActivityForResult(i,TOYUYUE);
                 break;
             case R.id.check_all_evaluate:
                 startActivity(new Intent(this, CheckAllEvaluateActivity.class));
@@ -288,6 +288,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    private static final int TOYUYUE=10001;
 
     private void callPhone() {
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "13806583199"));
@@ -419,4 +420,13 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         return fname;
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TOYUYUE && resultCode == RESULT_OK) {
+            AppLog.Log("Detailact");
+            finish();
+        }
+    }
 }

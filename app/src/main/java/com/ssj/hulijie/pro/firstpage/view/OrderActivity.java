@@ -346,10 +346,12 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             case R.id.btn_pay:
                 Intent intent1 = new Intent(this, PayActivity.class);
                 intent1.putExtra("detail", detail);
-                startActivity(intent1);
+                startActivityForResult(intent1,TOPAYREQ);
                 break;
         }
     }
+
+    public final static int TOPAYREQ = 1000;
 
     public void open(View view) {
         findViewById(R.id.ll).setVisibility(View.VISIBLE);
@@ -424,6 +426,11 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 order_address.setText(addressItem.getAddress());
 
             }
+        } else if (requestCode == TOPAYREQ && resultCode == RESULT_OK) {
+
+            AppLog.Log("OrderAct");
+            setResult(RESULT_OK);
+            finish();
         }
     }
 }
