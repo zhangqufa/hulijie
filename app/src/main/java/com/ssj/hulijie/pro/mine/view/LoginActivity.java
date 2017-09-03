@@ -106,14 +106,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         @Override
         public void onTick(long l) {
             btn_getmsgcode.setClickable(false);
-            btn_getmsgcode.setTextColor(getColor(R.color.comm_grey_666666));
+            btn_getmsgcode.setTextColor(getResources().getColor(R.color.comm_grey_666666));
             btn_getmsgcode.setText(DateUtil.getIntervalUpdateTime(l));
         }
 
         @Override
         public void onFinish() {
             btn_getmsgcode.setClickable(true);
-            btn_getmsgcode.setTextColor(getColor(R.color.colorPrimary));
+            btn_getmsgcode.setTextColor(getResources().getColor(R.color.colorPrimary));
             btn_getmsgcode.setText("获取验证码");
         }
     };
