@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
-import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 import com.ssj.hulijie.pro.firstpage.view.SelectAddressActivity;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.SharedKey;
@@ -178,7 +177,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
                 break;
             case R.id.mine_company_add:
-                intent = new Intent(getContext(), CompanyShopInActivity.class);
+                intent = new Intent(getContext(), ShopVerifyActivity.class);
                 break;
             case R.id.mine_order_list:
                 isForResult = true;

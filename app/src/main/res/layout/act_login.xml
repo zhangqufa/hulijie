@@ -133,7 +133,7 @@
         android:layout_marginLeft="25.0dip"
         android:layout_marginRight="25.0dip"
         android:layout_marginTop="20.0dip"
-        android:background="@drawable/shape_huan_primary"
+        android:background="@drawable/shape_btn_primary"
         android:gravity="center"
         android:text="登录"
         android:textColor="@android:color/white"

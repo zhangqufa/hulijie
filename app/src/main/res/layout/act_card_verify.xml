@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+
+    <TextView
+        android:textSize="12sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="说明:您上传的身份信息仅用做实名认证，将被严格保密，不会展示给用户或作为他用。" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white">
+
+        <TextView
+            android:textSize="14sp"
+            android:layout_width="85dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="姓名"
+            android:textColor="@color/comm_grey_111111" />
+
+        <com.ssj.hulijie.widget.editext.ClearEditText
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="85dp"
+            android:background="@null"
+            android:hint="请填写身份证上的姓名"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textCursorDrawable="@null" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/line_color" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white">
+
+        <TextView
+            android:textSize="14sp"
+            android:layout_width="85dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="身份证号"
+            android:textColor="@color/comm_grey_111111" />
+
+        <com.ssj.hulijie.widget.editext.ClearEditText
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="85dp"
+            android:background="@null"
+            android:hint="请准确填写身份证号码"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textCursorDrawable="@null" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:textSize="14sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="请上传身份证照片"
+        android:textColor="@color/comm_grey_111111" />
+
+    <TextView
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提示:请手持身份证拍照上传，并确保人脸和证件信息清楚可见。注:只拍摄身份证将无法通过审核哦~" />
+
+
+    <ImageView
+        android:layout_width="120dp"
+        android:src="@mipmap/card_demo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_height="120dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="参考示例"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_width="120dp"
+        android:src="@mipmap/take_photo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_height="120dp" />
+
+</LinearLayout>

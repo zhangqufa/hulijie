@@ -4,9 +4,11 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:src="@drawable/loading"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:id="@+id/detail_descript_img"
         android:layout_height="wrap_content" />
