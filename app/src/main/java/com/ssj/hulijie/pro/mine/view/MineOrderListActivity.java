@@ -50,7 +50,7 @@ public class MineOrderListActivity extends BaseActivity {
 
     private void initView() {
         mTabTl = (TabPageIndicator) findViewById(R.id.tl_tab);
-        mTabTl.setBackgroundColor(getColor(android.R.color.white));
+        mTabTl.setBackgroundColor(getResources().getColor(android.R.color.white));
         mContentVp = (ViewPager) findViewById(R.id.vp_content);
 
         initContent();
