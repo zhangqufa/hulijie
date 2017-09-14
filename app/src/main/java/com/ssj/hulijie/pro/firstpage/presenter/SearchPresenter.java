@@ -7,8 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
-import com.ssj.hulijie.pro.firstpage.model.AllCatetoryModel;
+import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
+import com.ssj.hulijie.pro.firstpage.model.SearchModel;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.Constant;
 import com.yanzhenjie.nohttp.rest.Response;
@@ -16,46 +16,44 @@ import com.yanzhenjie.nohttp.rest.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.data;
+
 /**
- * Created by Administrator on 2017/6/12.
+ * Created by Administrator on 2017/9/8.
  */
 
-public class AllCatetoryPresenter extends BasePresenter<AllCatetoryModel> {
+public class SearchPresenter extends BasePresenter<SearchModel> {
 
-
-    public AllCatetoryPresenter(Context context) {
+    public SearchPresenter(Context context) {
         super(context);
     }
 
     @Override
-    public AllCatetoryModel bindModel() {
-        return new AllCatetoryModel(getContext());
+    public SearchModel bindModel() {
+        return new SearchModel(getContext());
     }
 
-    public void getAllcatetoryPresenter(BaseActivity context, final OnUIThreadListener<List<CatetoryItem>> onUIThreadListener) {
-        getModel().getAllCatetoryModel(context, new HttpListener<JSONObject>() {
+    public void getHotKeysPresenter(BaseActivity context, final OnUIThreadListener<List<String>> onUIThreadListener) {
+        getModel().getHotSearchKey(context, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
-
                 if (jsonObject != null) {
-
+                    AppLog.Log("热门搜索:" + jsonObject.toString());
                     try {
                         int code = jsonObject.getIntValue("code");
-                        if (code == Constant.SUCCESS_CODE) {
+                        if (Constant.SUCCESS_CODE == code) {
                             String data = jsonObject.getString("data");
-                            List<CatetoryItem> lists = new ArrayList<>(JSONArray.parseArray(data, CatetoryItem.class));
+                            List<String> lists = new ArrayList<>(JSONArray.parseArray(data, String.class));
                             onUIThreadListener.onResult(lists);
-                            AppLog.Log("allcatetory: " + lists.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                         onUIThreadListener.onResult(null);
-                        AppLog.Log("allcatetory_exception: " + e.toString());
                     }
 
+
                 } else {
-                    AppLog.Log("allcatetory is null");
                     onUIThreadListener.onResult(null);
                 }
             }
@@ -66,6 +64,4 @@ public class AllCatetoryPresenter extends BasePresenter<AllCatetoryModel> {
             }
         });
     }
-
-
 }

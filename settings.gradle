@@ -1,1 +1,1 @@
-include ':app', ':ptr-lib', ':wheelview', ':didi_sdk_for_common_v1.1.0_05_28', 'swipebacklayout'
+include ':app', ':ptr-lib', ':wheelview', ':didi_sdk_for_common_v1.1.0_05_28', 'swipebacklayout', ':xrecyclerview'

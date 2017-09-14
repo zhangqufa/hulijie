@@ -52,7 +52,7 @@ public class DetailPresenter extends BasePresenter<DetailModel> {
 //                             data="{\n" +
 //                                    "    \"info\": {\n" +
 //                                    "        \"goods_id\": \"3230\",\n" +
-//                                    "        \"goods_name\": \"空调清洗\",\n" +
+//                                    "        \"name\": \"空调清洗\",\n" +
 //                                    "        \"add_time\": \"1487788526\",\n" +
 //                                    "        \"cate_id\": \"1981\",\n" +
 //                                    "        \"cate_name\": \"家政空调清洗\",\n" +
@@ -81,23 +81,23 @@ public class DetailPresenter extends BasePresenter<DetailModel> {
                             DetailServiceAndEvaluateItem item = new DetailServiceAndEvaluateItem();
                             item.setDetail(detailServiceItem1);
                             item.setEvaluate(evaluateItems);
-                            onUIThreadListener.onResult(item,code);
+                            onUIThreadListener.onResult(item);
                             AppLog.Log("服务详情: " + item.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null,0);
+                        onUIThreadListener.onResult(null);
                         AppLog.Log("服务详情: " + e.toString());
                     }
 
                 } else {
-                    onUIThreadListener.onResult(null,0);
+                    onUIThreadListener.onResult(null);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                    onUIThreadListener.onResult(null,0);
+                    onUIThreadListener.onResult(null);
             }
         });
     }

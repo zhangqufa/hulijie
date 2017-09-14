@@ -66,7 +66,7 @@ public class SelectAddressActivity extends BaseActivity {
     private void initData() {
         presenter.getAddressPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID), "", new BasePresenter.OnUIThreadListener<List<AddressItem>>() {
             @Override
-            public void onResult(List<AddressItem> result,int return_code) {
+            public void onResult(List<AddressItem> result) {
                 if (result != null&&result.size()>0) {
                     lists = result;
                     adapter.setLists(lists);
@@ -131,7 +131,7 @@ public class SelectAddressActivity extends BaseActivity {
                ,1
                 , new BasePresenter.OnUIThreadListener<Boolean>() {
                     @Override
-                    public void onResult(Boolean result, int return_code) {
+                    public void onResult(Boolean result ) {
                         if (result) {
                             initData();
 
@@ -163,12 +163,11 @@ public class SelectAddressActivity extends BaseActivity {
     private void requestDeleteNet(AddressItem addressItem,final int position) {
         presenter.deleteAddressPresenter(SelectAddressActivity.this, SharedUtil.getPreferStr(SharedKey.USER_ID), addressItem.getAddr_id(), new BasePresenter.OnUIThreadListener<Boolean>() {
             @Override
-            public void onResult(Boolean result, int return_code) {
-                if (return_code == Constant.SUCCESS_CODE) {
+            public void onResult(Boolean result ) {
 //                    lists.remove(position);
 //                    adapter.notifyItemChanged(position);
+                if (result!=null&&result)
                     initData();
-                }
             }
         });
     }

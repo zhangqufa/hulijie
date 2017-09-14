@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
 
 public class MyViewPagerAdapter extends PagerAdapter{  
@@ -24,15 +25,15 @@ public class MyViewPagerAdapter extends PagerAdapter{
         return arg0 == arg1;  
     }  
     @Override  
-    public Object instantiateItem(View arg0, int arg1)  
-    {  
-        ((ViewPager) arg0).addView(mLists.get(arg1));  
+    public Object instantiateItem(ViewGroup arg0, int arg1)
+    {
+        arg0.addView(mLists.get(arg1));
         return mLists.get(arg1);  
     }  
   
     @Override  
-    public void destroyItem(View arg0, int arg1, Object arg2)  
+    public void destroyItem(ViewGroup arg0, int arg1, Object arg2)
     {  
-        ((ViewPager) arg0).removeView((View) arg2);  
+        arg0.removeView((View) arg2);
     }
 }

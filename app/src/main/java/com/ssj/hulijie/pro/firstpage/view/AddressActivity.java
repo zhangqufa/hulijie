@@ -193,7 +193,7 @@ public class AddressActivity extends BaseActivity {
                 ,1
                 , new BasePresenter.OnUIThreadListener<Boolean>() {
                     @Override
-                    public void onResult(Boolean result, int return_code) {
+                    public void onResult(Boolean result) {
                         if (result) {
                             finish();
                         } else {

@@ -92,7 +92,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         AddressManagerPresenter presenter = new AddressManagerPresenter(this);
         presenter.getAddressPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID), "", new BasePresenter.OnUIThreadListener<List<AddressItem>>() {
             @Override
-            public void onResult(List<AddressItem> result, int return_code) {
+            public void onResult(List<AddressItem> result ) {
                 if (result != null) {
 
 
@@ -112,7 +112,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private void updateUI() {
         if (detail != null) {
             Glide.with(this).load(detail.getDefault_image()).into(order_img);
-            order_title.setText(detail.getGoods_name());
+            order_title.setText(detail.getname());
             order_price.setText("￥" + detail.getPrice());
             order_price_total.setText("￥" + detail.getPrice());
 

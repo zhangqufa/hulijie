@@ -13,7 +13,6 @@
         android:verticalSpacing="10dp"
         android:scrollingCache="false"
         android:stretchMode="columnWidth"
-        android:layout_height="wrap_content" >
-    </GridView>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

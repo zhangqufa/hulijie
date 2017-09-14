@@ -16,7 +16,7 @@ import static android.R.attr.description;
 public class DetailServiceItem implements Parcelable {
 
     private String goods_id;        //商品id
-    private String goods_name;      //商品名称
+    private String name;      //商品名称
     private long add_time;          //添加时间
     private String cate_id;         //商品分类
     private String cate_name;       //商品分类名称
@@ -43,7 +43,7 @@ public class DetailServiceItem implements Parcelable {
 
     protected DetailServiceItem(Parcel in) {
         goods_id = in.readString();
-        goods_name = in.readString();
+        name = in.readString();
         add_time = in.readLong();
         cate_id = in.readString();
         cate_name = in.readString();
@@ -102,12 +102,12 @@ public class DetailServiceItem implements Parcelable {
         this.goods_id = goods_id;
     }
 
-    public String getGoods_name() {
-        return goods_name;
+    public String getname() {
+        return name;
     }
 
-    public void setGoods_name(String goods_name) {
-        this.goods_name = goods_name;
+    public void setname(String name) {
+        this.name = name;
     }
 
     public long getAdd_time() {
@@ -187,7 +187,7 @@ public class DetailServiceItem implements Parcelable {
     public String toString() {
         return "DetailServiceItem{" +
                 "goods_id='" + goods_id + '\'' +
-                ", goods_name='" + goods_name + '\'' +
+                ", name='" + name + '\'' +
                 ", add_time=" + add_time +
                 ", cate_id='" + cate_id + '\'' +
                 ", cate_name='" + cate_name + '\'' +
@@ -211,7 +211,7 @@ public class DetailServiceItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(goods_id);
-        parcel.writeString(goods_name);
+        parcel.writeString(name);
         parcel.writeLong(add_time);
         parcel.writeString(cate_id);
         parcel.writeString(cate_name);

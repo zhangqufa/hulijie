@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
+import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
-import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
 /**
@@ -19,7 +19,7 @@ import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
  * on 2017/3/30
  */
 
-public class FirstPageMainListAdapter extends BaseRecyclerAdapter<ItemFirstPageMainList> {
+public class FirstPageMainListAdapter extends BaseRecyclerAdapter<ItemCategoryMain.DataBean.RowsBean> {
 
     private Context context;
 
@@ -35,13 +35,13 @@ public class FirstPageMainListAdapter extends BaseRecyclerAdapter<ItemFirstPageM
     }
 
     @Override
-    public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, ItemFirstPageMainList data) {
+    public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, ItemCategoryMain.DataBean.RowsBean data) {
         if (viewHolder instanceof FirstPageMainListViewHolder) {
             FirstPageMainListViewHolder vh = (FirstPageMainListViewHolder) viewHolder;
-            vh.title.setText(data.getName());
+            vh.title.setText(data.getGoods_name());
             vh.sub_title.setText(data.getTxt());
             vh.money.setText(data.getPrice());
-            Glide.with(context).load(data.getPic()).crossFade().into(vh.img); //加载图片
+            Glide.with(context).load(data.getDefault_image()).crossFade().into(vh.img); //加载图片
         }
     }
 

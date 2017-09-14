@@ -133,7 +133,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
         ((LoginPresenter) presenter).loginPresenter(this, moible, code, new BasePresenter.OnUIThreadListener<LoginItem>() {
             @Override
-            public void onResult(LoginItem result,int return_code) {
+            public void onResult(LoginItem result) {
 
                 if (result != null) {
                     //保存数据到本地
@@ -163,7 +163,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         ((LoginPresenter) presenter).getVerifyCodePresenter(this, mobile, new BasePresenter.OnUIThreadListener<VerifyCode>() {
             @Override
-            public void onResult(VerifyCode result,int return_code) {
+            public void onResult(VerifyCode result) {
                 if (result != null) {
                     String verifyCode = result.getCode();
                     edt_msgcode.setText(verifyCode);

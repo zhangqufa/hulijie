@@ -47,25 +47,25 @@ public class AddressManagerPresenter extends BasePresenter<AddressManagerModel> 
                         if (code == Constant.SUCCESS_CODE) {
                             String data = jsonObject.getString("data");
                             List<AddressItem> lists = new ArrayList<>(JSONArray.parseArray(data, AddressItem.class));
-                            onUIThreadListener.onResult(lists,code);
+                            onUIThreadListener.onResult(lists);
                             AppLog.Log("addressList: " + lists.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null,0);
+                        onUIThreadListener.onResult(null);
                         AppLog.Log("addressList_exception: " + e.toString());
                     }
 
                 } else {
                     AppLog.Log("addressList is null");
-                    onUIThreadListener.onResult(null,0);
+                    onUIThreadListener.onResult(null);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
                 AppLog.Log("addressList is fail");
-                onUIThreadListener.onResult(null,0);
+                onUIThreadListener.onResult(null);
             }
         });
     }
@@ -83,21 +83,21 @@ public class AddressManagerPresenter extends BasePresenter<AddressManagerModel> 
                         int code = jsonObject.getIntValue("code");
                         if (code == Constant.SUCCESS_CODE) {
                             AppLog.Log("address success!!");
-                            onUIThreadListener.onResult(true,code);
+                            onUIThreadListener.onResult(true);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null,0);
+                        onUIThreadListener.onResult(null);
                     }
 
                 } else {
-                    onUIThreadListener.onResult(null,0);
+                    onUIThreadListener.onResult(null);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                onUIThreadListener.onResult(null,0);
+                onUIThreadListener.onResult(null);
             }
         });
     }
@@ -116,21 +116,21 @@ public class AddressManagerPresenter extends BasePresenter<AddressManagerModel> 
                         int code = jsonObject.getIntValue("code");
                         if (code == Constant.SUCCESS_CODE) {
                             AppLog.Log("address success!!");
-                            onUIThreadListener.onResult(true,code);
+                            onUIThreadListener.onResult(true);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        onUIThreadListener.onResult(null,0);
+                        onUIThreadListener.onResult(null);
                     }
 
                 } else {
-                    onUIThreadListener.onResult(null,0);
+                    onUIThreadListener.onResult(null);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                onUIThreadListener.onResult(null,0);
+                onUIThreadListener.onResult(null);
             }
         });
     }

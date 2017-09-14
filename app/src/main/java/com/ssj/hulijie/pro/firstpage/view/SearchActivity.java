@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.db.dao.SearchHistoryDao;
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.ItemSearchHistory;
+import com.ssj.hulijie.pro.firstpage.presenter.SearchPresenter;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DensityUtil;
@@ -40,10 +42,12 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private List<TextView> tvs_hot_search, tvs_history_search;
     private ClearEditText act_search_et;
     private SearchHistoryDao dao;
+    private SearchPresenter presenter;
 
     @Override
     public MvpBasePresenter bindPresenter() {
-        return null;
+        presenter = new SearchPresenter(this);
+        return presenter;
     }
 
     @Override
@@ -51,6 +55,22 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_search);
         initView();
+        initData();
+    }
+
+    private void initData() {
+        presenter.getHotKeysPresenter(this, new BasePresenter.OnUIThreadListener<List<String>>() {
+            @Override
+            public void onResult(List<String> result ) {
+                if (result != null && result.size() > 0) {
+
+                    for (int i = 0; i < result.size(); i++) {
+                        addHotsearchDataForFlowView(result.get(i), fl_hot_search, tvs_hot_search);
+                    }
+                }
+            }
+        });
+
     }
 
     private void initView() {
@@ -69,9 +89,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         tvs_history_search = new ArrayList<>();
         initHistoryData();
 
-        for (int i = 0; i < 5; i++) {
-            addHotsearchDataForFlowView("hot_" + i, fl_hot_search, tvs_hot_search);
-        }
+
 
 
     }

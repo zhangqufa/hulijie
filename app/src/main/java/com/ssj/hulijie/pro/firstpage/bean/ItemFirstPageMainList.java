@@ -6,14 +6,13 @@ import android.os.Parcelable;
 import com.ssj.hulijie.utils.ImageUrlFormat;
 
 /**
- * Created by vic_zhang .
- * on 2017/3/30
+ * Created by Administrator on 2017/9/10.
  */
 
 public class ItemFirstPageMainList implements Parcelable {
     private String goods_id;
-    private String name;
-    private String pic;
+    private String goods_name;
+    private String default_image;
     private String txt;
     private String price;
 
@@ -22,8 +21,8 @@ public class ItemFirstPageMainList implements Parcelable {
 
     protected ItemFirstPageMainList(Parcel in) {
         goods_id = in.readString();
-        name = in.readString();
-        pic = in.readString();
+        goods_name = in.readString();
+        default_image = in.readString();
         txt = in.readString();
         price = in.readString();
     }
@@ -48,20 +47,13 @@ public class ItemFirstPageMainList implements Parcelable {
         this.goods_id = goods_id;
     }
 
-    public String getName() {
-        return name;
+
+    public String getDefault_image() {
+        return ImageUrlFormat.urlFormat(default_image);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPic() {
-        return ImageUrlFormat.urlFormat(pic);
-    }
-
-    public void setPic(String pic) {
-        this.pic = pic;
+    public void setDefault_image(String default_image) {
+        this.default_image = default_image;
     }
 
     public String getTxt() {
@@ -80,14 +72,21 @@ public class ItemFirstPageMainList implements Parcelable {
         this.price = price;
     }
 
+    public String getGoods_name() {
+        return goods_name;
+    }
+
+    public void setGoods_name(String goods_name) {
+        this.goods_name = goods_name;
+    }
 
     @Override
     public String toString() {
         return "ItemFirstPageMainList{" +
                 "price='" + price + '\'' +
                 ", txt='" + txt + '\'' +
-                ", pic='" + pic + '\'' +
-                ", name='" + name + '\'' +
+                ", default_image='" + default_image + '\'' +
+                ", goods_name='" + goods_name + '\'' +
                 ", goods_id='" + goods_id + '\'' +
                 '}';
     }
@@ -100,8 +99,8 @@ public class ItemFirstPageMainList implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(goods_id);
-        parcel.writeString(name);
-        parcel.writeString(pic);
+        parcel.writeString(goods_name);
+        parcel.writeString(default_image);
         parcel.writeString(txt);
         parcel.writeString(price);
     }

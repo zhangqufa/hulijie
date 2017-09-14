@@ -1,16 +1,8 @@
 package com.ssj.hulijie.pro.firstpage.adapter;
 
-import java.util.List;
-
-import com.bumptech.glide.Glide;
-import com.ssj.hulijie.R;
-import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
-import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
-import com.ssj.hulijie.pro.firstpage.view.AllCatetoryActivity;
-import com.ssj.hulijie.pro.firstpage.view.SearchResultActivity;
-
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +10,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.ssj.hulijie.R;
+import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
+import com.ssj.hulijie.pro.firstpage.view.AllCatetoryActivity;
+import com.ssj.hulijie.pro.firstpage.view.SearchResultActivity;
 
-public class MygridviewAdapter extends BaseAdapter{
+import java.util.List;
+
+
+public class MygridviewAdapter extends BaseAdapter {
 
 	public List<ItemFirstPageMainHeaderList> data;
 	private LayoutInflater _inflater;

@@ -62,4 +62,5 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile files('libs/BASE64.jar')
     compile files('libs/alipaySdk-20170725.jar')
+    compile project(':xrecyclerview')
 }

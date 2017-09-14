@@ -11,19 +11,24 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.adapter.CategoryListAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
+import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
+import com.ssj.hulijie.pro.firstpage.bean.ItemRemmendList;
 import com.ssj.hulijie.pro.firstpage.presenter.FirstPagePresenter;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.RefreshStatues;
 import com.ssj.hulijie.utils.TitlebarUtil;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +36,9 @@ import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
-import in.srain.cube.views.ptr.PtrHandler2;
 
 import static android.R.attr.data;
-import static android.R.id.list;
-import static com.ssj.hulijie.R.id.rv_first_page_main_list;
+import static com.ssj.hulijie.R.id.search_result_rv;
 import static com.ssj.hulijie.base.HljAppliation.context;
 
 
@@ -45,13 +48,13 @@ import static com.ssj.hulijie.base.HljAppliation.context;
 
 public class SearchResultActivity extends BaseActivity implements View.OnClickListener {
     private TextView nav_center_title;
-    private FirstPageMainListAdapter adapter;
+    private CategoryListAdapter adapter;
     private ItemFirstPageMainHeaderList item;
-    private PtrClassicFrameLayout ptr;
     private FirstPagePresenter presenter;
     private int page=1;
 
-    private List<ItemFirstPageMainList> lists;
+    private List<ItemCategoryMain.DataBean.RowsBean>  lists = new ArrayList<>();
+    private XRecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,8 +67,10 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initData() {
-        lists = new ArrayList<>();
-        getData();
+        page = 1;
+        lists.clear();
+        adapter.notifyDataSetChanged();
+        getData(RefreshStatues.REFRESH);
 
     }
 
@@ -86,93 +91,77 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         //init RecyclerView
-        RecyclerView search_result_rv = (RecyclerView) findViewById(R.id.search_result_rv);
-        search_result_rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new FirstPageMainListAdapter(context);
-        search_result_rv.setAdapter(adapter);
-        search_result_rv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        search_result_rv.addOnScrollListener(recyclerView_listener);
-        adapter.setOnItemClickListener(item_click);
-        ptr = (PtrClassicFrameLayout) findViewById(R.id.ptr_search_result);
-        ptr.setMode(PtrFrameLayout.Mode.LOAD_MORE);
-        ptr.setPtrHandler(ptrHandler);
+        mRecyclerView = (XRecyclerView) this.findViewById(R.id.recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+//        mRecyclerView.addItemDecoration(new SimplePaddingDecoration(this));
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallPulse);
+        mRecyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
+
+        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+
+            @Override
+            public void onLoadMore() {
+                page++;
+                getData(RefreshStatues.LOADMORE);
+            }
+        });
+
+        adapter = new CategoryListAdapter(this);
+        mRecyclerView.setAdapter(adapter);
+        adapter.setClicklistener(item_click);
 
     }
 
-    private BaseRecyclerAdapter.OnItemClickListener item_click = new BaseRecyclerAdapter.OnItemClickListener<ItemFirstPageMainList>() {
+    private CategoryListAdapter.ItemOnClickListener item_click = new CategoryListAdapter.ItemOnClickListener<ItemCategoryMain.DataBean.RowsBean>() {
         @Override
-        public void onItemClick(int position, ItemFirstPageMainList item) {
+        public void setOnItemClickListener(int position, ItemCategoryMain.DataBean.RowsBean item) {
             Intent intent = new Intent(context, DetailInfoActivity.class);
             intent.putExtra("item", item);
             startActivity(intent);
         }
     };
 
-    /**
-     * 监听recylerview 是否滑动到底部
-     */
-    private RecyclerView.OnScrollListener recyclerView_listener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
 
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            if (isSlideToBottom(recyclerView)) {
-                loadMore();
-            }
-        }
-    };
 
-    protected boolean isSlideToBottom(RecyclerView recyclerView) {
-        if (recyclerView == null) return false;
-        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange())
-            return true;
-        return false;
-    }
-
-    /**
-     * ptr data update
-     */
-    private PtrHandler ptrHandler = new PtrDefaultHandler2() {
-        @Override
-        public void onLoadMoreBegin(PtrFrameLayout frame) {
-
-            loadMore();
-        }
-
-        @Override
-        public void onRefreshBegin(PtrFrameLayout frame) {
-
-        }
-    };
-    private void loadMore(){
-        page++;
-        getData();
-    }
-
-    private void getData() {
+    private void getData(final RefreshStatues statues) {
         if (item == null) {
             return;
         }
-        presenter.getFirstForCategoryPresenter(this, item.getId(), page, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainList>>() {
+        presenter.getFirstForCategoryPresenter(this, item.getId(),"", page, new BasePresenter.OnUIThreadListener<ItemCategoryMain>() {
             @Override
-            public void onResult(List<ItemFirstPageMainList> result, int return_code) {
+            public void onResult(ItemCategoryMain result ) {
                 if (result != null) {
-                    if (result.size() > 0) {
+                    ItemCategoryMain.DataBean data = result.getData();
+                    List<ItemCategoryMain.DataBean.RowsBean> rows = data.getRows();
+                    int totalcount = data.getCount();
+                    if (rows.size() > 0) {
 
-                        for (int i = 0; i < result.size(); i++) {
-                            ItemFirstPageMainList item = result.get(i);
+                        for (int i = 0; i <rows.size(); i++) {
+                            ItemCategoryMain.DataBean.RowsBean item = rows.get(i);
                             lists.add(item);
                         }
-                        adapter.addDatas(lists);
-                    } else {
-                        AppToast.ShowToast("已加载全部商品");
+                        adapter.setLists(lists);
+
+                        if (statues == RefreshStatues.REFRESH) {
+                            mRecyclerView.refreshComplete();
+
+                        } else if (statues == RefreshStatues.LOADMORE) {
+                            mRecyclerView.loadMoreComplete();
+                        }
+                        if (rows.size() < 10&&lists.size() > 5||lists.size()==totalcount&&lists.size()>5) {
+                            mRecyclerView.setNoMore(true);
+                        }
                     }
                 }
-                ptr.refreshComplete();
 
             }
         });

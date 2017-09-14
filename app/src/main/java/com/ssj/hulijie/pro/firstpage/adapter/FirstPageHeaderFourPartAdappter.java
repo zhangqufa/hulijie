@@ -46,7 +46,7 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
         holder.tv_title.setText(item.getName());
         holder.tv_sub_titlle.setText(item.getTxt());
         Glide.with(context).load(item.getPic()).into(holder.iv_image);
-//        holder.iv_image.setImageURI(item.getPic());
+//        holder.iv_image.setImageURI(item.getDefault_image());
 
 
         if (listener != null) {

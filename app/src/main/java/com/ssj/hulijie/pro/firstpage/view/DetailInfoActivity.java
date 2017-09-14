@@ -32,14 +32,16 @@ import com.ssj.hulijie.pro.firstpage.bean.DetailServiceAndEvaluateItem;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceEvaluate;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.pro.firstpage.bean.EvaluateItem;
+import com.ssj.hulijie.pro.firstpage.bean.ItemCategory;
+import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
+import com.ssj.hulijie.pro.firstpage.bean.ItemRemmendList;
 import com.ssj.hulijie.pro.firstpage.presenter.DetailPresenter;
 import com.ssj.hulijie.pro.firstpage.view.widget.LinearLayoutManagerInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
-import com.ssj.hulijie.pro.mine.view.MineFragment;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.utils.DisplayUtils;
@@ -66,7 +68,7 @@ import static com.ssj.hulijie.pro.mine.view.MineFragment.REQUESTPERSIMMIONCODE;
  */
 
 public class DetailInfoActivity extends BaseActivity implements View.OnClickListener {
-    private ItemFirstPageMainList item;
+    private ItemCategoryMain.DataBean.RowsBean item;
     private MyScrollView sv;
     private int height;
     private TextView nav_center_title;
@@ -115,7 +117,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
         mPresenter.getDetailPresenter(this, item.getGoods_id(), new BasePresenter.OnUIThreadListener<DetailServiceAndEvaluateItem>() {
             @Override
-            public void onResult(DetailServiceAndEvaluateItem result, int return_code) {
+            public void onResult(DetailServiceAndEvaluateItem result) {
                 if (result != null) {
                     AppLog.Log("detail: " + result.toString());
                     updateUI(result);
@@ -172,7 +174,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                     });
 
             //show title
-            String cate_name = detail.getGoods_name();
+            String cate_name = detail.getname();
             detail_title.setText(cate_name);
             //show price
             String price = detail.getPrice();

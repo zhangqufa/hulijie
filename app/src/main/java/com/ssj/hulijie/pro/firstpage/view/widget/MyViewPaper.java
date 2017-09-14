@@ -31,6 +31,7 @@ public class MyViewPaper extends ViewPager {
             return false;
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 

@@ -1,11 +1,14 @@
 package com.ssj.hulijie.pro.msg.view;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
@@ -38,9 +41,10 @@ import static com.ssj.hulijie.R.id.msg_rv;
 public class MsgListActivity extends BaseActivity {
 
 
-    private RecyclerView msg_rv;
-    private PtrClassicFrameLayout ptr;
     private MsgData item;
+    private XRecyclerView mRecyclerView;
+    private int refreshTime = 0;
+    private int times = 0;
 
 
     @Override
@@ -68,84 +72,62 @@ public class MsgListActivity extends BaseActivity {
     }
 
     private void initView() {
-        ptr = (PtrClassicFrameLayout) findViewById(R.id.ptr_msg_list);
-        ptr.setLastUpdateTimeRelateObject(this);
-        ptr.addPtrUIHandler(handler);
-        ptr.setPtrHandler(ptrHandler);
+        mRecyclerView = (XRecyclerView)this.findViewById(R.id.recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+        mRecyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
 
 
-        msg_rv = (RecyclerView) findViewById(R.id.msg_rv);
-        msg_rv.setLayoutManager(new LinearLayoutManager(this));
-        msg_rv.addItemDecoration(new DividerGridItemDecoration(this));
         MsgListAdapter adapter = new MsgListAdapter(this);
-        msg_rv.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
         adapter.setLists(getData());
         adapter.setOnItemClickListener(onClickListener);
+
+        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                refreshTime ++;
+                times = 0;
+                new Handler().postDelayed(new Runnable(){
+                    public void run() {
+                        for(int i = 0; i < 15 ;i++){
+                        }
+                        mRecyclerView.refreshComplete();
+                    }
+
+                }, 1000);            //refresh data here
+            }
+
+            @Override
+            public void onLoadMore() {
+                if(times < 2){
+                    new Handler().postDelayed(new Runnable(){
+                        public void run() {
+                            for(int i = 0; i < 15 ;i++){
+                            }
+                            mRecyclerView.loadMoreComplete();
+                        }
+                    }, 1000);
+                } else {
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            for(int i = 0; i < 9 ;i++){
+                            }
+                            mRecyclerView.setNoMore(true);
+                        }
+                    }, 1000);
+                }
+                times ++;
+            }
+        });
+        mRecyclerView.refresh();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (ptr != null) {
-            ptr.refreshComplete();
-        }
-    }
 
-    /**
-     * ptr ui listener
-     */
-    private PtrUIHandler handler = new PtrUIHandler() {
-        @Override
-        public void onUIReset(PtrFrameLayout frame) {
-
-
-        }
-
-        @Override
-        public void onUIRefreshPrepare(PtrFrameLayout frame) {
-
-        }
-
-        @Override
-        public void onUIRefreshBegin(PtrFrameLayout frame) {
-
-        }
-
-        @Override
-        public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
-
-        }
-
-        @Override
-        public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
-
-        }
-    };
-
-    /**
-     * ptr data update
-     */
-    private PtrHandler ptrHandler = new PtrDefaultHandler2() {
-        @Override
-        public void onLoadMoreBegin(PtrFrameLayout frame) {
-            frame.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ptr.refreshComplete();
-                }
-            }, 1800);
-        }
-
-        @Override
-        public void onRefreshBegin(PtrFrameLayout frame) {
-            frame.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ptr.refreshComplete();
-                }
-            }, 1800);
-        }
-    };
 
     private List<MsgListData> getData() {
         List<MsgListData> lists = new ArrayList<>();

@@ -102,7 +102,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         params.put("mch_id", ConstantsWechat.MCH_ID);
         params.put("device_info", UUID.randomUUID().toString()); //设备号
         params.put("nonce_str", nonce_str);
-        params.put("body", detail.getGoods_name());//商品描述
+        params.put("body", detail.getname());//商品描述
         params.put("out_trade_no", outTradeNo);
         params.put("total_fee", "1"); //单位分
         params.put("trade_type", "APP");
@@ -248,7 +248,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void payForAlipay() {
-        alipay(detail.getGoods_name(), detail.getGoods_name(), "0.01");
+        alipay(detail.getname(), detail.getname(), "0.01");
     }
 
     private static final int SDK_PAY_FLAG = 100;

@@ -34,6 +34,7 @@ import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.MyViewPagerAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.MygridviewAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.FourpartData;
+import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.pro.firstpage.presenter.FirstPagePresenter;
@@ -45,7 +46,6 @@ import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
-import com.ssj.hulijie.widget.recylerview.RecyclerViewHeader;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -67,13 +67,11 @@ import static android.app.Activity.RESULT_OK;
 
 public class FirstPageFrament extends BaseFragment implements View.OnClickListener {
 
-    private static final String url = "http://192.168.221.179:8080/DataServer/QueryNameServlet";
     private MainActivity context;
     private PtrClassicFrameLayout ptr;  //ptr refresh widget
     private RecyclerView rv_first_page_main_list;
     private FirstPageMainListAdapter adapter;  //main list adapter
-    private List<ItemFirstPageMainList> data = new ArrayList<>();
-    private RecyclerViewHeader rv_header;  //recylerview header
+    private List<ItemCategoryMain.DataBean.RowsBean> data = new ArrayList<>();
     private int page = 1;
 
     public static String img[] = {
@@ -88,18 +86,11 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     };
 
 
-    private String mid_img[] = {
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490934544694&di=86c3dad3b5d43b047b4af5744fc0d76c&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fblog%2F201512%2F16%2F20151216140942_2JXYr.thumb.700_0.jpeg"
-            , "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490934544695&di=9395c6b67a1a66a089998a4cc013e54a&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fphotoblog%2F1110%2F18%2Fc6%2F9309619_9309619_1318915453187.jpg"
-    };
     private TextView location_tv, location_tv_out, location_tv_right;  //location
     private LocationClient mLocationClient; //location
     private RecyclerView rv_header_four_part;
     private FirstPagePresenter mPresenter;
     private FirstPageHeaderFourPartAdappter adappter_four_part;
-    private int width; //location_tv width
-    private int heigth; // et_search height
-    private boolean isHidden;
     private TextView et_search;
     private LinearLayout ll_out; //外层
     private ImageView iv_one, iv_two;
@@ -219,31 +210,25 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private PtrUIHandler ptrUihandler = new PtrUIHandler() {
         @Override
         public void onUIReset(PtrFrameLayout frame) {
-            AppLog.Log("onUIReset");
-
             ll_out.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onUIRefreshPrepare(PtrFrameLayout frame) {
-            AppLog.Log("onUIRefreshPrepare");
             ll_out.setVisibility(View.GONE);
 
         }
 
         @Override
         public void onUIRefreshBegin(PtrFrameLayout frame) {
-            AppLog.Log("onUIRefreshBegin");
         }
 
         @Override
         public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
-            AppLog.Log("onUIRefreshComplete");
         }
 
         @Override
         public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
-            AppLog.Log("onUIPositionChange");
         }
     };
 
@@ -259,15 +244,17 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            if (isSlideToBottom(recyclerView)) {
+            if (isSlideToBottom(recyclerView) && data.size() > 2) {  //data.size()>2 为了控制刷新两次
+                AppLog.Log("到底部");
                 loadMore();
             }
         }
     };
 
-    protected boolean isSlideToBottom(RecyclerView recyclerView) {
+    public static boolean isSlideToBottom(RecyclerView recyclerView) {
         if (recyclerView == null) return false;
-        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange())
+        if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
+                >= recyclerView.computeVerticalScrollRange())
             return true;
         return false;
     }
@@ -284,9 +271,9 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 //        AppLog.Log("长度:" + distance);
     }
 
-    private BaseRecyclerAdapter.OnItemClickListener item_click = new BaseRecyclerAdapter.OnItemClickListener<ItemFirstPageMainList>() {
+    private BaseRecyclerAdapter.OnItemClickListener item_click = new BaseRecyclerAdapter.OnItemClickListener<ItemCategoryMain.DataBean.RowsBean>() {
         @Override
-        public void onItemClick(int position, ItemFirstPageMainList item) {
+        public void onItemClick(int position, ItemCategoryMain.DataBean.RowsBean item) {
             Intent intent = new Intent(context, DetailInfoActivity.class);
             intent.putExtra("item", item);
             startActivity(intent);
@@ -304,7 +291,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         mPresenter.getMidFourPresenter(context, new BasePresenter.OnUIThreadListener<List<FourpartData>>() {
             @Override
-            public void onResult(List<FourpartData> result, int return_code) {
+            public void onResult(List<FourpartData> result) {
                 if (result != null) {
                     for (int i = 0; i < result.size(); i++) {
                         result.get(i).setPic(FirstPageFrament.img[i]);
@@ -349,21 +336,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             if (AndPermission.hasAlwaysDeniedPermission(context, deniedPermissions)) {
                 // 第一种：用默认的提示语。
                 AndPermission.defaultSettingDialog(context, SDK_PERMISSION_REQUEST).show();
-
-                // 第二种：用自定义的提示语。
-                // AndPermission.defaultSettingDialog(this, REQUEST_CODE_SETTING)
-                // .setTitle("权限申请失败")
-                // .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
-                // .setPositiveButton("好，去设置")
-                // .show();
-
-                // 第三种：自定义dialog样式。
-                // SettingService settingService =
-                //    AndPermission.defineSettingDialog(this, REQUEST_CODE_SETTING);
-                // 你的dialog点击了确定调用：
-                // settingService.execute();
-                // 你的dialog点击了取消调用：
-                // settingService.cancel();
             }
         }
     };
@@ -469,8 +441,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData> four_part_listener = new FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData>() {
         @Override
         public void onItemClick(int position, FourpartData data) {
-            ItemFirstPageMainList item = new ItemFirstPageMainList();
-            item.setGoods_id("3173"); //// TODO: 2017/8/7
+            ItemCategoryMain.DataBean.RowsBean item = new ItemCategoryMain.DataBean.RowsBean();
+            item.setGoods_id("3180"); //// TODO: 2017/8/7
             Intent intent = new Intent(getActivity(), DetailInfoActivity.class);
             intent.putExtra("item", item);
             startActivity(intent);
@@ -486,21 +458,21 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private void getHeaderList() {
         mPresenter.getCatetoryPresenter(context, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainHeaderList>>() {
             @Override
-            public void onResult(List<ItemFirstPageMainHeaderList> result, int return_code) {
+            public void onResult(List<ItemFirstPageMainHeaderList> result) {
 
                 if (result != null) {
                     int size = result.size();
-//                    if (size <= 8) {
-//                        ll_indicator.setVisibility(View.GONE);
-//                        category_vp.setScollHoritial(false);
-//                    }
+                    if (size <= 8) {
+                        ll_indicator.setVisibility(View.GONE);
+                        category_vp.setScollHoritial(false);
+                    }
                     List<ItemFirstPageMainHeaderList> list1 = new ArrayList<>();
                     List<ItemFirstPageMainHeaderList> list2 = new ArrayList<>();
 
-                    for (int i = 0;i<size;i++) {
+                    for (int i = 0; i < size; i++) {
                         if (i < 8) {
                             list1.add(result.get(i));
-                        } else if (i<16){
+                        } else if (i < 16) {
                             list2.add(result.get(i));
                         }
                     }
@@ -530,10 +502,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         @Override
         public void onRefreshBegin(PtrFrameLayout frame) {
-            page = 1;
-            data.clear();
-            adapter.addDatas(data);
-            getData();
+            initData();
 
         }
     };
@@ -552,14 +521,14 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
      * @return
      */
     private void getData() {
-        mPresenter.getFirstDataPresenter(context, page, new BasePresenter.OnUIThreadListener<List<ItemFirstPageMainList>>() {
+        mPresenter.getFirstDataPresenter(context, page, new BasePresenter.OnUIThreadListener<List<ItemCategoryMain.DataBean.RowsBean>>() {
             @Override
-            public void onResult(List<ItemFirstPageMainList> result, int return_code) {
+            public void onResult(List<ItemCategoryMain.DataBean.RowsBean> result) {
                 if (result != null) {
                     if (result.size() > 0) {
 
                         for (int i = 0; i < result.size(); i++) {
-                            ItemFirstPageMainList item = result.get(i);
+                            ItemCategoryMain.DataBean.RowsBean item = result.get(i);
                             data.add(item);
                         }
                         adapter.addDatas(data);
@@ -578,6 +547,9 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
          * 加载分类图标和类型
          *
          */
+        page = 1;
+        data.clear();
+        adapter.notifyDataSetChanged();
         getHeaderList();
         getListFourData();
         getData();

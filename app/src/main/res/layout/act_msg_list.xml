@@ -7,28 +7,10 @@
 
     <include layout="@layout/toolbar" />
 
-    <in.srain.cube.views.ptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ptr_msg_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        cube_ptr:ptr_duration_to_close_header="300"
-        cube_ptr:ptr_duration_to_close_footer="300"
-        cube_ptr:ptr_keep_header_when_refresh="true"
-        cube_ptr:ptr_pull_to_fresh="true"
-        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.7">
-
-        <android.support.v7.widget.RecyclerView
-            android:clipChildren="false"
-            android:paddingTop="8dp"
-            android:clipToPadding="false"
-            android:id="@+id/msg_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="20dp"
-            />
-
-    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
 
 </LinearLayout>
