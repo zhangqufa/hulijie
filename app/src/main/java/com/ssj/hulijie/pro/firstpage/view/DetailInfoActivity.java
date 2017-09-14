@@ -202,7 +202,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         iv_navigation_back = (ImageView) findViewById(R.id.iv_navigation_back);
         iv_navigation_right = (ImageView) findViewById(R.id.iv_navigation_right);
         iv_navigation_back.setOnClickListener(this);
-        iv_navigation_right.setOnClickListener(this);
+//        iv_navigation_right.setOnClickListener(this);
         sv = (MyScrollView) getViewId(R.id.sv);
         sv.setScrollViewListener(listener);
 
