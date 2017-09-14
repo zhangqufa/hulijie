@@ -9,20 +9,27 @@ import android.widget.TabHost;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 import com.ssj.hulijie.pro.found.view.FoundFragment;
 import com.ssj.hulijie.pro.home.bean.TabItem;
+import com.ssj.hulijie.pro.mine.presenter.LoginPresenter;
+import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.pro.mine.view.MineFragment;
 import com.ssj.hulijie.pro.msg.view.MsgFragment;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppManager;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.StatusBarColorUtils;
 import com.ssj.hulijie.widget.fragmenttabhost.MyFragmentTabHost;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ssj.hulijie.utils.SharedUtil.getPreferStr;
 
 public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
 
@@ -30,6 +37,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
     public static final int CHANGE_TAB_RESULT = 1;
     private MyFragmentTabHost fragmentTabHost;
     private boolean isShowDlg;
+    private LoginPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,22 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         StatusBarColorUtils.setWindowStatusBarColor(this,R.color.colorPrimary);
         initTabData();
         initTabHost();
+        checkKey();
+    }
+
+    private void checkKey() {
+        String user_id = SharedUtil.getPreferStr(SharedKey.USER_ID);
+        String key = SharedUtil.getPreferStr(SharedKey.USER_KEY);
+        presenter.getAccessInfoPresenter(this, user_id, key, new BasePresenter.OnUIThreadListener<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+                if (!result) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 
 
@@ -134,8 +158,10 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
 
     @Override
     public MvpBasePresenter bindPresenter() {
-        return null;
+        presenter = new LoginPresenter(this);
+        return presenter;
     }
+
 
     private void initTabData() {
         tabItemList = new ArrayList<>();

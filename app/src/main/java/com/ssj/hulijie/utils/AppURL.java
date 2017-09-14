@@ -22,6 +22,7 @@ public class AppURL {
     public static final String URL_EDIT_ADDRESS = URL_API + "/Home/address_edit";
     public static final String URL_DELETE_ADDRESS = URL_API + "/Home/address_del";
     public static final String URL_HOT_KEYS = URL_API + "/Home/common_keywords";
+    public static final String URL_ACCESS_INFO = URL_API + "/Home/get_access_info";
 
 
 }

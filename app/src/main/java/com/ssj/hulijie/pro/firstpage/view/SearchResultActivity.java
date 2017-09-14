@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -18,27 +17,15 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.CategoryListAdapter;
-import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
-import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
-import com.ssj.hulijie.pro.firstpage.bean.ItemRemmendList;
 import com.ssj.hulijie.pro.firstpage.presenter.FirstPagePresenter;
-import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.RefreshStatues;
 import com.ssj.hulijie.utils.TitlebarUtil;
-import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler2;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
-
-import static android.R.attr.data;
-import static com.ssj.hulijie.R.id.search_result_rv;
 import static com.ssj.hulijie.base.HljAppliation.context;
 
 

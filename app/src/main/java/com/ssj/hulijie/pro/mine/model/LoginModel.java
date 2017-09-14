@@ -12,6 +12,8 @@ import com.ssj.hulijie.utils.AppURL;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Request;
 
+import static com.ssj.hulijie.R.id.mobile;
+
 /**
  * Created by Administrator on 2017/7/27.
  */
@@ -36,5 +38,12 @@ public class LoginModel extends BaseModel {
         CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
     }
 
+    public void getAccessInfo(BaseActivity context, String user_id, String key, HttpListener<JSONObject> listener) {
+        String url = AppURL.URL_ACCESS_INFO;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("user_id", user_id);
+        request.add("key", key);
+        CallServer.getRequestInstance().add(context, 0, request, listener, true, true);
+    }
 
 }

@@ -38,16 +38,16 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layout = LayoutInflater.from(context).inflate(R.layout.item_first_page_main_list, parent, false);
+        View layout = LayoutInflater.from(context).inflate(R.layout.item_first_page_main_list_notxt, parent, false);
         return new ViewHolder(layout);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
+
         final ItemCategoryMain.DataBean.RowsBean data = lists.get(position);
         holder.title.setText(data.getGoods_name());
-        holder.sub_title.setText(data.getTxt());
         holder.money.setText(data.getPrice());
         Glide.with(context).load(data.getDefault_image()).crossFade().into(holder.img); //加载图片
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -67,14 +67,12 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
-        private TextView sub_title;
         private ImageView img;
         private TextView money;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
-            sub_title = (TextView) itemView.findViewById(R.id.sub_title);
             money = (TextView) itemView.findViewById(R.id.money);
             img = (ImageView) itemView.findViewById(R.id.img);
         }

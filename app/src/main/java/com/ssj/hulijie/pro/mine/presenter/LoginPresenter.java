@@ -15,6 +15,7 @@ import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.Constant;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import static com.baidu.location.b.g.t;
 import static com.baidu.location.b.k.ca;
 import static com.baidu.location.b.k.co;
 
@@ -98,5 +99,30 @@ public class LoginPresenter extends BasePresenter<LoginModel> {
             }
         });
     }
+
+    public void getAccessInfoPresenter(BaseActivity context, String user_id, String key, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getAccessInfo(context, user_id, key, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("key是否过期：" + jsonObject.toString());
+                    int code = jsonObject.getIntValue("code");
+                    if (Constant.SUCCESS_CODE == code) {
+                        onUIThreadListener.onResult(true);
+                    }
+                } else {
+                    onUIThreadListener.onResult(null);
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(null);
+            }
+        });
+    }
+
 
 }

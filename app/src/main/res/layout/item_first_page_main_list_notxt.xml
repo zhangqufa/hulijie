@@ -31,20 +31,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="1dp"
-            android:layout_below="@id/title"
-            android:id="@+id/sub_title"
-            android:lines="2"
-            android:text="原厂品质，专业维修，1小时上门，\n质保半年"
-            android:textColor="@color/comm_grey_555555"
-            android:textSize="12sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:layout_below="@id/sub_title"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/title"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
