@@ -289,14 +289,14 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     private void getListFourData() {
 
-        mPresenter.getMidFourPresenter(context, new BasePresenter.OnUIThreadListener<List<FourpartData>>() {
+        mPresenter.getMidFourPresenter(context, new BasePresenter.OnUIThreadListener<FourpartData>() {
             @Override
-            public void onResult(List<FourpartData> result) {
+            public void onResult(FourpartData result) {
                 if (result != null) {
-                    for (int i = 0; i < result.size(); i++) {
-                        result.get(i).setPic(FirstPageFrament.img[i]);
+                    List<FourpartData.DataBean.RowsBean> rows = result.getData().getRows();
+                    if (rows != null && rows.size() > 0) {
+                        adappter_four_part.setLists(rows);
                     }
-                    adappter_four_part.setLists(result);
                 }
             }
         });
@@ -438,12 +438,12 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     /**
      * 头部four_part listener
      */
-    private FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData> four_part_listener = new FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData>() {
+    private FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData.DataBean.RowsBean> four_part_listener = new FirstPageHeaderFourPartAdappter.OnItemClickListener<FourpartData.DataBean.RowsBean>() {
         @Override
-        public void onItemClick(int position, FourpartData data) {
-            ItemCategoryMain.DataBean.RowsBean item = new ItemCategoryMain.DataBean.RowsBean();
-            item.setGoods_id("3180"); //// TODO: 2017/8/7
+        public void onItemClick(int position, FourpartData.DataBean.RowsBean data) {
             Intent intent = new Intent(getActivity(), DetailInfoActivity.class);
+            ItemCategoryMain.DataBean.RowsBean item = new ItemCategoryMain.DataBean.RowsBean();
+            item.setGoods_id(data.getGoods_id());
             intent.putExtra("item", item);
             startActivity(intent);
 

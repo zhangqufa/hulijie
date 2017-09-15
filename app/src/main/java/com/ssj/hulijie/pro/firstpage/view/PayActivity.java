@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -18,6 +19,8 @@ import com.ssj.hulijie.alipay.Constants;
 import com.ssj.hulijie.alipay.OrderInfoUtil2_0;
 import com.ssj.hulijie.alipay.PayResult;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.nohttp.CallServer;
+import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.utils.AppLog;
@@ -30,6 +33,10 @@ import com.ssj.hulijie.wxapi.WxUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Response;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -55,6 +62,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private ImageView wechat_select, alipay_select;
     private PayStatus currentPayStatus = PayStatus.WECHAT;
     private Button btn_pay;
+    private String  amount; //购买的数量
+    private TextView moeny;
 
     @Override
     public void onClick(View view) {
@@ -102,7 +111,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         params.put("mch_id", ConstantsWechat.MCH_ID);
         params.put("device_info", UUID.randomUUID().toString()); //设备号
         params.put("nonce_str", nonce_str);
-        params.put("body", detail.getname());//商品描述
+        params.put("body", detail.getGoods_name());//商品描述
         params.put("out_trade_no", outTradeNo);
         params.put("total_fee", "1"); //单位分
         params.put("trade_type", "APP");
@@ -248,7 +257,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void payForAlipay() {
-        alipay(detail.getname(), detail.getname(), "0.01");
+        alipay();
+
     }
 
     private static final int SDK_PAY_FLAG = 100;
@@ -284,25 +294,56 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     // 支付宝支付
     // payInfo:支付满足要求的订单信息
-    private void alipay(String subject, String body, String price) {
-        String content = getOrderInfo(subject, body, price);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constants.PARTNER, content, true);
-        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+    private void alipay() {
+//        String content = getOrderInfo(subject, body, price);
+//        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(Constants.PARTNER, content, true);
+//        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+//
+//        String sign = OrderInfoUtil2_0.getSign(params, Constants.RSA2_PRIVATE, true);
+//        final String orderInfo = orderParam + "&" + sign;
+        String url = "http://jassj.com/i/index.php/order/order";
+        Request<String> req = NoHttp.createStringRequest(url, RequestMethod.POST);
+        req.add("user_id",SharedUtil.getPreferStr(SharedKey.USER_ID));
+        req.add("goods_id", detail.getGoods_id());
+        req.add("amount", amount);
+        CallServer.getRequestInstance().add(this, 0, req, new HttpListener<String>() {
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                if (!TextUtils.isEmpty(response.toString())) {
 
-        String sign = OrderInfoUtil2_0.getSign(params, Constants.RSA2_PRIVATE, true);
-        final String orderInfo = orderParam + "&" + sign;
-
-        Runnable payRunnable = new Runnable() {
+                    String s = response.get();
+                    AppLog.Log("orderInfo:"+s);
+                    callApliy(s);
+                }
+            }
 
             @Override
-            public void run() {
-                PayTask alipay = new PayTask(PayActivity.this);
-                Map<String, String> result = alipay.payV2(orderInfo, true);
-                Message msg = new Message();
-                msg.what = SDK_PAY_FLAG;
-                msg.obj = result;
-                handler.sendMessage(msg);
+            public void onFailed(int what, Response<String> response) {
+
             }
+        }, true, true);
+
+
+    }
+//    final String orderInfo = "alipay_sdk=alipay-sdk-php-20161101&app_id=2017010704910421&biz_content=%7B%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22subject%22%3A+%22App%E6%94%AF%E4%BB%98%E6%B5%8B%E8%AF%95%22%2C%22out_trade_no%22%3A+%221505466180%22%2C%22timeout_express%22%3A+%2230m%22%2C%22total_amount%22%3A+%220.01%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fjassj.com%2Fi%2Findex.php%2Forder%2Fcall_back&sign_type=RSA2&timestamp=2017-09-15+17%3A03%3A00&version=1.0&sign=Dioe%2BfzGnGc8LXk9sOpO%2BiLcT0kyaJVp7CfmUKLn1JaCyLK%2FjYxf1zu07EbROxcVA1P0fHnXMu6SYqg0zKoh4CYXeDxyjfsybXSd6GYhoYVnZMqC%2BglswjIolxlOQ5H7DU2AkcNqs5TRzbOlmSUPqHqj4BZ643lwxDjDrbAFs0Wx5orNNnN3GAkOlTJxovyR0a75VZRASpHwA0ZRbQcuSOvoKZogYEdFp7Em%2F6KSKwosXMWzuFvOnwGEPBZPqrBgGnkq3rSnenrqH04ZOjzPwsGGg3Z%2BHl7pVtm8H5g1O0akICTqKule4Ido1nHy%2B0mmxpuevu%2ByhL0ON3mB7Zw3HA%3D%3D";
+
+    private void callApliy(String orderInfo){
+        if (orderInfo.contains("amp;")) {
+            orderInfo = orderInfo.replace("amp;", "");
+
+        }
+        final String finalyStr = orderInfo;
+        Runnable payRunnable = new Runnable() {
+
+                @Override
+                public void run() {
+                    PayTask alipay = new PayTask(PayActivity.this);
+                    Map<String, String> result = alipay.payV2(finalyStr, true);
+                    Message msg = new Message();
+                    msg.what = SDK_PAY_FLAG;
+                    msg.obj = result;
+                    handler.sendMessage(msg);
+                }
         };
 
         Thread payThread = new Thread(payRunnable);
@@ -340,6 +381,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         detail = getIntent().getParcelableExtra("detail");
+        amount = getIntent().getStringExtra("amount");
         setContentView(R.layout.act_pay);
         initToolbar();
         initView();
@@ -347,6 +389,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
+        moeny = (TextView) findViewById(R.id.moeny);
+        moeny.setText((Float.valueOf(detail.getPrice())*Integer.valueOf(amount))+"");
         btn_pay = (Button) findViewById(R.id.btn_pay);
         wechat_select = (ImageView) findViewById(R.id.wechat_select);
         alipay_select = (ImageView) findViewById(R.id.alipay_select);

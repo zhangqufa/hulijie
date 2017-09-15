@@ -177,7 +177,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                     });
 
             //show title
-            String cate_name = detail.getname();
+            String cate_name = detail.getGoods_name();
             detail_title.setText(cate_name);
             //show price
             String price = detail.getPrice();

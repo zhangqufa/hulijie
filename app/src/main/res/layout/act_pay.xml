@@ -7,37 +7,12 @@
     <include layout="@layout/toolbar" />
 
 
-    <LinearLayout
-        android:id="@+id/item_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:background="@android:color/white"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="支付剩余时间" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="5dp"
-            android:text="55:33" />
-
-    </LinearLayout>
-
     <RelativeLayout
+        android:layout_below="@id/title_bar_base"
         android:id="@+id/item_pay_money"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_below="@id/item_time"
-        android:layout_marginTop="0.5dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/white">
 
         <TextView
@@ -51,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:id="@+id/moeny"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"

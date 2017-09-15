@@ -33,6 +33,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     	api = WXAPIFactory.createWXAPI(this, ConstantsWechat.APPID);
         api.handleIntent(getIntent(), this);
     }
@@ -54,6 +55,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 		if (resp.errCode == 0) {
 			AppToast.ShowToast("支付成功");
 			SharedUtil.setPreferBool(SharedKey.PAY_SUCCESS, true);
+			finish();
+		} else {
 			finish();
 		}
 

@@ -10,7 +10,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationSet;
 import android.widget.TextView;
 
 import com.ssj.hulijie.R;
@@ -22,7 +21,6 @@ import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.ItemSearchHistory;
 import com.ssj.hulijie.pro.firstpage.presenter.SearchPresenter;
 import com.ssj.hulijie.utils.AppLog;
-import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.widget.editext.ClearEditText;
 import com.ssj.hulijie.widget.flowlayout.FlowLayout;
@@ -43,6 +41,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private ClearEditText act_search_et;
     private SearchHistoryDao dao;
     private SearchPresenter presenter;
+    private boolean isAnimate = true;
 
     @Override
     public MvpBasePresenter bindPresenter() {
@@ -101,6 +100,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+
+
     private void addHotsearchDataForFlowView(String str, FlowLayout flowLayout, List<TextView> tvs_list) {
         int ranHeight = DensityUtil.dip2px(this, 30);
         ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ranHeight);
@@ -115,13 +116,16 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         tv.setBackgroundResource(R.drawable.shape_btn_grey_f5f5f5);
         tvs_list.add(tv);  //add onclick event
 
+
         //add 显示动画
-        ObjectAnimator animator_x = ObjectAnimator.ofFloat(tv, "scaleX", 0.3f, 1f);
-        ObjectAnimator animator_y = ObjectAnimator.ofFloat(tv, "scaleY", 0.3f, 1f);
-        AnimatorSet set  = new AnimatorSet();
-        set.playTogether(animator_x, animator_y);
-        set.setDuration(300);
-        set.start();
+        if (isAnimate) {
+            ObjectAnimator animator_x = ObjectAnimator.ofFloat(tv, "scaleX", 0.3f, 1f);
+            ObjectAnimator animator_y = ObjectAnimator.ofFloat(tv, "scaleY", 0.3f, 1f);
+            AnimatorSet set  = new AnimatorSet();
+            set.playTogether(animator_x, animator_y);
+            set.setDuration(300);
+            set.start();
+        }
 
         flowLayout.addView(tv, lp);
 
@@ -173,7 +177,11 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             int count = dao.count();
             if (count >= 5) {
                 dao.deleteLast();
+                isAnimate = false; //不在执行动画了
+                fl_history_record.removeAllViews();
+                initHistoryData();
             }
+
             long success = dao.insert(history);
             if (success > 0) {
 //                AppToast.ShowToast("success:" + success);
@@ -204,6 +212,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             case R.id.qingchu:
                 dao.deleteAll();
                 fl_history_record.removeAllViews();
+                isAnimate = false;
                 break;
         }
     }

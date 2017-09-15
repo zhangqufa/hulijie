@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.FourpartData;
+import com.ssj.hulijie.utils.ImageUrlFormat;
 
 import java.util.List;
 
@@ -26,12 +27,12 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
         this.context = context;
     }
 
-    public void setLists(List<FourpartData> lists) {
+    public void setLists(List<FourpartData.DataBean.RowsBean> lists) {
         this.lists = lists;
         notifyDataSetChanged();
     }
 
-    private List<FourpartData> lists;
+    private List<FourpartData.DataBean.RowsBean> lists;
 
 
     @Override
@@ -42,10 +43,10 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
 
     @Override
     public void onBindViewHolder(FourPartViewHolder holder, final int position) {
-        final FourpartData item = lists.get(position);
-        holder.tv_title.setText(item.getName());
+        final FourpartData.DataBean.RowsBean item = lists.get(position);
+        holder.tv_title.setText(item.getGoods_name());
         holder.tv_sub_titlle.setText(item.getTxt());
-        Glide.with(context).load(item.getPic()).into(holder.iv_image);
+        Glide.with(context).load(ImageUrlFormat.urlFormat(item.getDefault_image())).into(holder.iv_image);
 //        holder.iv_image.setImageURI(item.getDefault_image());
 
 

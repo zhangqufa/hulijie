@@ -112,7 +112,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private void updateUI() {
         if (detail != null) {
             Glide.with(this).load(detail.getDefault_image()).into(order_img);
-            order_title.setText(detail.getname());
+            order_title.setText(detail.getGoods_name());
             order_price.setText("￥" + detail.getPrice());
             order_price_total.setText("￥" + detail.getPrice());
 
@@ -346,6 +346,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             case R.id.btn_pay:
                 Intent intent1 = new Intent(this, PayActivity.class);
                 intent1.putExtra("detail", detail);
+                intent1.putExtra("amount", order_buy_count.getText().toString()); //购买数量
                 startActivityForResult(intent1,TOPAYREQ);
                 break;
         }

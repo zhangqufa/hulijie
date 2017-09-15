@@ -74,7 +74,7 @@ public class FirstPagePresenter extends BasePresenter<FirstPageModel> {
     }
 
 
-    public void getMidFourPresenter(BaseActivity activity, final OnUIThreadListener<List<FourpartData>> onUIThreadListener) {
+    public void getMidFourPresenter(BaseActivity activity, final OnUIThreadListener<FourpartData> onUIThreadListener) {
         getModel().getMidFourModel(activity, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
@@ -82,23 +82,16 @@ public class FirstPagePresenter extends BasePresenter<FirstPageModel> {
                 JSONObject jsonObject = response.get();
 
                 if (jsonObject != null) {
-
+                     AppLog.Log("首页中间四个服务： "+jsonObject.toString());
                     try {
-                        int code = jsonObject.getIntValue("code");
-                        if (code == Constant.SUCCESS_CODE) {
-                            String data = jsonObject.getString("data");
-                            List<FourpartData> lists = new ArrayList<>(JSONArray.parseArray(data, FourpartData.class));
-                            onUIThreadListener.onResult(lists);
-                            AppLog.Log("four_model: " + lists.toString());
-                        }
+                        FourpartData fourpartData = JSON.parseObject(jsonObject.toString(), FourpartData.class);
+                        onUIThreadListener.onResult(fourpartData);
                     } catch (Exception e) {
                         e.printStackTrace();
                         onUIThreadListener.onResult(null);
-                        AppLog.Log("four_model: " + e.toString());
                     }
 
                 } else {
-                    AppLog.Log("four_model is null");
                     onUIThreadListener.onResult(null);
                 }
             }
