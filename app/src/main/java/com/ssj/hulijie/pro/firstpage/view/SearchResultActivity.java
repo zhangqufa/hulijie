@@ -20,6 +20,7 @@ import com.ssj.hulijie.pro.firstpage.adapter.CategoryListAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
 import com.ssj.hulijie.pro.firstpage.presenter.FirstPagePresenter;
+import com.ssj.hulijie.pro.mine.view.ServiceActivity;
 import com.ssj.hulijie.utils.RefreshStatues;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
@@ -42,6 +43,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
     private List<ItemCategoryMain.DataBean.RowsBean>  lists = new ArrayList<>();
     private XRecyclerView mRecyclerView;
+    private View text_empty;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +79,9 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initView() {
+        //empty view
+        text_empty = (View) findViewById(R.id.text_empty);
+
         //init RecyclerView
         mRecyclerView = (XRecyclerView) this.findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -132,7 +137,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
                     int totalcount = data.getCount();
                     if (rows.size() > 0) {
 
-                        for (int i = 0; i <rows.size(); i++) {
+                        for (int i = 0; i < rows.size(); i++) {
                             ItemCategoryMain.DataBean.RowsBean item = rows.get(i);
                             lists.add(item);
                         }
@@ -144,10 +149,15 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
                         } else if (statues == RefreshStatues.LOADMORE) {
                             mRecyclerView.loadMoreComplete();
                         }
-                        if (rows.size() < 10&&lists.size() > 5||lists.size()==totalcount&&lists.size()>5) {
+                        if (rows.size() < 10 && lists.size() > 5 || lists.size() == totalcount && lists.size() > 5) {
                             mRecyclerView.setNoMore(true);
                         }
                     }
+                    if (lists.size()==0){
+                        mRecyclerView.setEmptyView(text_empty);
+                    }
+
+
                 }
 
             }
