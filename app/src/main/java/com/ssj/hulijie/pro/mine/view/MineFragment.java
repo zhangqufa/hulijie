@@ -156,6 +156,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         Intent intent = null;
         boolean isForResult = false;
+        boolean logined = false;
 
         switch (view.getId()) {
             case R.id.login:
@@ -166,6 +167,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.mine_address:
+                logined = checkIsLogin();
+                if (!logined) {
+                    return;
+                }
                 intent = new Intent(getContext(), SelectAddressActivity.class);
                 intent.putExtra(MINE_TO_SELECTADRESS, MINE_TO_SELECTADRESS);  //由我的 页进入地址管理 不注册 itemclick
                 break;
@@ -180,26 +185,46 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 intent = new Intent(getContext(), ShopVerifyActivity.class);
                 break;
             case R.id.mine_order_list:
+                logined = checkIsLogin();
+                if (!logined) {
+                    return;
+                }
                 isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
 
                 break;
             case R.id.mine_no_complete:
+                logined = checkIsLogin();
+                if (!logined) {
+                    return;
+                }
                 isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 0);
                 break;
             case R.id.mine_complete:
+                logined = checkIsLogin();
+                if (!logined) {
+                    return;
+                }
                 isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 1);
                 break;
             case R.id.mine_wait_evaluate:
+                logined = checkIsLogin();
+                if (!logined) {
+                    return;
+                }
                 isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 2);
                 break;
             case R.id.mine_all_order:
+                logined = checkIsLogin();
+                if (!logined) {
+                    return;
+                }
                 isForResult = true;
                 intent = new Intent(getContext(), MineOrderListActivity.class);
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 3);
@@ -220,6 +245,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         }
 
 
+    }
+
+    private boolean checkIsLogin() {
+        boolean logined = SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false);
+        if (!logined) {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
+        return logined;
     }
 
     @Override

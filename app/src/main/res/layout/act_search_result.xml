@@ -9,6 +9,9 @@
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/recyclerview"
+        android:paddingTop="8dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

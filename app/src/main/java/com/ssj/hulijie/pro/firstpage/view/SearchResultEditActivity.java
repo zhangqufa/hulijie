@@ -15,6 +15,7 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.adapter.CategoryListAdapter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
@@ -41,7 +42,7 @@ import static com.ssj.hulijie.base.HljAppliation.context;
 
 public class SearchResultEditActivity extends BaseActivity implements View.OnClickListener {
     private TextView nav_center_title;
-    private FirstPageMainListAdapter adapter;
+    private CategoryListAdapter adapter;
     private String key;
     private TextView iv_navigation_center;
     private FirstPagePresenter presenter;
@@ -58,7 +59,7 @@ public class SearchResultEditActivity extends BaseActivity implements View.OnCli
         key = getIntent().getStringExtra("key");
         initToolbar();
         initView();
-       initData();
+        initData();
 
     }
 
@@ -71,14 +72,6 @@ public class SearchResultEditActivity extends BaseActivity implements View.OnCli
 
     }
 
-    private FirstPageMainListAdapter.OnItemClickListener item_click = new FirstPageMainListAdapter.OnItemClickListener<ItemFirstPageMainList>() {
-        @Override
-        public void onItemClick(int position, ItemFirstPageMainList item) {
-            Intent intent = new Intent(context, DetailInfoActivity.class);
-            intent.putExtra("item", item);
-            startActivity(intent);
-        }
-    };
 
     private void initView() {
         //init RecyclerView
@@ -106,10 +99,20 @@ public class SearchResultEditActivity extends BaseActivity implements View.OnCli
             }
         });
 
-        adapter = new FirstPageMainListAdapter(this);
+        adapter = new CategoryListAdapter(this);
         mRecyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(item_click);
+        adapter.setClicklistener(item_click);
+
     }
+
+    private CategoryListAdapter.ItemOnClickListener item_click = new CategoryListAdapter.ItemOnClickListener<ItemCategoryMain.DataBean.RowsBean>() {
+        @Override
+        public void setOnItemClickListener(int position, ItemCategoryMain.DataBean.RowsBean item) {
+            Intent intent = new Intent(context, DetailInfoActivity.class);
+            intent.putExtra("item", item);
+            startActivity(intent);
+        }
+    };
 
     private void initData() {
         page = 1;
@@ -117,8 +120,6 @@ public class SearchResultEditActivity extends BaseActivity implements View.OnCli
         adapter.notifyDataSetChanged();
         getData(RefreshStatues.REFRESH);
     }
-
-
 
 
     /**
@@ -129,18 +130,18 @@ public class SearchResultEditActivity extends BaseActivity implements View.OnCli
     private void getData(final RefreshStatues statues) {
         presenter.getFirstForCategoryPresenter(this, "", key, page, new BasePresenter.OnUIThreadListener<ItemCategoryMain>() {
             @Override
-            public void onResult(ItemCategoryMain result ) {
+            public void onResult(ItemCategoryMain result) {
                 if (result != null) {
                     ItemCategoryMain.DataBean data = result.getData();
                     List<ItemCategoryMain.DataBean.RowsBean> rows = data.getRows();
                     int totalcount = data.getCount();
                     if (rows.size() > 0) {
 
-                        for (int i = 0; i <rows.size(); i++) {
+                        for (int i = 0; i < rows.size(); i++) {
                             ItemCategoryMain.DataBean.RowsBean item = rows.get(i);
                             lists.add(item);
                         }
-                        adapter.addDatas(lists);
+                        adapter.setLists(lists);
 
                         if (statues == RefreshStatues.REFRESH) {
                             mRecyclerView.refreshComplete();
@@ -148,7 +149,7 @@ public class SearchResultEditActivity extends BaseActivity implements View.OnCli
                         } else if (statues == RefreshStatues.LOADMORE) {
                             mRecyclerView.loadMoreComplete();
                         }
-                        if (rows.size() < 10&&lists.size() > 5||lists.size()==totalcount&&lists.size()>5) {
+                        if (rows.size() < 10 && lists.size() > 5 || lists.size() == totalcount && lists.size() > 5) {
                             mRecyclerView.setNoMore(true);
                         }
                     }

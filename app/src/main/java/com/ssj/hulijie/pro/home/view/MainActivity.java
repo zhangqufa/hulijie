@@ -56,10 +56,9 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         presenter.getAccessInfoPresenter(this, user_id, key, new BasePresenter.OnUIThreadListener<Boolean>() {
             @Override
             public void onResult(Boolean result) {
-                if (!result) {
+                if (result) {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
-                    finish();
                 }
             }
         });

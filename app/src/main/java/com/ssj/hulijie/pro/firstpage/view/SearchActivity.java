@@ -176,7 +176,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             }
             long success = dao.insert(history);
             if (success > 0) {
-                AppToast.ShowToast("success:" + success);
+//                AppToast.ShowToast("success:" + success);
                 addHotsearchDataForFlowView(string, fl_history_record, tvs_history_search);
             }
         } catch (NoSuchMethodException e) {

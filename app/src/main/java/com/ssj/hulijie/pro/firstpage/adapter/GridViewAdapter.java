@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
+import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
 import com.ssj.hulijie.pro.firstpage.view.OrderActivity;
 import com.ssj.hulijie.pro.firstpage.view.SearchResultActivity;
 import com.ssj.hulijie.pro.firstpage.view.SearchResultEditActivity;
@@ -68,9 +69,12 @@ public class GridViewAdapter extends BaseAdapter {
                 holder.button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(mContext, mList.get(position).getParent_id() + "_" + mList.get(position).getCate_id(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(mContext, SearchResultEditActivity.class);
-                        intent.putExtra("key", mList.get(position).getCate_name());
+//                        Toast.makeText(mContext, mList.get(position).getParent_id() + "_" + mList.get(position).getCate_id(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, SearchResultActivity.class);
+                        ItemFirstPageMainHeaderList item = new ItemFirstPageMainHeaderList();
+                        item.setId(mList.get(position).getCate_id());
+                        item.setName(mList.get(position).getCate_name());
+                        intent.putExtra("item", item);
                         mContext.startActivity(intent);
                     }
                 });

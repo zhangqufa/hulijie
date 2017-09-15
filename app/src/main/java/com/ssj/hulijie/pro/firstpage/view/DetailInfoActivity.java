@@ -42,10 +42,13 @@ import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
+import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.PictureUtil;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -276,8 +279,13 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.order_btn:
-
-                Intent i = new Intent(this, OrderActivity.class);
+                Intent i=null;
+                if (!SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false)) {
+                    i = new Intent(this, LoginActivity.class);
+                    startActivity(i);
+                    return;
+                }
+                 i = new Intent(this, OrderActivity.class);
                 i.putExtra("detail", detail);
                 startActivityForResult(i,TOYUYUE);
                 break;

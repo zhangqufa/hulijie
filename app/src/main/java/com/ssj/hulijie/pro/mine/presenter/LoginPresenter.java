@@ -109,7 +109,7 @@ public class LoginPresenter extends BasePresenter<LoginModel> {
                 if (jsonObject != null) {
                     AppLog.Log("key是否过期：" + jsonObject.toString());
                     int code = jsonObject.getIntValue("code");
-                    if (Constant.SUCCESS_CODE == code) {
+                    if (Constant.ERROR_OVERDUE_CODE == code) {
                         onUIThreadListener.onResult(true);
                     }
                 } else {
