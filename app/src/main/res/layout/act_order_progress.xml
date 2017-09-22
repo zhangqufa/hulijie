@@ -359,6 +359,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginBottom="60dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -377,54 +378,6 @@
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/scroll_btn"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="0.5dp"
-                android:background="@android:color/white"
-                android:visibility="invisible">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_standard_one"
-                    android:layout_alignParentTop="true"
-                    android:background="@color/line_color" />
-
-                <TextView
-                    android:id="@+id/temp2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="待支付:"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/temp2"
-                    android:layout_toRightOf="@id/temp2"
-                    android:text="¥30元"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp" />
-
-
-                <Button
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/shape_bg_colorprimary"
-                    android:gravity="center"
-                    android:text="去支付"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp" />
-
-
-            </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>

@@ -97,7 +97,7 @@
             android:name=".pro.firstpage.view.OrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".pro.firstpage.view.DetailInfoActivity"
             android:screenOrientation="portrait"

@@ -51,7 +51,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private Button order_sub;
     private boolean isVisible;  //表示scrollview里面的view是否显示
     private View bottom_btn;
-    private View scroll_btn;
     private TextView tv_mark;
     private TextView order_address;
     private String date;
@@ -270,13 +269,9 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         order_buy_count = (TextView) findViewById(R.id.order_buy_count);
 
         EditText et_name = (EditText) findViewById(R.id.et_name);
-        et_name.setOnFocusChangeListener(listener);
         EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
-        et_mobile.setOnFocusChangeListener(listener);
         EditText et_mark = (EditText) findViewById(R.id.et_mark);
-        et_mark.setOnFocusChangeListener(listener);
         bottom_btn = findViewById(R.id.bottom_btn);
-        scroll_btn = findViewById(R.id.scroll_btn);
 
         order_address = (TextView) findViewById(R.id.order_address);
         tv_mark = (TextView) findViewById(R.id.tv_mark);
@@ -297,18 +292,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    private View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View view, boolean b) {
-            if (!isVisible) {
-                if (b) {
-                    isVisible = true;
-                    bottom_btn.setVisibility(View.GONE);
-                    scroll_btn.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-    };
 
     private void initToolbar() {
         RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
