@@ -33,7 +33,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     	api = WXAPIFactory.createWXAPI(this, ConstantsWechat.APPID);
         api.handleIntent(getIntent(), this);
     }

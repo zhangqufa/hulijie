@@ -92,7 +92,7 @@ import static com.ssj.hulijie.utils.WxUtil.buildTransaction;
  * Created by Administrator on 2017/6/13.
  */
 
-public class DetailInfoActivity extends BaseActivity implements View.OnClickListener , IWXAPIEventHandler {
+public class DetailInfoActivity extends BaseActivity implements View.OnClickListener  {
     private ItemCategoryMain.DataBean.RowsBean item;
     private MyScrollView sv;
     private int height;
@@ -119,6 +119,8 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private DetailServiceItem detail;
 
     private ShareStatues current_share_status = ShareStatues.Wechat;
+    private IWXAPI api;
+
     enum ShareStatues {
         Wechat,Pengyouquan;
     }
@@ -135,6 +137,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_service_detail);
         item = getIntent().getParcelableExtra("item");
+        api = WXAPIFactory.createWXAPI(this, ConstantsWechat.APPID, false);
         AppLog.Log("Item: " + item);
         initView();
         initData();
@@ -370,7 +373,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             return;
         }
         AppLog.Log("1111111111");
-        IWXAPI api = WXAPIFactory.createWXAPI(this, ConstantsWechat.APPID);
+
         //初始化对象
         WXImageObject imgObj = new WXImageObject(smallBitmap);
         WXMediaMessage msg = new WXMediaMessage();
@@ -447,8 +450,6 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
 
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -458,36 +459,4 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    @Override
-    public void onReq(BaseReq baseReq) {
-
-    }
-
-    @Override
-    public void onResp(BaseResp resp) {
-        int result = 0;
-
-        Toast.makeText(this, "baseresp.getType = " + resp.getType(), Toast.LENGTH_SHORT).show();
-
-        switch (resp.errCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                result = R.string.errcode_success;
-
-                break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL:
-                result = R.string.errcode_cancel;
-                break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                result = R.string.errcode_deny;
-                break;
-            case BaseResp.ErrCode.ERR_UNSUPPORT:
-                result = R.string.errcode_unsupported;
-                break;
-            default:
-                result = R.string.errcode_unknown;
-                break;
-        }
-
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-    }
 }
