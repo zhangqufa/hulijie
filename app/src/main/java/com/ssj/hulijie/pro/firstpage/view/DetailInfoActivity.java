@@ -11,19 +11,24 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatRatingBar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ssj.hulijie.R;
+import com.ssj.hulijie.alipay.Constants;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
@@ -42,13 +47,28 @@ import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
+import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
+import com.ssj.hulijie.pro.firstpage.view.widget.SharePopWindow;
 import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.PictureUtil;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
+import com.ssj.hulijie.utils.WxUtil;
+import com.ssj.hulijie.utils.compresspic.CompressImageLister;
+import com.ssj.hulijie.utils.compresspic.CompressImageTask;
+import com.ssj.hulijie.wxapi.ConstantsWechat;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -63,14 +83,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.R.attr.bitmap;
 import static com.ssj.hulijie.pro.mine.view.MineFragment.REQUESTPERSIMMIONCODE;
+import static com.ssj.hulijie.utils.WxUtil.buildTransaction;
 
 
 /**
  * Created by Administrator on 2017/6/13.
  */
 
-public class DetailInfoActivity extends BaseActivity implements View.OnClickListener {
+public class DetailInfoActivity extends BaseActivity implements View.OnClickListener , IWXAPIEventHandler {
     private ItemCategoryMain.DataBean.RowsBean item;
     private MyScrollView sv;
     private int height;
@@ -95,6 +117,12 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private AppCompatRatingBar evaluate_level;
 
     private DetailServiceItem detail;
+
+    private ShareStatues current_share_status = ShareStatues.Wechat;
+    enum ShareStatues {
+        Wechat,Pengyouquan;
+    }
+
 
     @Override
     public MvpBasePresenter bindPresenter() {
@@ -205,7 +233,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         iv_navigation_back = (ImageView) findViewById(R.id.iv_navigation_back);
         iv_navigation_right = (ImageView) findViewById(R.id.iv_navigation_right);
         iv_navigation_back.setOnClickListener(this);
-//        iv_navigation_right.setOnClickListener(this);
+        iv_navigation_right.setOnClickListener(this);
         sv = (MyScrollView) getViewId(R.id.sv);
         sv.setScrollViewListener(listener);
 
@@ -269,25 +297,43 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.iv_navigation_right:
-                Bitmap bitmap = getBitmapByView(sv);
-//                Bitmap bitmap1 = compressImage(bitmap);
-                String s = savePic(bitmap);
-                Bitmap smallBitmap = PictureUtil.getSmallBitmap(s, 640, 800);
-                String s1 = savePic(smallBitmap);
 
-                AppLog.Log("path_s:" + s + " , path_s1:" + s1);
+
+                findViewById(R.id.ll).setVisibility(View.VISIBLE);
+                SharePopWindow menuWindow = new SharePopWindow(this, new SharePopWindow.SelectCallBack() {
+                    @Override
+                    public void selectWechatCallBack() {
+                        current_share_status = ShareStatues.Wechat;
+                        shareToWx();
+                    }
+
+                    @Override
+                    public void selectPengyouquanCallBack() {
+                        current_share_status = ShareStatues.Pengyouquan;
+                        shareToWx();
+                    }
+                });
+                //显示窗口
+                menuWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                menuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        findViewById(R.id.ll).setVisibility(View.GONE);
+                    }
+                });
+
                 break;
 
             case R.id.order_btn:
-                Intent i=null;
+                Intent i = null;
                 if (!SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false)) {
                     i = new Intent(this, LoginActivity.class);
                     startActivity(i);
                     return;
                 }
-                 i = new Intent(this, OrderActivity.class);
+                i = new Intent(this, OrderActivity.class);
                 i.putExtra("detail", detail);
-                startActivityForResult(i,TOYUYUE);
+                startActivityForResult(i, TOYUYUE);
                 break;
             case R.id.check_all_evaluate:
                 startActivity(new Intent(this, CheckAllEvaluateActivity.class));
@@ -298,7 +344,60 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    private static final int TOYUYUE=10001;
+
+    private static final int THUMB_SIZE = 120;
+
+    /**
+     * 分享到微信
+     */
+    private void shareToWx() {
+
+        CompressImageTask task = new CompressImageTask(this, sv,new CompressImageLister() {
+            @Override
+            public void onCompressSuccess(File file) {
+                Bitmap smallBitmap = BitmapFactory.decodeFile(file.getPath());
+                sendToWx(smallBitmap);
+            }
+        });
+        task.execute();
+
+
+    }
+
+    private void sendToWx(Bitmap smallBitmap) {
+        if (smallBitmap == null) {
+            AppToast.ShowToast("分享失败");
+            return;
+        }
+        AppLog.Log("1111111111");
+        IWXAPI api = WXAPIFactory.createWXAPI(this, ConstantsWechat.APPID);
+        //初始化对象
+        WXImageObject imgObj = new WXImageObject(smallBitmap);
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.mediaObject = imgObj;
+        //设置 缩略图
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(smallBitmap, THUMB_SIZE, THUMB_SIZE, true);
+        AppLog.Log("缩略压缩后图片的大小_ 变化前： " + (thumbBmp.getByteCount() / 1024 )
+                + "M宽度为" + thumbBmp.getWidth() + "高度为" + thumbBmp.getHeight());
+        smallBitmap.recycle();
+        msg.thumbData = WxUtil.bmpToByteArray(thumbBmp, true);
+        AppLog.Log("222222222");
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("img");
+        req.message = msg;
+        if (current_share_status == ShareStatues.Wechat) {
+
+            req.scene = SendMessageToWX.Req.WXSceneSession;  //WXSceneSession： 会话，  SendMessageToWX.Req.WXSceneTimeline 这个是朋友圈
+        } else {
+            req.scene = SendMessageToWX.Req.WXSceneTimeline;  //WXSceneSession： 会话，  SendMessageToWX.Req.WXSceneTimeline 这个是朋友圈
+
+        }
+        api.sendReq(req);
+
+        AppLog.Log("333333");
+    }
+
+    private static final int TOYUYUE = 10001;
 
     private void callPhone() {
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "13806583199"));
@@ -345,90 +444,9 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener_permissions);
     }
 
-    /**
-     * 截取scrollview的屏幕
-     *
-     * @param scrollView
-     * @return
-     */
-    public static Bitmap getBitmapByView(ScrollView scrollView) {
-        int h = 0;
-        Bitmap bitmap = null;
-        // 获取scrollview实际高度
-        for (int i = 0; i < scrollView.getChildCount(); i++) {
-            h = scrollView.getChildAt(i).getHeight();
-            scrollView.getChildAt(i).setBackgroundColor(
-                    Color.parseColor("#ffffff"));
-        }
-        // 创建对应大小的bitmap
-        bitmap = Bitmap.createBitmap(scrollView.getWidth(), h,
-                Bitmap.Config.RGB_565);
-        final Canvas canvas = new Canvas(bitmap);
-        scrollView.draw(canvas);
-        return bitmap;
-    }
 
-    /**
-     * 压缩图片
-     *
-     * @param image
-     * @return
-     */
-    public static Bitmap compressImage(Bitmap image) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // 质量压缩方法、这里100表示不压缩、把压缩后的数据存放到baos中
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        int options = 100;
-        // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
-        while (baos.toByteArray().length / 1024 > 100) {
-            // 重置baos
-            baos.reset();
-            // 这里压缩options%、把压缩后的数据存放到baos中
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);
-            // 每次都减少10
-            options -= 10;
-        }
-        // 把压缩后的数据baos存放到ByteArrayInputStream中
-        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
-        // 把ByteArrayInputStream数据生成图片
-        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);
-        return bitmap;
-    }
 
-    /**
-     * 保存到sdcard
-     *
-     * @param b
-     * @return
-     */
-    public static String savePic(Bitmap b) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss",
-                Locale.US);
-        File outfile = new File("/sdcard/image");
-        // 如果文件不存在、则创建一个新文件
-        if (!outfile.isDirectory()) {
-            try {
-                outfile.mkdir();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        String fname = outfile + "/" + sdf.format(new Date()) + ".png";
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(fname);
-            if (null != fos) {
-                b.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.flush();
-                fos.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return fname;
-    }
+
 
 
     @Override
@@ -438,5 +456,38 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             AppLog.Log("Detailact");
             finish();
         }
+    }
+
+    @Override
+    public void onReq(BaseReq baseReq) {
+
+    }
+
+    @Override
+    public void onResp(BaseResp resp) {
+        int result = 0;
+
+        Toast.makeText(this, "baseresp.getType = " + resp.getType(), Toast.LENGTH_SHORT).show();
+
+        switch (resp.errCode) {
+            case BaseResp.ErrCode.ERR_OK:
+                result = R.string.errcode_success;
+
+                break;
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
+                result = R.string.errcode_cancel;
+                break;
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                result = R.string.errcode_deny;
+                break;
+            case BaseResp.ErrCode.ERR_UNSUPPORT:
+                result = R.string.errcode_unsupported;
+                break;
+            default:
+                result = R.string.errcode_unknown;
+                break;
+        }
+
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
     }
 }
