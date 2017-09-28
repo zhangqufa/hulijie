@@ -92,7 +92,7 @@ import static com.ssj.hulijie.utils.WxUtil.buildTransaction;
  * Created by Administrator on 2017/6/13.
  */
 
-public class DetailInfoActivity extends BaseActivity implements View.OnClickListener  {
+public class DetailInfoActivity extends BaseActivity implements View.OnClickListener {
     private ItemCategoryMain.DataBean.RowsBean item;
     private MyScrollView sv;
     private int height;
@@ -122,7 +122,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private IWXAPI api;
 
     enum ShareStatues {
-        Wechat,Pengyouquan;
+        Wechat, Pengyouquan;
     }
 
 
@@ -348,23 +348,19 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     }
 
 
-    private static final int THUMB_SIZE = 120;
+
 
     /**
      * 分享到微信
      */
     private void shareToWx() {
-
-        CompressImageTask task = new CompressImageTask(this, sv,new CompressImageLister() {
+        CompressImageTask task = new CompressImageTask(this, sv, new CompressImageLister() {
             @Override
-            public void onCompressSuccess(File file) {
-                Bitmap smallBitmap = BitmapFactory.decodeFile(file.getPath());
-                sendToWx(smallBitmap);
+            public void onCompressSuccess(Bitmap bitmap) {
+                sendToWx(bitmap);
             }
         });
         task.execute();
-
-
     }
 
     private void sendToWx(Bitmap smallBitmap) {
@@ -379,23 +375,31 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = imgObj;
         //设置 缩略图
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(smallBitmap, THUMB_SIZE, THUMB_SIZE, true);
-        AppLog.Log("缩略压缩后图片的大小_ 变化前： " + (thumbBmp.getByteCount() / 1024 )
-                + "M宽度为" + thumbBmp.getWidth() + "高度为" + thumbBmp.getHeight());
-        smallBitmap.recycle();
+        AppLog.Log("缩略压缩后图片的大小_ 变化前： " + (smallBitmap.getByteCount() / 1024)
+                + "k宽度为" + smallBitmap.getWidth() + "高度为" + smallBitmap.getHeight());
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(smallBitmap, 100, 200, true);
+        AppLog.Log("缩略压缩后图片的大小_ 变化后： " + (thumbBmp.getByteCount() / 1024)
+                + "k宽度为" + thumbBmp.getWidth() + "高度为" + thumbBmp.getHeight());
         msg.thumbData = WxUtil.bmpToByteArray(thumbBmp, true);
         AppLog.Log("222222222");
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = buildTransaction("img");
         req.message = msg;
         if (current_share_status == ShareStatues.Wechat) {
-
             req.scene = SendMessageToWX.Req.WXSceneSession;  //WXSceneSession： 会话，  SendMessageToWX.Req.WXSceneTimeline 这个是朋友圈
         } else {
             req.scene = SendMessageToWX.Req.WXSceneTimeline;  //WXSceneSession： 会话，  SendMessageToWX.Req.WXSceneTimeline 这个是朋友圈
-
         }
         api.sendReq(req);
+
+        if (smallBitmap != null && !smallBitmap.isRecycled()) {
+            smallBitmap.recycle();
+            smallBitmap = null;
+        }
+        if (thumbBmp != null && !thumbBmp.isRecycled()) {
+            thumbBmp.recycle();
+            thumbBmp = null;
+        }
 
         AppLog.Log("333333");
     }
@@ -446,8 +450,6 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener_permissions);
     }
-
-
 
 
     @Override

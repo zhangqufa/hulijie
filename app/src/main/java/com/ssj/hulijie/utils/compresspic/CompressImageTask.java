@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.widget.ScrollView;
 
@@ -20,13 +22,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static android.R.attr.bitmap;
+import static android.R.attr.iconifiedByDefault;
+
 
 /**
  * Created by vic on 2016/8/16.
  */
-public class CompressImageTask extends AsyncTask<Void, Void, Boolean> {
+public class CompressImageTask extends AsyncTask<Void, Void, Bitmap> {
     private static String path_sd = Constant.APP_LOCAL_FILE_URL;//sd路径
-    private  Bitmap bitmap_temp;
+    private Bitmap bitmap_temp;
     private Context context;
     private WaitDialog dlg;
     private String fileName;
@@ -38,6 +43,7 @@ public class CompressImageTask extends AsyncTask<Void, Void, Boolean> {
         this.lister = lister;
         dlg = new WaitDialog(context);
     }
+
     public CompressImageTask(Context context, ScrollView scrollView, CompressImageLister lister) {
         this.context = context;
         this.lister = lister;
@@ -53,11 +59,11 @@ public class CompressImageTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    protected Bitmap doInBackground(Void... params) {
 
-        final String s = savePic(bitmap_temp);
-        Boolean aBoolean = compressImage(s);
-        return aBoolean;
+//        final String s = savePic(bitmap_temp);
+        Bitmap bp = compressImage(bitmap_temp);
+        return bp;
     }
 
     /**
@@ -67,14 +73,14 @@ public class CompressImageTask extends AsyncTask<Void, Void, Boolean> {
      * @return
      */
     public static String savePic(Bitmap b) {
-        String  file_directory= Environment.getExternalStorageDirectory().getAbsoluteFile() + "/hulijie/image" ;
+        String file_directory = Environment.getExternalStorageDirectory().getAbsoluteFile() + "/hulijie/image";
 
         File dirFile = new File(file_directory);
         if (!dirFile.exists()) {
             dirFile.mkdirs();
         }
 
-        String file_path = file_directory + File.separator + "short_pic.png";
+        String file_path = file_directory + File.separator + "short_pic.jpg";
 
         File outfile = new File(file_path);
         // 如果文件不存在、则创建一个新文件
@@ -86,14 +92,14 @@ public class CompressImageTask extends AsyncTask<Void, Void, Boolean> {
             }
             fos = new FileOutputStream(outfile);
             if (null != fos) {
-                b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 fos.flush();
             } catch (IOException e) {
@@ -118,7 +124,7 @@ public class CompressImageTask extends AsyncTask<Void, Void, Boolean> {
      * @param scrollView
      * @return
      */
-    public static Bitmap getBitmapByView(ScrollView scrollView) {
+    public Bitmap getBitmapByView(ScrollView scrollView) {
         int h = 0;
         Bitmap bitmap = null;
         // 获取scrollview实际高度
@@ -137,67 +143,48 @@ public class CompressImageTask extends AsyncTask<Void, Void, Boolean> {
 
 
     @Override
-    protected void onPostExecute(Boolean aBoolean) {
+    protected void onPostExecute(Bitmap bt) {
         dlg.dismiss();
-        if (aBoolean) {
-            File file = new File(fileName);
-            lister.onCompressSuccess(file);
-        }
+        lister.onCompressSuccess(bt);
     }
 
 
     /**
      * 压缩图片  先判断图片width & height是否>1500  ,如果大于1500，先进行比例压缩，之后再进行大小判断，如果大于3M，进行质量压缩
      *
-     * @param path
+     * @param bit
      * @return
      */
-    private Boolean compressImage(String path) {
+    private Bitmap compressImage(Bitmap bit) {
         try {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.RGB_565;
-            options.inDither = true;
-            options.inSampleSize = 1;
-            Bitmap bitmap = BitmapFactory.decodeFile(path,options);
-            AppLog.Log("压缩后图片的大小_ 变化前： " + (bitmap.getByteCount() / 1024 / 1024)
-                    + "M宽度为" + bitmap.getWidth() + "高度为" + bitmap.getHeight());
-            while (bitmap.getWidth() > 3500 || bitmap.getHeight() > 3500) {
-                options.inSampleSize *= 2;
-                options.inJustDecodeBounds = false; //真正的去解析位图
-
-                bitmap = BitmapFactory.decodeFile(path, options);
-                AppLog.Log("压缩后图片的大小" + (bitmap.getByteCount() / 1024 / 1024)
-                        + "M宽度为" + bitmap.getWidth() + "高度为" + bitmap.getHeight());
-            }
-            FileOutputStream b = null;
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bit.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            float total_count = bos.toByteArray().length / (1024f * 1024f);
+            AppLog.Log("压缩后图片的大小_ 变化前： " + total_count + "M宽度为" + bit.getWidth() + "高度为" + bit.getHeight());
+            Bitmap bitmap = null;
+            if (total_count > 2) {
+                float i = total_count / 2f;
+                // 取得想要缩放的matrix参数
+                Matrix matrix = new Matrix();
+                matrix.postScale(1 / i, 1 / i);
+                // 得到新的图片   www.2cto.com
+                bitmap = Bitmap.createBitmap(bit, 0, 0, bit.getWidth(), bit.getHeight(), matrix, true);
+                if (bit != null && !bit.isRecycled()) {
+                    bit.recycle();
+                    bit =null;
+                }
+                bos.reset();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                AppLog.Log("图片size:" + bos.toByteArray().length / (1024f * 1024f) + ",  width:" + bitmap.getWidth() + ", height:" + bitmap.getHeight());
+                bos.close();
+                return bitmap;
+            } else {
+                return bit;
+            }
 
-            File file = new File(path_sd);
-            if (!file.exists()) {
-                file.mkdirs();// 创建文件夹
-            }
-            fileName = path_sd + "/hulijie.png";//图片名字
-            b = new FileOutputStream(fileName);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);   //质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-            int intoptions = 100;
-            while (bos.toByteArray().length / 1024 > 30* 100) {            //循环判断如果压缩后图片是否大于100kb,大于继续压缩
-                bos.reset();//重置baos即清空baos
-                intoptions -= 10;   //每次都减少10
-                bitmap.compress(Bitmap.CompressFormat.PNG, intoptions, bos);//这里压缩options%，把压缩后的数据存放到baos中
-                AppLog.Log("图片size:" + bos.toByteArray().length / 1024 + ",  width:" + bitmap.getWidth() + ", height:" + bitmap.getHeight());
-            }
-            byte[] bytes = bos.toByteArray();
-            b.write(bytes);
-            if (bitmap != null && !bitmap.isRecycled()) {
-                bitmap.recycle();
-            }
-            bos.close();
-            b.close();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return bit;
         }
     }
 }
