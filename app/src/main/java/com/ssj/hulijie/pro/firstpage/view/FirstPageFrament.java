@@ -163,6 +163,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         pagerView.add(view2);
 
         category_vp = (MyViewPaper) header.findViewById(R.id.category_vp);
+        category_vp.setParentView(ptr);
         MyViewPagerAdapter pagerAdapter = new MyViewPagerAdapter(getActivity(), pagerView);
         category_vp.setAdapter(pagerAdapter);
         iv_one.setSelected(true);

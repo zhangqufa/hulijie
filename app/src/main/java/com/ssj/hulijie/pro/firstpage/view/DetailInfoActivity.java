@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -363,7 +364,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         task.execute();
     }
 
-    private void sendToWx(Bitmap smallBitmap) {
+    private void sendToWx(Bitmap smallBitmap)  {
         if (smallBitmap == null) {
             AppToast.ShowToast("分享失败");
             return;
@@ -374,11 +375,24 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         WXImageObject imgObj = new WXImageObject(smallBitmap);
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = imgObj;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        smallBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        float total_count = bos.toByteArray().length / 1024f ;
         //设置 缩略图
-        AppLog.Log("缩略压缩后图片的大小_ 变化前： " + (smallBitmap.getByteCount() / 1024)
+        AppLog.Log("缩略压缩后图片的大小_ 变化前： " + total_count
                 + "k宽度为" + smallBitmap.getWidth() + "高度为" + smallBitmap.getHeight());
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(smallBitmap, 100, 200, true);
-        AppLog.Log("缩略压缩后图片的大小_ 变化后： " + (thumbBmp.getByteCount() / 1024)
+//        Bitmap thumbBmp = Bitmap.createScaledBitmap(smallBitmap, 100, 200, true);
+        Bitmap thumbBmp = createBitmapThumbnail(smallBitmap);
+        bos.reset();
+        thumbBmp.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        total_count = bos.toByteArray().length / 1024f ;
+        bos.reset();
+        try {
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AppLog.Log("缩略压缩后图片的大小_ 变化后： " + total_count
                 + "k宽度为" + thumbBmp.getWidth() + "高度为" + thumbBmp.getHeight());
         msg.thumbData = WxUtil.bmpToByteArray(thumbBmp, true);
         AppLog.Log("222222222");
@@ -402,6 +416,24 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         }
 
         AppLog.Log("333333");
+    }
+
+    public Bitmap createBitmapThumbnail(Bitmap bitMap) {
+        int width = bitMap.getWidth();
+        int height = bitMap.getHeight();
+        // 设置想要的大小
+        int newWidth = 100;
+        int newHeight =120;
+        // 计算缩放比例
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        // 得到新的图片
+        Bitmap newBitMap = Bitmap.createBitmap(bitMap, 0, 0, width, height,
+                matrix, true);
+        return newBitMap;
     }
 
     private static final int TOYUYUE = 10001;

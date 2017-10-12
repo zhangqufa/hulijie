@@ -59,7 +59,8 @@ dependencies {
     compile project(':swipebacklayout')
     compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':didi_sdk_for_common_v1.1.0_05_28')
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+//    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
     compile files('libs/BASE64.jar')
     compile files('libs/alipaySdk-20170725.jar')
     compile project(':xrecyclerview')

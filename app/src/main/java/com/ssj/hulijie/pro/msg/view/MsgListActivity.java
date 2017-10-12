@@ -132,8 +132,8 @@ public class MsgListActivity extends BaseActivity {
     private List<MsgListData> getData() {
         List<MsgListData> lists = new ArrayList<>();
         for (int i = 0; i < FirstPageFrament.img.length; i++) {
-            MsgListData data = new MsgListData(FirstPageFrament.img[i], "title_" + i,
-                    "sub_title_" + i, System.currentTimeMillis());
+            MsgListData data = new MsgListData(FirstPageFrament.img[i], "【周末福利】2017年装修到底要多少钱，提前会不会被坑？",
+                    "预算心中有数，装修掌中有术" , System.currentTimeMillis());
             lists.add(data);
         }
 

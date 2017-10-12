@@ -241,7 +241,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             startActivityForResult(intent, REQUEST_TO_ORDER_LIST);
         } else {
             startActivity(intent);
-
         }
 
 

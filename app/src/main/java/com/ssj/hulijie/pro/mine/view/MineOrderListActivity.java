@@ -74,10 +74,6 @@ public class MineOrderListActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
     private void initContent() {
         tabIndicators = new ArrayList<>();

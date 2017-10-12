@@ -15,6 +15,7 @@ import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.Constant;
 import com.ssj.hulijie.widget.dialog.WaitDialog;
+import com.ssj.hulijie.wxapi.UtilShare;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -149,6 +150,7 @@ public class CompressImageTask extends AsyncTask<Void, Void, Bitmap> {
     }
 
 
+    private static final float MAX_SIZE = 2.5f;
     /**
      * 压缩图片  先判断图片width & height是否>1500  ,如果大于1500，先进行比例压缩，之后再进行大小判断，如果大于3M，进行质量压缩
      *
@@ -162,8 +164,8 @@ public class CompressImageTask extends AsyncTask<Void, Void, Bitmap> {
             float total_count = bos.toByteArray().length / (1024f * 1024f);
             AppLog.Log("压缩后图片的大小_ 变化前： " + total_count + "M宽度为" + bit.getWidth() + "高度为" + bit.getHeight());
             Bitmap bitmap = null;
-            if (total_count > 2) {
-                float i = total_count / 2f;
+            if (total_count > MAX_SIZE) {
+                float i = total_count / MAX_SIZE;
                 // 取得想要缩放的matrix参数
                 Matrix matrix = new Matrix();
                 matrix.postScale(1 / i, 1 / i);

@@ -23,6 +23,7 @@ import java.util.List;
 public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgViewHolder> {
     private Context context;
     private List<MsgListData> lists;
+    private int imgRes[]  = {R.mipmap.temp1,R.mipmap.temp2,R.mipmap.temp3};
 
     public void setLists(List<MsgListData> lists) {
         this.lists = lists;
@@ -49,9 +50,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgViewH
         String time_str = sdf.format(item.getTime());
         holder.time.setText(time_str);
         holder.id_diver_time.setText(time_str);
-
-        Glide.with(context).load(item.getImg()).into(holder.img);
-
+        Glide.with(context).load(imgRes[position%3]).into(holder.img);
     }
 
     @Override
