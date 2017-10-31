@@ -15,14 +15,13 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alipay.sdk.app.PayTask;
 import com.ssj.hulijie.R;
-import com.ssj.hulijie.alipay.Constants;
 import com.ssj.hulijie.alipay.OrderInfoUtil2_0;
 import com.ssj.hulijie.alipay.PayResult;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.nohttp.CallServer;
 import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
+import com.ssj.hulijie.pro.firstpage.bean.OrderItem;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
@@ -58,11 +57,10 @@ import java.util.UUID;
  */
 
 public class PayActivity extends BaseActivity implements View.OnClickListener {
-    private DetailServiceItem detail;
+    private OrderItem orderItem;
     private ImageView wechat_select, alipay_select;
-    private PayStatus currentPayStatus = PayStatus.WECHAT;
+    private PayStatus currentPayStatus = PayStatus.ALIPAY;
     private Button btn_pay;
-    private String  amount; //购买的数量
     private TextView moeny;
 
     @Override
@@ -86,6 +84,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 }
 
                 break;
+            default:break;
         }
     }
 
@@ -111,7 +110,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         params.put("mch_id", ConstantsWechat.MCH_ID);
         params.put("device_info", UUID.randomUUID().toString()); //设备号
         params.put("nonce_str", nonce_str);
-        params.put("body", detail.getGoods_name());//商品描述
+        params.put("body", orderItem.getOrder_goods_name());//商品描述
         params.put("out_trade_no", outTradeNo);
         params.put("total_fee", "1"); //单位分
         params.put("trade_type", "APP");
@@ -304,8 +303,13 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         String url = "http://jassj.com/i/index.php/order/order";
         Request<String> req = NoHttp.createStringRequest(url, RequestMethod.POST);
         req.add("user_id",SharedUtil.getPreferStr(SharedKey.USER_ID));
-        req.add("goods_id", detail.getGoods_id());
-        req.add("amount", amount);
+        req.add("goods_id", orderItem.getOrder_goods_id());
+        req.add("amount", orderItem.getOrder_amount());
+        req.add("mobile", orderItem.getOrder_phone());
+        req.add("service_address", orderItem.getOrder_address());
+        req.add("buyer_name",orderItem.getOrder_user_name());
+        req.add("service_time", orderItem.getOrder_time());
+        req.add("remark", orderItem.getOrder_mark());
         CallServer.getRequestInstance().add(this, 0, req, new HttpListener<String>() {
             @Override
             public void onSucceed(int what, Response<String> response) {
@@ -380,8 +384,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        detail = getIntent().getParcelableExtra("detail");
-        amount = getIntent().getStringExtra("amount");
+        orderItem = getIntent().getParcelableExtra("orderItem");
         setContentView(R.layout.act_pay);
         initToolbar();
         initView();
@@ -390,7 +393,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     private void initView() {
         moeny = (TextView) findViewById(R.id.moeny);
-        moeny.setText((Float.valueOf(detail.getPrice())*Integer.valueOf(amount))+"");
+        moeny.setText((Float.valueOf(orderItem.getOrder_goods_price())*Integer.valueOf(orderItem.getOrder_amount()))+"");
         btn_pay = (Button) findViewById(R.id.btn_pay);
         wechat_select = (ImageView) findViewById(R.id.wechat_select);
         alipay_select = (ImageView) findViewById(R.id.alipay_select);

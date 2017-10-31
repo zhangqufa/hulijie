@@ -9,6 +9,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +39,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private TextView user, user_des;
 
     public static final String MINE_TO_SELECTADRESS = "mine_to_select_address";
+    private RelativeLayout mine_logout;
 
     @Override
     public int getContentView() {
@@ -52,12 +54,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             user.setText("立即登录");
             user_des.setVisibility(View.GONE);
             user_des.setText("");
+            mine_logout.setVisibility(View.GONE);
         } else {
             String user_name = SharedUtil.getPreferStr(SharedKey.USER_NAME);
             String mobile = SharedUtil.getPreferStr(SharedKey.USER_MOBILE);
             user.setText(TextUtils.isEmpty(user_name) ? "小狐狸" : user_name);
             user_des.setVisibility(View.VISIBLE);
             user_des.setText(StringFormat.toMobile(mobile));
+            mine_logout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -80,6 +84,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         viewContent.findViewById(R.id.mine_wait_evaluate).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_all_order).setOnClickListener(this);
         viewContent.findViewById(R.id.btn_go_server).setOnClickListener(this);
+        mine_logout =(RelativeLayout) viewContent.findViewById(R.id.mine_logout);
+
+
+        mine_logout.setOnClickListener(this);
 
         //show user_name
         user = (TextView) viewContent.findViewById(R.id.user);
@@ -163,7 +171,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 if (!SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false)) {
                     intent = new Intent(getContext(), LoginActivity.class);
                 } else {
-                    intent = new Intent(getContext(), SettingActivity.class);
+//                    intent = new Intent(getContext(), SettingActivity.class);
                 }
                 break;
             case R.id.mine_address:
@@ -232,6 +240,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             case R.id.btn_go_server:
                 intent = new Intent(getContext(), ServiceActivity.class);
                 break;
+            case R.id.mine_logout:
+                intent = new Intent(getContext(), SettingActivity.class);
+                break;
+            default:break;
         }
 
         if (intent == null) {

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +20,7 @@ import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.AddressItem;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
+import com.ssj.hulijie.pro.firstpage.bean.OrderItem;
 import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
 import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
 import com.ssj.hulijie.utils.AppLog;
@@ -31,14 +31,8 @@ import com.ssj.hulijie.utils.TitlebarUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-
-import static android.R.attr.firstDayOfWeek;
-import static android.R.attr.format;
 
 
 /**
@@ -68,6 +62,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
     private int startHour;
     private int startMinute;
+    private EditText et_name;
+    private EditText et_mark;
 
 
     @Override
@@ -132,6 +128,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
             int hour = Integer.valueOf(split[0]);
             int minute = Integer.valueOf(split[1]);
+            AppLog.Log("hour: " + hour);
             AppLog.Log("minute: " + minute);
             if (minute < 5) {
                 startHour = hour + 1;
@@ -268,9 +265,9 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         order_sub.setClickable(false);
         order_buy_count = (TextView) findViewById(R.id.order_buy_count);
 
-        EditText et_name = (EditText) findViewById(R.id.et_name);
+        et_name = (EditText) findViewById(R.id.et_name);
         EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
-        EditText et_mark = (EditText) findViewById(R.id.et_mark);
+        et_mark = (EditText) findViewById(R.id.et_mark);
         bottom_btn = findViewById(R.id.bottom_btn);
 
         order_address = (TextView) findViewById(R.id.order_address);
@@ -328,8 +325,17 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btn_pay:
                 Intent intent1 = new Intent(this, PayActivity.class);
-                intent1.putExtra("detail", detail);
-                intent1.putExtra("amount", order_buy_count.getText().toString()); //购买数量
+                OrderItem orderItem = new OrderItem();
+                orderItem.setOrder_goods_price(detail.getPrice());
+                orderItem.setOrder_amount(order_buy_count.getText().toString());
+                orderItem.setOrder_address(order_address.getText().toString());
+                orderItem.setOrder_goods_id(detail.getGoods_id());
+                orderItem.setOrder_mark(et_mark.getText().toString());
+                orderItem.setOrder_user_name(et_name.getText().toString());
+                orderItem.setOrder_phone(SharedUtil.getPreferStr(SharedKey.USER_MOBILE));
+                orderItem.setOrder_time(select_time.getText().toString());
+                orderItem.setOrder_goods_name(detail.getGoods_name());
+                intent1.putExtra("orderItem", orderItem);
                 startActivityForResult(intent1,TOPAYREQ);
                 break;
         }

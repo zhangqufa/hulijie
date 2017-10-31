@@ -43,7 +43,7 @@ public class DetailServiceItem implements Parcelable {
     private int ahead;
     private String cate_id;
     private String default_image;
-    private int system_time;
+    private long system_time;
     private List<String> img;
 
     public DetailServiceItem() {
@@ -62,7 +62,7 @@ public class DetailServiceItem implements Parcelable {
         ahead = in.readInt();
         cate_id = in.readString();
         default_image = in.readString();
-        system_time = in.readInt();
+        system_time = in.readLong();
         img = in.createStringArrayList();
     }
 
@@ -80,7 +80,7 @@ public class DetailServiceItem implements Parcelable {
         dest.writeInt(ahead);
         dest.writeString(cate_id);
         dest.writeString(default_image);
-        dest.writeInt(system_time);
+        dest.writeLong(system_time);
         dest.writeStringList(img);
     }
 
@@ -197,11 +197,11 @@ public class DetailServiceItem implements Parcelable {
         this.default_image = default_image;
     }
 
-    public int getSystem_time() {
+    public long getSystem_time() {
         return system_time;
     }
 
-    public void setSystem_time(int system_time) {
+    public void setSystem_time(long system_time) {
         this.system_time = system_time;
     }
 
