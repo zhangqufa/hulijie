@@ -22,6 +22,7 @@
             android:src="@mipmap/shop" />
 
         <TextView
+            android:id="@+id/item_seller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -30,6 +31,7 @@
             android:textColor="@color/comm_grey_666666" />
 
         <TextView
+            android:id="@+id/item_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -69,6 +71,7 @@
             android:src="@mipmap/clock" />
 
         <TextView
+            android:id="@+id/item_service_time"
             android:layout_marginRight="10dp"
             android:maxLines="1"
             android:layout_width="match_parent"
@@ -93,6 +96,7 @@
             android:src="@mipmap/address" />
 
         <TextView
+            android:id="@+id/item_service_addr"
             android:layout_marginRight="10dp"
             android:maxLines="1"
             android:ellipsize="end"

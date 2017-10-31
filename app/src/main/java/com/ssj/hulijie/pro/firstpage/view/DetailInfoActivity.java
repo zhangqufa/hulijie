@@ -345,6 +345,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             case R.id.ll_call_seller:
                 callPhone();
                 break;
+            default:break;
         }
     }
 

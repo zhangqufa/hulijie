@@ -9,6 +9,7 @@
         android:layout_height="fill_parent" />
 
     <LinearLayout
+        android:id="@+id/text_empty"
         android:background="@color/app_bg"
         android:layout_width="match_parent"
         android:visibility="gone"

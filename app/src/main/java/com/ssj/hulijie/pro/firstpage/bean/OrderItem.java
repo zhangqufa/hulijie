@@ -11,7 +11,7 @@ public class OrderItem  implements Parcelable{
     private String order_goods_id;
     private String order_amount;
     private String order_address;
-    private String order_time;
+    private long order_time;
     private String order_user_name;
     private String order_phone;
     private String order_mark;
@@ -26,7 +26,7 @@ public class OrderItem  implements Parcelable{
         order_goods_id = in.readString();
         order_amount = in.readString();
         order_address = in.readString();
-        order_time = in.readString();
+        order_time = in.readLong();
         order_user_name = in.readString();
         order_phone = in.readString();
         order_mark = in.readString();
@@ -39,7 +39,7 @@ public class OrderItem  implements Parcelable{
         dest.writeString(order_goods_id);
         dest.writeString(order_amount);
         dest.writeString(order_address);
-        dest.writeString(order_time);
+        dest.writeLong(order_time);
         dest.writeString(order_user_name);
         dest.writeString(order_phone);
         dest.writeString(order_mark);
@@ -96,11 +96,11 @@ public class OrderItem  implements Parcelable{
         this.order_address = order_address;
     }
 
-    public String getOrder_time() {
+    public long getOrder_time() {
         return order_time;
     }
 
-    public void setOrder_time(String order_time) {
+    public void setOrder_time(long order_time) {
         this.order_time = order_time;
     }
 

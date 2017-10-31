@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -24,13 +26,17 @@ import com.ssj.hulijie.pro.firstpage.bean.OrderItem;
 import com.ssj.hulijie.pro.firstpage.presenter.AddressManagerPresenter;
 import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
 import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.DateUtil;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,6 +70,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private int startMinute;
     private EditText et_name;
     private EditText et_mark;
+    private EditText et_mobile;
 
 
     @Override
@@ -266,7 +273,14 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         order_buy_count = (TextView) findViewById(R.id.order_buy_count);
 
         et_name = (EditText) findViewById(R.id.et_name);
-        EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
+        et_mobile = (EditText) findViewById(R.id.et_mobile);
+        String mobile = SharedUtil.getPreferStr(SharedKey.USER_MOBILE);
+        if (!TextUtils.isEmpty(mobile)) {
+            et_mobile.setText(mobile);
+            et_mobile.setEnabled(false);
+        } else {
+            et_mobile.setEnabled(true);
+        }
         et_mark = (EditText) findViewById(R.id.et_mark);
         bottom_btn = findViewById(R.id.bottom_btn);
 
@@ -324,20 +338,68 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
             case R.id.btn_pay:
+                String address = order_address.getText().toString();
+                if (TextUtils.isEmpty(address)) {
+                    AppToast.ShowToast("请选择服务地址");
+                    return;
+                }
+                String time_string = select_time.getText().toString();
+                if (!time_string.contains("月")) {
+                    AppToast.ShowToast("请选择服务时间");
+                    return;
+                }
+                String name = et_name.getText().toString();
+                if (TextUtils.isEmpty(name)) {
+                    AppToast.ShowToast("请填写联系人姓名");
+                    return;
+                }
+                String moble = et_mobile.getText().toString();
+                if (TextUtils.isEmpty(moble)) {
+                    AppToast.ShowToast("请填写联系人电话");
+                    return;
+                }
+
+
                 Intent intent1 = new Intent(this, PayActivity.class);
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrder_goods_price(detail.getPrice());
                 orderItem.setOrder_amount(order_buy_count.getText().toString());
-                orderItem.setOrder_address(order_address.getText().toString());
+                orderItem.setOrder_address( address);
                 orderItem.setOrder_goods_id(detail.getGoods_id());
                 orderItem.setOrder_mark(et_mark.getText().toString());
-                orderItem.setOrder_user_name(et_name.getText().toString());
-                orderItem.setOrder_phone(SharedUtil.getPreferStr(SharedKey.USER_MOBILE));
-                orderItem.setOrder_time(select_time.getText().toString());
+                orderItem.setOrder_user_name(name);
+                orderItem.setOrder_phone(moble);
+                long system_time = detail.getSystem_time() * 1000;
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+                String temp_time = format.format(system_time);
+                String[] split = temp_time.split("-");
+                String year = split[0];
+                if (!TextUtils.isEmpty(year)) {
+
+                    try {
+
+                        String[] month = time_string.split("月");
+                        if (!TextUtils.isEmpty(month[1]) && month[1].contains("日")) {
+                            String[] days = month[1].split("日");
+                            if (!TextUtils.isEmpty(days[1])) {
+                                String[] hourAndmin = days[1].split(" ");
+                                String[] split1 = hourAndmin[1].split(":");
+
+
+                                Date parse = format.parse(year + "-" + month[0] + "-" + days[0] + " " + split1[0] + "-" + split1[1]);
+                                long l = DateUtil.dateToLong(parse);
+                                orderItem.setOrder_time(l);
+                            }
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
                 orderItem.setOrder_goods_name(detail.getGoods_name());
                 intent1.putExtra("orderItem", orderItem);
                 startActivityForResult(intent1,TOPAYREQ);
                 break;
+            default:break;
         }
     }
 
