@@ -17,6 +17,7 @@ package com.ssj.hulijie.nohttp;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ssj.hulijie.utils.AppLog;
 import com.yanzhenjie.nohttp.Headers;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.RestRequest;

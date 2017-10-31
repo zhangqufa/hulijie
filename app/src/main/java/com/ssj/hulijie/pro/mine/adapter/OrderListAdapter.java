@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
-    private List<ItemOrderResp.DataBean> lists;
+    private List<ItemOrderResp.DataBean.RowsBean> lists;
     private Context context;
 
 
@@ -27,7 +27,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         this.context = context;
     }
 
-    public void setLists(List<ItemOrderResp.DataBean> lists) {
+    public void setLists(List<ItemOrderResp.DataBean.RowsBean> lists) {
         this.lists = lists;
         notifyDataSetChanged();
     }
@@ -39,7 +39,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ItemOrderResp.DataBean dataBean = lists.get(position);
+        ItemOrderResp.DataBean.RowsBean dataBean = lists.get(position);
         holder.item_seller.setText(dataBean.getService_seller());
         long service_time = dataBean.getService_time();
         String time = DateUtil.longToString(service_time*1000,"MM月dd日(E) HH:mm");

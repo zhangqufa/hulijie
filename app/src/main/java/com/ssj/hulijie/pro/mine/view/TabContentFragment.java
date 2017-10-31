@@ -32,7 +32,7 @@ public class TabContentFragment extends BaseFragment implements View.OnClickList
     private XRecyclerView mRecyclerView;
     private int refreshTime;
     private int times;
-    private  List<ItemOrderResp.DataBean> lists = new ArrayList<>();
+    private  List<ItemOrderResp.DataBean.RowsBean> lists = new ArrayList<>();
     private int page=1;
     private OrderListPresenter presenter;
     private OrderType currentType = OrderType.NOFINISH;
@@ -129,13 +129,14 @@ public class TabContentFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onResult(ItemOrderResp result) {
                 if (result != null) {
-                    List<ItemOrderResp.DataBean> data = result.getData();
 
-                    int totalcount = data.size();
-                    if (data.size() > 0) {
+                    ItemOrderResp.DataBean data = result.getData();
+                    List<ItemOrderResp.DataBean.RowsBean> rows = data.getRows();
+                    int totalcount = data.getCount();
+                    if (rows.size() > 0) {
 
-                        for (int i = 0; i < data.size(); i++) {
-                            ItemOrderResp.DataBean item = data.get(i);
+                        for (int i = 0; i < rows.size(); i++) {
+                            ItemOrderResp.DataBean.RowsBean item = rows.get(i);
                             lists.add(item);
                         }
                         adapter.setLists(lists);
@@ -146,7 +147,7 @@ public class TabContentFragment extends BaseFragment implements View.OnClickList
                         } else if (statues == RefreshStatues.LOADMORE) {
                             mRecyclerView.loadMoreComplete();
                         }
-                        if (data.size() < 10 && lists.size() > 5 || lists.size() == totalcount && lists.size() > 5) {
+                        if (rows.size() < 10 && lists.size() >= 5 || lists.size() == totalcount && lists.size() >= 5) {
                             mRecyclerView.setNoMore(true);
                         }
                     }
