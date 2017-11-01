@@ -374,22 +374,21 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 String temp_time = format.format(system_time);
                 String[] split = temp_time.split("-");
                 String year = split[0];
-                String month = split[1]; //// TODO: 2017/10/31  
+                String month = split[1];
                 if (!TextUtils.isEmpty(year)) {
-
                     try {
-
                         String[] months = time_string.split("月");
+                        if (Integer.valueOf(month) == 12||Integer.valueOf(months[0])==1) {
+                            year = String.valueOf(Integer.valueOf(year) + 1);
+                        }
                         if (!TextUtils.isEmpty(months[1]) && months[1].contains("日")) {
                             String[] days = months[1].split("日");
                             if (!TextUtils.isEmpty(days[1])) {
                                 String[] hourAndmin = days[1].split(" ");
                                 String[] split1 = hourAndmin[1].split(":");
-
-
                                 Date parse = format.parse(year + "-" + months[0] + "-" + days[0] + " " + split1[0] + "-" + split1[1]);
                                 long l = DateUtil.dateToLong(parse);
-                                orderItem.setOrder_time(l);
+                                orderItem.setOrder_time(l/1000);
                             }
                         }
                     } catch (ParseException e) {

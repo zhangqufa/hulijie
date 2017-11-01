@@ -1,6 +1,7 @@
 package com.ssj.hulijie.pro.mine.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -12,7 +13,6 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
-import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.mine.adapter.OrderListAdapter;
 import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
 import com.ssj.hulijie.pro.mine.presenter.OrderListPresenter;
@@ -28,7 +28,7 @@ import java.util.List;
  * on 2017/7/19
  */
 
-public class TabContentFragment extends BaseFragment implements View.OnClickListener {
+public class OrderListFragment extends BaseFragment implements View.OnClickListener {
     private XRecyclerView mRecyclerView;
     private int refreshTime;
     private int times;
@@ -161,18 +161,22 @@ public class TabContentFragment extends BaseFragment implements View.OnClickList
 
     }
 
-    private OrderListAdapter.OnItemClickListener<ItemOrderResp> onClickListener = new OrderListAdapter.OnItemClickListener<ItemOrderResp>() {
+    private OrderListAdapter.OnItemClickListener<ItemOrderResp.DataBean.RowsBean> onClickListener = new OrderListAdapter.OnItemClickListener<ItemOrderResp.DataBean.RowsBean>() {
         @Override
-        public void onItemClick(int position, ItemOrderResp data) {
+        public void onItemClick(int position, ItemOrderResp.DataBean.RowsBean data) {
+
+            Intent intent = new Intent(getActivity(), OrderItemDetailActivity.class);
+            intent.putExtra("orderItem", data);
+            startActivity(intent);
 
         }
     };
     private static final String EXTRA_CONTENT = "content";
 
-    public static TabContentFragment newInstance(String content) {
+    public static OrderListFragment newInstance(String content) {
         Bundle arguments = new Bundle();
         arguments.putString(EXTRA_CONTENT, content);
-        TabContentFragment tabContentFragment = new TabContentFragment();
+        OrderListFragment tabContentFragment = new OrderListFragment();
         tabContentFragment.setArguments(arguments);
         return tabContentFragment;
     }

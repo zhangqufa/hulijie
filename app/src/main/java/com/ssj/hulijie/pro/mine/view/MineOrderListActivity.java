@@ -83,7 +83,7 @@ public class MineOrderListActivity extends BaseActivity {
         tabIndicators.add("全部订单");
         tabFragments = new ArrayList<>();
         for (String s : tabIndicators) {
-            tabFragments.add(TabContentFragment.newInstance(s));
+            tabFragments.add(OrderListFragment.newInstance(s));
         }
         contentAdapter = new ContentPagerAdapter(getSupportFragmentManager());
         mContentVp.setAdapter(contentAdapter);

@@ -116,6 +116,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity
+            android:name=".pro.mine.view.OrderItemDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
             android:name=".pro.firstpage.view.AddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"

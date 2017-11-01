@@ -1,5 +1,10 @@
 package com.ssj.hulijie.pro.mine.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.ssj.hulijie.utils.ImageUrlFormat;
+
 import java.util.List;
 
 /**
@@ -67,7 +72,7 @@ public class ItemOrderResp {
             this.rows = rows;
         }
 
-        public static class RowsBean {
+        public static class RowsBean implements Parcelable {
             /**
              * buyer_name : 张屈发
              * mobile : 2147483647
@@ -103,6 +108,65 @@ public class ItemOrderResp {
             private String default_image;
             private String service_address;
             private long service_time;
+
+            public RowsBean() {
+            }
+
+            protected RowsBean(Parcel in) {
+                buyer_name = in.readString();
+                mobile = in.readString();
+                remark = in.readString();
+                goods_id = in.readString();
+                order_id = in.readString();
+                goods_amount = in.readString();
+                quantity = in.readString();
+                order_sn = in.readString();
+                add_time = in.readLong();
+                goods_name = in.readString();
+                status = in.readInt();
+                service_seller = in.readString();
+                order_amount = in.readString();
+                default_image = in.readString();
+                service_address = in.readString();
+                service_time = in.readLong();
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(buyer_name);
+                dest.writeString(mobile);
+                dest.writeString(remark);
+                dest.writeString(goods_id);
+                dest.writeString(order_id);
+                dest.writeString(goods_amount);
+                dest.writeString(quantity);
+                dest.writeString(order_sn);
+                dest.writeLong(add_time);
+                dest.writeString(goods_name);
+                dest.writeInt(status);
+                dest.writeString(service_seller);
+                dest.writeString(order_amount);
+                dest.writeString(default_image);
+                dest.writeString(service_address);
+                dest.writeLong(service_time);
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            public static final Creator<RowsBean> CREATOR = new Creator<RowsBean>() {
+                @Override
+                public RowsBean createFromParcel(Parcel in) {
+                    return new RowsBean(in);
+                }
+
+                @Override
+                public RowsBean[] newArray(int size) {
+                    return new RowsBean[size];
+                }
+            };
 
             public String getBuyer_name() {
                 return buyer_name;
@@ -209,7 +273,7 @@ public class ItemOrderResp {
             }
 
             public String getDefault_image() {
-                return default_image;
+                return ImageUrlFormat.urlFormat(default_image);
             }
 
             public void setDefault_image(String default_image) {

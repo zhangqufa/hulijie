@@ -308,7 +308,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         req.add("mobile", orderItem.getOrder_phone());
         req.add("service_address", orderItem.getOrder_address());
         req.add("buyer_name",orderItem.getOrder_user_name());
-        req.add("service_time", orderItem.getOrder_time()*1000);
+        req.add("service_time", orderItem.getOrder_time());
         req.add("remark", orderItem.getOrder_mark());
         CallServer.getRequestInstance().add(this, 0, req, new HttpListener<String>() {
             @Override
