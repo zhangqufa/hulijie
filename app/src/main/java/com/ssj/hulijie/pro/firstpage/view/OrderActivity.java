@@ -221,7 +221,10 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         return map;
     }
 
-    private List<String> lists = new ArrayList<>(); //存放wheel 第一列数据
+    /**
+     * 存放wheel 第一列数据
+     */
+    private List<String> lists = new ArrayList<>();
 
     /**
      * 设置wheel 第一列数据

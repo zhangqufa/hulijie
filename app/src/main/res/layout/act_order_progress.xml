@@ -19,6 +19,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:layout_below="@id/title_bar_base"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"

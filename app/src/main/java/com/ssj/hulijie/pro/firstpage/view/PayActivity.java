@@ -117,8 +117,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         params.put("notify_url", "http://www.weixin.qq.com/wxpay/pay.php");
         final String xml_str = WxUtil.parseString2Xml(params, WxUtil.getSign(params));
         AppLog.Log("xml_str:" + xml_str);
-
-        new Thread(new Runnable() {
+        Runnable wepayRunable  =new Runnable() {
             @Override
             public void run() {
 
@@ -215,7 +214,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 }
 
             }
-        }).start();
+        };
+        new Thread(wepayRunable).start();
     }
     private Handler mHandler   = new Handler(){
         @Override
