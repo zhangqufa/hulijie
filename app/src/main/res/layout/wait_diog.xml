@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:BesselProgressView="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_dialog_shape"
     android:gravity="center"
     android:orientation="vertical">
@@ -19,7 +20,14 @@
         android:layout_height="48dp"
         android:src="@mipmap/logo" />
 
+    <com.ssj.hulijie.widget.dialog.BesselProgressView
+        android:layout_width="10dp"
+        android:layout_gravity="center"
+        BesselProgressView:circleColor="@android:color/darker_gray"
+        android:layout_height="10dp" />
+
     <TextView
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

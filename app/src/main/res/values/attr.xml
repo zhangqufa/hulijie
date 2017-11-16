@@ -36,4 +36,9 @@
         <attr name="pst_textAllCaps" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="BesselProgressView">
+        <attr name="circleColor" format="color" />
+        <attr name="animateDuration" format="integer" />
+    </declare-styleable>
+
 </resources>
