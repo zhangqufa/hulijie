@@ -47,22 +47,9 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         StatusBarColorUtils.setWindowStatusBarColor(this,R.color.colorPrimary);
         initTabData();
         initTabHost();
-        checkKey();
     }
 
-    private void checkKey() {
-        String user_id = SharedUtil.getPreferStr(SharedKey.USER_ID);
-        String key = SharedUtil.getPreferStr(SharedKey.USER_KEY);
-        presenter.getAccessInfoPresenter(this, user_id, key, new BasePresenter.OnUIThreadListener<Boolean>() {
-            @Override
-            public void onResult(Boolean result) {
-                if (result!=null&&result) {
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
-    }
+
 
 
     /**

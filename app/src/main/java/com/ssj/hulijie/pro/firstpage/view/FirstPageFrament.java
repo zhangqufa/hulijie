@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -28,6 +29,7 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.base.HljAppliation;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
+import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageHeaderFourPartAdappter;
 import com.ssj.hulijie.pro.firstpage.adapter.FirstPageMainListAdapter;
@@ -43,8 +45,11 @@ import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerItemDecoration;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyViewPaper;
 import com.ssj.hulijie.pro.home.view.MainActivity;
+import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -200,11 +205,30 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         InitLocation();
 
 
-        // after andrioid m,must request Permiision on runtime
-        getPersimmions();
+
 
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // after andrioid m,must request Permiision on runtime
+        getPersimmions();
+    }
+
+    private void checkKey() {
+        String user_id = SharedUtil.getPreferStr(SharedKey.USER_ID);
+        String key = SharedUtil.getPreferStr(SharedKey.USER_KEY);
+        mPresenter.getAccessInfoPresenter((BaseActivity) getActivity(), user_id, key, new BasePresenter.OnUIThreadListener<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+                if (result!=null&&result) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
     /**
      * ptr ui listener
      */
@@ -313,6 +337,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                     .send();
         } else {
             startLocation();
+            checkKey();
         }
     }
 
@@ -325,6 +350,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             // 权限申请成功回调。
             if (requestCode == 100) {
                 startLocation();
+                checkKey();
             } else if (requestCode == 101) {
             }
         }

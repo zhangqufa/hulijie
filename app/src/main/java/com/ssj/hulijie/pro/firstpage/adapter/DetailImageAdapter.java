@@ -52,8 +52,8 @@ public class DetailImageAdapter extends RecyclerView.Adapter <DetailImageAdapter
         Glide.with(context)
                 .load(url_format)
                 .asBitmap()
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.loading_error)
+                .placeholder(R.mipmap.loading_detail)
+                .error(R.mipmap.loading_detail)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

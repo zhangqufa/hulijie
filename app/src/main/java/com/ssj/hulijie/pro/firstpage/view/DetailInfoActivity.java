@@ -192,8 +192,8 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             Glide.with(this)
                     .load(default_image_rul)
                     .asBitmap()
-                    .placeholder(R.drawable.loading)
-                    .error(R.drawable.loading_error)
+                    .placeholder(R.mipmap.loading_detail)
+                    .error(R.mipmap.loading_detail)
                     .thumbnail(0.1f)
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
@@ -444,7 +444,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
             startActivity(intent);
         } else {
-            if (Build.VERSION.SDK_INT > 23) {
+            if (Build.VERSION.SDK_INT >= 23) {
                 AndPermission.with(this)
                         .requestCode(REQUESTPERSIMMIONCODE)
                         .permission(Manifest.permission.CALL_PHONE)

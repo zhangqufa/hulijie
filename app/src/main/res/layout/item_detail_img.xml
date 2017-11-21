@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:src="@drawable/loading"
+        android:src="@mipmap/loading_detail"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"

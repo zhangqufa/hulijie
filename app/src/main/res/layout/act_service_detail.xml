@@ -18,6 +18,7 @@
 
 
             <ImageView
+                android:src="@mipmap/loading_detail"
                 android:id="@+id/detail_img"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"

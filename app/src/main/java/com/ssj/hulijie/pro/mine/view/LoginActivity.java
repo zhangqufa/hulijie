@@ -20,6 +20,7 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.mine.bean.LoginItem;
 import com.ssj.hulijie.pro.mine.bean.VerifyCode;
 import com.ssj.hulijie.pro.mine.presenter.LoginPresenter;
+import com.ssj.hulijie.utils.AccountValidatorUtil;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DateUtil;
 import com.ssj.hulijie.utils.SharedKey;
@@ -154,6 +155,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         String mobile = edt_phone.getText().toString();
         if (TextUtils.isEmpty(mobile)) {
             AppToast.ShowToast("手机号码不可为空！");
+            edt_phone.requestFocus();
+            return;
+        }
+        if (!AccountValidatorUtil.isMobile(mobile)) {
+            AppToast.ShowToast("手机号码格式不正确！");
             edt_phone.requestFocus();
             return;
         }
