@@ -203,10 +203,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         MyLocationListener mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);
         InitLocation();
-
-
-
-
     }
 
     @Override
