@@ -325,7 +325,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     }
 
     private void getPersimmions() {
-        if (Build.VERSION.SDK_INT > 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             AndPermission.with(this)
                     .requestCode(100)
                     .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
