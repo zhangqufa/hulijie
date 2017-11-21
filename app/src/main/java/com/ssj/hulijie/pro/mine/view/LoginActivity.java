@@ -135,8 +135,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         ((LoginPresenter) presenter).loginPresenter(this, moible, code, new BasePresenter.OnUIThreadListener<LoginItem>() {
             @Override
             public void onResult(LoginItem result) {
-
-                if (result != null) {
+                if (result != null && TextUtils.isEmpty(result.getMsg())) {
                     //保存数据到本地
                     SharedUtil.setPreferStr(SharedKey.USER_MOBILE, result.getMobile());
                     SharedUtil.setPreferStr(SharedKey.USER_NAME, result.getUser_name());
@@ -145,6 +144,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     SharedUtil.setPreferStr(SharedKey.USER_KEY, result.getKey());
                     finish();
 
+                } else if (result != null &&!TextUtils.isEmpty(result.getMsg())) {
+                    AppToast.ShowToast(result.getMsg());
                 }
             }
         });
@@ -170,12 +171,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         ((LoginPresenter) presenter).getVerifyCodePresenter(this, mobile, new BasePresenter.OnUIThreadListener<VerifyCode>() {
             @Override
             public void onResult(VerifyCode result) {
-                if (result != null) {
-                    String verifyCode = result.getCode();
-                    edt_msgcode.setText(verifyCode);
-
-
-                }
+                /**
+                 * only for test
+                 */
+//                if (result != null) {
+//                    String verifyCode = result.getCode();
+//                    edt_msgcode.setText(verifyCode);
+//
+//
+//                }
             }
         });
     }

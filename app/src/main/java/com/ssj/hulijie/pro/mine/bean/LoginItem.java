@@ -10,6 +10,16 @@ public class LoginItem {
     private String key;
     private String mobile;
     private String user_name;
+    private String msg;
+
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
     public String getUser_id() {
         return user_id;

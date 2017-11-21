@@ -76,12 +76,17 @@ public class LoginPresenter extends BasePresenter<LoginModel> {
                 if (jsonObject != null) {
                     try {
                         AppLog.Log("login_str: "+jsonObject.toString());
+
                         int code = jsonObject.getIntValue("code");
                         if (Constant.SUCCESS_CODE == code) {
                             String data = jsonObject.getString("data");
                             LoginItem item = JSON.parseObject(data, LoginItem.class);
-                            AppLog.Log("login: "+item);
                             onUIThreadListener.onResult(item);
+                        } else {
+                            LoginItem itemfail = new LoginItem();
+                            String msg = jsonObject.getString("msg");
+                            itemfail.setMsg(msg);
+                            onUIThreadListener.onResult(itemfail);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
