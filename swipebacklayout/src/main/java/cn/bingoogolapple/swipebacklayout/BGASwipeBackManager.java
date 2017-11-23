@@ -109,8 +109,8 @@ public class BGASwipeBackManager implements Application.ActivityLifecycleCallbac
             if (activity != null) {
                 View decorView = activity.getWindow().getDecorView();
                 ViewCompat.setTranslationX(decorView, -(decorView.getMeasuredWidth() * 0.1f) * (1 - slideOffset));
-                ViewCompat.setScaleX(decorView, (float) (0.98 + 0.02 * slideOffset));
-                ViewCompat.setScaleY(decorView, (float) (0.98 + 0.02 * slideOffset));
+//                ViewCompat.setScaleX(decorView, (float) (0.98 + 0.02 * slideOffset));
+//                ViewCompat.setScaleY(decorView, (float) (0.98 + 0.02 * slideOffset));
             }
         } catch (Exception e) {
         }

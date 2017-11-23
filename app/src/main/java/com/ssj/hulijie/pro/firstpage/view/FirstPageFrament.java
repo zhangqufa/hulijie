@@ -209,7 +209,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // after andrioid m,must request Permiision on runtime
-        getPersimmions();
+
+
     }
 
     private void checkKey() {
@@ -219,6 +220,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             @Override
             public void onResult(Boolean result) {
                 if (result!=null&&result) {
+                    AppToast.ShowToast("登录已过期，请重新登录");
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                 }
@@ -576,6 +578,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         getHeaderList();
         getListFourData();
         getData();
+        getPersimmions();
     }
 
     public static final int LOCATION_REQUEST_CODE = 1000;

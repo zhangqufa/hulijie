@@ -15,6 +15,7 @@ import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.pro.firstpage.bean.ItemRemmendList;
 import com.ssj.hulijie.pro.firstpage.model.FirstPageModel;
 import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.Constant;
 import com.yanzhenjie.nohttp.rest.Response;
 
@@ -179,6 +180,7 @@ public class FirstPagePresenter extends BasePresenter<FirstPageModel> {
                 JSONObject jsonObject = response.get();
                 if (jsonObject != null) {
                     AppLog.Log("key是否过期：" + jsonObject.toString());
+
                     int code = jsonObject.getIntValue("code");
                     if (Constant.ERROR_OVERDUE_CODE == code) {
                         onUIThreadListener.onResult(true);
