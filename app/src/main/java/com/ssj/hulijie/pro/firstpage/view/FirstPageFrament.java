@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -38,7 +37,6 @@ import com.ssj.hulijie.pro.firstpage.adapter.MygridviewAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.FourpartData;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
-import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.pro.firstpage.presenter.FirstPagePresenter;
 import com.ssj.hulijie.pro.firstpage.view.location.LocationActivity;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
@@ -205,13 +203,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         InitLocation();
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // after andrioid m,must request Permiision on runtime
-
-
-    }
 
     private void checkKey() {
         String user_id = SharedUtil.getPreferStr(SharedKey.USER_ID);
@@ -219,7 +210,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         mPresenter.getAccessInfoPresenter((BaseActivity) getActivity(), user_id, key, new BasePresenter.OnUIThreadListener<Boolean>() {
             @Override
             public void onResult(Boolean result) {
-                if (result!=null&&result) {
+                if (result != null && result) {
                     if (!SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false)) {
                         AppToast.ShowToast("登录已过期，请重新登录");
                     }
@@ -229,6 +220,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             }
         });
     }
+
     /**
      * ptr ui listener
      */

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.mvp.view.impl.MvpFragment;
+import com.ssj.hulijie.utils.AppLog;
 
 
 /**
@@ -16,6 +17,7 @@ public abstract class BaseFragment<P extends MvpBasePresenter> extends MvpFragme
     //我们自己的Fragment需要缓存视图
     private View viewContent;//缓存视图
     private boolean isInit;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
