@@ -211,8 +211,9 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             @Override
             public void onResult(Boolean result) {
                 if (result != null && result) {
-                    if (!SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false)) {
+                    if (SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false)) {
                         AppToast.ShowToast("登录已过期，请重新登录");
+                        SharedUtil.init(getActivity());
                     }
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);

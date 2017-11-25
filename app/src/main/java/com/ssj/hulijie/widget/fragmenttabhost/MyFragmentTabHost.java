@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 
+import com.ssj.hulijie.R;
+
 import java.util.ArrayList;
 
    /*
@@ -247,6 +249,7 @@ public class MyFragmentTabHost extends TabHost
             if (info.fragment != null && !info.fragment.isDetached()) {
                 FragmentTransaction ft = mFragmentManager.beginTransaction();
                 ft.detach(info.fragment);
+
                 ft.commitAllowingStateLoss();
             }
         }
