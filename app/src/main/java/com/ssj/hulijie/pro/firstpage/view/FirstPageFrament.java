@@ -77,6 +77,11 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private List<ItemCategoryMain.DataBean.RowsBean> data = new ArrayList<>();
     private int page = 1;
 
+    /**
+     *只第一次跑转到登录界面
+     */
+    private boolean flagFirst;
+
     public static String img[] = {
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490931601761&di=d3d10e1a89b90ed3483816404519311a&imgtype=0&src=http%3A%2F%2Fimg9.3lian.com%2Fc1%2Fvector%2F10%2F06%2F018.jpg"
             , "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490931601761&di=d3d10e1a89b90ed3483816404519311a&imgtype=0&src=http%3A%2F%2Fimg9.3lian.com%2Fc1%2Fvector%2F10%2F06%2F018.jpg"
@@ -330,7 +335,10 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                     .send();
         } else {
             startLocation();
-            checkKey();
+            if (!flagFirst) {
+                flagFirst = true;
+                checkKey();
+            }
         }
     }
 
@@ -343,7 +351,10 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             // 权限申请成功回调。
             if (requestCode == 100) {
                 startLocation();
-                checkKey();
+                if (!flagFirst) {
+                    flagFirst = true;
+                    checkKey();
+                }
             } else if (requestCode == 101) {
             }
         }
