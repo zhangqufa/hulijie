@@ -127,6 +127,11 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     }
 
 
+    /**
+     * 去除small 之后变成清晰度高一点的图片
+     */
+    private static final String SMALL_ = "small_";
+
     @Override
     public MvpBasePresenter bindPresenter() {
         mPresenter = new DetailPresenter(this);
@@ -187,14 +192,18 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
             //show pic
             String default_image_rul = detail.getDefault_image();
-            AppLog.Log("default_image_rul:  " + default_image_rul);
 
+            if (default_image_rul.contains(SMALL_)) {
+                //这里更改图片链接的格式
+                default_image_rul = default_image_rul.replace(SMALL_, "");
+            }
+            AppLog.Log("default_image_rul:  " + default_image_rul);
             Glide.with(this)
                     .load(default_image_rul)
                     .asBitmap()
                     .placeholder(R.mipmap.loading_detail)
                     .error(R.mipmap.loading_detail)
-                    .thumbnail(0.1f)
+//                    .thumbnail(0.1f)
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
