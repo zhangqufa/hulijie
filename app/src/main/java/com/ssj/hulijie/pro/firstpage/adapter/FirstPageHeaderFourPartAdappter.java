@@ -44,8 +44,13 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
     @Override
     public void onBindViewHolder(FourPartViewHolder holder, final int position) {
         final FourpartData.DataBean.RowsBean item = lists.get(position);
-        holder.tv_title.setText(item.getGoods_name());
-        holder.tv_sub_titlle.setText(item.getTxt());
+        /**
+         * 取 空格前面的字符显示
+         * 如：  TATA木门 时尚装修    取"TATA木门" 来显示
+         */
+        holder.tv_title.setText(item.getGoods_name().split(" ")[0]);
+
+        holder.tv_sub_titlle.setText(item.getTxt().split(" ")[0]);
         Glide.with(context).load(ImageUrlFormat.urlFormat(item.getDefault_image())).into(holder.iv_image);
 //        holder.iv_image.setImageURI(item.getDefault_image());
 
