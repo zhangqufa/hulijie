@@ -26,7 +26,7 @@
             android:text="iPhone6系外屏维修"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            android:lines="1"
+            android:lines="2"
             android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -37,6 +37,7 @@
             android:layout_below="@id/title"
             android:id="@+id/sub_title"
             android:lines="2"
+            android:visibility="gone"
             android:text="原厂品质，专业维修，1小时上门，\n质保半年"
             android:textColor="@color/comm_grey_555555"
             android:textSize="12sp"
@@ -44,6 +45,7 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
+            android:layout_marginTop="8dp"
             android:layout_below="@id/sub_title"
             android:orientation="horizontal"
             android:layout_width="match_parent"

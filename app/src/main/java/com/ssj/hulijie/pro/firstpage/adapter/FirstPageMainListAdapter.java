@@ -15,13 +15,15 @@ import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
 /**
- * Created by vic_zhang .
+ * @author  by vic_zhang .
  * on 2017/3/30
  */
 
 public class FirstPageMainListAdapter extends BaseRecyclerAdapter<ItemCategoryMain.DataBean.RowsBean> {
 
     private Context context;
+    private static final String END_SUFFIX = "...";
+    private static final int FONT_COUNT = 23;
 
 
     public FirstPageMainListAdapter(Context context) {
@@ -38,10 +40,15 @@ public class FirstPageMainListAdapter extends BaseRecyclerAdapter<ItemCategoryMa
     public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, ItemCategoryMain.DataBean.RowsBean data) {
         if (viewHolder instanceof FirstPageMainListViewHolder) {
             FirstPageMainListViewHolder vh = (FirstPageMainListViewHolder) viewHolder;
-            vh.title.setText(data.getGoods_name());
+            String goods_name = data.getGoods_name();
+            if (goods_name.length() > FONT_COUNT) {
+                goods_name = goods_name.substring(0, FONT_COUNT) + END_SUFFIX;
+            }
+            vh.title.setText(goods_name);
             vh.sub_title.setText(data.getTxt());
             vh.money.setText(data.getPrice());
-            Glide.with(context).load(data.getDefault_image()).crossFade().into(vh.img); //加载图片
+            //加载图片
+            Glide.with(context).load(data.getDefault_image()).crossFade().into(vh.img);
         }
     }
 

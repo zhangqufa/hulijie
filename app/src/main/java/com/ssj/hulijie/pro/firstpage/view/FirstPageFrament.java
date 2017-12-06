@@ -220,8 +220,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                         AppToast.ShowToast("登录已过期，请重新登录");
                         SharedUtil.init(getActivity());
                     }
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+//                    startActivity(intent);
                 }
             }
         });
