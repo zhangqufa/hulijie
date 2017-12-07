@@ -22,6 +22,7 @@ import java.util.List;
 public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstPageHeaderFourPartAdappter.FourPartViewHolder> {
 
     private Context context;
+    private final String SPACESTRING = " ";
 
     public FirstPageHeaderFourPartAdappter(Context context) {
         this.context = context;
@@ -48,9 +49,9 @@ public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstP
          * 取 空格前面的字符显示
          * 如：  TATA木门 时尚装修    取"TATA木门" 来显示
          */
-        holder.tv_title.setText(item.getGoods_name().split(" ")[0]);
+        holder.tv_title.setText(item.getGoods_name().split(SPACESTRING)[0]);
 
-        holder.tv_sub_titlle.setText(item.getTxt().split(" ")[0]);
+        holder.tv_sub_titlle.setText(item.getTxt().split(SPACESTRING)[0]);
         Glide.with(context).load(ImageUrlFormat.urlFormat(item.getDefault_image())).into(holder.iv_image);
 //        holder.iv_image.setImageURI(item.getDefault_image());
 

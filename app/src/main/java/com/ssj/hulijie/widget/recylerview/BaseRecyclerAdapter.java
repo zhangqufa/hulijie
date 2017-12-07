@@ -16,11 +16,12 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
 
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_NORMAL = 1;
+    public static final int TYPE_FOOTER = 2;
 
     private List<T> mDatas = new ArrayList<>();
 
     private View mHeaderView;
-
+    private View mFooterView;
     private OnItemClickListener mListener;
 
     public void setOnItemClickListener(OnItemClickListener li) {
@@ -36,24 +37,50 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         return mHeaderView;
     }
 
+    public void setFooterView(View footerView) {
+        mFooterView = footerView;
+        notifyDataSetChanged();
+    }
+
+    public void removeFooterView() {
+        if (mFooterView != null) {
+            mFooterView=null;
+            notifyItemRemoved(getItemCount()-1);
+        }
+    }
+
     public void addDatas(List<T> datas) {
         mDatas = datas;
         notifyDataSetChanged();
     }
 
-
-
-
     @Override
     public int getItemViewType(int position) {
-        if (mHeaderView == null) return TYPE_NORMAL;
-        if (position == 0) return TYPE_HEADER;
+        if (mHeaderView == null&&mFooterView==null) {
+            return TYPE_NORMAL;
+        }
+        if (mHeaderView!=null&&position == 0) {
+            //第一个item应该加载Header
+            return TYPE_HEADER;
+        }
+        if (mFooterView != null) {
+            int lastPosition = getItemCount() - 1;
+            if (position == lastPosition) {
+                return TYPE_FOOTER;
+            }
+        }
         return TYPE_NORMAL;
+
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
-        if (mHeaderView != null && viewType == TYPE_HEADER) return new Holder(mHeaderView);
+        if (mHeaderView != null && viewType == TYPE_HEADER) {
+            return new Holder(mHeaderView);
+        }
+        if (mFooterView != null && viewType == TYPE_FOOTER) {
+            return new Holder(mFooterView);
+        }
         return onCreate(parent, viewType);
     }
 
@@ -61,6 +88,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (getItemViewType(position) == TYPE_HEADER) return;
+        if (getItemViewType(position) == TYPE_FOOTER) return;
 
         final int pos = getRealPosition(viewHolder);
         final T data = mDatas.get(pos);
@@ -112,7 +140,14 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
 
     @Override
     public int getItemCount() {
-        return mHeaderView == null ? mDatas.size() : mDatas.size() + 1;
+        int count =0;
+        if (mHeaderView != null) {
+            count = count + 1;
+        }
+        if (mFooterView != null) {
+            count = count + 1;
+        }
+        return mDatas.size()+count;
     }
 
     public abstract RecyclerView.ViewHolder onCreate(ViewGroup parent, final int viewType);

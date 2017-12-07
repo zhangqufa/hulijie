@@ -39,7 +39,7 @@ public class FirstPageModel extends BaseModel {
         String url = AppURL.URL_FIRSTPAGE_LIST;
         Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.GET);
         request.add("page", page);
-        CallServer.getRequestInstance().add(activity, 0, request, listener, true, true);
+        CallServer.getRequestInstance().add(activity, 0, request, listener, true, false);
     }
 
     public void getFirstForCategoryDataModel(BaseActivity activity, String cate_id, String keywords,int page, HttpListener<JSONObject> httpListener) {

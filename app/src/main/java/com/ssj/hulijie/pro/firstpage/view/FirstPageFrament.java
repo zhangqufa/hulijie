@@ -43,7 +43,6 @@ import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerItemDecoration;
 import com.ssj.hulijie.pro.firstpage.view.widget.MyViewPaper;
 import com.ssj.hulijie.pro.home.view.MainActivity;
-import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.SharedKey;
@@ -78,7 +77,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private int page = 1;
 
     /**
-     *只第一次跑转到登录界面
+     * 只第一次跑转到登录界面
      */
     private boolean flagFirst;
 
@@ -106,7 +105,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private MyViewPaper category_vp;
     private GridView gv_one, gv_two;
     private LinearLayout ll_indicator; //indicator viewgroup
-
+    private View footer;
+    private TextView tv_footer;
     // 要申请的权限
 
     @Override
@@ -126,6 +126,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         //init ptr-lib
         ptr = (PtrClassicFrameLayout) viewContent.findViewById(R.id.ptr_refresh);
+        ptr.setMode(PtrFrameLayout.Mode.REFRESH);
         ptr.setLastUpdateTimeRelateObject(this);
         ptr.setPtrHandler(ptrHandler);
         ptr.addPtrUIHandler(ptrUihandler);
@@ -155,7 +156,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         rv_header_four_part.addItemDecoration(new DividerGridItemDecoration(context));
         adappter_four_part.setOnItemClickListener(four_part_listener);
 
-
+        footer = LayoutInflater.from(context).inflate(R.layout.footer, rv_first_page_main_list, false);
+        tv_footer = (TextView) footer.findViewById(R.id.tv_footer);
 //        //init grid category
         iv_one = (ImageView) header.findViewById(R.id.iv_one);
         iv_two = (ImageView) header.findViewById(R.id.iv_two);
@@ -269,6 +271,9 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             super.onScrolled(recyclerView, dx, dy);
             if (isSlideToBottom(recyclerView) && data.size() > 2) {  //data.size()>2 为了控制刷新两次
                 AppLog.Log("到底部");
+                tv_footer.setText("正在加载中...");
+                adapter.setFooterView(footer);
+                recyclerView.scrollToPosition(adapter.getItemCount() - 1);
                 loadMore();
             }
         }
@@ -562,9 +567,14 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                             ItemCategoryMain.DataBean.RowsBean item = result.get(i);
                             data.add(item);
                         }
+
+                        adapter.removeFooterView();
+
                         adapter.addDatas(data);
                     } else {
-                        AppToast.ShowToast("已加载全部商品");
+                        tv_footer.setText("已加载全部商品");
+                        ptr.setMode(PtrFrameLayout.Mode.REFRESH);
+//                        AppToast.ShowToast("已加载全部商品");
                     }
                 }
                 ptr.refreshComplete();
