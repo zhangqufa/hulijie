@@ -158,6 +158,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
         footer = LayoutInflater.from(context).inflate(R.layout.footer, rv_first_page_main_list, false);
         tv_footer = (TextView) footer.findViewById(R.id.tv_footer);
+        adapter.setFooterView(footer);
 //        //init grid category
         iv_one = (ImageView) header.findViewById(R.id.iv_one);
         iv_two = (ImageView) header.findViewById(R.id.iv_two);
@@ -272,7 +273,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             if (isSlideToBottom(recyclerView) && data.size() > 2) {  //data.size()>2 为了控制刷新两次
                 AppLog.Log("到底部");
                 tv_footer.setText("正在加载中...");
-                adapter.setFooterView(footer);
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
                 loadMore();
             }
@@ -567,14 +567,9 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                             ItemCategoryMain.DataBean.RowsBean item = result.get(i);
                             data.add(item);
                         }
-
-                        adapter.removeFooterView();
-
                         adapter.addDatas(data);
                     } else {
                         tv_footer.setText("已加载全部商品");
-                        ptr.setMode(PtrFrameLayout.Mode.REFRESH);
-//                        AppToast.ShowToast("已加载全部商品");
                     }
                 }
                 ptr.refreshComplete();
