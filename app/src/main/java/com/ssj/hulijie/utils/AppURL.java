@@ -25,6 +25,7 @@ public class AppURL {
     public static final String URL_ACCESS_INFO = URL_API + "/Home/get_access_info";
 
     public static final String URL_ORDER_LIST = URL_API + "/order/order_list";
+    public static final String URL_ORDER_PAY = URL_API + "/order/pay";
 
 
 }

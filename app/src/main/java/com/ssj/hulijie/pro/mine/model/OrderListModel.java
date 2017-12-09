@@ -30,4 +30,11 @@ public class OrderListModel extends BaseModel {
         request.add("type", type);
         CallServer.getRequestInstance().add(context,0,request,httpListener,true,true);
     }
+
+    public void toPayModel(BaseActivity context, String order_id, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_ORDER_PAY;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("order_id", order_id);
+        CallServer.getRequestInstance().add(context,0,request,httpListener,true,true);
+    }
 }

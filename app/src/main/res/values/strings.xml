@@ -42,4 +42,20 @@ Toolbar 的高度layout_height必须明确指定，不能 “wrap_content”，�
 
     <string name="logoin_desc" >点击\"登录\",即表示同意</string>
     <string name="logoin_desc_user">《狐狸街用户协议》</string>
+
+
+    <!--订单列表-->
+    <string name="order_cancel">取消订单</string>
+    <string name="order_delete">删除订单</string>
+    <string name="order_wait_to_pay">等待买家付款</string>
+    <string name="order_immediately_pay">立即付款</string>
+    <string name="order_already_pay">买家已付款</string>
+    <string name="order_refund">退款</string>
+    <string name="order_wait_evaluate">待评价</string>
+    <string name="order_to_evaluate">去评价</string>
+    <string name="order_business_success">交易成功</string>
+    <string name="order_confirm_complete">确认完成</string>
+    <string name="order_refunding">退款中</string>
+    <string name="order_already_refund">已退款</string>
+    <string name="order_already_cancel">订单已取消</string>
 </resources>

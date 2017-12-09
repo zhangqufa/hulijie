@@ -51,4 +51,25 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
             }
         });
     }
+
+    public void toPayPresenter(BaseActivity context, String order_id, final OnUIThreadListener<ItemOrderResp> onUIThreadListener) {
+        getModel().toPayModel(context, order_id,new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("去支付：" + jsonObject.toString());
+
+                } else {
+                    onUIThreadListener.onResult(null);
+                }
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(null);
+            }
+        });
+    }
 }

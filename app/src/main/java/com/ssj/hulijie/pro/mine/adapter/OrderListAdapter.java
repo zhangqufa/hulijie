@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ssj.hulijie.R;
@@ -40,7 +41,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final ItemOrderResp.DataBean.RowsBean dataBean = lists.get(position);
         holder.item_seller.setText(dataBean.getService_seller());
         long service_time = dataBean.getService_time();
@@ -48,6 +49,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.item_service_time.setText(time);
         holder.item_service_addr.setText(dataBean.getService_address());
         holder.title.setText(dataBean.getGoods_name());
+
+        //init
+        holder.ll_btn.setVisibility(View.VISIBLE);
+
         /**
          * 订单状态：
          0 取消订单  --未完成
@@ -55,6 +60,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
          20 买家已付款 --未完成
          30 商家已服务  --待评价
          40 交易成功 --已完成
+         55 取消订单
          3 退款中 --未完成
          4 已退款 --未完成
          */
@@ -64,34 +70,38 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         String status_str = "";
         switch (status) {
             case 0:
-                status_str = "取消订单";
-                right = "删除订单";
+                status_str =context.getString(R.string.order_cancel);
+                right = context.getString(R.string.order_delete);
                 break;
             case 11:
-                status_str = "等待买家付款";
-                right = "立即付款";
+                status_str = context.getString(R.string.order_wait_to_pay);
+                right = context.getString(R.string.order_immediately_pay);
                 break;
             case 20:
-                status_str = "买家已付款";
-                right = "退款";
+                status_str = context.getString(R.string.order_already_pay);
+                right = context.getString(R.string.order_refund);
                 break;
             case 30:
-                status_str = "待评价";
-                right = "去评价";
+                status_str =context.getString(R.string.order_wait_evaluate);
+                right = context.getString(R.string.order_to_evaluate);
                 break;
             case 40:
-                status_str = "交易成功";
-                left = "退款";
-                right = "确认完成";
+                status_str =context.getString(R.string.order_business_success);
+                left = context.getString(R.string.order_refund);
+                right = context.getString(R.string.order_confirm_complete);
                 break;
             case 3:
-                status_str = "退款中";
+                status_str = context.getString(R.string.order_refunding);
                 break;
             case 4:
-                status_str = "已退款";
-                right = "删除订单";
+                status_str =context.getString(R.string.order_already_refund);
+                right = context.getString(R.string.order_delete);
                 break;
-
+            case 55:
+                //取消状态
+                status_str =context.getString(R.string.order_already_cancel);
+                holder.ll_btn.setVisibility(View.GONE);
+                break;
             default:
                 break;
         }
@@ -123,6 +133,30 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 }
             }
         });
+
+        //设置点击事件
+        holder.btn_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
+        holder.btn_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String btn_str = holder.btn_right.getText().toString();
+                //待付款
+                if (context.getString(R.string.order_immediately_pay).equals(btn_str)) {
+                    if (listener != null) {
+                        listener.onItemRightClick(position,btn_str,dataBean);
+                    }
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -138,9 +172,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         private Button btn_left;
         private Button btn_right;
         private TextView title;
+        private RelativeLayout ll_btn;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            ll_btn = (RelativeLayout) itemView.findViewById(R.id.ll_btn);
             item_seller = (TextView) itemView.findViewById(R.id.item_seller);
             item_service_time = (TextView) itemView.findViewById(R.id.item_service_time);
             item_service_addr = (TextView) itemView.findViewById(R.id.item_service_addr);
@@ -159,5 +195,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
     public interface OnItemClickListener<T> {
         void onItemClick(int position, T data);
+        void onItemLeftClick(int position,String status, T data);
+        void onItemRightClick(int position,String status,T data);
     }
+
+
+
 }

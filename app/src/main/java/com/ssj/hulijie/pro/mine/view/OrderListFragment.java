@@ -32,8 +32,8 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
     private XRecyclerView mRecyclerView;
     private int refreshTime;
     private int times;
-    private  List<ItemOrderResp.DataBean.RowsBean> lists = new ArrayList<>();
-    private int page=1;
+    private List<ItemOrderResp.DataBean.RowsBean> lists = new ArrayList<>();
+    private int page = 1;
     private OrderListPresenter presenter;
     private OrderType currentType = OrderType.NOFINISH;
     private OrderListAdapter adapter;
@@ -47,10 +47,11 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
     /**
      * 1：未完成 2：已完成 3：待评价 0:全部订单
      */
-    enum OrderType{
-        NOFINISH(1),FINISH(2),EVALUATE(3),ALL(0);
+    enum OrderType {
+        NOFINISH(1), FINISH(2), EVALUATE(3), ALL(0);
 
         private int index;
+
         OrderType(int index) {
             this.index = index;
         }
@@ -73,7 +74,7 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
         String title = (String) getArguments().get(EXTRA_CONTENT);
         if ("未完成".equals(title)) {
             currentType = OrderType.NOFINISH;
-        } else if ("已完成".equals(title)){
+        } else if ("已完成".equals(title)) {
             currentType = OrderType.FINISH;
         } else if ("待评价".equals(title)) {
             currentType = OrderType.EVALUATE;
@@ -83,7 +84,7 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
 
         viewContent.findViewById(R.id.toOrder).setOnClickListener(this);
 
-        mRecyclerView = (XRecyclerView)viewContent.findViewById(R.id.recyclerview);
+        mRecyclerView = (XRecyclerView) viewContent.findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -120,8 +121,82 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
         getData(RefreshStatues.REFRESH);
     }
 
+
+    private OrderListAdapter.OnItemClickListener<ItemOrderResp.DataBean.RowsBean> onClickListener = new OrderListAdapter.OnItemClickListener<ItemOrderResp.DataBean.RowsBean>() {
+
+        /**
+         * 列表点击
+         * @param position
+         * @param data
+         */
+        @Override
+        public void onItemClick(int position, ItemOrderResp.DataBean.RowsBean data) {
+
+            Intent intent = new Intent(getActivity(), OrderItemDetailActivity.class);
+            intent.putExtra("orderItem", data);
+            startActivity(intent);
+
+        }
+
+        /**
+         * 左点击
+         * @param position
+         * @param status
+         * @param data
+         */
+        @Override
+        public void onItemLeftClick(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
+
+        }
+
+        /**
+         * 右点击
+         * @param position
+         * @param status
+         * @param data
+         */
+        @Override
+        public void onItemRightClick(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
+            //去付款
+            if (getString(R.string.order_immediately_pay).equals(status)) {
+                toPay(position, status, data);
+            }
+        }
+
+    };
+
+
+    private static final String EXTRA_CONTENT = "content";
+
+    public static OrderListFragment newInstance(String content) {
+        Bundle arguments = new Bundle();
+        arguments.putString(EXTRA_CONTENT, content);
+        OrderListFragment tabContentFragment = new OrderListFragment();
+        tabContentFragment.setArguments(arguments);
+        return tabContentFragment;
+    }
+
+
+    /**
+     * 获取订单签名 并支付
+     *
+     * @param position
+     * @param status
+     * @param data
+     */
+    private void toPay(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
+        presenter.toPayPresenter((BaseActivity) getActivity(), data.getOrder_id(), new BasePresenter.OnUIThreadListener<ItemOrderResp>() {
+            @Override
+            public void onResult(ItemOrderResp result) {
+
+            }
+        });
+    }
+
+
     /**
      * 1：未完成 2：已完成 3：待评价 0:全部订单
+     *
      * @param statues
      */
     private void getData(final RefreshStatues statues) {
@@ -151,7 +226,7 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
                             mRecyclerView.setNoMore(true);
                         }
                     }
-                    if (lists.size()==0){
+                    if (lists.size() == 0) {
                         mRecyclerView.setEmptyView(text_empty);
                     }
                 }
@@ -161,25 +236,6 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    private OrderListAdapter.OnItemClickListener<ItemOrderResp.DataBean.RowsBean> onClickListener = new OrderListAdapter.OnItemClickListener<ItemOrderResp.DataBean.RowsBean>() {
-        @Override
-        public void onItemClick(int position, ItemOrderResp.DataBean.RowsBean data) {
-
-            Intent intent = new Intent(getActivity(), OrderItemDetailActivity.class);
-            intent.putExtra("orderItem", data);
-            startActivity(intent);
-
-        }
-    };
-    private static final String EXTRA_CONTENT = "content";
-
-    public static OrderListFragment newInstance(String content) {
-        Bundle arguments = new Bundle();
-        arguments.putString(EXTRA_CONTENT, content);
-        OrderListFragment tabContentFragment = new OrderListFragment();
-        tabContentFragment.setArguments(arguments);
-        return tabContentFragment;
-    }
 
     @Override
     public void onClick(View view) {
@@ -187,6 +243,8 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
             case R.id.toOrder:
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
+                break;
+            default:
                 break;
         }
     }
