@@ -52,22 +52,34 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
         });
     }
 
-    public void toPayPresenter(BaseActivity context, String order_id, final OnUIThreadListener<ItemOrderResp> onUIThreadListener) {
-        getModel().toPayModel(context, order_id,new HttpListener<JSONObject>() {
+    public void getOrderSingPresenter(BaseActivity context, String order_id, String user_id, final OnUIThreadListener<String> onUIThreadListener) {
+        getModel().getOrderSignModel(context, order_id,user_id,new HttpListener<String>() {
             @Override
-            public void onSucceed(int what, Response<JSONObject> response) {
-                JSONObject jsonObject = response.get();
-                if (jsonObject != null) {
-                    AppLog.Log("去支付：" + jsonObject.toString());
-
-                } else {
-                    onUIThreadListener.onResult(null);
-                }
-
+            public void onSucceed(int what, Response<String> response) {
+                String s = response.get();
+                AppLog.Log("去支付：" + s);
+                onUIThreadListener.onResult(s);
             }
 
             @Override
-            public void onFailed(int what, Response<JSONObject> response) {
+            public void onFailed(int what, Response<String> response) {
+                onUIThreadListener.onResult(null);
+            }
+        });
+    }
+
+    public void getOrderSignTwoPresenter(BaseActivity context, String user_id, String goods_id, String amount, String mobile, String service_address,
+                                         String buyer_name, long service_time, String remark, final OnUIThreadListener<String> onUIThreadListener) {
+        getModel().getOrderSignTwoModel(context, user_id, goods_id, amount, mobile, service_address, buyer_name, service_time, remark, new HttpListener<String>() {
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String s = response.get();
+                AppLog.Log("");
+                onUIThreadListener.onResult(s);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
                 onUIThreadListener.onResult(null);
             }
         });

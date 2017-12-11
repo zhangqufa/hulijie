@@ -20,8 +20,10 @@ import com.ssj.hulijie.alipay.PayResult;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.nohttp.CallServer;
 import com.ssj.hulijie.nohttp.HttpListener;
+import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.OrderItem;
+import com.ssj.hulijie.pro.mine.presenter.OrderListPresenter;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
@@ -62,6 +64,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private PayStatus currentPayStatus = PayStatus.ALIPAY;
     private Button btn_pay;
     private TextView moeny;
+    private OrderListPresenter presenter;
 
     @Override
     public void onClick(View view) {
@@ -300,33 +303,24 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 //
 //        String sign = OrderInfoUtil2_0.getSign(params, Constants.RSA2_PRIVATE, true);
 //        final String orderInfo = orderParam + "&" + sign;
-        String url = "http://jassj.com/i/index.php/order/order";
-        Request<String> req = NoHttp.createStringRequest(url, RequestMethod.POST);
-        req.add("user_id",SharedUtil.getPreferStr(SharedKey.USER_ID));
-        req.add("goods_id", orderItem.getOrder_goods_id());
-        req.add("amount", orderItem.getOrder_amount());
-        req.add("mobile", orderItem.getOrder_phone());
-        req.add("service_address", orderItem.getOrder_address());
-        req.add("buyer_name",orderItem.getOrder_user_name());
-        req.add("service_time", orderItem.getOrder_time());
-        req.add("remark", orderItem.getOrder_mark());
-        CallServer.getRequestInstance().add(this, 0, req, new HttpListener<String>() {
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                if (!TextUtils.isEmpty(response.toString())) {
 
-                    String s = response.get();
-                    AppLog.Log("orderInfo:"+s);
-                    callApliy(s);
+        String user_id=SharedUtil.getPreferStr(SharedKey.USER_ID);
+        String goods_id=orderItem.getOrder_goods_id();
+       String amount=orderItem.getOrder_amount();
+        String mobile=orderItem.getOrder_phone();
+        String service_address=orderItem.getOrder_address();
+        String buyer_name=orderItem.getOrder_user_name();
+        long service_time=orderItem.getOrder_time();
+        String remark=orderItem.getOrder_mark();
+        presenter.getOrderSignTwoPresenter(this, user_id, goods_id, amount, mobile, service_address, buyer_name, service_time, remark, new BasePresenter.OnUIThreadListener<String>() {
+            @Override
+            public void onResult(String result) {
+                if (!TextUtils.isEmpty(result)) {
+                    AppLog.Log("orderInfo:"+result);
+                    callApliy(result);
                 }
             }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-
-            }
-        }, true, true);
-
+        });
 
     }
 //    final String orderInfo = "alipay_sdk=alipay-sdk-php-20161101&app_id=2017010704910421&biz_content=%7B%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22subject%22%3A+%22App%E6%94%AF%E4%BB%98%E6%B5%8B%E8%AF%95%22%2C%22out_trade_no%22%3A+%221505466180%22%2C%22timeout_express%22%3A+%2230m%22%2C%22total_amount%22%3A+%220.01%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fjassj.com%2Fi%2Findex.php%2Forder%2Fcall_back&sign_type=RSA2&timestamp=2017-09-15+17%3A03%3A00&version=1.0&sign=Dioe%2BfzGnGc8LXk9sOpO%2BiLcT0kyaJVp7CfmUKLn1JaCyLK%2FjYxf1zu07EbROxcVA1P0fHnXMu6SYqg0zKoh4CYXeDxyjfsybXSd6GYhoYVnZMqC%2BglswjIolxlOQ5H7DU2AkcNqs5TRzbOlmSUPqHqj4BZ643lwxDjDrbAFs0Wx5orNNnN3GAkOlTJxovyR0a75VZRASpHwA0ZRbQcuSOvoKZogYEdFp7Em%2F6KSKwosXMWzuFvOnwGEPBZPqrBgGnkq3rSnenrqH04ZOjzPwsGGg3Z%2BHl7pVtm8H5g1O0akICTqKule4Ido1nHy%2B0mmxpuevu%2ByhL0ON3mB7Zw3HA%3D%3D";
@@ -376,9 +370,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         WECHAT, ALIPAY
     }
 
+
     @Override
     public MvpBasePresenter bindPresenter() {
-        return null;
+        presenter = new OrderListPresenter(this);
+        return presenter;
     }
 
     @Override

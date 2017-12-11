@@ -26,6 +26,7 @@ public class AppURL {
 
     public static final String URL_ORDER_LIST = URL_API + "/order/order_list";
     public static final String URL_ORDER_PAY = URL_API + "/order/pay";
+    public static final String URL_ORDER_ORDER = URL_API + "/order/order";
 
 
 }

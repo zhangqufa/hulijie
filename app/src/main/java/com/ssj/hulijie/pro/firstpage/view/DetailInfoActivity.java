@@ -50,7 +50,9 @@ import com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView;
 import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
 import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
 import com.ssj.hulijie.pro.firstpage.view.widget.SharePopWindow;
+import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.pro.mine.view.LoginActivity;
+import com.ssj.hulijie.pro.mine.view.MineOrderListActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DensityUtil;
@@ -499,7 +501,10 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TOYUYUE && resultCode == RESULT_OK) {
             AppLog.Log("Detailact");
+            Intent intent = new Intent(this, MineOrderListActivity.class);
+            startActivity(intent);
             finish();
+
         }
     }
 

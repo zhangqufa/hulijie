@@ -3,25 +3,34 @@ package com.ssj.hulijie.pro.mine.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ssj.hulijie.R;
+import com.ssj.hulijie.alipay.PayResult;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
+import com.ssj.hulijie.pro.firstpage.view.PayActivity;
 import com.ssj.hulijie.pro.mine.adapter.OrderListAdapter;
 import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
 import com.ssj.hulijie.pro.mine.presenter.OrderListPresenter;
+import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.RefreshStatues;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by vic_zhang .
@@ -176,6 +185,64 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
         return tabContentFragment;
     }
 
+    private void finishClose() {
+        AppLog.Log("payact");
+        initData();
+    }
+
+    private static final int SDK_PAY_FLAG = 100;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SDK_PAY_FLAG:
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    /**
+                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        Toast.makeText(getActivity(), "支付成功", Toast.LENGTH_SHORT).show();
+                        finishClose();
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        Toast.makeText(getActivity(), "支付失败", Toast.LENGTH_SHORT).show();
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+
+    private void callApliy(String orderInfo){
+        if (orderInfo.contains("amp;")) {
+            orderInfo = orderInfo.replace("amp;", "");
+
+        }
+        final String finalyStr = orderInfo;
+        Runnable payRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(getActivity());
+                Map<String, String> result = alipay.payV2(finalyStr, true);
+                Message msg = new Message();
+                msg.what = SDK_PAY_FLAG;
+                msg.obj = result;
+                handler.sendMessage(msg);
+            }
+        };
+
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
 
     /**
      * 获取订单签名 并支付
@@ -185,9 +252,12 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
      * @param data
      */
     private void toPay(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
-        presenter.toPayPresenter((BaseActivity) getActivity(), data.getOrder_id(), new BasePresenter.OnUIThreadListener<ItemOrderResp>() {
+        presenter.getOrderSingPresenter((BaseActivity) getActivity(), data.getOrder_id(),SharedUtil.getPreferStr(SharedKey.USER_ID), new BasePresenter.OnUIThreadListener<String>() {
             @Override
-            public void onResult(ItemOrderResp result) {
+            public void onResult(String result) {
+                if (!TextUtils.isEmpty(result)) {
+                    callApliy(result);
+                }
 
             }
         });
@@ -242,6 +312,7 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
         switch (view.getId()) {
             case R.id.toOrder:
                 getActivity().setResult(Activity.RESULT_OK);
+
                 getActivity().finish();
                 break;
             default:

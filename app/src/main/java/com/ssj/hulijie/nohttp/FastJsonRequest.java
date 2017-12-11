@@ -51,6 +51,7 @@ public class FastJsonRequest extends RestRequest<JSONObject> {
     @Override
     public JSONObject parseResponse(Headers responseHeaders, byte[] responseBody) {
         String result = StringRequest.parseResponseString(responseHeaders, responseBody);
+        AppLog.Log("result: " + result);
         JSONObject jsonObject;
         try {
             jsonObject = JSON.parseObject(result);
