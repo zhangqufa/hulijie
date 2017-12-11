@@ -47,6 +47,7 @@ import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
+import com.ssj.hulijie.versioncontrol.UpdateManager;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -209,6 +210,13 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         MyLocationListener mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);
         InitLocation();
+        checkVersion();
+    }
+
+    private void checkVersion() {
+        UpdateManager manager = new UpdateManager(getActivity());
+        manager.checkUpdate();
+
     }
 
 
