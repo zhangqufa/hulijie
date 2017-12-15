@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:AVLoadingIndicatorView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <com.jcodecraeer.xrecyclerview.progressindicator.AVLoadingIndicatorView
+        android:id="@+id/listview_header_progressbar"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="10dp"
+        AVLoadingIndicatorView:indicator_color="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/tv_footer"
-        android:gravity="center"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="45dp"
+        android:layout_toRightOf="@id/listview_header_progressbar"
+        android:gravity="center"
         android:text="加载中..." />
 
-</LinearLayout>
+</RelativeLayout>

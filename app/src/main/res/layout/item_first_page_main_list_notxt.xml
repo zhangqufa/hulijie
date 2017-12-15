@@ -26,7 +26,7 @@
             android:text="iPhone6系外屏维修"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            android:lines="1"
+            android:lines="2"
             android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

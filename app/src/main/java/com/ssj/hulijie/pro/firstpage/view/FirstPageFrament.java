@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,9 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.SimpleViewSwitcher;
+import com.jcodecraeer.xrecyclerview.progressindicator.AVLoadingIndicatorView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.base.HljAppliation;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
@@ -108,6 +112,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private LinearLayout ll_indicator; //indicator viewgroup
     private View footer;
     private TextView tv_footer;
+    private AVLoadingIndicatorView footer_animater;
     // 要申请的权限
 
     @Override
@@ -157,9 +162,15 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         rv_header_four_part.addItemDecoration(new DividerGridItemDecoration(context));
         adappter_four_part.setOnItemClickListener(four_part_listener);
 
+        //init footer
         footer = LayoutInflater.from(context).inflate(R.layout.footer, rv_first_page_main_list, false);
         tv_footer = (TextView) footer.findViewById(R.id.tv_footer);
+
+        footer_animater= (AVLoadingIndicatorView) footer.findViewById(R.id.listview_header_progressbar);
+
         adapter.setFooterView(footer);
+
+
 //        //init grid category
         iv_one = (ImageView) header.findViewById(R.id.iv_one);
         iv_two = (ImageView) header.findViewById(R.id.iv_two);
@@ -281,6 +292,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             if (isSlideToBottom(recyclerView) && data.size() > 2) {  //data.size()>2 为了控制刷新两次
                 AppLog.Log("到底部");
                 tv_footer.setText("正在加载中...");
+                footer_animater.setVisibility(View.VISIBLE);
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
                 loadMore();
             }
@@ -578,6 +590,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                         adapter.addDatas(data);
                     } else {
                         tv_footer.setText("已加载全部商品");
+                        footer_animater.setVisibility(View.GONE);
                     }
                 }
                 ptr.refreshComplete();

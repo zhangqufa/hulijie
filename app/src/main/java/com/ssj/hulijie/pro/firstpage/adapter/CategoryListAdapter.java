@@ -26,7 +26,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     private List<ItemCategoryMain.DataBean.RowsBean> lists;
 
     private Context context;
-
+    private static final String END_SUFFIX = "...";
+    private static final int FONT_COUNT = 23;
     public CategoryListAdapter(Context context) {
         this.context = context;
     }
@@ -47,7 +48,11 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
 
         final ItemCategoryMain.DataBean.RowsBean data = lists.get(position);
-        holder.title.setText(data.getGoods_name());
+        String goods_name = data.getGoods_name();
+        if (goods_name.length() > FONT_COUNT) {
+            goods_name = goods_name.substring(0, FONT_COUNT) + END_SUFFIX;
+        }
+        holder.title.setText(goods_name);
         holder.money.setText(data.getPrice());
         Glide.with(context).load(data.getDefault_image()).crossFade().into(holder.img); //加载图片
         holder.itemView.setOnClickListener(new View.OnClickListener() {
