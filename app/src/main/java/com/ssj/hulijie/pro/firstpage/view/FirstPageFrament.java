@@ -166,7 +166,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         footer = LayoutInflater.from(context).inflate(R.layout.footer, rv_first_page_main_list, false);
         tv_footer = (TextView) footer.findViewById(R.id.tv_footer);
 
-        footer_animater= (AVLoadingIndicatorView) footer.findViewById(R.id.listview_header_progressbar);
+        footer_animater = (AVLoadingIndicatorView) footer.findViewById(R.id.listview_header_progressbar);
 
         adapter.setFooterView(footer);
 
@@ -626,6 +626,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             case R.id.et_search:
                 Intent intent1 = new Intent(context, SearchActivity.class);
                 context.startActivityForBack(intent1);
+                break;
+            default:
                 break;
         }
     }
