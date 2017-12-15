@@ -42,7 +42,7 @@ public class UpdateManager {
     private Dialog noticeDialog;
     /* 下载包安装路径 */
     private static final String savePath = Environment.getExternalStorageDirectory().getPath() + "/";
-    private String saveFileName = savePath + "xiaofang.apk";
+    private String saveFileName = savePath + "hulijie.apk";
     /* 进度条与通知ui刷新的handler和msg常量 */
     private ProgressBar mProgress;
     private Version newVersion;// 服务器版本信息
@@ -88,7 +88,7 @@ public class UpdateManager {
 
     // 显示有更新提示对话框
     private void showNoticeDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
                 .setIcon(R.mipmap.logo)
                 .setMessage("当前版本:" + Version.getVerCode(mContext) + "\n最新版本:" + newVersion.getVerCode() + "\n更新日志:" + newVersion.getContent())
                 .setTitle("版本更新")
@@ -98,7 +98,14 @@ public class UpdateManager {
                         showDownloadDialog();
                     }
                 });
-        if (newVersion.getStatus() == 1) {  //强制更新
+        if (newVersion.getStatus() != 1) {  //强制更新
+            builder.setNegativeButton("暂不升级", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        } else {
             builder.setCancelable(false);
         }
         builder.show();
@@ -130,7 +137,8 @@ public class UpdateManager {
     private String getServerVer() {
         try {
             String json = "";
-            URL url = new URL(AppURL.URL_VERSION);
+//            URL url = new URL(AppURL.URL_VERSION);
+            URL url =new URL("http://www.51pangpang.top/api/json.php");
             HttpURLConnection httpConnection = (HttpURLConnection) url
                     .openConnection();
             httpConnection.setDoInput(true);
@@ -258,7 +266,7 @@ public class UpdateManager {
 
         Intent i = new Intent(Intent.ACTION_VIEW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri apkUri = FileProvider.getUriForFile(mContext, "com.lehuan.xiaofang.fileprovider", apkfile);
+            Uri apkUri = FileProvider.getUriForFile(mContext, "com.ssj.hulijie.fileprovider", apkfile);
             // 由于没有在Activity环境下启动Activity,设置下面的标签
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //添加这一句表示对目标应用临时授权该Uri所代表的文件
