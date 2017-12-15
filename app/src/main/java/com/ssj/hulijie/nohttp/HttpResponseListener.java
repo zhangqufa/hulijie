@@ -19,8 +19,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
-import com.ssj.hulijie.utils.Constant;
 import com.ssj.hulijie.widget.dialog.WaitDialog;
 import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.error.NetworkError;

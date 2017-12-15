@@ -7,7 +7,7 @@ import com.ssj.hulijie.pro.base.model.BaseModel;
 
 
 /**
- * Created by Dream on 16/5/28.
+ * @author qufa
  */
 public abstract class BasePresenter<M extends BaseModel> extends MvpBasePresenter {
 
@@ -32,7 +32,6 @@ public abstract class BasePresenter<M extends BaseModel> extends MvpBasePresente
 
     public interface OnUIThreadListener<T> {
         /**
-         *
          * @param result 返回数据
          */
         void onResult(T result);

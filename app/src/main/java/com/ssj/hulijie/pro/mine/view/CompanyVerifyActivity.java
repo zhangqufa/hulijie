@@ -58,6 +58,8 @@ public class CompanyVerifyActivity extends BaseActivity implements View.OnClickL
                 startActivityForResult(intent,REQUEST_CODE);
 
                 break;
+                default:
+                    break;
         }
     }
 

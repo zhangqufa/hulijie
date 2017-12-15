@@ -175,7 +175,5 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-        }
     }
 }

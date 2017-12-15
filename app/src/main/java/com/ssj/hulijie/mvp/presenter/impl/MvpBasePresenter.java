@@ -5,7 +5,7 @@ import com.ssj.hulijie.mvp.presenter.MvpPresenter;
 import com.ssj.hulijie.mvp.view.MvpView;
 
 /**
- * Created by vic on 16/5/26.
+ * @author qufa
  */
 public abstract class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
 

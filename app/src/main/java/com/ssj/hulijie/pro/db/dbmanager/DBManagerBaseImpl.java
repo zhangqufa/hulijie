@@ -14,9 +14,9 @@ import static com.ssj.hulijie.pro.db.helper.TemplateConfig.mappings;
 
 
 /**
- * Created by vic on 2016/12/2.
+ * @param <T>
+ * @author qufa
  */
-
 public class DBManagerBaseImpl<T> implements DBManagerBase<T> {
 
     private MyDatabaseHelper helper;

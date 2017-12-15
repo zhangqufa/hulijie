@@ -15,10 +15,9 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 /**
- * Created by vic_zhang .
- * on 2017/4/1
+ * @author qufa
+ *         on 2017/4/1
  */
-
 public class CityGridViewAdapter extends BaseAdapter {
     private Context mContext;
     private List<CityGridItem> mList;

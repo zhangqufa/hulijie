@@ -53,6 +53,8 @@ public class ServiceTempPicActivity extends BaseActivity {
             case MINE_USUALLY_PROBLEM:
 
                 break;
+            default:
+                break;
         }
         if (picRes != -1) {
             temp_tv.setImageResource(picRes);

@@ -9,7 +9,7 @@ import com.ssj.hulijie.mvp.view.MvpView;
 
 
 /**
- * Created by vic on 16/5/26.
+ * @author qufa
  */
 public abstract class MvpFragment<P extends MvpBasePresenter> extends Fragment implements MvpView {
 
@@ -25,7 +25,11 @@ public abstract class MvpFragment<P extends MvpBasePresenter> extends Fragment i
         }
     }
 
-    //绑定
+    /**
+     * 绑定
+     *
+     * @return
+     */
     public abstract P bindPresenter();
 
     @Override

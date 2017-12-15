@@ -14,15 +14,13 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
- * Created by vic_zhang .
- * on 2017/3/25
+ * @author qufa
  */
-
 public class HljAppliation extends Application {
 
     public static Context context;
     public static TemplateConfig config;
-    public static String currentCity="台州";
+    public static String currentCity = "台州";
 
 
     @Override
@@ -75,7 +73,7 @@ public class HljAppliation extends Application {
             String[] files = getAssets().list("");
             for (String file : files) {
                 if (file.endsWith(".orm.xml")) {
-                    config.mappings.put(file, config.parse(getAssets().open(file)));
+                    TemplateConfig.mappings.put(file, TemplateConfig.parse(getAssets().open(file)));
                 }
             }
         } catch (Exception e) {

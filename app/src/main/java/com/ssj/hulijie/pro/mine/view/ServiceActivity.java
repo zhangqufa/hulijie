@@ -64,6 +64,8 @@ public class ServiceActivity extends BaseActivity {
                     intent = new Intent(ServiceActivity.this, ServiceTempPicActivity.class);
                     intent.putExtra("flag", ServiceTempPicActivity.MINE_EVALUATE);
                     break;
+                    default:
+                        break;
             }
             if (intent != null) {
                 startActivity(intent);

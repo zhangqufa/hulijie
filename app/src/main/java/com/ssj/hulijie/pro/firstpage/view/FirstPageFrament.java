@@ -49,6 +49,7 @@ import com.ssj.hulijie.pro.firstpage.view.widget.MyViewPaper;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.MyHandler;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.versioncontrol.UpdateManager;
@@ -222,6 +223,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
         mLocationClient.registerLocationListener(mMyLocationListener);
         InitLocation();
         checkVersion();
+
+
     }
 
     private void checkVersion() {
@@ -415,18 +418,16 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
     private boolean isNeedFresh = true;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0) {
-                String location = (String) msg.obj;
-                location_tv.setText(location);
-                location_tv_out.setText(location);
 
-            }
+
+    @Override
+    public void handleMessage(Message msg) {
+        if (msg.what == 0) {
+            String location = (String) msg.obj;
+            location_tv.setText(location);
+            location_tv_out.setText(location);
         }
-    };
+    }
 
     /**
      * 实现实位回调监听

@@ -19,15 +19,9 @@ import com.ssj.hulijie.utils.SharedUtil;
 
 import java.util.List;
 
-import static com.baidu.location.b.g.G;
-import static com.baidu.location.b.g.V;
-import static com.baidu.location.b.g.i;
-import static com.baidu.location.b.g.p;
-
 /**
- * Created by Administrator on 2017/7/11.
+ * @author qufa
  */
-
 public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAdapter.AddressManagerViewHolder> {
 
     private Context context;
@@ -51,12 +45,12 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
     @Override
     public void onBindViewHolder(AddressManagerViewHolder holder, final int position) {
         final AddressItem addressItem = lists.get(position);
-        AppLog.Log("addressItem: "+addressItem);
+        AppLog.Log("addressItem: " + addressItem);
         holder.item_select_address.setText(addressItem.getRegion_name());
         holder.item_address_user_phone.setText(SharedUtil.getPreferStr(SharedKey.USER_MOBILE));
         holder.item_select_address_simple.setText(addressItem.getAddress());
 
-        if (addressItem.getDefault_addr()==1) {
+        if (addressItem.getDefault_addr() == 1) {
             holder.item_address_iv.setImageResource(R.mipmap.address_sel_seleted);
             holder.item_address_default_tv.setText("默认地址");
         } else {
@@ -69,7 +63,7 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
             @Override
             public void onClick(View view) {
                 if (deleteCallback != null) {
-                   deleteCallback.deleteCallback(addressItem ,position);
+                    deleteCallback.deleteCallback(addressItem, position);
                 }
             }
         });
@@ -88,7 +82,7 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
             @Override
             public void onClick(View view) {
                 if (defaultCallback != null) {
-                    defaultCallback.onAddressSetDefaultCallBack(addressItem,position);
+                    defaultCallback.onAddressSetDefaultCallBack(addressItem, position);
                 }
 
             }
@@ -107,10 +101,10 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
 
     @Override
     public int getItemCount() {
-        return lists==null?0:lists.size();
+        return lists == null ? 0 : lists.size();
     }
 
-    class AddressManagerViewHolder extends RecyclerView.ViewHolder{
+    class AddressManagerViewHolder extends RecyclerView.ViewHolder {
         private TextView item_address_edit;
         private TextView item_select_address_simple;
         private TextView item_select_address;
@@ -120,21 +114,22 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
         private TextView item_address_delete;
 
         private LinearLayout ll_default;
+
         public AddressManagerViewHolder(View itemView) {
             super(itemView);
             ll_default = (LinearLayout) itemView.findViewById(R.id.ll_default);
-            item_address_edit=(TextView)itemView.findViewById(R.id.item_address_edit);
-            item_select_address_simple=(TextView)itemView.findViewById(R.id.item_select_address_simple);
-            item_address_default_tv=(TextView)itemView.findViewById(R.id.item_address_default_tv);
-            item_select_address=(TextView)itemView.findViewById(R.id.item_select_address);
-            item_address_user_phone=(TextView)itemView.findViewById(R.id.item_address_user_phone);
-            item_address_iv = (ImageView)itemView.findViewById(R.id.item_address_iv);
-            item_address_delete = (TextView)itemView.findViewById(R.id.item_address_delete);
+            item_address_edit = (TextView) itemView.findViewById(R.id.item_address_edit);
+            item_select_address_simple = (TextView) itemView.findViewById(R.id.item_select_address_simple);
+            item_address_default_tv = (TextView) itemView.findViewById(R.id.item_address_default_tv);
+            item_select_address = (TextView) itemView.findViewById(R.id.item_select_address);
+            item_address_user_phone = (TextView) itemView.findViewById(R.id.item_address_user_phone);
+            item_address_iv = (ImageView) itemView.findViewById(R.id.item_address_iv);
+            item_address_delete = (TextView) itemView.findViewById(R.id.item_address_delete);
         }
     }
 
-    public interface AddressDeleteCallback<T>{
-        void  deleteCallback(T t,int position);
+    public interface AddressDeleteCallback<T> {
+        void deleteCallback(T t, int position);
     }
 
     private AddressDeleteCallback deleteCallback;
@@ -143,7 +138,7 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
         this.deleteCallback = callback;
     }
 
-    public interface AddressSelectCallBack<T>{
+    public interface AddressSelectCallBack<T> {
         void onAddressSelectCallBack(T t, int position);
     }
 
@@ -153,13 +148,14 @@ public class AddressManagerAdapter extends RecyclerView.Adapter<AddressManagerAd
         this.selectCallBack = selectCallBack;
     }
 
-    public interface AddressSetDefaultCallback<T>{
-        void onAddressSetDefaultCallBack(T t,int postion);
+    public interface AddressSetDefaultCallback<T> {
+        void onAddressSetDefaultCallBack(T t, int postion);
 
     }
+
     private AddressSetDefaultCallback defaultCallback;
 
-    public void setDefaultCallback(AddressSetDefaultCallback defaultCallback){
+    public void setDefaultCallback(AddressSetDefaultCallback defaultCallback) {
         this.defaultCallback = defaultCallback;
     }
 }

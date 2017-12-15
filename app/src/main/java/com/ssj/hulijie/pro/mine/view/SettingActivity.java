@@ -38,9 +38,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         TitlebarUtil.inittoolBar(this, title_bar_base, true, "设置", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              finish();
+                finish();
             }
-        },null);
+        }, null);
     }
 
     @Override
@@ -50,6 +50,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 SharedUtil.init(this);
 
                 finish();
+                break;
+            default:
                 break;
         }
     }

@@ -93,6 +93,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 login();
                 break;
+            default:
+                break;
         }
     }
 
@@ -102,8 +104,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-
-    private CountDownTimer countDownTimer = new CountDownTimer(60*1000,1000) {
+    private CountDownTimer countDownTimer = new CountDownTimer(60 * 1000, 1000) {
         @Override
         public void onTick(long l) {
             btn_getmsgcode.setClickable(false);
@@ -144,7 +145,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     SharedUtil.setPreferStr(SharedKey.USER_KEY, result.getKey());
                     finish();
 
-                } else if (result != null &&!TextUtils.isEmpty(result.getMsg())) {
+                } else if (result != null && !TextUtils.isEmpty(result.getMsg())) {
                     AppToast.ShowToast(result.getMsg());
                 }
             }

@@ -10,17 +10,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
-import com.ssj.hulijie.pro.firstpage.bean.ItemCategory;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 
 import java.util.List;
 
-import static com.ssj.hulijie.base.HljAppliation.context;
-
 /**
- * Created by Administrator on 2017/9/14.
+ * @author qufa
  */
-
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
 
     private List<ItemCategoryMain.DataBean.RowsBean> lists;
@@ -28,6 +24,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     private Context context;
     private static final String END_SUFFIX = "...";
     private static final int FONT_COUNT = 23;
+
     public CategoryListAdapter(Context context) {
         this.context = context;
     }
@@ -54,12 +51,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         }
         holder.title.setText(goods_name);
         holder.money.setText(data.getPrice());
-        Glide.with(context).load(data.getDefault_image()).crossFade().into(holder.img); //加载图片
+        //加载图片
+        Glide.with(context).load(data.getDefault_image()).crossFade().into(holder.img);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (clicklistener != null) {
-                    clicklistener.setOnItemClickListener(position,data);
+                    clicklistener.setOnItemClickListener(position, data);
                 }
             }
         });
@@ -67,7 +65,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public int getItemCount() {
-        return lists==null?0:lists.size();
+        return lists == null ? 0 : lists.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -83,8 +81,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         }
     }
 
-    public interface ItemOnClickListener<T>{
-        void setOnItemClickListener( int position,T t);
+    public interface ItemOnClickListener<T> {
+        void setOnItemClickListener(int position, T t);
     }
 
     private ItemOnClickListener clicklistener;

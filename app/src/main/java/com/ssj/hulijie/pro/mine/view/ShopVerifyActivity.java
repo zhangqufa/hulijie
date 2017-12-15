@@ -37,19 +37,19 @@ public class ShopVerifyActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initToolBar() {
-        RelativeLayout title_bar_base=(RelativeLayout)findViewById(R.id.title_bar_base);
+        RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
         TitlebarUtil.inittoolBar(this, title_bar_base, true, "商家认证", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
-        },null);
+        }, null);
     }
 
 
     @Override
     public void onClick(View view) {
-        Intent intent =null;
+        Intent intent = null;
 
         switch (view.getId()) {
             case R.id.card_verify:
@@ -58,6 +58,8 @@ public class ShopVerifyActivity extends BaseActivity implements View.OnClickList
 
             case R.id.company_verify:
                 intent = new Intent(this, CompanyVerifyActivity.class);
+                break;
+            default:
                 break;
         }
         if (intent != null) {

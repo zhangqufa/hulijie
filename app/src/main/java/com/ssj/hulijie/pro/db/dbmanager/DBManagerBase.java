@@ -3,9 +3,9 @@ package com.ssj.hulijie.pro.db.dbmanager;
 import java.util.List;
 
 /**
- * Created by vic on 2016/12/2.
+ * @param <T>
+ * @author qufa
  */
-
 public interface DBManagerBase<T> {
 
     /**

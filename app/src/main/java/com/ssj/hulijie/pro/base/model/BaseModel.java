@@ -6,7 +6,7 @@ import com.ssj.hulijie.mvp.model.MvpModel;
 
 
 /**
- * Created by Dream on 16/5/28.
+ * @author qufa
  */
 public abstract class BaseModel implements MvpModel {
 

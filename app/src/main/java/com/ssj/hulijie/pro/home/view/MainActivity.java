@@ -62,18 +62,18 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         fragmentTabHost.setCurrentTab(tab);
     }
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0) {
+
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        if (msg.what == 0) {
 //                firstUserPresent();
-            } else if (msg.what == 1) {
-                int tab = (int) msg.obj;
-                fragmentTabHost.setCurrentTab(tab);
-            }
+        } else if (msg.what == 1) {
+            int tab = (int) msg.obj;
+            fragmentTabHost.setCurrentTab(tab);
         }
-    };
+    }
+
 
     @Override
     protected void onResume() {

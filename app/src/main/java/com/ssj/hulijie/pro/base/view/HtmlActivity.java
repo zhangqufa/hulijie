@@ -13,7 +13,7 @@ import com.ssj.hulijie.utils.AppLog;
 import java.net.URISyntaxException;
 
 /**
- * Created by vic on 2016/8/3.
+ * @author qufa
  */
 public class HtmlActivity extends BaseActivity {
 

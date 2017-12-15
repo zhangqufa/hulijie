@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ssj.hulijie.R;
@@ -20,15 +19,14 @@ import com.ssj.hulijie.utils.ImageUrlFormat;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/7/11.
+ * @author qufa
  */
-
-public class DetailImageAdapter extends RecyclerView.Adapter <DetailImageAdapter.DetailImageViewHolder>{
-   private Context context;
+public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageAdapter.DetailImageViewHolder> {
+    private Context context;
     private List<String> lists;
-    private int width ;
+    private int width;
 
-    public DetailImageAdapter(Context context,int width) {
+    public DetailImageAdapter(Context context, int width) {
         this.context = context;
         this.width = width;
     }
@@ -48,7 +46,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter <DetailImageAdapter
     public void onBindViewHolder(final DetailImageViewHolder holder, int position) {
         String url = lists.get(position);
         final String url_format = ImageUrlFormat.urlFormat(url);
-        AppLog.Log("url_images: "+url_format);
+        AppLog.Log("url_images: " + url_format);
         Glide.with(context)
                 .load(url_format)
                 .asBitmap()
@@ -65,10 +63,11 @@ public class DetailImageAdapter extends RecyclerView.Adapter <DetailImageAdapter
 
     /**
      * 图片 按照ImageView宽度 来动态设置ImageView的高度
+     *
      * @param resource 图片资源
-     * @param iv        图片控件
+     * @param iv       图片控件
      */
-    private void showPic(Bitmap resource,ImageView iv) {
+    private void showPic(Bitmap resource, ImageView iv) {
         int imageWidth = resource.getWidth();
         int imageHeight = resource.getHeight();
         LinearLayout.LayoutParams para = (LinearLayout.LayoutParams) iv.getLayoutParams();
@@ -81,10 +80,10 @@ public class DetailImageAdapter extends RecyclerView.Adapter <DetailImageAdapter
 
     @Override
     public int getItemCount() {
-        return lists==null?0:lists.size();
+        return lists == null ? 0 : lists.size();
     }
 
-    class DetailImageViewHolder extends RecyclerView.ViewHolder{
+    class DetailImageViewHolder extends RecyclerView.ViewHolder {
         private ImageView detail_descript_img;
 
         public DetailImageViewHolder(View itemView) {

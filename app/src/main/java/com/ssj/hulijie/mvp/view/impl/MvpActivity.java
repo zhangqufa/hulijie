@@ -14,7 +14,8 @@ import com.ssj.hulijie.utils.AppManager;
 /**
  * 将我们的MVP架构集成到我们的Activity
  * MvpActivity---是MVP框架的
- * Created by vic on 16/5/26.
+ *
+ * @author qufa
  */
 public abstract class MvpActivity<P extends MvpBasePresenter> extends AppCompatActivity implements MvpView {
 
@@ -36,7 +37,11 @@ public abstract class MvpActivity<P extends MvpBasePresenter> extends AppCompatA
     }
 
 
-    //具体的实现我不知道,我给别人实现
+    /**
+     * 具体的实现我不知道,我给别人实现
+     *
+     * @return
+     */
     public abstract P bindPresenter();
 
     @Override

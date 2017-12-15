@@ -3,6 +3,7 @@ package com.ssj.hulijie.pro.base.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.IdRes;
 
 import com.ssj.hulijie.R;
@@ -10,6 +11,7 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.mvp.view.impl.MvpActivity;
 import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.nohttp.HttpResponseListener;
+import com.ssj.hulijie.utils.MyHandler;
 import com.ssj.hulijie.utils.StatusBarColorUtils;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -22,7 +24,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * BaseActivity---是我们项目的activity
  * Created by Dream on 16/5/26.
  */
-public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivity<P> implements BGASwipeBackHelper.Delegate {
+public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivity<P> implements BGASwipeBackHelper.Delegate, MyHandler.HandlerCallback {
     protected BGASwipeBackHelper mSwipeBackHelper;
     //-------------- NoHttp -----------//
 
@@ -37,6 +39,8 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
      */
     private RequestQueue mQueue;
 
+    protected MyHandler mHandler = new MyHandler(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initSwipeBackFinish();
@@ -44,6 +48,7 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         // 初始化请求队列，传入的参数是请求并发值。
         StatusBarColorUtils.setWindowStatusBarColor(this,R.color.comm_grey_666666);
         mQueue = NoHttp.newRequestQueue(1);
+        mHandler.setHandlerCallback(this);
     }
 
     /**
@@ -169,4 +174,10 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         mSwipeBackHelper.backward();
     }
 
+    /**
+     * 自定义封闭Handler
+     * @param msg
+     */
+    @Override
+    public void handleMessage(Message msg){};
 }

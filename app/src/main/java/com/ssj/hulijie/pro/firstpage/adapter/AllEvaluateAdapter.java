@@ -5,21 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.EvaluateItem;
-import com.ssj.hulijie.pro.msg.bean.MsgListData;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/5/16.
+ * @author qufa
  */
-
 public class AllEvaluateAdapter extends RecyclerView.Adapter<AllEvaluateAdapter.MsgViewHolder> {
     private Context context;
     private List<EvaluateItem> lists;
@@ -48,7 +42,7 @@ public class AllEvaluateAdapter extends RecyclerView.Adapter<AllEvaluateAdapter.
 
     @Override
     public int getItemCount() {
-        return lists == null ?5 : lists.size();
+        return lists == null ? 5 : lists.size();
     }
 
     class MsgViewHolder extends RecyclerView.ViewHolder {
@@ -65,6 +59,12 @@ public class AllEvaluateAdapter extends RecyclerView.Adapter<AllEvaluateAdapter.
     private AllEvaluateAdapter.OnItemClickListener listener;
 
     public interface OnItemClickListener<T> {
+        /**
+         * item点击回调
+         *
+         * @param position
+         * @param data
+         */
         void onItemClick(int position, T data);
     }
 }

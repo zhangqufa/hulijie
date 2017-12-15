@@ -16,9 +16,8 @@ import com.ssj.hulijie.utils.ImageUrlFormat;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/5/14.
+ * @author qufa
  */
-
 public class FirstPageHeaderFourPartAdappter extends RecyclerView.Adapter<FirstPageHeaderFourPartAdappter.FourPartViewHolder> {
 
     private Context context;

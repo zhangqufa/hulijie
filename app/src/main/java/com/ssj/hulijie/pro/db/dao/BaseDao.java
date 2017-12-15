@@ -16,7 +16,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @param <T>
+ * @author qufa
+ */
 public class BaseDao<T> {
     private Class clsTemplate;
     private MyDatabaseHelper helper;

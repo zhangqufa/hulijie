@@ -53,8 +53,9 @@ public class CallServer {
      * 请求队列.
      */
     public synchronized static CallServer getRequestInstance() {
-        if (callServer == null)
+        if (callServer == null) {
             callServer = new CallServer();
+        }
         return callServer;
     }
 
@@ -62,8 +63,9 @@ public class CallServer {
      * 下载队列.
      */
     public static DownloadQueue getDownloadInstance() {
-        if (downloadQueue == null)
+        if (downloadQueue == null) {
             downloadQueue = NoHttp.newDownloadQueue(2);
+        }
         return downloadQueue;
     }
 

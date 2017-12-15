@@ -12,10 +12,8 @@ import com.ssj.hulijie.pro.firstpage.bean.PoiSearchResults;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
 /**
- * Created by vic_zhang .
- * on 2017/3/30
+ * @author qufa
  */
-
 public class AddressAdapter extends BaseRecyclerAdapter<PoiSearchResults> {
 
     private Context context;
@@ -49,8 +47,8 @@ public class AddressAdapter extends BaseRecyclerAdapter<PoiSearchResults> {
 
         public AdressViewHolder(View itemView) {
             super(itemView);
-            address_name= (TextView) itemView.findViewById(R.id.address_name);
-            address_describe= (TextView) itemView.findViewById(R.id.address_describe);
+            address_name = (TextView) itemView.findViewById(R.id.address_name);
+            address_describe = (TextView) itemView.findViewById(R.id.address_describe);
         }
     }
 }
