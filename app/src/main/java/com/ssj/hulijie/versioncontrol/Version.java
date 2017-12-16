@@ -73,4 +73,14 @@ public class Version {
         }
         return verCode;
     }
+
+    public static String getVerName(Context context) {
+        String verName = "";
+        try {
+            verName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("aaa", e.getMessage());
+        }
+        return verName;
+    }
 }

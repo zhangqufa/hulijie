@@ -20,6 +20,7 @@ import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.StringFormat;
+import com.ssj.hulijie.widget.dialog.ConfirmCancelDialog;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -184,9 +185,19 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.mine_contact:
                 //用intent启动拨打电话
+                ConfirmCancelDialog dialog = new ConfirmCancelDialog(getActivity(), new ConfirmCancelDialog.GoOther() {
+                    @Override
+                    public void go() {
+                        // after andrioid m,must request Permiision on runtime
+                        getPersimmions();
+                    }
 
-                // after andrioid m,must request Permiision on runtime
-                getPersimmions();
+                    @Override
+                    public void cancel() {
+
+                    }
+                },"是否拨打客服电话？");
+                dialog.show();
 
                 break;
             case R.id.mine_company_add:

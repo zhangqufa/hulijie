@@ -5,6 +5,26 @@
 
     <include layout="@layout/toolbar" />
 
+    <RelativeLayout
+        android:layout_below="@+id/title_bar_base"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="当前版本"
+            android:textSize="15sp" />
+
+
+
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_logout"
