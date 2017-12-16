@@ -137,8 +137,8 @@ public class UpdateManager {
     private String getServerVer() {
         try {
             String json = "";
-//            URL url = new URL(AppURL.URL_VERSION);
-            URL url =new URL("http://www.51pangpang.top/api/json.php");
+            URL url = new URL(AppURL.URL_VERSION);
+//            URL url =new URL("http://www.51pangpang.top/api/json.php");
             HttpURLConnection httpConnection = (HttpURLConnection) url
                     .openConnection();
             httpConnection.setDoInput(true);
