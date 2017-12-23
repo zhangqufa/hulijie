@@ -64,6 +64,9 @@ public class ServiceActivity extends BaseActivity {
                     intent = new Intent(ServiceActivity.this, ServiceTempPicActivity.class);
                     intent.putExtra("flag", ServiceTempPicActivity.MINE_EVALUATE);
                     break;
+                case 4:
+                    intent = new Intent(ServiceActivity.this, AcceptOrderListActivity.class);
+                    break;
                     default:
                         break;
             }
@@ -76,10 +79,13 @@ public class ServiceActivity extends BaseActivity {
     private List<String> getData() {
 
         List<String> lists = new ArrayList<>();
+
         lists.add("我的服务");
         lists.add("我的订单");
         lists.add("我的收入");
         lists.add("我的评价");
+        lists.add("接单列表");
+
         return lists;
     }
 
