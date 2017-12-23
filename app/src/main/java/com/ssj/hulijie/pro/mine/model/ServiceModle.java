@@ -29,7 +29,7 @@ public class ServiceModle extends BaseModel {
         Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
         request.add("page", page);
         request.add("pagesize", pagesize);
-        CallServer.getRequestInstance().add(content, 0, request, httpListener, true, true);
+        CallServer.getRequestInstance().add(content, 0, request, httpListener, true, false);
 
     }
 }
