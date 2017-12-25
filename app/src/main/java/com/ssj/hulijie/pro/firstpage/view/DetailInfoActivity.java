@@ -60,6 +60,7 @@ import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.PictureUtil;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
+import com.ssj.hulijie.utils.StringFormat;
 import com.ssj.hulijie.utils.WxUtil;
 import com.ssj.hulijie.utils.compresspic.CompressImageLister;
 import com.ssj.hulijie.utils.compresspic.CompressImageTask;

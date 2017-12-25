@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
+import com.ssj.hulijie.utils.StringFormat;
 import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
 /**
@@ -41,10 +42,7 @@ public class FirstPageMainListAdapter extends BaseRecyclerAdapter<ItemCategoryMa
         if (viewHolder instanceof FirstPageMainListViewHolder) {
             FirstPageMainListViewHolder vh = (FirstPageMainListViewHolder) viewHolder;
             String goods_name = data.getGoods_name();
-            if (goods_name.length() > FONT_COUNT) {
-                goods_name = goods_name.substring(0, FONT_COUNT) + END_SUFFIX;
-            }
-            vh.title.setText(goods_name);
+            vh.title.setText(StringFormat.toMore(goods_name,FONT_COUNT));
             vh.sub_title.setText(data.getTxt());
             vh.money.setText(data.getPrice());
             //加载图片

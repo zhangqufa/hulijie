@@ -31,7 +31,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:lines="1"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:text="卫浴洁具安装"
                 android:textColor="#060606"
                 android:textSize="18sp" />

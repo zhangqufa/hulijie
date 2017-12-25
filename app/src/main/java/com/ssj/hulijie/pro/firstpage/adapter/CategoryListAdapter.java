@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
+import com.ssj.hulijie.utils.StringFormat;
 
 import java.util.List;
 
@@ -46,10 +47,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
         final ItemCategoryMain.DataBean.RowsBean data = lists.get(position);
         String goods_name = data.getGoods_name();
-        if (goods_name.length() > FONT_COUNT) {
-            goods_name = goods_name.substring(0, FONT_COUNT) + END_SUFFIX;
-        }
-        holder.title.setText(goods_name);
+        holder.title.setText(StringFormat.toMore(goods_name,FONT_COUNT));
         holder.money.setText(data.getPrice());
         //加载图片
         Glide.with(context).load(data.getDefault_image()).crossFade().into(holder.img);

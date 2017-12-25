@@ -30,6 +30,7 @@ import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DateUtil;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
+import com.ssj.hulijie.utils.StringFormat;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.text.ParseException;
@@ -114,7 +115,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private void updateUI() {
         if (detail != null) {
             Glide.with(this).load(detail.getDefault_image()).into(order_img);
-            order_title.setText(detail.getGoods_name());
+            order_title.setText(StringFormat.toMore(detail.getGoods_name(), 23));
             order_price.setText("￥" + detail.getPrice());
             order_price_total.setText("￥" + detail.getPrice());
 

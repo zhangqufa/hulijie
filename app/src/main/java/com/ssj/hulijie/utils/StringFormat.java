@@ -24,4 +24,15 @@ public class StringFormat {
         return mobile;
     }
 
+    public static String toMore(String string, int count) {
+        if (TextUtils.isEmpty(string)) {
+            return "";
+        }
+        if (string.length() > count) {
+            string = string.substring(0, count) + "...";
+
+        }
+        return string;
+    }
+
 }
