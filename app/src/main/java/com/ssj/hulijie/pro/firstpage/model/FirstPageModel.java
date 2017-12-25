@@ -48,7 +48,7 @@ public class FirstPageModel extends BaseModel {
         request.add("cate_id", cate_id);
         request.add("keywords", keywords);
         request.add("page", page);
-        CallServer.getRequestInstance().add(activity, 0, request, httpListener, true, true);
+        CallServer.getRequestInstance().add(activity, 0, request, httpListener, true, false);
     }
 
     public void getAccessInfo(BaseActivity context, String user_id, String key, HttpListener<JSONObject> listener) {
