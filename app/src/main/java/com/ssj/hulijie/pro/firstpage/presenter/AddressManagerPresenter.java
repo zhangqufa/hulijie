@@ -70,9 +70,10 @@ public class AddressManagerPresenter extends BasePresenter<AddressManagerModel> 
         });
     }
 
-    public void addAddressPresenter(BaseActivity content, String region_name, String address, String phone_mob, String user_id, String addr_id,int default_addr,
+    public void addAddressPresenter(BaseActivity content, String region_name, String address, String phone_mob, String user_id,
+                                    String addr_id,int default_addr,double latitude,double longitude,
         final OnUIThreadListener<Boolean> onUIThreadListener) {
-        getModel().addAddressModel(content, region_name,address,phone_mob,user_id,addr_id,default_addr, new HttpListener<JSONObject>() {
+        getModel().addAddressModel(content, region_name,address,phone_mob,user_id,addr_id,default_addr,latitude,longitude, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();

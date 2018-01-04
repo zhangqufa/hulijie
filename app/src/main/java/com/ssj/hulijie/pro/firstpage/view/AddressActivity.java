@@ -145,6 +145,7 @@ public class AddressActivity extends BaseActivity {
                 return;
             }
             poiSearchResults = data;
+            AppLog.Log("poiSearchResults:" + poiSearchResults.toString());
             et_address.removeTextChangedListener(listener);
             isTextWatcher = false;
             et_address.setText(data.getMname());
@@ -189,12 +190,14 @@ public class AddressActivity extends BaseActivity {
         }
 
         ((AddressManagerPresenter) presenter).addAddressPresenter(this
-                , poiSearchResults==null?"":poiSearchResults.getMaddress()
+                , poiSearchResults == null ? "" : poiSearchResults.getMaddress()
                 , et_address.getText().toString() + " " + et_meng.getText().toString()
                 , SharedUtil.getPreferStr(SharedKey.USER_MOBILE)
                 , SharedUtil.getPreferStr(SharedKey.USER_ID)
-                , addressItem==null? "" : addressItem.getAddr_id()
-                ,1
+                , addressItem == null ? "" : addressItem.getAddr_id()
+                , 1
+                , poiSearchResults.getMlatitude()
+                , poiSearchResults.getMlongitude()
                 , new BasePresenter.OnUIThreadListener<Boolean>() {
                     @Override
                     public void onResult(Boolean result) {

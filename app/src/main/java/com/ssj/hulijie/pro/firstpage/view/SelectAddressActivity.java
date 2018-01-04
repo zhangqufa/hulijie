@@ -127,6 +127,8 @@ public class SelectAddressActivity extends BaseActivity {
                 , SharedUtil.getPreferStr(SharedKey.USER_ID)
                 , o.getAddr_id()
                 , 1
+                , o.getLatitude()
+                , o.getLongitude()
                 , new BasePresenter.OnUIThreadListener<Boolean>() {
                     @Override
                     public void onResult(Boolean result) {

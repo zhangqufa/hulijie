@@ -21,36 +21,23 @@ public class AddressItem implements Parcelable{
     private String address;
     private String phone_mob;
     private int default_addr;
+    private double latitude;
+    private double longitude;
+
+    @Override
+    public String toString() {
+        return "AddressItem{" +
+                "addr_id='" + addr_id + '\'' +
+                ", region_name='" + region_name + '\'' +
+                ", address='" + address + '\'' +
+                ", phone_mob='" + phone_mob + '\'' +
+                ", default_addr=" + default_addr +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 
     public AddressItem() {
-    }
-
-    protected AddressItem(Parcel in) {
-        addr_id = in.readString();
-        region_name = in.readString();
-        address = in.readString();
-        phone_mob = in.readString();
-        default_addr = in.readInt();
-    }
-
-    public static final Creator<AddressItem> CREATOR = new Creator<AddressItem>() {
-        @Override
-        public AddressItem createFromParcel(Parcel in) {
-            return new AddressItem(in);
-        }
-
-        @Override
-        public AddressItem[] newArray(int size) {
-            return new AddressItem[size];
-        }
-    };
-
-    public int getDefault_addr() {
-        return default_addr;
-    }
-
-    public void setDefault_addr(int default_addr) {
-        this.default_addr = default_addr;
     }
 
     public String getAddr_id() {
@@ -85,15 +72,49 @@ public class AddressItem implements Parcelable{
         this.phone_mob = phone_mob;
     }
 
+    public int getDefault_addr() {
+        return default_addr;
+    }
+
+    public void setDefault_addr(int default_addr) {
+        this.default_addr = default_addr;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    protected AddressItem(Parcel in) {
+        addr_id = in.readString();
+        region_name = in.readString();
+        address = in.readString();
+        phone_mob = in.readString();
+        default_addr = in.readInt();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+    }
+
     @Override
-    public String toString() {
-        return "AddressItem{" +
-                "addr_id='" + addr_id + '\'' +
-                ", region_name='" + region_name + '\'' +
-                ", address='" + address + '\'' +
-                ", phone_mob='" + phone_mob + '\'' +
-                ", default_addr =" + default_addr +
-                '}';
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(addr_id);
+        dest.writeString(region_name);
+        dest.writeString(address);
+        dest.writeString(phone_mob);
+        dest.writeInt(default_addr);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
     }
 
     @Override
@@ -101,12 +122,15 @@ public class AddressItem implements Parcelable{
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(addr_id);
-        parcel.writeString(region_name);
-        parcel.writeString(address);
-        parcel.writeString(phone_mob);
-        parcel.writeInt(default_addr);
-    }
+    public static final Creator<AddressItem> CREATOR = new Creator<AddressItem>() {
+        @Override
+        public AddressItem createFromParcel(Parcel in) {
+            return new AddressItem(in);
+        }
+
+        @Override
+        public AddressItem[] newArray(int size) {
+            return new AddressItem[size];
+        }
+    };
 }

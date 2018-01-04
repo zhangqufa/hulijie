@@ -1,4 +1,4 @@
-package com.ssj.hulijie.pro.mine.view;
+package com.ssj.hulijie.pro.mine.view.seller;
 
 import android.os.Bundle;
 import android.widget.ImageView;

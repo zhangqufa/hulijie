@@ -35,7 +35,8 @@ public class AddressManagerModel extends BaseModel {
     }
 
     public void addAddressModel(BaseActivity content, String region_name
-            , String address, String phone_mob, String user_id, String addr_id,int default_addr,HttpListener<JSONObject> httpListener) {
+            , String address, String phone_mob, String user_id, String addr_id,int default_addr,
+                                double latitude,double longitude, HttpListener<JSONObject> httpListener) {
         String url = AppURL.URL_EDIT_ADDRESS;
         Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
         request.add("region_name", region_name);
@@ -44,6 +45,8 @@ public class AddressManagerModel extends BaseModel {
         request.add("user_id", user_id);
         request.add("addr_id", addr_id);
         request.add("default_addr", default_addr);
+        request.add("latitude", latitude);
+        request.add("longitiude", longitude);
         CallServer.getRequestInstance().add(content,0,request,httpListener,true,true);
 
     }

@@ -1,12 +1,10 @@
-package com.ssj.hulijie.pro.mine.view;
+package com.ssj.hulijie.pro.mine.view.seller;
 
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -15,7 +13,6 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -23,8 +20,6 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.firstpage.view.location.LocationActivity;
-import com.ssj.hulijie.pro.firstpage.view.widget.MyItemDecoration;
 import com.ssj.hulijie.pro.mine.adapter.ServiceOrderListAdapter;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceOrderList;
 import com.ssj.hulijie.pro.mine.presenter.ServicePresenter;

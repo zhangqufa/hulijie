@@ -12,6 +12,8 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.mine.adapter.ServiceAdapter;
+import com.ssj.hulijie.pro.mine.view.seller.AcceptOrderListActivity;
+import com.ssj.hulijie.pro.mine.view.seller.ServiceTempPicActivity;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.ArrayList;
