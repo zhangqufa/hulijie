@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -102,8 +101,10 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     for (int i = 0; i < result.size(); i++) {
                         if (result.get(i).getDefault_addr() == 1) {
                             order_address.setText(result.get(i).getAddress());
+                            addressId = result.get(i).getAddr_id();
                         } else {
                             order_address.setText(result.get(0).getAddress());
+                            addressId = result.get(i).getAddr_id();
                         }
                     }
 
@@ -368,7 +369,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrder_goods_price(detail.getPrice());
                 orderItem.setOrder_amount(order_buy_count.getText().toString());
-                orderItem.setOrder_address( address);
+                orderItem.setOrder_address_id(addressId);
                 orderItem.setOrder_goods_id(detail.getGoods_id());
                 orderItem.setOrder_mark(et_mark.getText().toString());
                 orderItem.setOrder_user_name(name);
@@ -473,6 +474,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         order_price_total.setText("￥" + v);
     }
 
+    private String addressId;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -480,6 +482,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             AddressItem addressItem = data.getParcelableExtra("addressItem");
             if (addressItem != null) {
                 order_address.setText(addressItem.getAddress());
+                addressId = addressItem.getAddr_id();
 
             }
         } else if (requestCode == TOPAYREQ && resultCode == RESULT_OK) {

@@ -116,6 +116,7 @@ public class AcceptOrderListActivity extends BaseActivity {
             if (sellerPoint == null) {
                 sellerPoint = new LatLng(arg0.getLatitude(),arg0.getLongitude());
             }
+            adapter.setsellerPoint(sellerPoint);
             mLocationClient.unRegisterLocationListener(mMyLocationListener);
         }
 

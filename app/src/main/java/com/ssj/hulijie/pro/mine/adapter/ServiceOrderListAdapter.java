@@ -9,12 +9,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceOrderList;
+import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.DateUtil;
 import com.ssj.hulijie.utils.StringFormat;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -26,6 +30,8 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
 
     private Context context;
 
+    private LatLng sellerLatLng;
+
     private List<ItemServiceOrderList.DataBean.RowsBean> lists;
 
     public ServiceOrderListAdapter(Context context) {
@@ -34,6 +40,11 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
 
     public void setLists(List<ItemServiceOrderList.DataBean.RowsBean> lists) {
         this.lists = lists;
+        notifyDataSetChanged();
+    }
+
+    public void setsellerPoint(LatLng sellerLatLng) {
+        this.sellerLatLng = sellerLatLng;
         notifyDataSetChanged();
     }
 
@@ -75,6 +86,33 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
                 }
             }
         });
+
+        double latitude = rowsBean.getLatitude();
+        double longitude = rowsBean.getLongitude();
+        AppLog.Log("latitude: " + latitude + "  ,longitude:" + longitude);
+        /**
+         * 计算两坐标的距离
+         *
+         * @param s
+         * @param e
+         */
+        LatLng s = new LatLng(latitude, longitude);
+        double distance = DistanceUtil.getDistance(s, sellerLatLng);
+        if (distance > 1000) {
+            distance = distance / 1000;
+            String format = new DecimalFormat("#.00").format(distance);
+            AppLog.Log("长度:" + format);
+            holder.item_service_addr_distance.setText("距离"+format+"km");
+        } else {
+            String format = new DecimalFormat("#.00").format(distance);
+            AppLog.Log("长度:" + format);
+            holder.item_service_addr_distance.setText("距离"+format+"m");
+        }
+
+
+
+
+
     }
 
     @Override
@@ -90,6 +128,7 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
         private TextView item_service_addr;
         private TextView item_moeny;
         private TextView item_user;
+        private TextView item_service_addr_distance;
         private Button btn_accept;
 
         public ViewHolder(View itemView) {
@@ -97,6 +136,7 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
             item_img = (ImageView) itemView.findViewById(R.id.item_img);
             item_title = (TextView) itemView.findViewById(R.id.item_title);
             item_user = (TextView) itemView.findViewById(R.id.item_user);
+            item_service_addr_distance = (TextView) itemView.findViewById(R.id.item_service_addr_distance);
             item_service_time = (TextView) itemView.findViewById(R.id.item_service_time);
             item_service_addr = (TextView) itemView.findViewById(R.id.item_service_addr);
             item_moeny = (TextView) itemView.findViewById(R.id.item_moeny);

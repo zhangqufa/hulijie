@@ -18,8 +18,6 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.alipay.OrderInfoUtil2_0;
 import com.ssj.hulijie.alipay.PayResult;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
-import com.ssj.hulijie.nohttp.CallServer;
-import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.OrderItem;
@@ -34,10 +32,6 @@ import com.ssj.hulijie.wxapi.WxUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.yanzhenjie.nohttp.NoHttp;
-import com.yanzhenjie.nohttp.RequestMethod;
-import com.yanzhenjie.nohttp.rest.Request;
-import com.yanzhenjie.nohttp.rest.Response;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -308,7 +302,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         String goods_id=orderItem.getOrder_goods_id();
        String amount=orderItem.getOrder_amount();
         String mobile=orderItem.getOrder_phone();
-        String service_address=orderItem.getOrder_address();
+        String service_address=orderItem.getOrder_address_id();
         String buyer_name=orderItem.getOrder_user_name();
         long service_time=orderItem.getOrder_time();
         String remark=orderItem.getOrder_mark();

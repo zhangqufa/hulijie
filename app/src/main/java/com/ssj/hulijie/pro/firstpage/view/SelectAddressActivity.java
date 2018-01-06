@@ -164,10 +164,10 @@ public class SelectAddressActivity extends BaseActivity {
         presenter.deleteAddressPresenter(SelectAddressActivity.this, SharedUtil.getPreferStr(SharedKey.USER_ID), addressItem.getAddr_id(), new BasePresenter.OnUIThreadListener<Boolean>() {
             @Override
             public void onResult(Boolean result) {
-//                    lists.remove(position);
-//                    adapter.notifyItemChanged(position);
-                if (result != null && result)
-                    initData();
+                    lists.remove(position);
+                    adapter.notifyItemChanged(position);
+//                if (result != null && result)
+//                    initData();
             }
         });
     }

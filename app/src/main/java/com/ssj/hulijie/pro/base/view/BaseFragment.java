@@ -8,17 +8,15 @@ import android.view.ViewGroup;
 
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.mvp.view.impl.MvpFragment;
-import com.ssj.hulijie.utils.MyHandler;
 
 
 /**
  * @author qufa
  */
-public abstract class BaseFragment<P extends MvpBasePresenter> extends MvpFragment<P> implements MyHandler.HandlerCallback {
+public abstract class BaseFragment<P extends MvpBasePresenter> extends MvpFragment<P>  {
     //我们自己的Fragment需要缓存视图
     private View viewContent;
     private boolean isInit;
-    protected MyHandler mHandler = new MyHandler(getActivity());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +31,6 @@ public abstract class BaseFragment<P extends MvpBasePresenter> extends MvpFragme
             //如果存在,那么我就干掉,重写添加,这样的方式我们就可以缓存视图
             parent.removeView(viewContent);
         }
-        mHandler.setHandlerCallback(this);
         return viewContent;
     }
 
@@ -61,8 +58,4 @@ public abstract class BaseFragment<P extends MvpBasePresenter> extends MvpFragme
     public abstract void initContentView(View viewContent);
 
 
-    @Override
-    public void handleMessage(Message msg) {
-
-    }
 }

@@ -46,7 +46,7 @@ public class AddressManagerModel extends BaseModel {
         request.add("addr_id", addr_id);
         request.add("default_addr", default_addr);
         request.add("latitude", latitude);
-        request.add("longitiude", longitude);
+        request.add("longitude", longitude);
         CallServer.getRequestInstance().add(content,0,request,httpListener,true,true);
 
     }

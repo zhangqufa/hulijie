@@ -73,7 +73,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by Administrator on 2017/3/26.
  */
 
-public class FirstPageFrament extends BaseFragment implements View.OnClickListener {
+public class FirstPageFrament extends BaseFragment implements View.OnClickListener, MyHandler.HandlerCallback {
 
     private MainActivity context;
     private PtrClassicFrameLayout ptr;  //ptr refresh widget
@@ -116,6 +116,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private AVLoadingIndicatorView footer_animater;
     // 要申请的权限
 
+    private MyHandler mHandler;
+
     @Override
     public int getContentView() {
         return R.layout.frag_one;
@@ -124,6 +126,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     @Override
     public void initContentView(View viewContent) {
         context = (MainActivity) getActivity();
+        mHandler = new MyHandler(context);
+        mHandler.setHandlerCallback(this);
         //外层header
         ll_out = (LinearLayout) viewContent.findViewById(R.id.ll_out);
         location_tv_out = (TextView) ll_out.findViewById(R.id.location_tv);
@@ -417,7 +421,6 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
 
 
     private boolean isNeedFresh = true;
-
 
 
     @Override

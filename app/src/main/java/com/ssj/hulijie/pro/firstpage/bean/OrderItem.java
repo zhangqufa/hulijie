@@ -10,7 +10,7 @@ import android.os.Parcelable;
 public class OrderItem  implements Parcelable{
     private String order_goods_id;
     private String order_amount;
-    private String order_address;
+    private String order_address_id;
     private long order_time;
     private String order_user_name;
     private String order_phone;
@@ -25,7 +25,7 @@ public class OrderItem  implements Parcelable{
     protected OrderItem(Parcel in) {
         order_goods_id = in.readString();
         order_amount = in.readString();
-        order_address = in.readString();
+        order_address_id = in.readString();
         order_time = in.readLong();
         order_user_name = in.readString();
         order_phone = in.readString();
@@ -38,7 +38,7 @@ public class OrderItem  implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(order_goods_id);
         dest.writeString(order_amount);
-        dest.writeString(order_address);
+        dest.writeString(order_address_id);
         dest.writeLong(order_time);
         dest.writeString(order_user_name);
         dest.writeString(order_phone);
@@ -88,12 +88,12 @@ public class OrderItem  implements Parcelable{
         this.order_amount = order_amount;
     }
 
-    public String getOrder_address() {
-        return order_address;
+    public String getOrder_address_id() {
+        return order_address_id;
     }
 
-    public void setOrder_address(String order_address) {
-        this.order_address = order_address;
+    public void setOrder_address_id(String order_address_id) {
+        this.order_address_id = order_address_id;
     }
 
     public long getOrder_time() {
