@@ -32,4 +32,12 @@ public class ServiceModle extends BaseModel {
         CallServer.getRequestInstance().add(content, 0, request, httpListener, true, false);
 
     }
+
+    public void serviceGetOrderModel(BaseActivity content, String order_id, String user_id, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_ORDER_SERVICE_GETORDER;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("order_id", order_id);
+        request.add("user_id", user_id);
+        CallServer.getRequestInstance().add(content, 0, request, httpListener, true, true);
+    }
 }

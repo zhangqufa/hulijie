@@ -20,7 +20,6 @@ import com.ssj.hulijie.pro.firstpage.adapter.CategoryListAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainHeaderList;
 import com.ssj.hulijie.pro.firstpage.presenter.FirstPagePresenter;
-import com.ssj.hulijie.pro.mine.view.ServiceActivity;
 import com.ssj.hulijie.utils.RefreshStatues;
 import com.ssj.hulijie.utils.TitlebarUtil;
 

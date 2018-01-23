@@ -2,6 +2,7 @@ package com.ssj.hulijie.pro.mine.view.seller;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,8 @@ import com.ssj.hulijie.pro.mine.presenter.ServicePresenter;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.RefreshStatues;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -38,7 +41,7 @@ import java.util.List;
  *         on 2017/12/23
  */
 
-public class AcceptOrderListActivity extends BaseActivity {
+public class ServiceAcceptOrderListActivity extends BaseActivity {
     private ServiceOrderListAdapter adapter;
     private ServicePresenter presenter;
     private int page = 1;
@@ -201,9 +204,29 @@ public class AcceptOrderListActivity extends BaseActivity {
     private ServiceOrderListAdapter.OnItemClickListener<ItemServiceOrderList.DataBean.RowsBean> item_click = new ServiceOrderListAdapter.OnItemClickListener<ItemServiceOrderList.DataBean.RowsBean>() {
         @Override
         public void onItemClick(int position, ItemServiceOrderList.DataBean.RowsBean data) {
+            //接单
+            getOrder(position,data);
             AppToast.ShowToast("position: " + position);
         }
     };
+
+    /**
+     * 商家抢单
+     * @param position
+     * @param data
+     */
+    private void getOrder(final int position, ItemServiceOrderList.DataBean.RowsBean data) {
+        presenter.serviceGetOrderPresenter(this, data.getOrder_id(), SharedUtil.getPreferStr(SharedKey.USER_ID), new BasePresenter.OnUIThreadListener<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+                if (result) {
+                    lists.remove(position);
+                    adapter.notifyDataSetChanged();
+                    startActivity(new Intent(ServiceAcceptOrderListActivity.this, ServiceOrderListActivity.class));
+                }
+            }
+        });
+    }
 
 
     private void getData(final RefreshStatues statues) {
@@ -268,9 +291,9 @@ public class AcceptOrderListActivity extends BaseActivity {
             // 权限申请失败回调。
 
             // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
-            if (AndPermission.hasAlwaysDeniedPermission(AcceptOrderListActivity.this, deniedPermissions)) {
+            if (AndPermission.hasAlwaysDeniedPermission(ServiceAcceptOrderListActivity.this, deniedPermissions)) {
                 // 第一种：用默认的提示语。
-                AndPermission.defaultSettingDialog(AcceptOrderListActivity.this, SDK_PERMISSION_REQUEST).show();
+                AndPermission.defaultSettingDialog(ServiceAcceptOrderListActivity.this, SDK_PERMISSION_REQUEST).show();
             }
         }
     };

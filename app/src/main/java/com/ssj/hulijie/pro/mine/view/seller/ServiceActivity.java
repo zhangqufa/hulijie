@@ -1,4 +1,4 @@
-package com.ssj.hulijie.pro.mine.view;
+package com.ssj.hulijie.pro.mine.view.seller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,6 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.mine.adapter.ServiceAdapter;
-import com.ssj.hulijie.pro.mine.view.seller.AcceptOrderListActivity;
-import com.ssj.hulijie.pro.mine.view.seller.ServiceTempPicActivity;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.ArrayList;
@@ -40,12 +38,13 @@ public class ServiceActivity extends BaseActivity {
 
     private void initView() {
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
-        ServiceAdapter adapter = new ServiceAdapter(this,getData());
+        ServiceAdapter adapter = new ServiceAdapter(this, getData());
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rv.setAdapter(adapter);
         adapter.setListener(itemOnclickListener);
     }
+
     private ServiceAdapter.ItemOnclickListener itemOnclickListener = new ServiceAdapter.ItemOnclickListener() {
         @Override
         public void onItemClickLisener(int position) {
@@ -55,8 +54,7 @@ public class ServiceActivity extends BaseActivity {
 
                     break;
                 case 1:
-                    intent = new Intent(ServiceActivity.this, ServiceTempPicActivity.class);
-                    intent.putExtra("flag", ServiceTempPicActivity.MINE_ORDER);
+                    intent = new Intent(ServiceActivity.this, ServiceOrderListActivity.class);
                     break;
                 case 2:
                     intent = new Intent(ServiceActivity.this, ServiceTempPicActivity.class);
@@ -67,10 +65,10 @@ public class ServiceActivity extends BaseActivity {
                     intent.putExtra("flag", ServiceTempPicActivity.MINE_EVALUATE);
                     break;
                 case 4:
-                    intent = new Intent(ServiceActivity.this, AcceptOrderListActivity.class);
+                    intent = new Intent(ServiceActivity.this, ServiceAcceptOrderListActivity.class);
                     break;
-                    default:
-                        break;
+                default:
+                    break;
             }
             if (intent != null) {
                 startActivity(intent);

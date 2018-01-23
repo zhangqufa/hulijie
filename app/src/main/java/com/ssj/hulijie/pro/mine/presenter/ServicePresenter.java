@@ -10,6 +10,7 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceOrderList;
 import com.ssj.hulijie.pro.mine.model.ServiceModle;
 import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.utils.Constant;
 import com.yanzhenjie.nohttp.rest.Response;
 
 /**
@@ -51,6 +52,39 @@ public class ServicePresenter extends BasePresenter<ServiceModle> {
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
                 onUIThreadListener.onResult(null);
+            }
+        });
+    }
+
+    public void serviceGetOrderPresenter(BaseActivity activity, String order_id, String user_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().serviceGetOrderModel(activity, order_id, user_id, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("商家抢单： " + jsonObject.toString());
+
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (Constant.SUCCESS_CODE == code) {
+                            onUIThreadListener.onResult(true);
+                        } else {
+                            onUIThreadListener.onResult(false);
+                        }
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(false);
+
+                    }
+                } else {
+                    onUIThreadListener.onResult(false);
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(false);
             }
         });
     }

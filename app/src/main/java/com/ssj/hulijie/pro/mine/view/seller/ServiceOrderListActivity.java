@@ -1,4 +1,4 @@
-package com.ssj.hulijie.pro.mine.view;
+package com.ssj.hulijie.pro.mine.view.seller;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,12 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by vic_zhang .
- * on 2017/7/19
+ * @author vic_zhang .
+ *         on 2018/1/23
  */
 
-public class MineOrderListActivity extends BaseActivity {
-
+public class ServiceOrderListActivity extends BaseActivity {
     public static final String DEFAULT_PAGE = "default_page";
     private TabPageIndicator mTabTl;
     private ViewPager mContentVp;
@@ -76,13 +75,13 @@ public class MineOrderListActivity extends BaseActivity {
 
     private void initContent() {
         tabIndicators = new ArrayList<>();
-        tabIndicators.add("未完成");
+        tabIndicators.add("进行中");
         tabIndicators.add("已完成");
-        tabIndicators.add("待评价");
+        tabIndicators.add("已取消");
         tabIndicators.add("全部订单");
         tabFragments = new ArrayList<>();
         for (String s : tabIndicators) {
-            tabFragments.add(OrderListFragment.newInstance(s));
+            tabFragments.add(ServiceOrderListFragment.newInstance(s));
         }
         contentAdapter = new ContentPagerAdapter(getSupportFragmentManager());
         mContentVp.setAdapter(contentAdapter);
@@ -101,7 +100,7 @@ public class MineOrderListActivity extends BaseActivity {
 
     private void initToolBar() {
         RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
-        TitlebarUtil.inittoolBar(this, title_bar_base, true, "我的订单", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
+        TitlebarUtil.inittoolBar(this, title_bar_base, true, "商家的订单", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -131,5 +130,4 @@ public class MineOrderListActivity extends BaseActivity {
             return tabIndicators.get(position);
         }
     }
-
 }

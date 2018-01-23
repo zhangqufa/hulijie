@@ -88,10 +88,13 @@
             android:name=".pro.firstpage.view.SearchActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name=".pro.mine.view.seller.AcceptOrderListActivity"
+            android:name=".pro.mine.view.seller.ServiceAcceptOrderListActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".pro.firstpage.view.CheckAllEvaluateActivity"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".pro.mine.view.seller.ServiceOrderListActivity"
             android:theme="@style/AppTheme.Transparent" />
 
         <activity
@@ -152,7 +155,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name=".pro.mine.view.ServiceActivity"
+            android:name=".pro.mine.view.seller.ServiceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity

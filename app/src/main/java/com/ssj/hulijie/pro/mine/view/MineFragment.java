@@ -17,6 +17,7 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.view.SelectAddressActivity;
 import com.ssj.hulijie.pro.home.view.MainActivity;
+import com.ssj.hulijie.pro.mine.view.seller.ServiceActivity;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.StringFormat;
@@ -85,7 +86,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         viewContent.findViewById(R.id.mine_wait_evaluate).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_all_order).setOnClickListener(this);
         viewContent.findViewById(R.id.btn_go_server).setOnClickListener(this);
-        mine_logout =(RelativeLayout) viewContent.findViewById(R.id.mine_logout);
+        mine_logout = (RelativeLayout) viewContent.findViewById(R.id.mine_logout);
 
 
         mine_logout.setOnClickListener(this);
@@ -196,7 +197,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     public void cancel() {
 
                     }
-                },"是否拨打客服电话？");
+                }, "是否拨打客服电话？");
                 dialog.show();
 
                 break;
@@ -254,7 +255,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             case R.id.mine_logout:
                 intent = new Intent(getContext(), SettingActivity.class);
                 break;
-            default:break;
+            default:
+                break;
         }
 
         if (intent == null) {
