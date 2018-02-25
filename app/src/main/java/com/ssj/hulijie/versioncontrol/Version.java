@@ -14,7 +14,7 @@ public class Version {
      * status : 1
      * content : 测试版本，全功能上线
      * url : 555555555
-     * verName : 消防管理1.0.0.0
+     * verName : 1.0.0.0
      * verCode : 1
      */
 

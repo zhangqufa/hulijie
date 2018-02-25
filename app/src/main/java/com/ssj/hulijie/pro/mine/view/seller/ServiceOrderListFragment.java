@@ -22,6 +22,7 @@ import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.mine.adapter.OrderListAdapter;
 import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
 import com.ssj.hulijie.pro.mine.presenter.OrderListPresenter;
+import com.ssj.hulijie.pro.mine.presenter.ServicePresenter;
 import com.ssj.hulijie.pro.mine.view.OrderItemDetailActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.RefreshStatues;
@@ -43,7 +44,7 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
     private int times;
     private List<ItemOrderResp.DataBean.RowsBean> lists = new ArrayList<>();
     private int page = 1;
-    private OrderListPresenter presenter;
+    private ServicePresenter presenter;
     private OrderType currentType = OrderType.DOING;
     private OrderListAdapter adapter;
     private View text_empty;
@@ -54,7 +55,7 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
     }
 
     /**
-     * 1：进行中 2：已完成 3：已取消 0:全部订单
+     * 1：进行中 2：已完成 3：待评价 0:全部订单
      */
     enum OrderType {
         DOING(1), FINISH(2), CANCEL(3), ALL(0);
@@ -71,8 +72,8 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
     }
 
     @Override
-    public MvpBasePresenter bindPresenter() {
-        presenter = new OrderListPresenter(getActivity());
+    public ServicePresenter bindPresenter() {
+        presenter = new ServicePresenter(getActivity());
         return presenter;
     }
 
@@ -168,7 +169,6 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
         public void onItemRightClick(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
             //去付款
             if (getString(R.string.order_immediately_pay).equals(status)) {
-                toPay(position, status, data);
             }
         }
 
@@ -244,33 +244,24 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
         payThread.start();
     }
 
-    /**
-     * 获取订单签名 并支付
-     *
-     * @param position
-     * @param status
-     * @param data
-     */
-    private void toPay(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
-        presenter.getOrderSingPresenter((BaseActivity) getActivity(), data.getOrder_id(), SharedUtil.getPreferStr(SharedKey.USER_ID), new BasePresenter.OnUIThreadListener<String>() {
-            @Override
-            public void onResult(String result) {
-                if (!TextUtils.isEmpty(result)) {
-                    callApliy(result);
-                }
-
-            }
-        });
-    }
 
 
     /**
-     * 1：进行中 2：已完成 3：已取消 0:全部订单
+     * 1：进行中 2：已完成 3：待评价 0:全部订单
+     *  第三列已取消 中 进行中筛选出来 已取消的数据
+     *  订单状态：
+     0 取消订单  --未完成
+     11 等待买家付款 --未完成
+     20 买家已付款 --未完成
+     30 商家已服务  --待评价
+     40 交易成功 --已完成
+     3 退款中 --未完成
+     4 已退款 --未完成
      *
      * @param statues
      */
     private void getData(final RefreshStatues statues) {
-        presenter.getOrderListPresenter((BaseActivity) getActivity(), SharedUtil.getPreferStr(SharedKey.USER_ID), page, currentType.getIndex(), new BasePresenter.OnUIThreadListener<ItemOrderResp>() {
+        presenter.getOrderListPresenter((BaseActivity) getActivity(), SharedUtil.getPreferStr(SharedKey.USER_ID), page, currentType==OrderType.CANCEL?OrderType.DOING.getIndex():currentType.getIndex(), new BasePresenter.OnUIThreadListener<ItemOrderResp>() {
             @Override
             public void onResult(ItemOrderResp result) {
                 if (result != null) {

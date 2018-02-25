@@ -40,4 +40,21 @@ public class ServiceModle extends BaseModel {
         request.add("user_id", user_id);
         CallServer.getRequestInstance().add(content, 0, request, httpListener, true, true);
     }
+
+    /**
+     * 商家订单列表
+     * @param context
+     * @param user_id
+     * @param page
+     * @param type
+     * @param httpListener
+     */
+    public void getOrderListModel(BaseActivity context, String user_id, int page, int type, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_ORDER_SERVICE_ORDER_LIST;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("user_id", user_id);
+        request.add("page", page);
+        request.add("type", type);
+        CallServer.getRequestInstance().add(context,0,request,httpListener,true,true);
+    }
 }

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     public static final String MINE_TO_SELECTADRESS = "mine_to_select_address";
     private RelativeLayout mine_logout;
+    private Button btn_go_server;
 
     @Override
     public int getContentView() {
@@ -54,10 +56,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         boolean isLogined = SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false);
         if (!isLogined) {
             user.setText("立即登录");
+            btn_go_server.setVisibility(View.GONE);
             user_des.setVisibility(View.GONE);
             user_des.setText("");
             mine_logout.setVisibility(View.GONE);
         } else {
+            btn_go_server.setVisibility(View.VISIBLE);
             String user_name = SharedUtil.getPreferStr(SharedKey.USER_NAME);
             String mobile = SharedUtil.getPreferStr(SharedKey.USER_MOBILE);
             user.setText(TextUtils.isEmpty(user_name) ? "小狐狸" : user_name);
@@ -76,6 +80,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 .into(img);
 
         viewContent.findViewById(R.id.login).setOnClickListener(this);
+        btn_go_server =(Button) viewContent.findViewById(R.id.btn_go_server);
 
         viewContent.findViewById(R.id.mine_address).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_contact).setOnClickListener(this);

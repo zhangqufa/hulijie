@@ -30,6 +30,7 @@ public class AppURL {
     public static final String URL_VERSION = URL_API + "/Home/versions";
 
     public static final String URL_ORDER_SERVICE_LIST = URL_API + "/order/service_list";
+    public static final String URL_ORDER_SERVICE_ORDER_LIST = URL_API + "/order/seller_order_list";
     public static final String URL_ORDER_SERVICE_GETORDER = URL_API + "/order/get_order";
 
 
