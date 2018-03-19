@@ -10,7 +10,11 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
 import com.ssj.hulijie.pro.mine.model.OrderListModel;
 import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.utils.Constant;
 import com.yanzhenjie.nohttp.rest.Response;
+
+import java.security.spec.ECField;
+import java.util.concurrent.Executor;
 
 /**
  * Created by Administrator on 2017/10/9.
@@ -47,13 +51,13 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                    onUIThreadListener.onResult(null);
+                onUIThreadListener.onResult(null);
             }
         });
     }
 
     public void getOrderSingPresenter(BaseActivity context, String order_id, String user_id, final OnUIThreadListener<String> onUIThreadListener) {
-        getModel().getOrderSignModel(context, order_id,user_id,new HttpListener<String>() {
+        getModel().getOrderSignModel(context, order_id, user_id, new HttpListener<String>() {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String s = response.get();
@@ -81,6 +85,99 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
             @Override
             public void onFailed(int what, Response<String> response) {
                 onUIThreadListener.onResult(null);
+            }
+        });
+    }
+
+    public void getCancelOrderPresenter(BaseActivity context,String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getCancelOrderModel(context,user_id, order_id, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("取消订单：" + jsonObject.toString());
+
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (Constant.SUCCESS_CODE == code) {
+                            onUIThreadListener.onResult(true);
+                        }
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(false);
+                    }
+                } else {
+                    onUIThreadListener.onResult(false);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(false);
+            }
+        });
+    }
+    public void getOrderRefundPresenter(BaseActivity context,String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getOrderRefundModel(context, user_id,order_id, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("退款：" + jsonObject.toString());
+
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (Constant.SUCCESS_CODE == code) {
+                            onUIThreadListener.onResult(true);
+                        }
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(false);
+                    }
+                } else {
+                    onUIThreadListener.onResult(false);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(false);
+            }
+        });
+    }
+
+
+    public void getFinishOrderPresenter(BaseActivity context,String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getFinishOrderModel(context,user_id, order_id, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("完成订单：" + jsonObject.toString());
+
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (Constant.SUCCESS_CODE == code) {
+                            onUIThreadListener.onResult(true);
+                        }
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(false);
+                    }
+                } else {
+                    onUIThreadListener.onResult(false);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(false);
             }
         });
     }

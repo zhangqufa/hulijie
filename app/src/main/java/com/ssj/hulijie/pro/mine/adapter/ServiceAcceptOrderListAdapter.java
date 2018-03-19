@@ -1,3 +1,4 @@
+
 package com.ssj.hulijie.pro.mine.adapter;
 
 import android.content.Context;
@@ -16,7 +17,6 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceOrderList;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.DateUtil;
-import com.ssj.hulijie.utils.StringFormat;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
  *         on 2017/12/23
  */
 
-public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderListAdapter.ViewHolder> {
+public class ServiceAcceptOrderListAdapter extends RecyclerView.Adapter<ServiceAcceptOrderListAdapter.ViewHolder> {
 
     private Context context;
 
@@ -34,7 +34,7 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
 
     private List<ItemServiceOrderList.DataBean.RowsBean> lists;
 
-    public ServiceOrderListAdapter(Context context) {
+    public ServiceAcceptOrderListAdapter(Context context) {
         this.context = context;
     }
 
@@ -63,7 +63,7 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
         //标题
         String goods_name = rowsBean.getGoods_name();
         if (goods_name != null && goods_name.length() > 23) {
-            goods_name = goods_name.substring(0, 23)+"...";
+            goods_name = goods_name.substring(0, 23) + "...";
         }
         holder.item_title.setText(goods_name);
 
@@ -73,7 +73,7 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
         holder.item_service_addr.setText(rowsBean.getService_address());
 
         //服务时间
-        holder.item_service_time.setText(DateUtil.longToString(rowsBean.getService_time()*1000,"yyyy-MM-dd HH:mm a"));
+        holder.item_service_time.setText(DateUtil.longToString(rowsBean.getService_time() * 1000, "yyyy-MM-dd HH:mm a"));
 
         //价格
         holder.item_moeny.setText(rowsBean.getGoods_amount());
@@ -102,15 +102,12 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
             distance = distance / 1000;
             String format = new DecimalFormat("#.00").format(distance);
             AppLog.Log("长度:" + format);
-            holder.item_service_addr_distance.setText("距离"+format+"km");
+            holder.item_service_addr_distance.setText("距离" + format + "km");
         } else {
             String format = new DecimalFormat("#.00").format(distance);
             AppLog.Log("长度:" + format);
-            holder.item_service_addr_distance.setText("距离"+format+"m");
+            holder.item_service_addr_distance.setText("距离" + format + "m");
         }
-
-
-
 
 
     }
@@ -145,11 +142,11 @@ public class ServiceOrderListAdapter extends RecyclerView.Adapter<ServiceOrderLi
         }
     }
 
-    public void setOnItemClickListener(ServiceOrderListAdapter.OnItemClickListener li) {
+    public void setOnItemClickListener(ServiceAcceptOrderListAdapter.OnItemClickListener li) {
         listener = li;
     }
 
-    private ServiceOrderListAdapter.OnItemClickListener listener;
+    private ServiceAcceptOrderListAdapter.OnItemClickListener listener;
 
     public interface OnItemClickListener<T> {
         void onItemClick(int position, T data);

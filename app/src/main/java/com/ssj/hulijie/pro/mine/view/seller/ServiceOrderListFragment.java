@@ -15,19 +15,19 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.alipay.PayResult;
-import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.mine.adapter.OrderListAdapter;
 import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
-import com.ssj.hulijie.pro.mine.presenter.OrderListPresenter;
 import com.ssj.hulijie.pro.mine.presenter.ServicePresenter;
 import com.ssj.hulijie.pro.mine.view.OrderItemDetailActivity;
 import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.RefreshStatues;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
+import com.ssj.hulijie.widget.dialog.ConfirmCancelDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,8 +104,9 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
         mRecyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
 
 
-        adapter = new OrderListAdapter(getActivity());
+        adapter = new OrderListAdapter(getActivity(),true);
         mRecyclerView.setAdapter(adapter);
+
         adapter.setOnItemClickListener(onClickListener);
 
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
@@ -166,13 +167,46 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
          * @param data
          */
         @Override
-        public void onItemRightClick(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
-            //去付款
-            if (getString(R.string.order_immediately_pay).equals(status)) {
+        public void onItemRightClick(final int position, String status,final ItemOrderResp.DataBean.RowsBean data) {
+            //取消订单
+            if (getString(R.string.order_cancel).equals(status)) {
+                ConfirmCancelDialog dlg = new ConfirmCancelDialog(getActivity(), new ConfirmCancelDialog.GoOther() {
+                    @Override
+                    public void go() {
+                        cancelOrderSeller(position, data);
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                },"是否确定取消订单?");
+                dlg.show();
+
+
             }
         }
 
     };
+
+    /**
+     * 商家取消订单
+     * @param position
+     * @param data
+     */
+    private void cancelOrderSeller(final int position, ItemOrderResp.DataBean.RowsBean data) {
+        presenter.getCancelOrderSellerPresenter((BaseActivity) getActivity(), SharedUtil.getPreferStr(SharedKey.USER_ID), data.getOrder_id(), new BasePresenter.OnUIThreadListener<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+                if (result) {
+                    lists.get(position).setStatus(0);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    AppToast.ShowToast("该订单无法取消，请联系平台");
+                }
+            }
+        });
+    }
 
 
     private static final String EXTRA_CONTENT = "content";

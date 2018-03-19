@@ -89,11 +89,6 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         super.onPause();
     }
 
-    /**
-     * check least version
-     */
-    private void checkVersionUpdate() {
-    }
 
     /**
      * 初始化主页选项卡视图

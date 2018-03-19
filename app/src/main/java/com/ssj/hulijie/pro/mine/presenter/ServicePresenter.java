@@ -124,4 +124,42 @@ public class ServicePresenter extends BasePresenter<ServiceModle> {
             }
         });
     }
+
+    /**
+     * 取消订单
+     * @param context
+     * @param user_id
+     * @param order_id
+     * @param onUIThreadListener
+     */
+    public void getCancelOrderSellerPresenter(BaseActivity context,String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getCancelOrderSellerModel(context,user_id, order_id, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("商家取消订单：" + jsonObject.toString());
+
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (Constant.SUCCESS_CODE == code) {
+                            onUIThreadListener.onResult(true);
+                        }
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(false);
+                    }
+                } else {
+                    onUIThreadListener.onResult(false);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(false);
+            }
+        });
+    }
 }

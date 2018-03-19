@@ -21,7 +21,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceH
     private Context context;
     private List<String> lists;
 
-
     public ServiceAdapter(Context context, List<String> lists) {
         this.context = context;
         this.lists = lists;

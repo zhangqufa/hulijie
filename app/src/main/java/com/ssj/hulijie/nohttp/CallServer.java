@@ -18,6 +18,7 @@ package com.ssj.hulijie.nohttp;
 import android.text.TextUtils;
 
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.utils.Constant;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.yanzhenjie.nohttp.NoHttp;

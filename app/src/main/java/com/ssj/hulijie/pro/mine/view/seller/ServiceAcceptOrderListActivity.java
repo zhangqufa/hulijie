@@ -21,7 +21,7 @@ import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.mine.adapter.ServiceOrderListAdapter;
+import com.ssj.hulijie.pro.mine.adapter.ServiceAcceptOrderListAdapter;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceOrderList;
 import com.ssj.hulijie.pro.mine.presenter.ServicePresenter;
 import com.ssj.hulijie.utils.AppLog;
@@ -42,7 +42,7 @@ import java.util.List;
  */
 
 public class ServiceAcceptOrderListActivity extends BaseActivity {
-    private ServiceOrderListAdapter adapter;
+    private ServiceAcceptOrderListAdapter adapter;
     private ServicePresenter presenter;
     private int page = 1;
 
@@ -195,13 +195,13 @@ public class ServiceAcceptOrderListActivity extends BaseActivity {
             }
         });
 
-        adapter = new ServiceOrderListAdapter(this);
+        adapter = new ServiceAcceptOrderListAdapter(this);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(item_click);
 
     }
 
-    private ServiceOrderListAdapter.OnItemClickListener<ItemServiceOrderList.DataBean.RowsBean> item_click = new ServiceOrderListAdapter.OnItemClickListener<ItemServiceOrderList.DataBean.RowsBean>() {
+    private ServiceAcceptOrderListAdapter.OnItemClickListener<ItemServiceOrderList.DataBean.RowsBean> item_click = new ServiceAcceptOrderListAdapter.OnItemClickListener<ItemServiceOrderList.DataBean.RowsBean>() {
         @Override
         public void onItemClick(int position, ItemServiceOrderList.DataBean.RowsBean data) {
             //接单

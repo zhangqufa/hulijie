@@ -27,6 +27,7 @@ import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.RefreshStatues;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
+import com.ssj.hulijie.widget.dialog.ConfirmCancelDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
     private OrderType currentType = OrderType.NOFINISH;
     private OrderListAdapter adapter;
     private View text_empty;
+    private LinearLayoutManager layoutManager;
 
     @Override
     public int getContentView() {
@@ -94,7 +96,7 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
         viewContent.findViewById(R.id.toOrder).setOnClickListener(this);
 
         mRecyclerView = (XRecyclerView) viewContent.findViewById(R.id.recyclerview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
@@ -103,7 +105,7 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
         mRecyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
 
 
-        adapter = new OrderListAdapter(getActivity());
+        adapter = new OrderListAdapter(getActivity(),false);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(onClickListener);
 
@@ -154,8 +156,37 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
          * @param data
          */
         @Override
-        public void onItemLeftClick(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
+        public void onItemLeftClick(final int position, String status, final ItemOrderResp.DataBean.RowsBean data) {
 
+            //取消订单
+            if (getString(R.string.order_cancel).equals(status)) {
+                ConfirmCancelDialog dlg = new ConfirmCancelDialog(getActivity(), new ConfirmCancelDialog.GoOther() {
+                    @Override
+                    public void go() {
+                        toCancelOrder(position,data);
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                },"是否确定取消订单?");
+                dlg.show();
+            }else if (getString(R.string.order_refund).equals(status)) {
+                ConfirmCancelDialog dlg = new ConfirmCancelDialog(getActivity(), new ConfirmCancelDialog.GoOther() {
+                    @Override
+                    public void go() {
+                        toRefund(position,data);
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                },"是否确定退款?");
+                dlg.show();
+
+            }
         }
 
         /**
@@ -165,14 +196,106 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
          * @param data
          */
         @Override
-        public void onItemRightClick(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
+        public void onItemRightClick(final int position, String status, final ItemOrderResp.DataBean.RowsBean data) {
             //去付款
             if (getString(R.string.order_immediately_pay).equals(status)) {
-                toPay(position, status, data);
+                toPay(data);
+            } else if (getString(R.string.order_refund).equals(status)) {
+                ConfirmCancelDialog dlg = new ConfirmCancelDialog(getActivity(), new ConfirmCancelDialog.GoOther() {
+                    @Override
+                    public void go() {
+                        toRefund(position,data);
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                },"是否确定退款?");
+                dlg.show();
+
+            } else if (getString(R.string.order_confirm_complete).equals(status)) {
+                ConfirmCancelDialog dlg = new ConfirmCancelDialog(getActivity(), new ConfirmCancelDialog.GoOther() {
+                    @Override
+                    public void go() {
+                        toFinish(position, data);
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                },"是否确定完成?");
+                dlg.show();
             }
         }
 
     };
+
+    /**
+     * 确定完成订单
+     * @param position
+     * @param data
+     */
+    private void toFinish(final int position, ItemOrderResp.DataBean.RowsBean data) {
+
+        presenter.getFinishOrderPresenter((BaseActivity) getActivity(), SharedUtil.getPreferStr(SharedKey.USER_ID), data.getOrder_id(), new BasePresenter.OnUIThreadListener<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+                lists.get(position).setStatus(40);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+    }
+
+    /**
+     * 退款
+     * @param position
+     * @param data
+     */
+    private void toRefund(final int position, ItemOrderResp.DataBean.RowsBean data) {
+
+        presenter.getOrderRefundPresenter((BaseActivity) getActivity(),SharedUtil.getPreferStr(SharedKey.USER_ID), data.getOrder_id(), new BasePresenter.OnUIThreadListener<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+                if (result) {
+                    lists.get(position).setStatus(3);
+                    adapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+    }
+
+    /**
+     * 取消订单
+     * @param data
+     */
+    private void toCancelOrder(final int position, ItemOrderResp.DataBean.RowsBean data) {
+        presenter.getCancelOrderPresenter((BaseActivity) getActivity(),SharedUtil.getPreferStr(SharedKey.USER_ID), data.getOrder_id(), new BasePresenter.OnUIThreadListener<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+                if (result) {
+
+
+                    AppLog.Log("当前取消Position: " + position);
+                    ItemOrderResp.DataBean.RowsBean rowsBean = lists.get(position);
+                    rowsBean.setStatus(0);
+//                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+//                    int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+//                    boolean b = position <= lastVisibleItemPosition && position >= firstVisibleItemPosition;
+//                    if (b) {
+//                        adapter.notifyItemChanged(position);
+//                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
 
 
     private static final String EXTRA_CONTENT = "content";
@@ -247,11 +370,9 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
     /**
      * 获取订单签名 并支付
      *
-     * @param position
-     * @param status
      * @param data
      */
-    private void toPay(int position, String status, ItemOrderResp.DataBean.RowsBean data) {
+    private void toPay(ItemOrderResp.DataBean.RowsBean data) {
         presenter.getOrderSingPresenter((BaseActivity) getActivity(), data.getOrder_id(),SharedUtil.getPreferStr(SharedKey.USER_ID), new BasePresenter.OnUIThreadListener<String>() {
             @Override
             public void onResult(String result) {

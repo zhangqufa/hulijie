@@ -58,4 +58,7 @@ Toolbar 的高度layout_height必须明确指定，不能 “wrap_content”，�
     <string name="order_refunding">退款中</string>
     <string name="order_already_refund">已退款</string>
     <string name="order_already_cancel">订单已取消</string>
+    <string name="order_accepted_order">已接单</string>
+    <string name="order_servicing">服务中</string>
+
 </resources>

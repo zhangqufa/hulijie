@@ -28,10 +28,13 @@ public class AppURL {
     public static final String URL_ORDER_PAY = URL_API + "/order/pay";
     public static final String URL_ORDER_ORDER = URL_API + "/order/order";
     public static final String URL_VERSION = URL_API + "/Home/versions";
-
     public static final String URL_ORDER_SERVICE_LIST = URL_API + "/order/service_list";
     public static final String URL_ORDER_SERVICE_ORDER_LIST = URL_API + "/order/seller_order_list";
     public static final String URL_ORDER_SERVICE_GETORDER = URL_API + "/order/get_order";
+    public static final String URL_ORDER_CANCEL = URL_API + "/order/cancel";
+    public static final String URL_ORDER_REFUND = URL_API + "/order/refund";
+    public static final String URL_ORDER_CANCEL_SELLER = URL_API + "/order/cancel_for_sale";
+    public static final String URL_ORDER_FINISH = URL_API + "/order/finish";
 
 
 

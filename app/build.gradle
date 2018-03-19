@@ -64,5 +64,4 @@ dependencies {
     compile files('libs/BASE64.jar')
     compile files('libs/alipaySdk-20170725.jar')
     compile project(':xrecyclerview')
-
 }
