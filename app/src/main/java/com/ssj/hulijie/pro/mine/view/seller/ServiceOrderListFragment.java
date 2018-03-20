@@ -55,10 +55,10 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
     }
 
     /**
-     * 1：进行中 2：已完成 3：待评价 0:全部订单
+     * 1：进行中 2：已完成 5：取消 0:全部订单
      */
     enum OrderType {
-        DOING(1), FINISH(2), CANCEL(3), ALL(0);
+        DOING(1), FINISH(2), CANCEL(5), ALL(0);
 
         private int index;
 
@@ -104,7 +104,7 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
         mRecyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
 
 
-        adapter = new OrderListAdapter(getActivity(),true);
+        adapter = new OrderListAdapter(getActivity(), true);
         mRecyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(onClickListener);
@@ -167,7 +167,7 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
          * @param data
          */
         @Override
-        public void onItemRightClick(final int position, String status,final ItemOrderResp.DataBean.RowsBean data) {
+        public void onItemRightClick(final int position, String status, final ItemOrderResp.DataBean.RowsBean data) {
             //取消订单
             if (getString(R.string.order_cancel).equals(status)) {
                 ConfirmCancelDialog dlg = new ConfirmCancelDialog(getActivity(), new ConfirmCancelDialog.GoOther() {
@@ -180,7 +180,7 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
                     public void cancel() {
 
                     }
-                },"是否确定取消订单?");
+                }, "是否确定取消订单?");
                 dlg.show();
 
 
@@ -191,6 +191,7 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
 
     /**
      * 商家取消订单
+     *
      * @param position
      * @param data
      */
@@ -279,23 +280,22 @@ public class ServiceOrderListFragment extends BaseFragment implements View.OnCli
     }
 
 
-
     /**
      * 1：进行中 2：已完成 3：待评价 0:全部订单
-     *  第三列已取消 中 进行中筛选出来 已取消的数据
-     *  订单状态：
-     0 取消订单  --未完成
-     11 等待买家付款 --未完成
-     20 买家已付款 --未完成
-     30 商家已服务  --待评价
-     40 交易成功 --已完成
-     3 退款中 --未完成
-     4 已退款 --未完成
+     * 第三列已取消 中 进行中筛选出来 已取消的数据
+     * 订单状态：
+     * 0 取消订单  --未完成
+     * 11 等待买家付款 --未完成
+     * 20 买家已付款 --未完成
+     * 30 商家已服务  --待评价
+     * 40 交易成功 --已完成
+     * 3 退款中 --未完成
+     * 4 已退款 --未完成
      *
      * @param statues
      */
     private void getData(final RefreshStatues statues) {
-        presenter.getOrderListPresenter((BaseActivity) getActivity(), SharedUtil.getPreferStr(SharedKey.USER_ID), page, currentType==OrderType.CANCEL?OrderType.DOING.getIndex():currentType.getIndex(), new BasePresenter.OnUIThreadListener<ItemOrderResp>() {
+        presenter.getOrderListPresenter((BaseActivity) getActivity(), SharedUtil.getPreferStr(SharedKey.USER_ID), page, currentType.getIndex(), new BasePresenter.OnUIThreadListener<ItemOrderResp>() {
             @Override
             public void onResult(ItemOrderResp result) {
                 if (result != null) {

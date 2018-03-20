@@ -21,8 +21,8 @@ android {
         applicationId "com.ssj.hulijie"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 3
-        versionName "3.0"
+        versionCode 4
+        versionName "4.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +36,12 @@ android {
         main {
 
             jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
         }
     }
 }
@@ -64,4 +70,6 @@ dependencies {
     compile files('libs/BASE64.jar')
     compile files('libs/alipaySdk-20170725.jar')
     compile project(':xrecyclerview')
+
+    compile(name: 'geetest_testbutton_android_v3.5.2', ext: 'aar')
 }
