@@ -210,9 +210,10 @@ public class UpdateManager {
         @Override
         public void run() {
             try {
-                URL url = new URL(newVersion.getUrl());//// TODO: 2017/5/13
+                URL url = new URL(newVersion.getUrl());
                 HttpURLConnection conn = (HttpURLConnection) url
                         .openConnection();
+                conn.setRequestProperty("Accept-Encoding", "identity");
                 conn.connect();
                 int length = conn.getContentLength();
                 InputStream is = conn.getInputStream();
