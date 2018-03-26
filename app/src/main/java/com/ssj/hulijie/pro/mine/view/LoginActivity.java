@@ -121,6 +121,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void verifyJiYan(final String mobile) {
 
+        /**
+         * AppURL.URL_GET_VERIFY_STR :
+         * {"success":1,"gt":"1df59271fb9837effb4ebdd3df1b4416","challenge":"3033b8b1e6ad4dc0b581a48a9d15f02d","new_captcha":1}
+         *
+         *  AppURL.URL_GET_VERIFY_CODE：
+         *  提交手机号
+         */
         gt3GeetestUtils.getGeetest(this, AppURL.URL_GET_VERIFY_STR, AppURL.URL_GET_VERIFY_CODE, null, new GT3GeetestBindListener() {
 
             /**
