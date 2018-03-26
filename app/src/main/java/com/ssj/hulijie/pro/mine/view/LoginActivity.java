@@ -160,6 +160,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         JSONObject jobj = new JSONObject(result);
                         int code = jobj.getInt("code");
                         if (Constant.SUCCESS_CODE == code) {
+                            chageBtnStatus();
                             gt3GeetestUtils.gt3TestFinish();
                         } else {
                             AppToast.ShowToast(jobj.getString("msg"));
