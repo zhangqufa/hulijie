@@ -8,7 +8,7 @@ public class AppURL {
 
     public static final String URL_ROOT = "http://jassj.com";
 
-    public static final String URL_API = URL_ROOT+"/i/index.php";
+    public static final String URL_API = URL_ROOT + "/i/index.php";
 
     public static final String URL_FIRST_PAGE_CATETORY = URL_API + "/home/cat";
     public static final String URL_FOUR_MODEL = URL_API + "/Home/active";
@@ -18,6 +18,8 @@ public class AppURL {
     public static final String URL_CATEGORY_LIST = URL_API + "/Home/goods_list";
     public static final String URL_ADDRESS_LIST = URL_API + "/Home/address";
     public static final String URL_GET_VERIFY_CODE = URL_API + "/Home/sendcode";
+    //极难所需的字符串
+    public static final String URL_GET_VERIFY_STR = URL_API + "/home/start_captcha";
     public static final String URL_LOGIN = URL_API + "/Home/logreg";
     public static final String URL_EDIT_ADDRESS = URL_API + "/Home/address_edit";
     public static final String URL_DELETE_ADDRESS = URL_API + "/Home/address_del";
@@ -35,7 +37,6 @@ public class AppURL {
     public static final String URL_ORDER_REFUND = URL_API + "/order/refund";
     public static final String URL_ORDER_CANCEL_SELLER = URL_API + "/order/cancel_for_sale";
     public static final String URL_ORDER_FINISH = URL_API + "/order/finish";
-
 
 
 }
