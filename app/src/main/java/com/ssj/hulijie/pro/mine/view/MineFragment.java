@@ -4,8 +4,12 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -15,17 +19,34 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
+import com.ssj.hulijie.pro.base.presenter.BasePresenter;
+import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.view.SelectAddressActivity;
 import com.ssj.hulijie.pro.home.view.MainActivity;
+import com.ssj.hulijie.pro.mine.bean.ItemImageUpload;
+import com.ssj.hulijie.pro.mine.presenter.ImageUpladPresenter;
 import com.ssj.hulijie.pro.mine.view.seller.ServiceActivity;
+import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.utils.AppURL;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.StringFormat;
 import com.ssj.hulijie.widget.dialog.ConfirmCancelDialog;
+import com.yanzhenjie.nohttp.OnUploadListener;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -80,7 +101,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 .into(img);
 
         viewContent.findViewById(R.id.login).setOnClickListener(this);
-        btn_go_server =(Button) viewContent.findViewById(R.id.btn_go_server);
+        btn_go_server = (Button) viewContent.findViewById(R.id.btn_go_server);
 
         viewContent.findViewById(R.id.mine_address).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_contact).setOnClickListener(this);
@@ -101,6 +122,145 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         //show person info
         user_des = (TextView) viewContent.findViewById(R.id.user_des);
 
+        String s = Environment.getExternalStorageDirectory().getAbsolutePath() + "/share.jpeg";
+        String s1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/aaa.jpg";
+        File file = new File(s);
+        if (file.exists()) {
+            AppLog.Log("s文件存在");
+        }
+        File file1 = new File(s1);
+        if (file1.exists()) {
+            AppLog.Log("s1文件存在");
+        }
+        final String[] paths = {s,s1};
+        btn_go_server.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                UpladTask task = new UpladTask();
+                task.execute(paths);
+                return true;
+            }
+        });
+    }
+
+    class UpladTask extends AsyncTask<String[], Void, Void> {
+        @Override
+        protected Void doInBackground(String[]... strings) {
+            String[] string = strings[0];
+            useHttpUrl(string);
+            return null;
+        }
+    }
+
+
+    private String useHttpUrl(String path[]) {
+        try {
+            URL url = new URL(AppURL.URL_PIC_UPLOAD);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            //30秒连接超时
+            connection.setConnectTimeout(30 * 1000);
+            //30秒读取超时
+            connection.setReadTimeout(30 * 1000);
+            //允许文件输入流
+            connection.setDoInput(true);
+            //允许文件输出流
+            connection.setDoOutput(true);
+            //不允许使用缓存
+            connection.setUseCaches(false);
+            //请求方式为POST
+            connection.setRequestMethod("POST");
+            //设置编码为utf-8
+            connection.setRequestProperty("Charset", "utf-8");
+            //保持连接
+            connection.setRequestProperty("connection", "keep-alive");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//            connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + BOUNDARY); //特别注意：Content-Type必须为multipart/form-data
+            OutputStream outputSteam = connection.getOutputStream();
+            DataOutputStream dos = new DataOutputStream(outputSteam);
+            //如果传入的文件路径不为空的话，则读取文件并上传
+            for (int i = 0; i < path.length; i++) {
+                File file = new File(path[i]);
+                if (file != null) {
+                    //读取图片进行压缩
+                    //如果不需要压缩的话直接读取文件则可 InputStream is = new FileInputStream(file);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    Bitmap bitmap = BitmapFactory.decodeFile(file.toString());
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos); //0-100 100为不压缩
+                    InputStream is = new ByteArrayInputStream(baos.toByteArray());
+
+
+                    byte[] bytes = new byte[1024];
+                    int len = 0;
+                    while ((len = is.read(bytes)) != -1) {
+                        dos.write(bytes, 0, len);
+                    }
+                    is.close();
+                    if (i < path.length-1) {
+                        String diver = "[x]";
+                        dos.write(diver.getBytes());
+                    }
+                }
+
+            }
+            dos.flush();
+            //获取返回码，根据返回码做相应处理
+            int res = connection.getResponseCode();
+            AppLog.Log("response code:" + res);
+            if (res == 200) {
+                BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder result = new StringBuilder();
+                String line;
+                while ((line = input.readLine()) != null) {
+                    result.append(line).append("\n");
+                }
+                String s = new String(result.toString().getBytes(), "utf-8");
+                AppLog.Log("图片上传result: " + s);
+                return s;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private void useNohttp(String[] paths) {
+        ImageUpladPresenter p = new ImageUpladPresenter(getActivity());
+        p.onImageUploadPresenter((BaseActivity) getActivity(), new OnUploadListener() {
+            @Override
+            public void onStart(int what) {
+                AppLog.Log("pic_upload_start");
+            }
+
+            @Override
+            public void onCancel(int what) {
+                AppLog.Log("pic_upload_onCancel");
+            }
+
+            @Override
+            public void onProgress(int what, int progress) {
+                AppLog.Log("pic_upload_progress:" + progress);
+            }
+
+            @Override
+            public void onFinish(int what) {
+                AppLog.Log("pic_upload_onFinish");
+            }
+
+            @Override
+            public void onError(int what, Exception exception) {
+                AppLog.Log("pic_upload_onError");
+            }
+        }, new BasePresenter.OnUIThreadListener<ItemImageUpload>() {
+            @Override
+            public void onResult(ItemImageUpload result) {
+                if (result != null) {
+                    String reurl = result.getReurl();
+                }
+            }
+        }, paths);
     }
 
     private void getPersimmions() {

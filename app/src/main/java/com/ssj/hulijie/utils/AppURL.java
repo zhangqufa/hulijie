@@ -39,4 +39,8 @@ public class AppURL {
     public static final String URL_ORDER_FINISH = URL_API + "/order/finish";
 
 
+    //图片上传
+    public static final String URL_PIC_UPLOAD = URL_API + "/File/stream2Image";
+
+
 }
