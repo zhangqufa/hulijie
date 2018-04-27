@@ -36,6 +36,7 @@ public class ImageUpladPresenter extends BasePresenter<ImageUploadModel> {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject s = response.get();
+
                 if (s != null) {
                     try {
                         AppLog.Log("图片上传成功" + s.toString());
