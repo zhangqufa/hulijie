@@ -57,8 +57,7 @@ public class ServiceActivity extends BaseActivity {
                     intent = new Intent(ServiceActivity.this, ServiceOrderListActivity.class);
                     break;
                 case 2:
-                    intent = new Intent(ServiceActivity.this, ServiceTempPicActivity.class);
-                    intent.putExtra("flag", ServiceTempPicActivity.MINE_INCOME);
+                    intent = new Intent(ServiceActivity.this, ServiceInActivity.class);
                     break;
                 case 3:
                     intent = new Intent(ServiceActivity.this, ServiceTempPicActivity.class);

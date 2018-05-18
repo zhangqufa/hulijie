@@ -38,6 +38,9 @@ public class AppURL {
     public static final String URL_ORDER_CANCEL_SELLER = URL_API + "/order/cancel_for_sale";
     public static final String URL_ORDER_FINISH = URL_API + "/order/finish";
 
+    //商家
+    public static final String URL_SERVER_MONEY_INFO = URL_API + "/order/seller_money_info";
+
 
     //图片上传
     public static final String URL_PIC_UPLOAD = URL_API + "/File/stream2Image";

@@ -8,6 +8,7 @@ import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
+import com.ssj.hulijie.pro.mine.bean.ItemServiceMoneyInfo;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceOrderList;
 import com.ssj.hulijie.pro.mine.model.ServiceModle;
 import com.ssj.hulijie.utils.AppLog;
@@ -93,6 +94,7 @@ public class ServicePresenter extends BasePresenter<ServiceModle> {
 
     /**
      * 商家订单列表
+     *
      * @param context
      * @param user_id
      * @param page
@@ -127,13 +129,14 @@ public class ServicePresenter extends BasePresenter<ServiceModle> {
 
     /**
      * 取消订单
+     *
      * @param context
      * @param user_id
      * @param order_id
      * @param onUIThreadListener
      */
-    public void getCancelOrderSellerPresenter(BaseActivity context,String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
-        getModel().getCancelOrderSellerModel(context,user_id, order_id, new HttpListener<JSONObject>() {
+    public void getCancelOrderSellerPresenter(BaseActivity context, String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getCancelOrderSellerModel(context, user_id, order_id, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
@@ -159,6 +162,46 @@ public class ServicePresenter extends BasePresenter<ServiceModle> {
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
                 onUIThreadListener.onResult(false);
+            }
+        });
+    }
+
+    /**
+     * 获取商家金额信息
+     *
+     * @param context
+     * @param user_id
+     * @param onUIThreadListener
+     */
+    public void getServiceMoneyInfoPresenter(BaseActivity context, String user_id, final OnUIThreadListener<ItemServiceMoneyInfo> onUIThreadListener) {
+        getModel().getServiceMoneyInfoModel(context, user_id, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("商家金额信息：" + jsonObject.toString());
+
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (Constant.SUCCESS_CODE == code) {
+
+                            ItemServiceMoneyInfo data = JSON.parseObject(jsonObject.getString("data"), ItemServiceMoneyInfo.class);
+                            onUIThreadListener.onResult(data);
+                        }
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(null);
+                    }
+                } else {
+                    onUIThreadListener.onResult(null);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(null);
             }
         });
     }

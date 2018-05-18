@@ -1,7 +1,6 @@
 package com.ssj.hulijie.pro.base.view;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.IdRes;
@@ -46,7 +45,7 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         initSwipeBackFinish();
         super.onCreate(savedInstanceState);
         // 初始化请求队列，传入的参数是请求并发值。
-        StatusBarColorUtils.setWindowStatusBarColor(this,R.color.comm_grey_666666);
+        StatusBarColorUtils.setWindowStatusBarColor(this, R.color.comm_grey_666666);
         mQueue = NoHttp.newRequestQueue(1);
         mHandler.setHandlerCallback(this);
     }
@@ -176,8 +175,12 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
 
     /**
      * 自定义封闭Handler
+     *
      * @param msg
      */
     @Override
-    public void handleMessage(Message msg){};
+    public void handleMessage(Message msg) {
+    }
+
+    ;
 }

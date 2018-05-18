@@ -43,6 +43,7 @@ public class ServiceModle extends BaseModel {
 
     /**
      * 商家订单列表
+     *
      * @param context
      * @param user_id
      * @param page
@@ -55,21 +56,29 @@ public class ServiceModle extends BaseModel {
         request.add("user_id", user_id);
         request.add("page", page);
         request.add("type", type);
-        CallServer.getRequestInstance().add(context,0,request,httpListener,true,true);
+        CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
     }
 
 
     /**
      * 取消订单
+     *
      * @param context
      * @param user_id
      * @param order_id
      * @param httpListener
      */
-    public void getCancelOrderSellerModel(BaseActivity context,String user_id, String order_id, HttpListener<JSONObject> httpListener) {
+    public void getCancelOrderSellerModel(BaseActivity context, String user_id, String order_id, HttpListener<JSONObject> httpListener) {
         String url = AppURL.URL_ORDER_CANCEL_SELLER;
         Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
         request.add("order_id", order_id);
+        request.add("user_id", user_id);
+        CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
+    }
+
+    public void getServiceMoneyInfoModel(BaseActivity context, String user_id, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_SERVER_MONEY_INFO;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
         request.add("user_id", user_id);
         CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
     }

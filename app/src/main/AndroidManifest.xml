@@ -102,6 +102,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity
+            android:name=".pro.mine.view.seller.ServiceInActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
             android:name=".pro.msg.view.MsgListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
