@@ -167,6 +167,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity
+            android:name=".pro.mine.view.seller.ServiceMineServiceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
             android:name=".pro.mine.view.ShopVerifyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />

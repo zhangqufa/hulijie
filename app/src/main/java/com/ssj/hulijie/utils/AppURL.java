@@ -40,6 +40,8 @@ public class AppURL {
 
     //商家
     public static final String URL_SERVER_MONEY_INFO = URL_API + "/order/seller_money_info";
+    //我的服务
+    public static final String URL_SERVER_MINE = URL_API + "/home/store_goods_list";
 
 
     //图片上传

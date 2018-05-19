@@ -51,7 +51,7 @@ public class ServiceActivity extends BaseActivity {
             Intent intent = null;
             switch (position) {
                 case 0:
-
+                    intent = new Intent(ServiceActivity.this, ServiceMineServiceActivity.class);
                     break;
                 case 1:
                     intent = new Intent(ServiceActivity.this, ServiceOrderListActivity.class);

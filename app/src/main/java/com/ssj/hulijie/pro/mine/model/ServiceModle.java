@@ -82,4 +82,20 @@ public class ServiceModle extends BaseModel {
         request.add("user_id", user_id);
         CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
     }
+
+
+    /**
+     * 商家我的服务
+     *
+     * @param context
+     * @param store_id
+     * @param httpListener
+     */
+    public void getServiceMineModel(BaseActivity context, String store_id, int page, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_SERVER_MINE;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("store_id", store_id);
+        request.add("page", page);
+        CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
+    }
 }

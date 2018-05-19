@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
+import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceMoneyInfo;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceOrderList;
@@ -192,6 +193,43 @@ public class ServicePresenter extends BasePresenter<ServiceModle> {
                             ) {
                         e.printStackTrace();
                         onUIThreadListener.onResult(null);
+                    }
+                } else {
+                    onUIThreadListener.onResult(null);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(null);
+            }
+        });
+    }
+
+    /**
+     * 商家我的服务
+     *
+     * @param activity
+     * @param store_id
+     * @param onUIThreadListener
+     */
+    public void getServiceMinePresenter(BaseActivity activity, String store_id, int page, final OnUIThreadListener<ItemCategoryMain> onUIThreadListener) {
+        getModel().getServiceMineModel(activity, store_id, page, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("商家我的服务：" + jsonObject.toString());
+
+                    try {
+
+                        ItemCategoryMain itemCategoryMain = JSON.parseObject(jsonObject.toString(), ItemCategoryMain.class);
+                        onUIThreadListener.onResult(itemCategoryMain);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(null);
+                        AppLog.Log("商家我的服务: " + e.toString());
                     }
                 } else {
                     onUIThreadListener.onResult(null);
