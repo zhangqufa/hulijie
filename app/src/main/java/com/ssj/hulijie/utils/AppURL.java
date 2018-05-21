@@ -42,6 +42,8 @@ public class AppURL {
     public static final String URL_SERVER_MONEY_INFO = URL_API + "/order/seller_money_info";
     //我的服务
     public static final String URL_SERVER_MINE = URL_API + "/home/store_goods_list";
+    //收入明细
+    public static final String URL_SERVER_IN_MONEY_DETAIL = URL_API + "/order/money_log";
 
 
     //图片上传

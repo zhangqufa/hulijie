@@ -9,31 +9,32 @@
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/recyclerview"
-        android:paddingTop="8dp"
-        android:clipToPadding="false"
-        android:clipChildren="false"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingTop="8dp" />
 
     <LinearLayout
+        android:id="@+id/text_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@android:color/white"
         android:gravity="center"
         android:orientation="vertical"
-        android:id="@+id/text_empty"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="64dp"
-            android:src="@mipmap/no_service"
-            android:layout_height="64dp" />
+            android:layout_height="64dp"
+            android:src="@mipmap/no_service" />
+
         <TextView
-            android:textColor="#515151"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="没有商品~"/>
+            android:layout_marginTop="10dp"
+            android:text="没有相关数据~"
+            android:textColor="#515151" />
 
 
     </LinearLayout>

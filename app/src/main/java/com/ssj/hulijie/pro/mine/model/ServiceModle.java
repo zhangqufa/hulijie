@@ -98,4 +98,21 @@ public class ServiceModle extends BaseModel {
         request.add("page", page);
         CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
     }
+
+    /**
+     * 收入明细
+     *
+     * @param context
+     * @param user_id
+     * @param page
+     * @param httpListener
+     */
+    public void getServiceInMoneyDetailModel(BaseActivity context, String user_id, int page, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_SERVER_IN_MONEY_DETAIL;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("user_id", user_id);
+        request.add("page", page);
+        CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
+
+    }
 }

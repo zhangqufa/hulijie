@@ -9,6 +9,7 @@ import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
 import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
+import com.ssj.hulijie.pro.mine.bean.ItemServiceInMoneyDetail;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceMoneyInfo;
 import com.ssj.hulijie.pro.mine.bean.ItemServiceOrderList;
 import com.ssj.hulijie.pro.mine.model.ServiceModle;
@@ -230,6 +231,44 @@ public class ServicePresenter extends BasePresenter<ServiceModle> {
                         e.printStackTrace();
                         onUIThreadListener.onResult(null);
                         AppLog.Log("商家我的服务: " + e.toString());
+                    }
+                } else {
+                    onUIThreadListener.onResult(null);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(null);
+            }
+        });
+    }
+
+
+    /**
+     * 商家我的服务
+     *
+     * @param activity
+     * @param user_id
+     * @param onUIThreadListener
+     */
+    public void getServiceInMoneyDetailPresenter(BaseActivity activity, String user_id, int page, final OnUIThreadListener<ItemServiceInMoneyDetail> onUIThreadListener) {
+        getModel().getServiceInMoneyDetailModel(activity, user_id, page, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("商家收入明细：" + jsonObject.toString());
+
+                    try {
+
+                        ItemServiceInMoneyDetail itemServiceInMoneyDetail = JSON.parseObject(jsonObject.toString(), ItemServiceInMoneyDetail.class);
+                        onUIThreadListener.onResult(itemServiceInMoneyDetail);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(null);
+                        AppLog.Log("商家收入明细: " + e.toString());
                     }
                 } else {
                     onUIThreadListener.onResult(null);

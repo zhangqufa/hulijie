@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <ImageView
+        android:id="@+id/temp_pic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/ic_money" />
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/temp_pic"
+        android:layout_toRightOf="@id/temp_pic"
+        android:maxLines="1"
+        android:text="服务项目"
+        android:textColor="@color/comm_grey_111111" />
+
+    <TextView
+        android:id="@+id/item_create_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_title"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/temp_pic"
+        android:text="2011-01-10 11:22:11"
+        android:textColor="@color/comm_grey_111111" />
+
+
+    <TextView
+        android:id="@+id/item_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:text="+0.00"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/font_size_16" />
+
+</RelativeLayout>

@@ -5,59 +5,60 @@
     android:background="@color/app_bg"
     android:orientation="vertical">
 
-   <RelativeLayout
-       android:background="@android:color/white"
-       android:layout_width="match_parent"
-       android:layout_height="45dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white">
 
-       <ImageView
-           android:id="@+id/iv_navigation_back"
-           android:layout_height="match_parent"
-           android:layout_width="50dp"
-           android:padding="8dp"
-           android:paddingRight="12dp"
-           android:src="@mipmap/back_red_circle" />
+        <ImageView
+            android:id="@+id/iv_navigation_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:paddingRight="12dp"
+            android:src="@mipmap/back_red_circle" />
 
-       <TextView
-           android:paddingLeft="10dp"
-           android:gravity="center_vertical"
-           android:id="@+id/iv_navigation_center"
-           android:layout_marginLeft="10dp"
-           android:layout_marginRight="10dp"
-           android:layout_width="match_parent"
-           android:layout_toRightOf="@+id/iv_navigation_back"
-           android:layout_centerVertical="true"
-           android:background="@drawable/shape_bg_gray_4_rad"
-           android:layout_height="35dp" />
-   </RelativeLayout>
+        <TextView
+            android:id="@+id/iv_navigation_center"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/iv_navigation_back"
+            android:background="@drawable/shape_bg_gray_4_rad"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp" />
+    </RelativeLayout>
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:paddingTop="8dp"
-        android:clipToPadding="false"
-        android:clipChildren="false"
         android:id="@+id/recyclerview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingTop="8dp" />
 
     <LinearLayout
+        android:id="@+id/text_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@android:color/white"
         android:gravity="center"
         android:orientation="vertical"
-        android:id="@+id/text_empty"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="64dp"
-            android:src="@mipmap/no_service"
-            android:layout_height="64dp" />
+            android:layout_height="64dp"
+            android:src="@mipmap/no_service" />
+
         <TextView
-            android:textColor="#515151"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="没有商品~"/>
+            android:layout_marginTop="10dp"
+            android:text="没有相关数据~"
+            android:textColor="#515151" />
 
 
     </LinearLayout>
