@@ -59,11 +59,8 @@ public class ServiceActivity extends BaseActivity {
                 case 2:
                     intent = new Intent(ServiceActivity.this, ServiceInActivity.class);
                     break;
+
                 case 3:
-                    intent = new Intent(ServiceActivity.this, ServiceTempPicActivity.class);
-                    intent.putExtra("flag", ServiceTempPicActivity.MINE_EVALUATE);
-                    break;
-                case 4:
                     intent = new Intent(ServiceActivity.this, ServiceAcceptOrderListActivity.class);
                     break;
                 default:
@@ -82,7 +79,6 @@ public class ServiceActivity extends BaseActivity {
         lists.add("我的服务");
         lists.add("我的订单");
         lists.add("我的收入");
-        lists.add("我的评价");
         lists.add("接单列表");
 
         return lists;
