@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/detail_img"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@mipmap/loading_detail" />
+
+
+    <TextView
+        android:id="@+id/detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="#060606"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/detail_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:lines="1"
+        android:textColor="#e5505f"
+        android:textSize="24sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_bg_re_ba916b"
+        android:gravity="center"
+        android:padding="1dp"
+        android:text="上门服务"
+        android:textColor="@color/comm_brown_ba916b"
+        android:textSize="11sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/enshrine" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="商家资质认证"
+            android:textColor="#6a6d70"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/enshrine" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="未服务随时退"
+            android:textColor="#6a6d70"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/evaluate_base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/check_all_evaluate"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/yhpj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="用户评价"
+                android:textColor="#090a0a"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/detail_evaluate_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/yhpj"
+                android:layout_toRightOf="@id/yhpj"
+                android:lines="1"
+                android:text="(123)"
+                android:textColor="#090a0a"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/jt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/to_right_grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@id/jt"
+                android:text="查看全部"
+
+                android:textColor="#656669"
+                android:textSize="13sp" />
+
+
+        </RelativeLayout>
+
+        <include layout="@layout/com_line_horizontal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:id="@+id/evaluate_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:textColor="#656669"
+                android:textSize="17sp" />
+
+            <android.support.v7.widget.AppCompatRatingBar
+                android:id="@+id/evaluate_level"
+                style="@style/MyRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dip"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressBackgroundTint="@color/comm_grey_cccccc"
+                android:progressTint="@color/colorAccent"
+                android:rating="3.5"
+                android:secondaryProgressTint="@color/comm_grey_cccccc"
+                android:stepSize="0.5" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/evaluate_txt"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:textColor="#1a1a1b"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/app_bg" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="商品详情"
+        android:textColor="#1a1a1b"
+        android:textSize="17sp" />
+
+    <include layout="@layout/com_line_horizontal" />
+</LinearLayout>

@@ -2,29 +2,28 @@ package com.ssj.hulijie.utils.compresspic;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Environment;
+import android.support.v7.widget.RecyclerView;
+import android.util.LruCache;
+import android.view.View;
 import android.widget.ScrollView;
 
-import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.Constant;
 import com.ssj.hulijie.widget.dialog.WaitDialog;
-import com.ssj.hulijie.wxapi.UtilShare;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import static android.R.attr.bitmap;
-import static android.R.attr.iconifiedByDefault;
 
 
 /**
@@ -37,7 +36,7 @@ public class CompressImageTask extends AsyncTask<Void, Void, Bitmap> {
     private WaitDialog dlg;
     private String fileName;
     private CompressImageLister lister;
-    private ScrollView scrollView;
+    private RecyclerView recyclerView;
 
     public CompressImageTask(Context context, CompressImageLister lister) {
         this.context = context;
@@ -45,11 +44,11 @@ public class CompressImageTask extends AsyncTask<Void, Void, Bitmap> {
         dlg = new WaitDialog(context);
     }
 
-    public CompressImageTask(Context context, ScrollView scrollView, CompressImageLister lister) {
+    public CompressImageTask(Context context, RecyclerView recyclerView, CompressImageLister lister) {
         this.context = context;
         this.lister = lister;
-        this.scrollView = scrollView;
-        bitmap_temp = getBitmapByView(scrollView);
+        this.recyclerView = recyclerView;
+        bitmap_temp = getBitmapByView(recyclerView);
         dlg = new WaitDialog(context);
     }
 
@@ -142,6 +141,60 @@ public class CompressImageTask extends AsyncTask<Void, Void, Bitmap> {
         return bitmap;
     }
 
+    public Bitmap getBitmapByView(RecyclerView view) {
+
+        /**
+         * https://gist.github.com/PrashamTrivedi/809d2541776c8c141d9a
+         */
+        RecyclerView.Adapter adapter = view.getAdapter();
+        Bitmap bigBitmap = null;
+        if (adapter != null) {
+            int size = adapter.getItemCount();
+            int height = 0;
+            Paint paint = new Paint();
+            int iHeight = 0;
+            final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+
+            // Use 1/8th of the available memory for this memory cache.
+            final int cacheSize = maxMemory / 8;
+            LruCache<String, Bitmap> bitmaCache = new LruCache<>(cacheSize);
+            for (int i = 0; i < size; i++) {
+                RecyclerView.ViewHolder holder = adapter.createViewHolder(view, adapter.getItemViewType(i));
+                adapter.onBindViewHolder(holder, i);
+                holder.itemView.measure(
+                        View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                holder.itemView.layout(0, 0, holder.itemView.getMeasuredWidth(),
+                        holder.itemView.getMeasuredHeight());
+                holder.itemView.setDrawingCacheEnabled(true);
+                holder.itemView.buildDrawingCache();
+                Bitmap drawingCache = holder.itemView.getDrawingCache();
+                if (drawingCache != null) {
+
+                    bitmaCache.put(String.valueOf(i), drawingCache);
+                }
+                height += holder.itemView.getMeasuredHeight();
+            }
+
+            bigBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), height, Bitmap.Config.ARGB_8888);
+            Canvas bigCanvas = new Canvas(bigBitmap);
+            Drawable lBackground = view.getBackground();
+            if (lBackground instanceof ColorDrawable) {
+                ColorDrawable lColorDrawable = (ColorDrawable) lBackground;
+                int lColor = lColorDrawable.getColor();
+                bigCanvas.drawColor(lColor);
+            }
+
+            for (int i = 0; i < size; i++) {
+                Bitmap bitmap = bitmaCache.get(String.valueOf(i));
+                bigCanvas.drawBitmap(bitmap, 0f, iHeight, paint);
+                iHeight += bitmap.getHeight();
+                bitmap.recycle();
+            }
+        }
+        return bigBitmap;
+    }
+
 
     @Override
     protected void onPostExecute(Bitmap bt) {
@@ -151,6 +204,7 @@ public class CompressImageTask extends AsyncTask<Void, Void, Bitmap> {
 
 
     private static final float MAX_SIZE = 2.5f;
+
     /**
      * 压缩图片  先判断图片width & height是否>1500  ,如果大于1500，先进行比例压缩，之后再进行大小判断，如果大于3M，进行质量压缩
      *
@@ -173,7 +227,7 @@ public class CompressImageTask extends AsyncTask<Void, Void, Bitmap> {
                 bitmap = Bitmap.createBitmap(bit, 0, 0, bit.getWidth(), bit.getHeight(), matrix, true);
                 if (bit != null && !bit.isRecycled()) {
                     bit.recycle();
-                    bit =null;
+                    bit = null;
                 }
                 bos.reset();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);

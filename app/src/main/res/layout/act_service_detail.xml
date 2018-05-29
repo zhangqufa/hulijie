@@ -1,232 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/app_bg"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
 
-    <com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView
-        android:id="@+id/sv"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:paddingBottom="45dp">
-
-
-            <ImageView
-                android:src="@mipmap/loading_detail"
-                android:id="@+id/detail_img"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                />
-
-
-            <TextView
-                android:id="@+id/detail_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="卫浴洁具安装"
-                android:textColor="#060606"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/detail_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:lines="1"
-                android:text="¥ 30"
-                android:textColor="#e5505f"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/shape_bg_re_ba916b"
-                android:gravity="center"
-                android:padding="1dp"
-                android:text="上门服务"
-                android:textColor="@color/comm_brown_ba916b"
-                android:textSize="11sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/enshrine" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="商家资质认证"
-                    android:textColor="#6a6d70"
-                    android:textSize="13sp" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/enshrine" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="未服务随时退"
-                    android:textColor="#6a6d70"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-            <include layout="@layout/horizontal_bg_8_dp" />
-
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/evaluate_base"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <RelativeLayout
-                android:id="@+id/check_all_evaluate"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/yhpj"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="用户评价"
-                    android:textColor="#090a0a"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/detail_evaluate_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/yhpj"
-                    android:layout_toRightOf="@id/yhpj"
-                    android:lines="1"
-                    android:text="(123)"
-                    android:textColor="#090a0a"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/jt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@mipmap/to_right_grey" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_toLeftOf="@id/jt"
-                    android:text="查看全部"
-
-                    android:textColor="#656669"
-                    android:textSize="13sp" />
-
-
-            </RelativeLayout>
-
-            <include layout="@layout/com_line_horizontal" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp">
-
-                <TextView
-                    android:id="@+id/evaluate_user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="158****6543"
-                    android:textColor="#656669"
-                    android:textSize="17sp" />
-
-                <android.support.v7.widget.AppCompatRatingBar
-                    style="@style/MyRatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dip"
-                    android:isIndicator="true"
-                    android:id="@+id/evaluate_level"
-                    android:numStars="5"
-                    android:progressBackgroundTint="@color/comm_grey_cccccc"
-                    android:progressTint="@color/colorAccent"
-                    android:rating="3.5"
-                    android:secondaryProgressTint="@color/comm_grey_cccccc"
-                    android:stepSize="0.5" />
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/evaluate_txt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:padding="10dp"
-                android:text="挺不错的，师傅弄完以后，下水道立马就不臭了。而且安的管道质量一看就是属于还不错呢!"
-                android:textColor="#1a1a1b"
-                android:textSize="16sp" />
-
-
-            <include layout="@layout/horizontal_bg_8_dp" />
-
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginRight="10dp"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:text="商品详情"
-                android:textColor="#1a1a1b"
-                android:textSize="17sp" />
-
-            <include layout="@layout/com_line_horizontal" />
-
-
-           <com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView
-               android:id="@+id/detail_descript_img_rv"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:paddingBottom="20dp"
-               />
-
-            <include layout="@layout/horizontal_bg_8_dp" />
-        </LinearLayout>
-
-
-    </com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView>
-
+        android:layout_height="match_parent"
+        android:background="@android:color/white" />
 
     <RelativeLayout
         android:id="@+id/title_bar_base"
@@ -319,10 +102,10 @@
 
 
     <View
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:background="@color/comm_grey_666666_0_9"
         android:id="@+id/ll"
-        android:layout_height="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/comm_grey_666666_0_9"
+        android:visibility="gone" />
 
 </RelativeLayout>

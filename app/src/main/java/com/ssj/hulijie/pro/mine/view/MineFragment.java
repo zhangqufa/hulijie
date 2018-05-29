@@ -122,7 +122,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         //show person info
         user_des = (TextView) viewContent.findViewById(R.id.user_des);
 
-        String s = Environment.getExternalStorageDirectory().getAbsolutePath() + "/share.jpeg";
+        String s = Environment.getExternalStorageDirectory().getAbsolutePath() + "/share.jpg";
         String s1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/aaa.jpg";
         File file = new File(s);
         if (file.exists()) {
@@ -155,6 +155,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
     private String useHttpUrl(String path[]) {
+        AppLog.Log("开始上传");
         try {
             URL url = new URL(AppURL.URL_PIC_UPLOAD);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

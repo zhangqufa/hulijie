@@ -14,50 +14,50 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.utils.DensityUtil;
+import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.ImageUrlFormat;
-
-import java.util.List;
+import com.ssj.hulijie.widget.recylerview.BaseRecyclerAdapter;
 
 /**
- * @author qufa
+ * @author vic_zhang .
+ *         on 2018/5/29
  */
-public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageAdapter.DetailImageViewHolder> {
+
+public class DetailImageHeadAdapter extends BaseRecyclerAdapter<String> {
+
     private Context context;
-    private List<String> lists;
     private int width;
 
-    public DetailImageAdapter(Context context, int width) {
+    public DetailImageHeadAdapter(Context context) {
         this.context = context;
-        this.width = width;
-    }
-
-    public void setLists(List<String> lists) {
-        this.lists = lists;
-        notifyDataSetChanged();
+        this.width = DisplayUtils.screenWidth - DensityUtil.dip2px(context, 20);
     }
 
     @Override
-    public DetailImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreate(ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(context).inflate(R.layout.item_detail_img, parent, false);
-        return new DetailImageViewHolder(item);
+        return new DetailImageHeadViewHolder(item);
     }
 
     @Override
-    public void onBindViewHolder(final DetailImageViewHolder holder, int position) {
-        String url = lists.get(position);
-        final String url_format = ImageUrlFormat.urlFormat(url);
+    public void onBind(RecyclerView.ViewHolder viewHolder, int RealPosition, String data) {
+        final String url_format = ImageUrlFormat.urlFormat(data);
         AppLog.Log("url_images: " + url_format);
-        Glide.with(context)
-                .load(url_format)
-                .asBitmap()
-                .placeholder(R.mipmap.loading_detail)
-                .error(R.mipmap.loading_detail)
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        showPic(resource, holder.detail_descript_img);
-                    }
-                });
+        if (viewHolder instanceof DetailImageHeadAdapter.DetailImageHeadViewHolder) {
+            final DetailImageHeadViewHolder vh = (DetailImageHeadViewHolder) viewHolder;
+            Glide.with(context)
+                    .load(url_format)
+                    .asBitmap()
+                    .placeholder(R.mipmap.loading_detail)
+                    .error(R.mipmap.loading_detail)
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            showPic(resource, vh.detail_descript_img);
+                        }
+                    });
+        }
 
     }
 
@@ -78,15 +78,10 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageAdapter.
 
     }
 
-    @Override
-    public int getItemCount() {
-        return lists == null ? 0 : lists.size();
-    }
-
-    class DetailImageViewHolder extends RecyclerView.ViewHolder {
+    class DetailImageHeadViewHolder extends RecyclerView.ViewHolder {
         private ImageView detail_descript_img;
 
-        public DetailImageViewHolder(View itemView) {
+        public DetailImageHeadViewHolder(View itemView) {
             super(itemView);
             detail_descript_img = (ImageView) itemView.findViewById(R.id.detail_descript_img);
         }

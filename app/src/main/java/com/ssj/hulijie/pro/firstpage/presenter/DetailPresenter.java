@@ -3,23 +3,17 @@ package com.ssj.hulijie.pro.firstpage.presenter;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.firstpage.bean.CatetoryItem;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceAndEvaluateItem;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceEvaluate;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
-import com.ssj.hulijie.pro.firstpage.bean.EvaluateItem;
 import com.ssj.hulijie.pro.firstpage.model.DetailModel;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.Constant;
 import com.yanzhenjie.nohttp.rest.Response;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/6/17.
@@ -38,7 +32,7 @@ public class DetailPresenter extends BasePresenter<DetailModel> {
     }
 
     public void getDetailPresenter(BaseActivity context, String good_id, final OnUIThreadListener<DetailServiceAndEvaluateItem> onUIThreadListener) {
-        getModel().getDetailModel(context, good_id, new HttpListener<JSONObject>(){
+        getModel().getDetailModel(context, good_id, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
@@ -48,7 +42,7 @@ public class DetailPresenter extends BasePresenter<DetailModel> {
                         int code = jsonObject.getIntValue("code");
                         if (code == Constant.SUCCESS_CODE) {
                             String data = jsonObject.getString("data");
-                            AppLog.Log("detail_info: "+data);
+                            AppLog.Log("detail_info: " + data);
 //                             data="{\n" +
 //                                    "    \"info\": {\n" +
 //                                    "        \"goods_id\": \"3230\",\n" +
@@ -97,7 +91,7 @@ public class DetailPresenter extends BasePresenter<DetailModel> {
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                    onUIThreadListener.onResult(null);
+                onUIThreadListener.onResult(null);
             }
         });
     }

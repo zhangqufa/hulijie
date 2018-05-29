@@ -5,89 +5,60 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatRatingBar;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ssj.hulijie.R;
-import com.ssj.hulijie.alipay.Constants;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.firstpage.adapter.DetailImageAdapter;
+import com.ssj.hulijie.pro.firstpage.adapter.DetailImageHeadAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceAndEvaluateItem;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceEvaluate;
 import com.ssj.hulijie.pro.firstpage.bean.DetailServiceItem;
 import com.ssj.hulijie.pro.firstpage.bean.EvaluateItem;
-import com.ssj.hulijie.pro.firstpage.bean.ItemCategory;
 import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
-import com.ssj.hulijie.pro.firstpage.bean.ItemFirstPageMainList;
-import com.ssj.hulijie.pro.firstpage.bean.ItemRemmendList;
 import com.ssj.hulijie.pro.firstpage.presenter.DetailPresenter;
 import com.ssj.hulijie.pro.firstpage.view.widget.LinearLayoutManagerInScrollView;
-import com.ssj.hulijie.pro.firstpage.view.widget.ListViewInScrollView;
-import com.ssj.hulijie.pro.firstpage.view.widget.MyScrollView;
-import com.ssj.hulijie.pro.firstpage.view.widget.RecylerViewInScrollView;
-import com.ssj.hulijie.pro.firstpage.view.widget.ScrollViewListener;
-import com.ssj.hulijie.pro.firstpage.view.widget.SelectPopWindow;
 import com.ssj.hulijie.pro.firstpage.view.widget.SharePopWindow;
-import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.pro.mine.view.MineOrderListActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
-import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.utils.DisplayUtils;
-import com.ssj.hulijie.utils.PictureUtil;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
-import com.ssj.hulijie.utils.StringFormat;
 import com.ssj.hulijie.utils.WxUtil;
-import com.ssj.hulijie.utils.compresspic.CompressImageLister;
-import com.ssj.hulijie.utils.compresspic.CompressImageTask;
 import com.ssj.hulijie.wxapi.ConstantsWechat;
-import com.tencent.mm.opensdk.modelbase.BaseReq;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import static android.R.attr.bitmap;
 import static com.ssj.hulijie.pro.mine.view.MineFragment.REQUESTPERSIMMIONCODE;
 import static com.ssj.hulijie.utils.WxUtil.buildTransaction;
 
@@ -98,24 +69,19 @@ import static com.ssj.hulijie.utils.WxUtil.buildTransaction;
 
 public class DetailInfoActivity extends BaseActivity implements View.OnClickListener {
     private ItemCategoryMain.DataBean.RowsBean item;
-    private MyScrollView sv;
-    private int height;
     private TextView nav_center_title;
     private RelativeLayout toolbar_base;
-    private boolean isFirst = true;
     private ImageView iv_navigation_back;
     private ImageView iv_navigation_right;
-    private ListViewInScrollView lv;
     private DetailPresenter mPresenter;
     private ImageView detail_img; //图片
     private TextView detail_title;  //title
     private TextView detail_price;
-    private ImageView detail_descript_img;  //详情图片
     private TextView detail_evaluate_count; //评论数
-    private RecylerViewInScrollView detail_descript_img_rv;
-    private DetailImageAdapter adapter;
+    private DetailImageHeadAdapter adapter;
     private LinearLayout evaluate_base;
 
+    private RecyclerView rv;
     private TextView evaluate_user;
     private TextView evaluate_txt;
     private AppCompatRatingBar evaluate_level;
@@ -172,26 +138,10 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private void updateUI(DetailServiceAndEvaluateItem result) {
         if (result != null) {
             detail = result.getDetail();
-            DetailServiceEvaluate evaluate = result.getEvaluate();
-            //show evaluate
-            if (evaluate != null && evaluate.getRows() != null && evaluate.getRows().size() > 0) {
-                evaluate_base.setVisibility(View.VISIBLE);
-                //show evaluate count
-                detail_evaluate_count.setText("(" + evaluate.getCount() + ")");
-                //show first evaluate title
-                EvaluateItem evaluateItem = evaluate.getRows().get(0);
-                if (evaluate != null) {
-
-                    evaluate_user.setText(""); //// TODO: 2017/8/7 评论没有传用户
-                    //show evaluate level
-                    evaluate_level.setRating(evaluateItem.getEvaluation());
-
-                    //show first evaluate describe
-                    evaluate_txt.setText(evaluateItem.getComment());
-                }
-            } else {
-                evaluate_base.setVisibility(View.GONE);
-            }
+            //show detial pic
+            List<String> img = detail.getImg();
+            AppLog.Log("img: " + img);
+            adapter.addDatas(img);
 
             //show pic
             String default_image_rul = detail.getDefault_image();
@@ -227,10 +177,35 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             String price = detail.getPrice();
             detail_price.setText("¥ " + price);
 
-            //show detial pic
-            List<String> img = detail.getImg();
-            AppLog.Log("img: " + img);
-            adapter.setLists(img);
+
+            DetailServiceEvaluate evaluate = result.getEvaluate();
+            evaluate.setCount(1);
+            List<EvaluateItem> rows = new ArrayList<>();
+            EvaluateItem evaluateItem1 = new EvaluateItem();
+            evaluateItem1.setComment("挺不错的，师傅弄完以后，下水道立马就不臭了。而且安的管道质量一看就是属于还不错呢!");
+            evaluateItem1.setEvaluation(4f);
+            rows.add(evaluateItem1);
+            evaluate.setRows(rows);
+
+            //show evaluate
+            if (evaluate != null && evaluate.getRows() != null && evaluate.getRows().size() > 0) {
+                evaluate_base.setVisibility(View.VISIBLE);
+                //show evaluate count
+                detail_evaluate_count.setText("(" + evaluate.getCount() + ")");
+                //show first evaluate title
+                EvaluateItem evaluateItem = evaluate.getRows().get(0);
+                if (evaluate != null) {
+
+                    evaluate_user.setText(""); //// TODO: 2017/8/7 评论没有传用户
+                    //show evaluate level
+                    evaluate_level.setRating(evaluateItem.getEvaluation());
+
+                    //show first evaluate describe
+                    evaluate_txt.setText(evaluateItem.getComment());
+                }
+            } else {
+                evaluate_base.setVisibility(View.GONE);
+            }
 
 
         }
@@ -239,57 +214,59 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
 
     private void initView() {
-        evaluate_level = (AppCompatRatingBar) findViewById(R.id.evaluate_level);
-        toolbar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
-        evaluate_base = (LinearLayout) findViewById(R.id.evaluate_base);
 
-        evaluate_user = (TextView) findViewById(R.id.evaluate_user);
-        evaluate_txt = (TextView) findViewById(R.id.evaluate_txt);
+        toolbar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
+
+
         nav_center_title = (TextView) findViewById(R.id.tv_navigation_center);
         iv_navigation_back = (ImageView) findViewById(R.id.iv_navigation_back);
         iv_navigation_right = (ImageView) findViewById(R.id.iv_navigation_right);
         iv_navigation_back.setOnClickListener(this);
         iv_navigation_right.setOnClickListener(this);
-        sv = (MyScrollView) getViewId(R.id.sv);
-        sv.setScrollViewListener(listener);
-
-
-        detail_img = (ImageView) findViewById(R.id.detail_img);
-        detail_descript_img = (ImageView) findViewById(R.id.detail_descript_img);
-        detail_title = (TextView) findViewById(R.id.detail_title);
-        detail_price = (TextView) findViewById(R.id.detail_price);
-        detail_evaluate_count = (TextView) findViewById(R.id.detail_evaluate_count);
 
         findViewById(R.id.order_btn).setOnClickListener(this);
-        findViewById(R.id.check_all_evaluate).setOnClickListener(this);
+
         findViewById(R.id.ll_call_seller).setOnClickListener(this);
 
-        detail_descript_img_rv = (RecylerViewInScrollView) findViewById(R.id.detail_descript_img_rv);
-        detail_descript_img_rv.setLayoutManager(new LinearLayoutManagerInScrollView(this));
+        rv = (RecyclerView) findViewById(R.id.rv);
+
+        rv.setLayoutManager(new LinearLayoutManagerInScrollView(this));
         DisplayUtils.initScreen(this);
-        int screenWidth = DisplayUtils.screenWidth - DensityUtil.dip2px(this, 20);
-        AppLog.Log("screenWidth:" + screenWidth);
-        adapter = new DetailImageAdapter(this, screenWidth);
-        detail_descript_img_rv.setAdapter(adapter);
+
+
+        adapter = new DetailImageHeadAdapter(this);
+        View header = View.inflate(this, R.layout.header_detail, null);
+        adapter.setHeaderView(header);
+
+        detail_title = (TextView) header.findViewById(R.id.detail_title);
+        detail_price = (TextView) header.findViewById(R.id.detail_price);
+        detail_img = (ImageView) header.findViewById(R.id.detail_img);
+        evaluate_level = (AppCompatRatingBar) header.findViewById(R.id.evaluate_level);
+        header.findViewById(R.id.check_all_evaluate).setOnClickListener(this);
+        evaluate_user = (TextView) header.findViewById(R.id.evaluate_user);
+        evaluate_txt = (TextView) header.findViewById(R.id.evaluate_txt);
+        evaluate_base = (LinearLayout) header.findViewById(R.id.evaluate_base);
+        detail_evaluate_count = (TextView) header.findViewById(R.id.detail_evaluate_count);
+        rv.setAdapter(adapter);
+        rv.addOnScrollListener(onScrollListener);
     }
 
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (isFirst) {
-            isFirst = false;
-            height = toolbar_base.getHeight();
-        }
-    }
-
-    private ScrollViewListener listener = new ScrollViewListener() {
+    private int topTotal;
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
-        public void onScrollChanged(MyScrollView scrollView, int x, int y, int oldx, int oldy) {
-            if (y < height * 2 && y <= 255) {
-                toolbar_base.setBackgroundColor(Color.argb(y, 255, 255, 255));
-                nav_center_title.setTextColor(Color.argb(y, 0, 0, 0));
-                if (y > 200) {
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            topTotal = topTotal + dy;
+            AppLog.Log("topTotal:  " + topTotal);
+
+            if (topTotal < toolbar_base.getHeight() * 2 && topTotal <= 255) {
+                if (topTotal < 0) {
+                    topTotal = 0;
+                }
+                toolbar_base.setBackgroundColor(Color.argb(topTotal, 255, 255, 255));
+                nav_center_title.setTextColor(Color.argb(topTotal, 0, 0, 0));
+                if (topTotal > 200) {
                     iv_navigation_back.setImageResource(R.mipmap.back__btn_re);
                     iv_navigation_right.setImageResource(R.mipmap.share_red);
                 } else {
@@ -300,8 +277,6 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 toolbar_base.setBackgroundColor(Color.argb(255, 255, 255, 255));
                 nav_center_title.setTextColor(Color.argb(255, 0, 0, 0));
             }
-
-
         }
     };
 
@@ -357,27 +332,27 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             case R.id.ll_call_seller:
                 callPhone();
                 break;
-            default:break;
+            default:
+                break;
         }
     }
-
-
 
 
     /**
      * 分享到微信
      */
     private void shareToWx() {
-        CompressImageTask task = new CompressImageTask(this, sv, new CompressImageLister() {
-            @Override
-            public void onCompressSuccess(Bitmap bitmap) {
-                sendToWx(bitmap);
-            }
-        });
-        task.execute();
+//todo 图片分享暂时不用
+//        CompressImageTask task = new CompressImageTask(this, rv, new CompressImageLister() {
+//            @Override
+//            public void onCompressSuccess(Bitmap bitmap) {
+//                sendToWx(bitmap);
+//            }
+//        });
+//        task.execute();
     }
 
-    private void sendToWx(Bitmap smallBitmap)  {
+    private void sendToWx(Bitmap smallBitmap) {
         if (smallBitmap == null) {
             AppToast.ShowToast("分享失败");
             return;
@@ -390,7 +365,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         msg.mediaObject = imgObj;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         smallBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-        float total_count = bos.toByteArray().length / 1024f ;
+        float total_count = bos.toByteArray().length / 1024f;
         //设置 缩略图
         AppLog.Log("缩略压缩后图片的大小_ 变化前： " + total_count
                 + "k宽度为" + smallBitmap.getWidth() + "高度为" + smallBitmap.getHeight());
@@ -398,7 +373,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         Bitmap thumbBmp = createBitmapThumbnail(smallBitmap);
         bos.reset();
         thumbBmp.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-        total_count = bos.toByteArray().length / 1024f ;
+        total_count = bos.toByteArray().length / 1024f;
         bos.reset();
         try {
             bos.close();
@@ -436,7 +411,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         int height = bitMap.getHeight();
         // 设置想要的大小
         int newWidth = 100;
-        int newHeight =120;
+        int newHeight = 120;
         // 计算缩放比例
         float scaleWidth = ((float) newWidth) / width;
         float scaleHeight = ((float) newHeight) / height;
