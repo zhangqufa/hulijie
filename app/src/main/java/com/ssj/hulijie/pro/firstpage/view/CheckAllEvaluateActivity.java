@@ -1,6 +1,10 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,10 +15,15 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.AllEvaluateAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.EvaluateItem;
+import com.ssj.hulijie.pro.firstpage.bean.ItemEvaluate;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
+import com.ssj.hulijie.pro.mine.view.MineOrderListActivity;
+import com.ssj.hulijie.pro.mine.view.OrderListFragment;
+import com.ssj.hulijie.pro.mine.view.widget.TabPageIndicator;
 import com.ssj.hulijie.pro.msg.adapter.MsgListAdapter;
 import com.ssj.hulijie.pro.msg.bean.MsgData;
 import com.ssj.hulijie.pro.msg.bean.MsgListData;
+import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.ArrayList;
@@ -34,9 +43,15 @@ import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 public class CheckAllEvaluateActivity extends BaseActivity {
 
-    private RecyclerView msg_rv;
-    private PtrClassicFrameLayout ptr;
-    private EvaluateItem evaluateItem;
+    private TabPageIndicator mTabTl;
+    private ViewPager mContentVp;
+
+    private List<String> tabIndicators;
+    private List<Fragment> tabFragments;
+    private ContentPagerAdapter contentAdapter;
+    private int defaultPage = 0;
+
+    private String goods_id;
 
     @Override
     public MvpBasePresenter bindPresenter() {
@@ -47,11 +62,12 @@ public class CheckAllEvaluateActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_all_evaluate);
+        goods_id =getIntent().getStringExtra("goods_id");
+        initToolBar();
         initView();
-        initToolbar();
     }
 
-    private void initToolbar() {
+    private void initToolBar() {
         RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
         TitlebarUtil.inittoolBar(this, title_bar_base, true, "评价", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
             @Override
@@ -62,102 +78,80 @@ public class CheckAllEvaluateActivity extends BaseActivity {
     }
 
     private void initView() {
-        ptr = (PtrClassicFrameLayout) findViewById(R.id.ptr_all_evaluate_list);
-        ptr.setLastUpdateTimeRelateObject(this);
-        ptr.addPtrUIHandler(handler);
-        ptr.setPtrHandler(ptrHandler);
+        mTabTl = (TabPageIndicator) findViewById(R.id.tl_tab);
+        mTabTl.setBackgroundColor(getResources().getColor(android.R.color.white));
+        mContentVp = (ViewPager) findViewById(R.id.vp_content);
 
-
-        msg_rv = (RecyclerView) findViewById(R.id.msg_rv);
-        msg_rv.setLayoutManager(new LinearLayoutManager(this));
-        msg_rv.addItemDecoration(new DividerGridItemDecoration(this));
-        AllEvaluateAdapter adapter = new AllEvaluateAdapter(this);
-        msg_rv.setAdapter(adapter);
-        adapter.setLists(getData());
-        adapter.setOnItemClickListener(onClickListener);
+        initContent();
+        initTab();
+        mContentVp.setCurrentItem(defaultPage);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (ptr != null) {
-            ptr.refreshComplete();
+    private void initTab() {
+
+        mTabTl.setIndicatorMode(TabPageIndicator.IndicatorMode.MODE_WEIGHT_NOEXPAND_SAME);// 设置模式，一定要先设置模式
+//        mTabTl.setDividerColor(R.color.colorPrimary);// 设置分割线的颜色
+//        mTabTl.setDividerPadding(DensityUtil.dip2px(this, 10));
+        mTabTl.setIndicatorPaddingLeft(DensityUtil.dip2px(this, 10));
+        mTabTl.setIndicatorPaddingRight(DensityUtil.dip2px(this, 10));
+        mTabTl.setIndicatorHeight(DensityUtil.dip2px(this, 2));
+        mTabTl.setIndicatorColorResource(R.color.colorPrimary);// 设置底部导航线的颜色
+        mTabTl.setTextColorSelectedResource(R.color.colorPrimary);// 设置tab标题选中的颜色
+        mTabTl.setTextColorResource(R.color.comm_grey_666666);// 设置tab标题未被选中的颜色
+        mTabTl.setTextSize(DensityUtil.sp2px(this, 14));// 设置字体大小
+        mTabTl.setUnderlineHeight(1);
+    }
+
+    private void initContent() {
+        tabIndicators = new ArrayList<>();
+        tabIndicators.add("全部");
+        tabIndicators.add("晒图");
+        tabIndicators.add("低分");
+        tabIndicators.add("最新");
+        tabFragments = new ArrayList<>();
+        for (String s : tabIndicators) {
+            EvaluateFragment evaluateFragment = EvaluateFragment.newInstance();
+            Bundle arguments = new Bundle();
+            arguments.putString(EvaluateFragment.EXTRA_CONTENT, s);
+            arguments.putString("goods_id", goods_id);
+            evaluateFragment.setArguments(arguments);
+            tabFragments.add(evaluateFragment);
+        }
+        contentAdapter = new ContentPagerAdapter(getSupportFragmentManager());
+        mContentVp.setAdapter(contentAdapter);
+
+        mContentVp.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int i) {
+                // 测试只有ViewPager在第0页时才开启滑动返回
+                mSwipeBackHelper.setSwipeBackEnable(i == 0);
+            }
+        });
+        mTabTl.setViewPager(mContentVp);
+    }
+
+    class ContentPagerAdapter extends FragmentPagerAdapter {
+
+        public ContentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return tabFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return tabIndicators.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabIndicators.get(position);
         }
     }
 
-    /**
-     * ptr ui listener
-     */
-    private PtrUIHandler handler = new PtrUIHandler() {
-        @Override
-        public void onUIReset(PtrFrameLayout frame) {
 
-
-        }
-
-        @Override
-        public void onUIRefreshPrepare(PtrFrameLayout frame) {
-
-        }
-
-        @Override
-        public void onUIRefreshBegin(PtrFrameLayout frame) {
-
-        }
-
-        @Override
-        public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
-
-        }
-
-        @Override
-        public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
-
-        }
-    };
-
-    /**
-     * ptr data update
-     */
-    private PtrHandler ptrHandler = new PtrDefaultHandler2() {
-        @Override
-        public void onLoadMoreBegin(PtrFrameLayout frame) {
-            frame.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ptr.refreshComplete();
-                }
-            }, 1800);
-        }
-
-        @Override
-        public void onRefreshBegin(PtrFrameLayout frame) {
-            frame.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ptr.refreshComplete();
-                }
-            }, 1800);
-        }
-    };
-
-    private List<EvaluateItem> getData() {
-        List<EvaluateItem> lists = new ArrayList<>();
-        for (int i = 0; i < FirstPageFrament.img.length; i++) {
-            EvaluateItem data = new EvaluateItem();
-            //// TODO: 2017/7/23  
-            lists.add(data);
-        }
-
-
-        return lists;
-
-    }
-
-    private AllEvaluateAdapter.OnItemClickListener<EvaluateItem> onClickListener = new AllEvaluateAdapter.OnItemClickListener<EvaluateItem>() {
-        @Override
-        public void onItemClick(int position, EvaluateItem data) {
-
-        }
-    };
 }

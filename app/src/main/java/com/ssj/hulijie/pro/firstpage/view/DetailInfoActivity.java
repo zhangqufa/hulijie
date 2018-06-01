@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -235,7 +236,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
 
         adapter = new DetailImageHeadAdapter(this);
-        View header = View.inflate(this, R.layout.header_detail, null);
+        View header = LayoutInflater.from(this).inflate( R.layout.header_detail, rv,false);
         adapter.setHeaderView(header);
 
         detail_title = (TextView) header.findViewById(R.id.detail_title);
@@ -327,7 +328,12 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 startActivityForResult(i, TOYUYUE);
                 break;
             case R.id.check_all_evaluate:
-                startActivity(new Intent(this, CheckAllEvaluateActivity.class));
+                if (detail == null) {
+                    return;
+                }
+                Intent intent = new Intent(this, CheckAllEvaluateActivity.class);
+                intent.putExtra("goods_id", detail.getGoods_id());
+                startActivity(intent);
                 break;
             case R.id.ll_call_seller:
                 callPhone();

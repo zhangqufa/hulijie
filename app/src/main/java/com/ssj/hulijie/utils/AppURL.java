@@ -50,4 +50,8 @@ public class AppURL {
     public static final String URL_PIC_UPLOAD = URL_API + "/File/stream2Image";
 
 
+    //评论列表
+    public static final String URL_EVALUATE = URL_API + "/Home/comment";
+
+
 }
