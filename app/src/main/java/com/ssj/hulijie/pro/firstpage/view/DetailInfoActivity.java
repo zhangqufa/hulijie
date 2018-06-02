@@ -236,7 +236,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
 
         adapter = new DetailImageHeadAdapter(this);
-        View header = LayoutInflater.from(this).inflate( R.layout.header_detail, rv,false);
+        View header = LayoutInflater.from(this).inflate(R.layout.header_detail, rv, false);
         adapter.setHeaderView(header);
 
         detail_title = (TextView) header.findViewById(R.id.detail_title);
@@ -261,23 +261,25 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             topTotal = topTotal + dy;
             AppLog.Log("topTotal:  " + topTotal);
 
-            if (topTotal < toolbar_base.getHeight() * 2 && topTotal <= 255) {
-                if (topTotal < 0) {
-                    topTotal = 0;
-                }
-                toolbar_base.setBackgroundColor(Color.argb(topTotal, 255, 255, 255));
-                nav_center_title.setTextColor(Color.argb(topTotal, 0, 0, 0));
-                if (topTotal > 200) {
-                    iv_navigation_back.setImageResource(R.mipmap.back__btn_re);
-                    iv_navigation_right.setImageResource(R.mipmap.share_red);
-                } else {
-                    iv_navigation_back.setImageResource(R.mipmap.back_btn_huan);
-                    iv_navigation_right.setImageResource(R.mipmap.share_btn_huan);
-                }
-            } else {
+
+            if (topTotal <= 0) {
+                topTotal = 0;
+            }
+            if (topTotal >= 255) {
+                topTotal = 255;
                 toolbar_base.setBackgroundColor(Color.argb(255, 255, 255, 255));
                 nav_center_title.setTextColor(Color.argb(255, 0, 0, 0));
             }
+            toolbar_base.setBackgroundColor(Color.argb(topTotal, 255, 255, 255));
+            nav_center_title.setTextColor(Color.argb(topTotal, 0, 0, 0));
+            if (topTotal > 200) {
+                iv_navigation_back.setImageResource(R.mipmap.back__btn_re);
+                iv_navigation_right.setImageResource(R.mipmap.share_red);
+            } else {
+                iv_navigation_back.setImageResource(R.mipmap.back_btn_huan);
+                iv_navigation_right.setImageResource(R.mipmap.share_btn_huan);
+            }
+
         }
     };
 
