@@ -261,7 +261,6 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             topTotal = topTotal + dy;
             AppLog.Log("topTotal:  " + topTotal);
 
-
             if (topTotal <= 0) {
                 topTotal = 0;
             }
@@ -279,7 +278,6 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 iv_navigation_back.setImageResource(R.mipmap.back_btn_huan);
                 iv_navigation_right.setImageResource(R.mipmap.share_btn_huan);
             }
-
         }
     };
 
