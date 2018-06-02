@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="60dp">
 
     <ImageView
         android:id="@+id/temp_pic"
         android:layout_width="50dp"
+        android:padding="10dp"
         android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
