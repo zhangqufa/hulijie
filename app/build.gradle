@@ -71,6 +71,7 @@ dependencies {
     compile files('libs/BASE64.jar')
     compile files('libs/alipaySdk-20170725.jar')
     compile project(':xrecyclerview')
+    compile project(':album')
 
     compile(name: 'geetest_testbutton_android_v3.5.2', ext: 'aar')
 }

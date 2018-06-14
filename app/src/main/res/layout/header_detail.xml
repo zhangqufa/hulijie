@@ -155,18 +155,10 @@
             <android.support.v7.widget.AppCompatRatingBar
                 android:id="@+id/evaluate_level"
                 style="@style/MyRatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dip"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:progressBackgroundTint="@color/comm_grey_cccccc"
-                android:progressTint="@color/colorAccent"
-                android:rating="3.5"
-                android:secondaryProgressTint="@color/comm_grey_cccccc"
-                android:stepSize="0.5" />
+              />
 
         </RelativeLayout>
 

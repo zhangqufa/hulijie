@@ -7,8 +7,13 @@ import com.baidu.mapapi.SDKInitializer;
 import com.sdu.didi.openapi.DIOpenSDK;
 import com.ssj.hulijie.pro.db.helper.TemplateConfig;
 import com.ssj.hulijie.utils.AppLog;
+import com.yanzhenjie.album.Album;
+import com.yanzhenjie.album.AlbumConfig;
+import com.yanzhenjie.album.api.loader.GlideAlbumLoader;
 import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.NoHttp;
+
+import java.util.Locale;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -27,6 +32,15 @@ public class HljAppliation extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+
+        //init album
+        Album.initialize(
+                AlbumConfig.newBuilder(context)
+                        .setAlbumLoader(new GlideAlbumLoader()) // This is not necessary.
+                        .setLocale(Locale.getDefault())
+                        .build()
+        );
+
 
         //init nohttp
         NoHttp.initialize(this);

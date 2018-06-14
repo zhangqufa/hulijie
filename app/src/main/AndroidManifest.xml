@@ -106,6 +106,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity
+            android:name=".pro.mine.view.EvaluateSubmitActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
             android:name=".pro.msg.view.MsgListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />

@@ -1,11 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_marginTop="8dp"
     android:layout_height="wrap_content">
 
-    <TextView
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:text="dddfsfsdf"
-        android:layout_height="45dp" />
+        android:layout_height="45dp">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/pic"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+        <TextView
+            android:layout_alignTop="@id/pic"
+            android:text="我是昵称"
+            android:id="@+id/nickname"
+            android:layout_toRightOf="@id/pic"
+            android:layout_width="wrap_content"
+            android:maxLines="1"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatRatingBar
+            android:id="@+id/evaluate_level"
+            android:layout_below="@id/nickname"
+            android:layout_toRightOf="@id/pic"
+            style="@style/MyRatingBar"
+
+            />
+
+        <TextView
+            android:layout_marginRight="10dp"
+            android:layout_alignTop="@id/pic"
+            android:layout_alignParentRight="true"
+            android:id="@+id/time"
+            android:text="2018-11-11"
+            android:textSize="12sp"
+            android:minLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/content"
+        android:padding="10dp"
+        android:text="这个服务很不错，质量也不错， 效果真好，合作很愉快！"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="55dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:id="@+id/rv_img"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/com_line_horizontal" />
+
+    <LinearLayout
+        android:paddingBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginLeft="55dp"
+            android:layout_width="30dp"
+            android:padding="5dp"
+            android:src="@mipmap/seller_response"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+            android:text="商家回复：本公司成立10年， 有良好的服务基础， 并对用户尽心尽责，打造让用户100%满意的目标去服务，请期待下次合作哦。"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

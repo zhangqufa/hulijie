@@ -101,9 +101,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 }
                 break;
             case 40:
+                if (!sellerFlag) {
+                    right = context.getString(R.string.order_to_evaluate);
+                    left = context.getString(R.string.order_refund);
+                }
                 status_str = context.getString(R.string.order_wait_evaluate);
-                right = context.getString(R.string.order_to_evaluate);
-                left = context.getString(R.string.order_refund);
                 break;
             case 50:
                 status_str = context.getString(R.string.order_business_success);
@@ -169,7 +171,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                         //退款
                         || context.getString(R.string.order_refund).equals(btn_str)
                         || context.getString(R.string.order_cancel).equals(btn_str)
-                        || context.getString(R.string.order_confirm_complete).equals(btn_str)) {
+                        || context.getString(R.string.order_confirm_complete).equals(btn_str)
+                        ||context.getString(R.string.order_to_evaluate).equals(btn_str)) {
                     if (listener != null) {
                         listener.onItemRightClick(position, btn_str, dataBean);
                     }

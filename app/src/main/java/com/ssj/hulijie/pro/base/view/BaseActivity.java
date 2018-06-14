@@ -10,6 +10,7 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.mvp.view.impl.MvpActivity;
 import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.nohttp.HttpResponseListener;
+import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.MyHandler;
 import com.ssj.hulijie.utils.StatusBarColorUtils;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -48,6 +49,7 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         StatusBarColorUtils.setWindowStatusBarColor(this, R.color.comm_grey_666666);
         mQueue = NoHttp.newRequestQueue(1);
         mHandler.setHandlerCallback(this);
+        DisplayUtils.initScreen(this);
     }
 
     /**

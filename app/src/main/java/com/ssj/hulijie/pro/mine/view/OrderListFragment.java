@@ -227,6 +227,9 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
                     }
                 },"是否确定完成?");
                 dlg.show();
+            } else if (getString(R.string.order_to_evaluate).equals(status)) {
+                Intent intent = new Intent(getActivity(), EvaluateSubmitActivity.class);
+                startActivity(intent);
             }
         }
 
