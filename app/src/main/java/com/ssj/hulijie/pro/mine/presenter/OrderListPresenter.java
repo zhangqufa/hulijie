@@ -191,8 +191,8 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
      * @param images
      * @param onUIThreadListener
      */
-    public void getEvaluateSubmitPresenter(BaseActivity context, String order_id, String comment, int score, String images,final OnUIThreadListener<Boolean> onUIThreadListener) {
-        getModel().getEvaluateSubmitModel(context, order_id, comment, score, images, new HttpListener<JSONObject>() {
+    public void getEvaluateSubmitPresenter(BaseActivity context,String user_id, String order_id, String comment, int score, String images,final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getEvaluateSubmitModel(context,user_id, order_id, comment, score, images, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();

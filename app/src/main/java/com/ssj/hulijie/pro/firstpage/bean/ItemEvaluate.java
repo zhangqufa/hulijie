@@ -83,8 +83,17 @@ public class ItemEvaluate {
             private String subscore1;
             private String subscore2;
             private String subscore3;
-            private List<String> images;
-            private String commentdate;
+            private String images;
+            private long commentdate;
+            private String buyer_name;
+
+            public String getBuyer_name() {
+                return buyer_name;
+            }
+
+            public void setBuyer_name(String buyer_name) {
+                this.buyer_name = buyer_name;
+            }
 
             public float getEvaluation() {
                 return evaluation;
@@ -126,19 +135,19 @@ public class ItemEvaluate {
                 this.subscore3 = subscore3;
             }
 
-            public List<String> getImages() {
+            public String getImages() {
                 return images;
             }
 
-            public void setImages(List<String> images) {
+            public void setImages(String images) {
                 this.images = images;
             }
 
-            public String getCommentdate() {
+            public long getCommentdate() {
                 return commentdate;
             }
 
-            public void setCommentdate(String commentdate) {
+            public void setCommentdate(long commentdate) {
                 this.commentdate = commentdate;
             }
         }

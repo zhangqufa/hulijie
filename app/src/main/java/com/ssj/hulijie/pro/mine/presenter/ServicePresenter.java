@@ -282,6 +282,41 @@ public class ServicePresenter extends BasePresenter<ServiceModle> {
             }
         });
     }
+ /**
+     * 商家回复
+     *
+     * @param onUIThreadListener
+     */
+ public void getSellerReplyPresenter(BaseActivity context, String order_id,String reply, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getSellerReplyModel(context, order_id, reply, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("商家回复评价提交：" + jsonObject.toString());
+
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (Constant.SUCCESS_CODE == code) {
+                            onUIThreadListener.onResult(true);
+                        }
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(false);
+                    }
+                } else {
+                    onUIThreadListener.onResult(false);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(false);
+            }
+        });
+    }
 
 
 }

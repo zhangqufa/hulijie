@@ -98,6 +98,10 @@ public class MineOrderListActivity extends BaseActivity {
         mTabTl.setViewPager(mContentVp);
     }
 
+    public void changeTab() {
+        mContentVp.setCurrentItem(1);
+
+    }
 
     private void initToolBar() {
         RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
@@ -131,5 +135,6 @@ public class MineOrderListActivity extends BaseActivity {
             return tabIndicators.get(position);
         }
     }
+
 
 }

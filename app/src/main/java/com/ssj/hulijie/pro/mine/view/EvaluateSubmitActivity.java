@@ -23,6 +23,8 @@ import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.AppURL;
 import com.ssj.hulijie.utils.DisplayUtils;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.widget.recylerview.GridItemDecoration;
 import com.yanzhenjie.album.Action;
@@ -211,11 +213,13 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter> {
 
     private void sumbitAfterPic(final String reurl) {
 
-        presenter.getEvaluateSubmitPresenter(this, order_id, et_evaluate_content.getText().toString(), score, reurl, new BasePresenter.OnUIThreadListener<Boolean>() {
+        presenter.getEvaluateSubmitPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID),order_id, et_evaluate_content.getText().toString(), score, reurl, new BasePresenter.OnUIThreadListener<Boolean>() {
             @Override
             public void onResult(Boolean result) {
                 if (result) {
                     AppToast.ShowToast("提交成功");
+                    setResult(RESULT_OK);
+                    finish();
                 }
             }
         });

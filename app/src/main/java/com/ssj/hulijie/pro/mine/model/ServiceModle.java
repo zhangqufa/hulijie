@@ -115,4 +115,19 @@ public class ServiceModle extends BaseModel {
         CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
 
     }
+
+    /**
+     * 商家回复
+     *
+     * @param context
+     * @param httpListener
+     */
+    public void getSellerReplyModel(BaseActivity context, String order_id,String reply, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_EVALUATE_REPLY_SUBMIT;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("order_id", order_id);
+        request.add("reply", reply);
+        CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
+
+    }
 }

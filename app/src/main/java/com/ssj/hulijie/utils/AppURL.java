@@ -7,6 +7,7 @@ package com.ssj.hulijie.utils;
 public class AppURL {
 
     public static final String URL_ROOT = "http://jassj.com";
+    public static final String URL_IMAGE_REF = "http://jassj.com/i";
 
     public static final String URL_API = URL_ROOT + "/i/index.php";
 
@@ -54,6 +55,8 @@ public class AppURL {
     public static final String URL_EVALUATE = URL_API + "/Home/comment";
     //评价提交
     public static final String URL_EVALUATE_SUBMIT = URL_API + "/order/evaluate";
+    //商家评价提交
+    public static final String URL_EVALUATE_REPLY_SUBMIT = URL_API + "/order/evaluate_reply";
 
 
 }

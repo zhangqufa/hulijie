@@ -1,6 +1,7 @@
 package com.ssj.hulijie.pro.firstpage.view;
 
-import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -13,12 +14,8 @@ import com.ssj.hulijie.pro.base.view.BaseFragment;
 import com.ssj.hulijie.pro.firstpage.adapter.EvaluateAdapter;
 import com.ssj.hulijie.pro.firstpage.bean.ItemEvaluate;
 import com.ssj.hulijie.pro.firstpage.presenter.EvaluatePresenter;
-import com.ssj.hulijie.pro.mine.adapter.OrderListAdapter;
-import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
-import com.ssj.hulijie.pro.mine.presenter.OrderListPresenter;
+import com.ssj.hulijie.pro.mine.view.seller.EvaluateSellReplyActivity;
 import com.ssj.hulijie.utils.RefreshStatues;
-import com.ssj.hulijie.utils.SharedKey;
-import com.ssj.hulijie.utils.SharedUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +44,7 @@ public class EvaluateFragment extends BaseFragment<EvaluatePresenter> {
     public int getContentView() {
         return R.layout.frag_valuate;
     }
+
     @Override
     public void initData() {
         page = 1;
@@ -62,16 +60,14 @@ public class EvaluateFragment extends BaseFragment<EvaluatePresenter> {
      * @param statues
      */
     private void getData(final RefreshStatues statues) {
-        presenter.getEvaluatePresenter((BaseActivity) getActivity(), page,goods_id ,currentType.getValue(), new BasePresenter.OnUIThreadListener<ItemEvaluate>() {
+        presenter.getEvaluatePresenter((BaseActivity) getActivity(), page, goods_id, currentType.getValue(), new BasePresenter.OnUIThreadListener<ItemEvaluate>() {
             @Override
             public void onResult(ItemEvaluate result) {
                 if (result != null) {
-
                     ItemEvaluate.DataBean data = result.getData();
                     List<ItemEvaluate.DataBean.RowsBean> rows = data.getRows();
                     int totalcount = data.getCount();
                     if (rows.size() > 0) {
-
                         for (int i = 0; i < rows.size(); i++) {
                             ItemEvaluate.DataBean.RowsBean item = rows.get(i);
                             lists.add(item);
@@ -101,13 +97,14 @@ public class EvaluateFragment extends BaseFragment<EvaluatePresenter> {
 
 
     }
-//1.全部 2.晒图 3.低分 4.最新
+
+    //1.全部 2.晒图 3.低分 4.最新
     @Override
     public void initContentView(View viewContent) {
         //empty view
         text_empty = (View) viewContent.findViewById(R.id.text_empty);
         String title = (String) getArguments().get(EXTRA_CONTENT);
-        goods_id =getArguments().getString("goods_id");
+        goods_id = getArguments().getString("goods_id");
         if ("最新".equals(title)) {
             currentType = EvaluateType.NEW;
         } else if ("晒图".equals(title)) {
@@ -130,6 +127,7 @@ public class EvaluateFragment extends BaseFragment<EvaluatePresenter> {
 
 
         adapter = new EvaluateAdapter(getActivity());
+        adapter.setLintener(lintener);
         mRecyclerView.setAdapter(adapter);
 
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
@@ -147,11 +145,23 @@ public class EvaluateFragment extends BaseFragment<EvaluatePresenter> {
 
     }
 
+    private static final int REPLY_REPUEST_CODE = 1010;
+    private EvaluateAdapter.SellReplyOnClickLintener<ItemEvaluate.DataBean.RowsBean> lintener
+            = new EvaluateAdapter.SellReplyOnClickLintener<ItemEvaluate.DataBean.RowsBean>() {
+        @Override
+        public void onSellReplyOnClickLintener(ItemEvaluate.DataBean.RowsBean rowsBean, int position) {
+            Intent intent = new Intent(getActivity(), EvaluateSellReplyActivity.class);
+//            intent.putExtra("")
+//todo 接口没有订单号 没法搞下去了
+            startActivityForResult(intent, REPLY_REPUEST_CODE);
+        }
+    };
+
     /**
      * 1.全部 2.晒图 3.低分 4.最新
      */
-    enum EvaluateType{
-        ALL(1),SHOWPIC(2),LOW(3),NEW(4);
+    enum EvaluateType {
+        ALL(1), SHOWPIC(2), LOW(3), NEW(4);
 
         EvaluateType(int value) {
             this.value = value;
@@ -179,4 +189,11 @@ public class EvaluateFragment extends BaseFragment<EvaluatePresenter> {
         return new EvaluatePresenter(getActivity());
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REPLY_REPUEST_CODE && resultCode == Activity.RESULT_OK) {
+            initData();
+        }
+    }
 }

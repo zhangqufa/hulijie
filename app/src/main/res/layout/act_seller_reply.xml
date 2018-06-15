@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title_bar_base"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_45"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/iv_navigation_back"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp"
+            android:src="@mipmap/back_red_circle" />
+
+        <TextView
+            android:id="@+id/tv_navigation_center"
+            style="@style/item_style"
+            android:layout_width="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:lines="1"
+            android:text="商家回复"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/tv_navigation_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="13dp"
+            android:text="提交"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/app_bg" />
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/et_evaluate_content"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_et_bg"
+        android:cursorVisible="@null"
+        android:gravity="start"
+        android:hint="亲，服务还满意吗？"
+        android:padding="8dp"
+        android:textSize="@dimen/font_size_16" />
+
+
+</LinearLayout>

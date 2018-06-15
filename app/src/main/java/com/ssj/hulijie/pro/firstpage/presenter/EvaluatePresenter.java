@@ -37,7 +37,7 @@ public class EvaluatePresenter extends BasePresenter<EvaluateModel> {
                     if (jsonObject != null) {
                         AppLog.Log("评论：" + jsonObject.toString());
 
-                        int success = jsonObject.getInteger("success");
+                        int success = jsonObject.getInteger("code");
                         if (Constant.SUCCESS_CODE == success) {
                             ItemEvaluate itemEvaluate = JSON.parseObject(jsonObject.toString(), ItemEvaluate.class);
                             onUIThreadListener.onResult(itemEvaluate);

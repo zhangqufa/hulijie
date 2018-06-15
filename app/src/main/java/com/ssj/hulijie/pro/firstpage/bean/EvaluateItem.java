@@ -13,6 +13,15 @@ public class EvaluateItem {
     private float subscore2;    //评论服务
     private float subscore3;  //评论环境
     private long commentdate;  //评论时间
+    private String buyer_name;  //买家
+
+    public String getBuyer_name() {
+        return buyer_name;
+    }
+
+    public void setBuyer_name(String buyer_name) {
+        this.buyer_name = buyer_name;
+    }
 
     public float getEvaluation() {
         return evaluation;

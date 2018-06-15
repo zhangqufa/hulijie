@@ -18,20 +18,19 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:src="@mipmap/order"
-            android:layout_height="wrap_content" />
+            android:layout_height="60dp" />
 
 
         <TextView
             android:id="@+id/toOrder"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:text="没有更多数据哦~"
             android:gravity="center"
             android:textSize="18sp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/comm_grey_333333"
             android:layout_marginTop="10dp"
-            android:background="@drawable/shape_bg_huan_primary"
             android:layout_height="40dp" />
 
     </LinearLayout>

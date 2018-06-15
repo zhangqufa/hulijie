@@ -42,6 +42,7 @@ import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.pro.mine.view.MineOrderListActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.Constant;
 import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
@@ -180,13 +181,6 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
 
             DetailServiceEvaluate evaluate = result.getEvaluate();
-            evaluate.setCount(1);
-            List<EvaluateItem> rows = new ArrayList<>();
-            EvaluateItem evaluateItem1 = new EvaluateItem();
-            evaluateItem1.setComment("挺不错的，师傅弄完以后，下水道立马就不臭了。而且安的管道质量一看就是属于还不错呢!");
-            evaluateItem1.setEvaluation(4f);
-            rows.add(evaluateItem1);
-            evaluate.setRows(rows);
 
             //show evaluate
             if (evaluate != null && evaluate.getRows() != null && evaluate.getRows().size() > 0) {
@@ -197,7 +191,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
                 EvaluateItem evaluateItem = evaluate.getRows().get(0);
                 if (evaluate != null) {
 
-                    evaluate_user.setText(""); //// TODO: 2017/8/7 评论没有传用户
+                    evaluate_user.setText(evaluateItem.getBuyer_name());
                     //show evaluate level
                     evaluate_level.setRating(evaluateItem.getEvaluation());
 
@@ -433,7 +427,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     private static final int TOYUYUE = 10001;
 
     private void callPhone() {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "13806583199"));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + Constant.tle_service));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
             startActivity(intent);
         } else {
