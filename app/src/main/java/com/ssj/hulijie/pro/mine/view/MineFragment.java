@@ -227,42 +227,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         return null;
     }
 
-    private void useNohttp(String[] paths) {
-        ImageUpladPresenter p = new ImageUpladPresenter(getActivity());
-        p.onImageUploadPresenter((BaseActivity) getActivity(), new OnUploadListener() {
-            @Override
-            public void onStart(int what) {
-                AppLog.Log("pic_upload_start");
-            }
-
-            @Override
-            public void onCancel(int what) {
-                AppLog.Log("pic_upload_onCancel");
-            }
-
-            @Override
-            public void onProgress(int what, int progress) {
-                AppLog.Log("pic_upload_progress:" + progress);
-            }
-
-            @Override
-            public void onFinish(int what) {
-                AppLog.Log("pic_upload_onFinish");
-            }
-
-            @Override
-            public void onError(int what, Exception exception) {
-                AppLog.Log("pic_upload_onError");
-            }
-        }, new BasePresenter.OnUIThreadListener<ItemImageUpload>() {
-            @Override
-            public void onResult(ItemImageUpload result) {
-                if (result != null) {
-                    String reurl = result.getReurl();
-                }
-            }
-        }, paths);
-    }
 
     private void getPersimmions() {
         if (Build.VERSION.SDK_INT > 23) {

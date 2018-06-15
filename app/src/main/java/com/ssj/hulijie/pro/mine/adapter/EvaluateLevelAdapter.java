@@ -31,16 +31,29 @@ public class EvaluateLevelAdapter extends RecyclerView.Adapter<EvaluateLevelAdap
     }
 
     @Override
-    public void onBindViewHolder(EvaluateLevelViewHolder holder, int i) {
-        ItemEvaluateLevel item = lists.get(i);
-        holder.item_tv.setText(item.getTitle());
+    public void onBindViewHolder(EvaluateLevelViewHolder holder, final int i) {
+        final ItemEvaluateLevel item = lists.get(i);
         holder.item_iv.setImageResource(item.getImgRes());
 
+        if (item.isSelected()) {
+            holder.item_iv.setImageResource(item.getImgSelected());
+        }
+        holder.item_tv.setText(item.getTitle());
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClickLister(item, i);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return lists==null?0:lists.size();
+        return lists == null ? 0 : lists.size();
     }
 
     class EvaluateLevelViewHolder extends RecyclerView.ViewHolder {
@@ -54,5 +67,15 @@ public class EvaluateLevelAdapter extends RecyclerView.Adapter<EvaluateLevelAdap
             item_tv = (TextView) itemView.findViewById(R.id.item_tv);
             item_iv = (ImageView) itemView.findViewById(R.id.item_iv);
         }
+    }
+
+    public interface OnItemClickListener<T> {
+        void onItemClickLister(T t, int position);
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }

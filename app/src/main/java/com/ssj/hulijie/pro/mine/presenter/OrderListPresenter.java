@@ -181,4 +181,44 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
             }
         });
     }
+
+    /**
+     * 评价提交
+     * @param context
+     * @param order_id
+     * @param comment
+     * @param score
+     * @param images
+     * @param onUIThreadListener
+     */
+    public void getEvaluateSubmitPresenter(BaseActivity context, String order_id, String comment, int score, String images,final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getEvaluateSubmitModel(context, order_id, comment, score, images, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("评价提交：" + jsonObject.toString());
+
+                    try {
+                        int code = jsonObject.getIntValue("code");
+                        if (Constant.SUCCESS_CODE == code) {
+                            onUIThreadListener.onResult(true);
+                        }
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(false);
+                    }
+                } else {
+                    onUIThreadListener.onResult(false);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(false);
+            }
+        });
+    }
 }

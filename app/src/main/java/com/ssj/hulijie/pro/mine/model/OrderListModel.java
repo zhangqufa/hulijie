@@ -83,4 +83,14 @@ public class OrderListModel extends BaseModel {
         request.add("user_id", user_id);
         CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
     }
+
+    public void getEvaluateSubmitModel(BaseActivity context, String order_id, String comment, int score, String images, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_EVALUATE_SUBMIT;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("order_id", order_id);
+        request.add("comment", comment);
+        request.add("score", score);
+        request.add("images", images);
+        CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
+    }
 }

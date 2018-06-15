@@ -52,6 +52,8 @@ public class AppURL {
 
     //评论列表
     public static final String URL_EVALUATE = URL_API + "/Home/comment";
+    //评价提交
+    public static final String URL_EVALUATE_SUBMIT = URL_API + "/order/evaluate";
 
 
 }
