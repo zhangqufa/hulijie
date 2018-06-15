@@ -5,11 +5,11 @@ import android.content.Context;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.sdu.didi.openapi.DIOpenSDK;
+import com.ssj.hulijie.album.MediaLoader;
 import com.ssj.hulijie.pro.db.helper.TemplateConfig;
 import com.ssj.hulijie.utils.AppLog;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumConfig;
-import com.yanzhenjie.album.api.loader.GlideAlbumLoader;
 import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.NoHttp;
 
@@ -34,11 +34,10 @@ public class HljAppliation extends Application {
         context = getApplicationContext();
 
         //init album
-        Album.initialize(
-                AlbumConfig.newBuilder(context)
-                        .setAlbumLoader(new GlideAlbumLoader()) // This is not necessary.
-                        .setLocale(Locale.getDefault())
-                        .build()
+        Album.initialize(AlbumConfig.newBuilder(this)
+                .setAlbumLoader(new MediaLoader())
+                .setLocale(Locale.getDefault())
+                .build()
         );
 
 

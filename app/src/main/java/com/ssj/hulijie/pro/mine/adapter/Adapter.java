@@ -62,7 +62,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (albumFile.getMediaType() == AlbumFile.TYPE_VIDEO) {
             return AlbumFile.TYPE_VIDEO;
         } else {
-            return AlbumFile.TYPE_INVALID;
+            return -1;
         }
     }
 
@@ -74,7 +74,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case AlbumFile.TYPE_VIDEO:
                 return new VideoViewHolder(mInflater.inflate(R.layout.item_content_video, parent, false), itemSize, mItemClickListener);
             default:
-                return new SelectViewHolder(mInflater.inflate(R.layout.item_content_select_click, parent, false) ,itemSize,mItemClickListener);
+                return new SelectViewHolder(mInflater.inflate(R.layout.item_content_select_click, parent, false), itemSize, mItemClickListener);
         }
     }
 
@@ -90,8 +90,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((VideoViewHolder) holder).setData(mAlbumFiles.get(position));
                 break;
             }
-            case AlbumFile.TYPE_INVALID:
-                ((SelectViewHolder) holder).setData(mAlbumFiles.get(position));
+            case -1:
+                break;
+            default:
                 break;
         }
     }
@@ -117,13 +118,15 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             mIvImage = (ImageView) itemView.findViewById(R.id.iv_album_content_image);
 
+
             itemView.setOnClickListener(this);
         }
 
         public void setData(AlbumFile albumFile) {
+
             Album.getAlbumConfig().
                     getAlbumLoader().
-                    loadAlbumFile(mIvImage, albumFile, itemSize, itemSize);
+                    load(mIvImage, albumFile);
         }
 
         @Override
@@ -149,8 +152,8 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.itemSize = itemSize;
             this.mItemClickListener = itemClickListener;
 
-            mIvImage = (ImageView) itemView.findViewById(com.yanzhenjie.album.R.id.iv_album_content_image);
-            mTvDuration = (TextView) itemView.findViewById(com.yanzhenjie.album.R.id.tv_duration);
+            mIvImage = (ImageView) itemView.findViewById(R.id.iv_album_content_image);
+            mTvDuration = (TextView) itemView.findViewById(R.id.tv_duration);
 
             itemView.setOnClickListener(this);
         }
@@ -158,7 +161,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         void setData(AlbumFile albumFile) {
             Album.getAlbumConfig().
                     getAlbumLoader().
-                    loadAlbumFile(mIvImage, albumFile, itemSize, itemSize);
+                    load(mIvImage, albumFile);
             mTvDuration.setText(AlbumUtils.convertDuration(albumFile.getDuration()));
         }
 
@@ -175,7 +178,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final OnItemClickListener mItemClickListener;
 
 
-        SelectViewHolder(View itemView,int itemSize, OnItemClickListener itemClickListener) {
+        SelectViewHolder(View itemView, int itemSize, OnItemClickListener itemClickListener) {
             super(itemView);
             itemView.getLayoutParams().height = itemSize;
             this.mItemClickListener = itemClickListener;
@@ -183,10 +186,6 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemView.setOnClickListener(this);
         }
 
-        public void setData(AlbumFile albumFile) {
-
-
-        }
 
         @Override
         public void onClick(View v) {

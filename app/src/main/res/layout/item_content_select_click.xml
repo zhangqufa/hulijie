@@ -17,8 +17,9 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/album_MatchParent"
     android:foreground="?selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:cardCornerRadius="@dimen/album_dp_2"
     app:cardElevation="@dimen/album_dp_2"
     app:cardPreventCornerOverlap="false">
@@ -27,8 +28,7 @@
         android:id="@+id/select_pic"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/shape_xuxian_re">

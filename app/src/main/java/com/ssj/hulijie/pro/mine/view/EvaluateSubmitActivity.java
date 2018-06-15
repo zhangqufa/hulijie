@@ -19,11 +19,12 @@ import com.ssj.hulijie.utils.AppToast;
 import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.widget.recylerview.GridItemDecoration;
+import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
-import com.yanzhenjie.album.AlbumListener;
 import com.yanzhenjie.album.api.widget.Widget;
 import com.yanzhenjie.album.impl.OnItemClickListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ import java.util.List;
  * Created by Administrator on 2018/6/12.
  */
 
-public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter>  {
+public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter> {
 
     private EvaluateLevelAdapter adapter;
 
@@ -59,6 +60,7 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter>  {
 
     private Adapter mAdapter;
     private RecyclerView rv_pic_list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,7 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter>  {
         });
         mAlbumFiles.add(new AlbumFile());
         rv_pic_list.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged(mAlbumFiles);
     }
 
     @Override
@@ -121,6 +124,8 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter>  {
     }
 
 
+    private boolean flagShowSelectPic = true;
+
     /**
      * Preview image, to album.
      */
@@ -128,6 +133,9 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter>  {
         if (mAlbumFiles == null || mAlbumFiles.size() == 0) {
             Toast.makeText(this, "请先选择媒体文件", Toast.LENGTH_LONG).show();
         } else {
+            if (flagShowSelectPic) {
+                mAlbumFiles.remove(mAlbumFiles.size() - 1);
+            }
             Album.galleryAlbum(this)
                     .checkable(true)
                     .checkedList(mAlbumFiles)
@@ -137,58 +145,70 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter>  {
                                     .title("选择图片")
                                     .build()
                     )
-                    .listener(new AlbumListener<ArrayList<AlbumFile>>() {
+                    .onResult(new Action<ArrayList<AlbumFile>>() {
                         @Override
-                        public void onAlbumResult(int requestCode, @NonNull ArrayList<AlbumFile> result) {
+                        public void onAction(@NonNull ArrayList<AlbumFile> result) {
                             mAlbumFiles.clear();
                             mAlbumFiles = result;
-                            mAlbumFiles.add(new AlbumFile());
+                            if (mAlbumFiles.size() < 6) {
+                                mAlbumFiles.add(new AlbumFile());
+                                flagShowSelectPic = true;
+                            } else {
+                                flagShowSelectPic = false;
+                            }
                             mAdapter.notifyDataSetChanged(mAlbumFiles);
                         }
-
-                        @Override
-                        public void onAlbumCancel(int requestCode) {
-                        }
                     })
-                    .start();
+                    .onCancel(new Action<String>() {
+                        @Override
+                        public void onAction(@NonNull String result) {
+
+                        }
+                    }).start();
         }
     }
+
     /**
      * Select picture, from album.
      */
     private void selectImage() {
         Album.image(this)
                 .multipleChoice()
-                .requestCode(200)
                 .camera(true)
                 .columnCount(3)
-                .selectCount(3)
+                .selectCount(6)
                 .checkedList(mAlbumFiles)
                 .widget(
                         Widget.newDarkBuilder(this)
                                 .title("选择图片")
                                 .build()
                 )
-                .listener(new AlbumListener<ArrayList<AlbumFile>>() {
+                .onResult(new Action<ArrayList<AlbumFile>>() {
                     @Override
-                    public void onAlbumResult(int requestCode, @NonNull ArrayList<AlbumFile> result) {
+                    public void onAction(@NonNull ArrayList<AlbumFile> result) {
+                        mAlbumFiles.clear();
                         mAlbumFiles = result;
+                        if (mAlbumFiles.size() < 6) {
+                            mAlbumFiles.add(new AlbumFile());
+                            flagShowSelectPic = true;
+                        } else {
+                            flagShowSelectPic = false;
+                        }
                         for (AlbumFile f : result) {
-
                             if (f != null) {
-
                                 AppLog.Log("f:" + f.getPath());
                             }
-
                         }
                         mAdapter.notifyDataSetChanged(mAlbumFiles);
                     }
-
+                })
+                .onCancel(new Action<String>() {
                     @Override
-                    public void onAlbumCancel(int requestCode) {
+                    public void onAction(@NonNull String result) {
                     }
                 })
                 .start();
+
     }
 
 

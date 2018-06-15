@@ -15,15 +15,14 @@ android {
             storePassword '123456'
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "com.ssj.hulijie"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 5
         versionName "5.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -48,11 +47,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    testCompile 'junit:junit:4.12'
     compile 'com.alibaba:fastjson:1.2.29'
     compile 'com.yanzhenjie.nohttp:nohttp:1.1.1'
     compile project(':ptr-lib')
@@ -66,12 +60,11 @@ dependencies {
     compile project(':swipebacklayout')
     compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':didi_sdk_for_common_v1.1.0_05_28')
-//    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    //    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
     compile files('libs/BASE64.jar')
     compile files('libs/alipaySdk-20170725.jar')
     compile project(':xrecyclerview')
-    compile project(':album')
-
+    implementation 'com.yanzhenjie:album:2.1.2'
     compile(name: 'geetest_testbutton_android_v3.5.2', ext: 'aar')
 }
