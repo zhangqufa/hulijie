@@ -5,36 +5,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.firstpage.adapter.AllEvaluateAdapter;
-import com.ssj.hulijie.pro.firstpage.bean.EvaluateItem;
-import com.ssj.hulijie.pro.firstpage.bean.ItemEvaluate;
-import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
-import com.ssj.hulijie.pro.mine.view.MineOrderListActivity;
-import com.ssj.hulijie.pro.mine.view.OrderListFragment;
 import com.ssj.hulijie.pro.mine.view.widget.TabPageIndicator;
-import com.ssj.hulijie.pro.msg.adapter.MsgListAdapter;
-import com.ssj.hulijie.pro.msg.bean.MsgData;
-import com.ssj.hulijie.pro.msg.bean.MsgListData;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler2;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
-import in.srain.cube.views.ptr.PtrUIHandler;
-import in.srain.cube.views.ptr.indicator.PtrIndicator;
 
 
 /**

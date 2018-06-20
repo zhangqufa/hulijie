@@ -12,5 +12,27 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
+    <LinearLayout
+        android:id="@+id/text_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@mipmap/no_service" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="没有相关数据~"
+            android:textColor="#515151" />
+
+
+    </LinearLayout>
 </LinearLayout>

@@ -8,6 +8,7 @@
     <ImageView
         android:layout_marginLeft="10dp"
         android:id="@+id/img"
+        android:padding="6dp"
         android:layout_gravity="center_vertical"
         android:src="@mipmap/ic_launcher"
         android:layout_width="60dp"

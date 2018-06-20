@@ -57,6 +57,10 @@ public class AppURL {
     public static final String URL_EVALUATE_SUBMIT = URL_API + "/order/evaluate";
     //商家评价提交
     public static final String URL_EVALUATE_REPLY_SUBMIT = URL_API + "/order/evaluate_reply";
+    //活动列表接口
+    public static final String URL_MSG_NEWS = URL_API + "/news/news_list";
+    //系统消息接口
+    public static final String URL_SYSTEM_MSG = URL_API + "/Order/order_list";
 
 
 }

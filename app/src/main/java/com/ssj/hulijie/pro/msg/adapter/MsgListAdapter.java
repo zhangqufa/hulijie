@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ssj.hulijie.R;
-import com.ssj.hulijie.pro.msg.bean.MsgData;
-import com.ssj.hulijie.pro.msg.bean.MsgListData;
+import com.ssj.hulijie.pro.msg.bean.ItemMsgHuoDong;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -22,10 +21,10 @@ import java.util.List;
 
 public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgViewHolder> {
     private Context context;
-    private List<MsgListData> lists;
+    private List<ItemMsgHuoDong.RowsBean> lists;
     private int imgRes[]  = {R.mipmap.temp1,R.mipmap.temp2,R.mipmap.temp3};
 
-    public void setLists(List<MsgListData> lists) {
+    public void setLists(List<ItemMsgHuoDong.RowsBean> lists) {
         this.lists = lists;
         notifyDataSetChanged();
     }
@@ -42,12 +41,12 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgViewH
 
     @Override
     public void onBindViewHolder(MsgViewHolder holder, int position) {
-        MsgListData item = lists.get(position);
+        ItemMsgHuoDong.RowsBean item = lists.get(position);
 
         holder.title.setText(item.getTitle());
-        holder.sub_title.setText(item.getSub_title());
+        holder.sub_title.setText(item.getContent());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String time_str = sdf.format(item.getTime());
+        String time_str = sdf.format(item.getAdd_time());
         holder.time.setText(time_str);
         holder.id_diver_time.setText(time_str);
         Glide.with(context).load(imgRes[position%3]).into(holder.img);

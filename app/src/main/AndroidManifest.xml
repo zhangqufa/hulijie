@@ -110,7 +110,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name=".pro.msg.view.MsgListActivity"
+            android:name=".pro.msg.view.MsgHuoDongListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".pro.msg.view.MsgSystemListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
         <activity

@@ -3,7 +3,6 @@ package com.ssj.hulijie.pro.msg.view;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.ssj.hulijie.R;
@@ -13,7 +12,6 @@ import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.pro.msg.adapter.MsgAdapter;
 import com.ssj.hulijie.pro.msg.bean.MsgData;
-import com.ssj.hulijie.utils.AppLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,9 +128,9 @@ public class MsgFragment extends BaseFragment {
     private List<MsgData> getData() {
         MsgData msgData = null;
         List<MsgData> lists = new ArrayList<>();
-        msgData = new MsgData(FirstPageFrament.img[0],"装修课堂","墙面开裂、漏水？",System.currentTimeMillis());
+        msgData = new MsgData(FirstPageFrament.img[0], "活动消息", "墙面开裂、漏水？", System.currentTimeMillis());
         lists.add(msgData);
-        msgData = new MsgData(FirstPageFrament.img[1],"活动消息","什么风格适合你？10秒测试装修风格",System.currentTimeMillis());
+        msgData = new MsgData(FirstPageFrament.img[1], "系统消息", "系统消息子标题", System.currentTimeMillis());
         lists.add(msgData);
         return lists;
 
@@ -141,10 +139,19 @@ public class MsgFragment extends BaseFragment {
     private MsgAdapter.OnItemClickListener<MsgData> onClickListener = new MsgAdapter.OnItemClickListener<MsgData>() {
         @Override
         public void onItemClick(int position, MsgData data) {
-            Intent intent = new Intent(mContext, MsgListActivity.class);
-            intent.putExtra("item",data);
-            startActivity(intent);
-
+            Intent intent = null;
+            if (position == 0) {
+                intent = new Intent(mContext, MsgHuoDongListActivity.class);
+                intent.putExtra("item", data);
+            } else if (position == 1) {
+                intent = new Intent(mContext, MsgSystemListActivity.class);
+                intent.putExtra("item", data);
+            }
+            if (intent != null) {
+                startActivity(intent);
+            }
         }
     };
+
+
 }
