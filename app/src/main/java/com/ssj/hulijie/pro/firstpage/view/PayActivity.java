@@ -55,7 +55,7 @@ import java.util.UUID;
 public class PayActivity extends BaseActivity implements View.OnClickListener {
     private OrderItem orderItem;
     private ImageView wechat_select, alipay_select;
-    private PayStatus currentPayStatus = PayStatus.ALIPAY;
+    private PayStatus currentPayStatus = PayStatus.WECHAT;
     private Button btn_pay;
     private TextView moeny;
     private OrderListPresenter presenter;
