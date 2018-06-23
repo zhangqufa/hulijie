@@ -10,6 +10,27 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
 public class NetUtil {
+
+
+    public static String getLocalIpAddress(Context context) {
+        try {
+            WifiManager ex = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInfo = ex.getConnectionInfo();
+            int i = wifiInfo.getIpAddress();
+            return int2ip(i);
+        } catch (Exception var4) {
+            return " 获取IP出错了!!!!请保证是WIFI,或者请重新打开网络!\n" + var4.getMessage();
+        }
+    }
+
+    public static String int2ip(int ipInt) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ipInt & 255).append(".");
+        sb.append(ipInt >> 8 & 255).append(".");
+        sb.append(ipInt >> 16 & 255).append(".");
+        sb.append(ipInt >> 24 & 255);
+        return sb.toString();
+    }
     /**
      * 检查用户的网络:是否有网络
      */

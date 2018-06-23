@@ -63,4 +63,8 @@ public class AppURL {
     public static final String URL_SYSTEM_MSG = URL_API + "/Order/order_list";
 
 
+    //获取微信支付订单签名
+    public static final String URL_WCHAT_PAY_SIGN = URL_API + "/Wxpay/pay";
+
+
 }

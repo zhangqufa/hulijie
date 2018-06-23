@@ -19,6 +19,7 @@ import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
+import com.ssj.hulijie.pro.firstpage.view.PayActivity;
 import com.ssj.hulijie.pro.mine.adapter.OrderListAdapter;
 import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
 import com.ssj.hulijie.pro.mine.presenter.OrderListPresenter;
@@ -321,59 +322,7 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
         initData();
     }
 
-    private static final int SDK_PAY_FLAG = 100;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case SDK_PAY_FLAG:
-                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-                    /**
-                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
-                     */
-                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
-                    String resultStatus = payResult.getResultStatus();
-                    // 判断resultStatus 为9000则代表支付成功
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        Toast.makeText(getActivity(), "支付成功", Toast.LENGTH_SHORT).show();
-                        finishClose();
-                    } else {
-                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        Toast.makeText(getActivity(), "支付失败", Toast.LENGTH_SHORT).show();
-                    }
 
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    };
-
-    private void callApliy(String orderInfo) {
-        if (orderInfo.contains("amp;")) {
-            orderInfo = orderInfo.replace("amp;", "");
-
-        }
-        final String finalyStr = orderInfo;
-        Runnable payRunnable = new Runnable() {
-
-            @Override
-            public void run() {
-                PayTask alipay = new PayTask(getActivity());
-                Map<String, String> result = alipay.payV2(finalyStr, true);
-                Message msg = new Message();
-                msg.what = SDK_PAY_FLAG;
-                msg.obj = result;
-                handler.sendMessage(msg);
-            }
-        };
-
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
-    }
 
     /**
      * 获取订单签名 并支付
@@ -381,15 +330,9 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
      * @param data
      */
     private void toPay(ItemOrderResp.DataBean.RowsBean data) {
-        presenter.getOrderSingPresenter((BaseActivity) getActivity(), data.getOrder_id(), SharedUtil.getPreferStr(SharedKey.USER_ID), new BasePresenter.OnUIThreadListener<String>() {
-            @Override
-            public void onResult(String result) {
-                if (!TextUtils.isEmpty(result)) {
-                    callApliy(result);
-                }
-
-            }
-        });
+        Intent intent = new Intent(getActivity(), PayActivity.class);
+        intent.putExtra("data", data);
+        startActivity(intent);
     }
 
 

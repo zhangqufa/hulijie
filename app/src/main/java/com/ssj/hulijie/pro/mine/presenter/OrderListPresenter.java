@@ -11,10 +11,8 @@ import com.ssj.hulijie.pro.mine.bean.ItemOrderResp;
 import com.ssj.hulijie.pro.mine.model.OrderListModel;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.Constant;
+import com.ssj.hulijie.wxapi.ItemWechatPayResopse;
 import com.yanzhenjie.nohttp.rest.Response;
-
-import java.security.spec.ECField;
-import java.util.concurrent.Executor;
 
 /**
  * Created by Administrator on 2017/10/9.
@@ -89,8 +87,8 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
         });
     }
 
-    public void getCancelOrderPresenter(BaseActivity context,String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
-        getModel().getCancelOrderModel(context,user_id, order_id, new HttpListener<JSONObject>() {
+    public void getCancelOrderPresenter(BaseActivity context, String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getCancelOrderModel(context, user_id, order_id, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
@@ -119,8 +117,9 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
             }
         });
     }
-    public void getOrderRefundPresenter(BaseActivity context,String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
-        getModel().getOrderRefundModel(context, user_id,order_id, new HttpListener<JSONObject>() {
+
+    public void getOrderRefundPresenter(BaseActivity context, String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getOrderRefundModel(context, user_id, order_id, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
@@ -151,8 +150,8 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
     }
 
 
-    public void getFinishOrderPresenter(BaseActivity context,String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
-        getModel().getFinishOrderModel(context,user_id, order_id, new HttpListener<JSONObject>() {
+    public void getFinishOrderPresenter(BaseActivity context, String user_id, String order_id, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getFinishOrderModel(context, user_id, order_id, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
@@ -184,6 +183,7 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
 
     /**
      * 评价提交
+     *
      * @param context
      * @param order_id
      * @param comment
@@ -191,8 +191,8 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
      * @param images
      * @param onUIThreadListener
      */
-    public void getEvaluateSubmitPresenter(BaseActivity context,String user_id, String order_id, String comment, int score, String images,final OnUIThreadListener<Boolean> onUIThreadListener) {
-        getModel().getEvaluateSubmitModel(context,user_id, order_id, comment, score, images, new HttpListener<JSONObject>() {
+    public void getEvaluateSubmitPresenter(BaseActivity context, String user_id, String order_id, String comment, int score, String images, final OnUIThreadListener<Boolean> onUIThreadListener) {
+        getModel().getEvaluateSubmitModel(context, user_id, order_id, comment, score, images, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
@@ -218,6 +218,42 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
                 onUIThreadListener.onResult(false);
+            }
+        });
+    }
+
+    /**
+     * 获取微信 支付 签名
+     *
+     * @param context
+     * @param order_id
+     * @param onUIThreadListener
+     */
+    public void getWechatSignPresenter(BaseActivity context, String order_id, final OnUIThreadListener<ItemWechatPayResopse> onUIThreadListener) {
+        getModel().getWechatSignPresenter(context, order_id, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+                    AppLog.Log("获取微信支付签名：" + jsonObject.toString());
+
+                    try {
+                        ItemWechatPayResopse itemWechatPayResopse = JSON.parseObject(jsonObject.toString(), ItemWechatPayResopse.class);
+                        onUIThreadListener.onResult(itemWechatPayResopse);
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(null);
+                    }
+                } else {
+                    onUIThreadListener.onResult(null);
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
+                onUIThreadListener.onResult(null);
             }
         });
     }

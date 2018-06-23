@@ -14,10 +14,10 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
-	
+
 
     private IWXAPI api;
-	
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +34,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		
+
 		setIntent(intent);
         api.handleIntent(intent, this);
 	}
@@ -46,9 +46,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	@Override
 	public void onResp(BaseResp resp) {
 		int result = 0;
-		
+
 //		Toast.makeText(this, "baseresp.getType = " + resp.getType(), Toast.LENGTH_SHORT).show();
-		
+
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
 			result = R.string.errcode_success;
@@ -66,9 +66,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			result = R.string.errcode_unknown;
 			break;
 		}
-		
+
 		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 		finish();
 	}
-	
+
 }

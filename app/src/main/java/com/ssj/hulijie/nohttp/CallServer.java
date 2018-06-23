@@ -97,8 +97,14 @@ public class CallServer {
 //            }
 //
 //        }
-        if (!TextUtils.isEmpty(SharedUtil.getPreferStr(SharedKey.USER_KEY))) {
-            request.add("key", SharedUtil.getPreferStr(SharedKey.USER_KEY));
+        String user_key = SharedUtil.getPreferStr(SharedKey.USER_KEY);
+        if (!TextUtils.isEmpty(user_key)) {
+            request.add("key", user_key);
+
+        }
+        String user_i = SharedUtil.getPreferStr(SharedKey.USER_ID);
+        if (!TextUtils.isEmpty(user_i)) {
+            request.add("user_id", user_i);
         }
         requestQueue.add(what, request, new HttpResponseListener<T>(context, request, callback, canCancel, isLoading));
     }

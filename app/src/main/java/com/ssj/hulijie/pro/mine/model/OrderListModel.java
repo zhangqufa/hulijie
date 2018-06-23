@@ -94,4 +94,18 @@ public class OrderListModel extends BaseModel {
         request.add("user_id", user_id);
         CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
     }
+
+    /**
+     * 获取微信 支付 签名
+     *
+     * @param context
+     * @param order_id
+     */
+    public void getWechatSignPresenter(BaseActivity context, String order_id, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_WCHAT_PAY_SIGN;
+        Request<JSONObject> request = new FastJsonRequest(url, RequestMethod.POST);
+        request.add("order_id", order_id);
+        CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
+
+    }
 }
