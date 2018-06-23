@@ -94,7 +94,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         AddressManagerPresenter presenter = new AddressManagerPresenter(this);
         presenter.getAddressPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID), "", new BasePresenter.OnUIThreadListener<List<AddressItem>>() {
             @Override
-            public void onResult(List<AddressItem> result ) {
+            public void onResult(List<AddressItem> result) {
                 if (result != null) {
 
 
@@ -308,7 +308,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-
     private void initToolbar() {
         RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
         TitlebarUtil.inittoolBar(this, title_bar_base, true, "预约下单", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
@@ -383,17 +382,20 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 if (!TextUtils.isEmpty(year)) {
                     try {
                         String[] months = time_string.split("月");
-                        if (Integer.valueOf(month) == 12||Integer.valueOf(months[0])==1) {
+                        if (Integer.valueOf(month) == 12 || Integer.valueOf(months[0]) == 1) {
                             year = String.valueOf(Integer.valueOf(year) + 1);
                         }
                         if (!TextUtils.isEmpty(months[1]) && months[1].contains("日")) {
-                            String[] days = months[1].split("日");
+
+                            String[] days = months[1].split("日\\(");
+
                             if (!TextUtils.isEmpty(days[1])) {
+
                                 String[] hourAndmin = days[1].split(" ");
                                 String[] split1 = hourAndmin[1].split(":");
                                 Date parse = format.parse(year + "-" + months[0] + "-" + days[0] + " " + split1[0] + "-" + split1[1]);
                                 long l = DateUtil.dateToLong(parse);
-                                orderItem.setOrder_time(l/1000);
+                                orderItem.setOrder_time(l / 1000);
                             }
                         }
                     } catch (ParseException e) {
@@ -402,9 +404,10 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 }
                 orderItem.setOrder_goods_name(detail.getGoods_name());
                 intent1.putExtra("orderItem", orderItem);
-                startActivityForResult(intent1,TOPAYREQ);
+                startActivityForResult(intent1, TOPAYREQ);
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 
@@ -475,6 +478,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private String addressId;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
