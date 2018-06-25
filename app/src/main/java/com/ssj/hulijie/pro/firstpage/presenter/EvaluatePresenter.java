@@ -28,8 +28,8 @@ public class EvaluatePresenter extends BasePresenter<EvaluateModel> {
         return new EvaluateModel(getContext());
     }
 
-    public void getEvaluatePresenter(BaseActivity context, int page, String id, int type,final OnUIThreadListener<ItemEvaluate> onUIThreadListener) {
-        getModel().getEvaluateModel(context, page, id, type,new HttpListener<JSONObject>() {
+    public void getEvaluatePresenter(BaseActivity context, int page, String id, int type, final OnUIThreadListener<ItemEvaluate> onUIThreadListener) {
+        getModel().getEvaluateModel(context, page, id, type, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
                 JSONObject jsonObject = response.get();
@@ -54,7 +54,7 @@ public class EvaluatePresenter extends BasePresenter<EvaluateModel> {
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                    onUIThreadListener.onResult(null);
+                onUIThreadListener.onResult(null);
             }
         });
     }

@@ -1,87 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
-    android:layout_height="wrap_content">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp">
+
         <ImageView
+            android:id="@+id/pic"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/pic"
-            android:src="@mipmap/loading_logo"
-            android:layout_width="35dp"
-            android:layout_height="35dp" />
+            android:src="@mipmap/loading_logo" />
+
         <TextView
-            android:layout_alignTop="@id/pic"
             android:id="@+id/nickname"
-            android:layout_toRightOf="@id/pic"
             android:layout_width="wrap_content"
-            android:maxLines="1"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/pic"
+            android:layout_toRightOf="@id/pic"
+            android:maxLines="1" />
 
         <android.support.v7.widget.AppCompatRatingBar
             android:id="@+id/evaluate_level"
-            android:layout_below="@id/nickname"
-            android:layout_toRightOf="@id/pic"
             style="@style/MyRatingBar"
-            />
+            android:layout_below="@id/nickname"
+            android:layout_toRightOf="@id/pic" />
 
         <TextView
-            android:layout_marginRight="10dp"
-            android:layout_alignTop="@id/pic"
-            android:layout_alignParentRight="true"
             android:id="@+id/time"
-            android:textSize="12sp"
-            android:minLines="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/pic"
+            android:layout_marginRight="10dp"
+            android:minLines="1"
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/content"
-        android:padding="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
 
     <android.support.v7.widget.RecyclerView
-        android:layout_margin="8dp"
-        android:layout_width="match_parent"
         android:id="@+id/rv_img"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp" />
 
     <include layout="@layout/com_line_horizontal" />
 
     <LinearLayout
         android:id="@+id/ll_seller_reply"
-        android:paddingBottom="8dp"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/seller_resp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:text="商家回复"
+            android:textStyle="bold" />
 
         <ImageView
-            android:layout_marginLeft="55dp"
             android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
             android:padding="5dp"
-            android:src="@mipmap/seller_response"
-            android:layout_height="30dp" />
+            android:src="@mipmap/seller_response" />
 
         <TextView
             android:id="@+id/seller_re"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:textSize="12sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="12sp" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

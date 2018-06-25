@@ -151,8 +151,7 @@ public class EvaluateFragment extends BaseFragment<EvaluatePresenter> {
         @Override
         public void onSellReplyOnClickLintener(ItemEvaluate.DataBean.RowsBean rowsBean, int position) {
             Intent intent = new Intent(getActivity(), EvaluateSellReplyActivity.class);
-//            intent.putExtra("")
-//todo 接口没有订单号 没法搞下去了
+            intent.putExtra("order_id", rowsBean.getOrder_id());
             startActivityForResult(intent, REPLY_REPUEST_CODE);
         }
     };

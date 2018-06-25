@@ -30,6 +30,7 @@ public class AppURL {
     public static final String URL_ORDER_LIST = URL_API + "/order/order_list";
     public static final String URL_ORDER_PAY = URL_API + "/order/pay";
     public static final String URL_ORDER_ORDER = URL_API + "/order/order";
+    public static final String URL_WECHAT_ORDER = URL_API + "/Wxpay/order";
     public static final String URL_VERSION = URL_API + "/Home/versions";
     public static final String URL_ORDER_SERVICE_LIST = URL_API + "/order/service_list";
     public static final String URL_ORDER_SERVICE_ORDER_LIST = URL_API + "/order/seller_order_list";

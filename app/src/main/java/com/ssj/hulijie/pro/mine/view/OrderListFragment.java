@@ -289,7 +289,6 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
             public void onResult(Boolean result) {
                 if (result) {
 
-
                     AppLog.Log("当前取消Position: " + position);
                     ItemOrderResp.DataBean.RowsBean rowsBean = lists.get(position);
                     rowsBean.setStatus(0);

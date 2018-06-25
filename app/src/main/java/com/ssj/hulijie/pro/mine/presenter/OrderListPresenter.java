@@ -54,6 +54,13 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
         });
     }
 
+    /**
+     * 通过订单号进行支付 宝付款
+     * @param context
+     * @param order_id
+     * @param user_id
+     * @param onUIThreadListener
+     */
     public void getOrderSingPresenter(BaseActivity context, String order_id, String user_id, final OnUIThreadListener<String> onUIThreadListener) {
         getModel().getOrderSignModel(context, order_id, user_id, new HttpListener<String>() {
             @Override
@@ -70,6 +77,19 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
         });
     }
 
+    /**
+     * 微信 下单
+     * @param context
+     * @param user_id
+     * @param goods_id
+     * @param amount
+     * @param mobile
+     * @param service_address
+     * @param buyer_name
+     * @param service_time
+     * @param remark
+     * @param onUIThreadListener
+     */
     public void getOrderSignTwoPresenter(BaseActivity context, String user_id, String goods_id, String amount, String mobile, String service_address,
                                          String buyer_name, long service_time, String remark, final OnUIThreadListener<String> onUIThreadListener) {
         getModel().getOrderSignTwoModel(context, user_id, goods_id, amount, mobile, service_address, buyer_name, service_time, remark, new HttpListener<String>() {
@@ -82,6 +102,50 @@ public class OrderListPresenter extends BasePresenter<OrderListModel> {
 
             @Override
             public void onFailed(int what, Response<String> response) {
+                onUIThreadListener.onResult(null);
+            }
+        });
+    }
+
+
+    /**
+     * 微信下单
+     * @param context
+     * @param user_id
+     * @param goods_id
+     * @param amount
+     * @param mobile
+     * @param service_address
+     * @param buyer_name
+     * @param service_time
+     * @param remark
+     * @param onUIThreadListener
+     */
+    public void getOrderForWechatPresenter(BaseActivity context, String user_id, String goods_id, String amount, String mobile, String service_address,
+                                         String buyer_name, long service_time, String remark, final OnUIThreadListener<ItemWechatPayResopse> onUIThreadListener) {
+        getModel().getOrderForWechatModel(context, user_id, goods_id, amount, mobile, service_address, buyer_name, service_time, remark, new HttpListener<JSONObject>() {
+            @Override
+            public void onSucceed(int what, Response<JSONObject> response) {
+                JSONObject jsonObject = response.get();
+                if (jsonObject != null) {
+
+                    AppLog.Log("微信下单 ： "+jsonObject.toString());
+
+                    try {
+
+                        ItemWechatPayResopse itemWechatPayResopse = JSON.parseObject(jsonObject.toString(), ItemWechatPayResopse.class);
+                        onUIThreadListener.onResult(itemWechatPayResopse);
+                    } catch (Exception e
+                            ) {
+                        e.printStackTrace();
+                        onUIThreadListener.onResult(null);
+                    }
+                }
+                onUIThreadListener.onResult(null);
+            }
+
+            @Override
+            public void onFailed(int what, Response<JSONObject> response) {
                 onUIThreadListener.onResult(null);
             }
         });

@@ -86,6 +86,33 @@ public class ItemEvaluate {
             private String images;
             private long commentdate;
             private String buyer_name;
+            private String reply;
+            private long replydate;
+            private String order_id;
+
+            public String getOrder_id() {
+                return order_id;
+            }
+
+            public void setOrder_id(String order_id) {
+                this.order_id = order_id;
+            }
+
+            public String getReply() {
+                return reply;
+            }
+
+            public void setReply(String reply) {
+                this.reply = reply;
+            }
+
+            public long getReplydate() {
+                return replydate;
+            }
+
+            public void setReplydate(long replydate) {
+                this.replydate = replydate;
+            }
 
             public String getBuyer_name() {
                 return buyer_name;

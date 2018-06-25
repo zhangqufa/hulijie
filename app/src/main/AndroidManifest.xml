@@ -195,6 +195,10 @@
             android:name=".pro.firstpage.view.PayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".pro.mine.view.seller.EvaluateSellReplyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
 
         <!--alipay-->
         <activity

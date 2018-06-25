@@ -11,7 +11,16 @@ public class LoginItem {
     private String mobile;
     private String user_name;
     private String msg;
+    private int is_seller;  //1 表示商家
 
+
+    public int getIs_seller() {
+        return is_seller;
+    }
+
+    public void setIs_seller(int is_seller) {
+        this.is_seller = is_seller;
+    }
 
     public String getMsg() {
         return msg;

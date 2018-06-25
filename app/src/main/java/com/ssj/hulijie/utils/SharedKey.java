@@ -15,4 +15,5 @@ public final class SharedKey {
     public static final String PAY_SUCCESS = "pay_success";
     public static final java.lang.String STORE_ID = "store_id";
 
+    public static final String IS_SELLER = "is_seller";
 }

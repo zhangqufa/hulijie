@@ -36,7 +36,7 @@ public class EvaluateSellReplyActivity extends BaseActivity<ServicePresenter> {
     }
 
     private void initToolbar() {
-        RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
+        RelativeLayout title_bar_base = findViewById(R.id.title_bar_base);
         title_bar_base.findViewById(R.id.iv_navigation_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +55,10 @@ public class EvaluateSellReplyActivity extends BaseActivity<ServicePresenter> {
         String reply = et_evaluate_content.getText().toString();
         if (TextUtils.isEmpty(reply)) {
             AppToast.ShowToast("回复不可为空");
+            return;
+        }
+        if (TextUtils.isEmpty(order_id)) {
+
             return;
         }
         presenter.getSellerReplyPresenter(this, order_id, reply, new BasePresenter.OnUIThreadListener<Boolean>() {

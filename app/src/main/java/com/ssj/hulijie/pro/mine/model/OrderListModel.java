@@ -43,10 +43,51 @@ public class OrderListModel extends BaseModel {
         CallServer.getRequestInstance().add(context, 0, request, httpListener, true, true);
     }
 
+    /**
+     * 支付宝下单
+     * @param context
+     * @param user_id
+     * @param goods_id
+     * @param amount
+     * @param mobile
+     * @param service_address
+     * @param buyer_name
+     * @param service_time
+     * @param remark
+     * @param httpListener
+     */
     public void getOrderSignTwoModel(BaseActivity context, String user_id, String goods_id, String amount, String mobile, String service_address,
                                      String buyer_name, long service_time, String remark, HttpListener<String> httpListener) {
         String url = AppURL.URL_ORDER_ORDER;
         Request<String> req = NoHttp.createStringRequest(url, RequestMethod.POST);
+        req.add("user_id", user_id);
+        req.add("goods_id", goods_id);
+        req.add("amount", amount);
+        req.add("mobile", mobile);
+        req.add("service_address", service_address);
+        req.add("buyer_name", buyer_name);
+        req.add("service_time", service_time);
+        req.add("remark", remark);
+        CallServer.getRequestInstance().add(context, 0, req, httpListener, true, true);
+    }
+
+    /**
+     * 微信下单
+     * @param context
+     * @param user_id
+     * @param goods_id
+     * @param amount
+     * @param mobile
+     * @param service_address
+     * @param buyer_name
+     * @param service_time
+     * @param remark
+     * @param httpListener
+     */
+    public void getOrderForWechatModel(BaseActivity context, String user_id, String goods_id, String amount, String mobile, String service_address,
+                                     String buyer_name, long service_time, String remark, HttpListener<JSONObject> httpListener) {
+        String url = AppURL.URL_WECHAT_ORDER;
+        Request<JSONObject> req = new FastJsonRequest(url, RequestMethod.POST);
         req.add("user_id", user_id);
         req.add("goods_id", goods_id);
         req.add("amount", amount);

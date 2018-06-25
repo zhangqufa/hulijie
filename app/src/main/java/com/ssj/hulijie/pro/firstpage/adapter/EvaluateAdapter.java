@@ -20,6 +20,8 @@ import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppURL;
 import com.ssj.hulijie.utils.DateUtil;
 import com.ssj.hulijie.utils.DisplayUtils;
+import com.ssj.hulijie.utils.SharedKey;
+import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.widget.DividerGridItemDecoration;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
@@ -50,48 +52,60 @@ public class EvaluateAdapter extends RecyclerView.Adapter<EvaluateAdapter.Evalua
 
     @Override
     public EvaluateViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return new EvaluateViewHolder(LayoutInflater.from(context).inflate(R.layout.item_evaluate, viewGroup, false));
+        return new EvaluateViewHolder(LayoutInflater.from(context)
+                .inflate(R.layout.item_evaluate, viewGroup, false));
     }
 
     @Override
-    public void onBindViewHolder(EvaluateViewHolder holder,final int i) {
-       final ItemEvaluate.DataBean.RowsBean item = lists.get(i);
-
+    public void onBindViewHolder(EvaluateViewHolder holder, final int i) {
+        final ItemEvaluate.DataBean.RowsBean item = lists.get(i);
+        holder.ll_seller_reply.setEnabled(true);
+        holder.ll_seller_reply.setVisibility(View.VISIBLE);
         holder.nickname.setText(item.getBuyer_name());
-        holder.time.setText(DateUtil.longToString(item.getCommentdate()*1000));
+        holder.time.setText(DateUtil.longToString(item.getCommentdate() * 1000));
         holder.evaluate_level.setRating(item.getEvaluation());
         holder.content.setText(item.getComment());
-//        if (TextUtils.isEmpty(item.get))
-//        holder.seller_re.setText(); //todo 商家回复
-        String img_list_str = item.getImages();
-        List<String> images = new ArrayList<>(JSON.parseArray(img_list_str, String.class));
-        final ArrayList<AlbumFile> mAlbumFiles = new ArrayList<>();
-        for (int j = 0; j < images.size(); j++) {
-            AlbumFile albumFile = new AlbumFile();
-            albumFile.setMediaType(AlbumFile.TYPE_IMAGE);
-            String s = images.get(j);
-            String img = s.substring(1).replace("\\", "");
-            albumFile.setPath(AppURL.URL_IMAGE_REF + img);
-            AppLog.Log("评价图片： "+AppURL.URL_IMAGE_REF + img);
-            mAlbumFiles.add(albumFile);
-        }
-        holder.rv_img.setLayoutManager(new GridLayoutManager(context, 3));
-        holder.rv_img.addItemDecoration(new DividerGridItemDecoration(DisplayUtils.dip2px(6), context.getResources().getColor(android.R.color.white)));
-        int itemSize = (DisplayUtils.screenWidth - (DisplayUtils.dip2px(6) * 2)) / 3;
-        Adapter mAdapter = new Adapter(context, itemSize, new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                previewImage(position, mAlbumFiles);
+        if (!TextUtils.isEmpty(item.getReply())) {
+            holder.seller_re.setText(item.getReply());
+            holder.ll_seller_reply.setEnabled(false);
+        } else {
+            if (1 == SharedUtil.getPreferInt(SharedKey.IS_SELLER, 0)) {
+            } else {
+                holder.ll_seller_reply.setVisibility(View.GONE);
             }
-        });
-        holder.rv_img.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged(mAlbumFiles);
+
+        }
+        String img_list_str = item.getImages();
+        if (!TextUtils.isEmpty(img_list_str)) {
+            List<String> images = new ArrayList<>(JSON.parseArray(img_list_str, String.class));
+            final ArrayList<AlbumFile> mAlbumFiles = new ArrayList<>();
+            for (int j = 0; j < images.size(); j++) {
+                AlbumFile albumFile = new AlbumFile();
+                albumFile.setMediaType(AlbumFile.TYPE_IMAGE);
+                String s = images.get(j);
+                String img = s.substring(1).replace("\\", "");
+                albumFile.setPath(AppURL.URL_IMAGE_REF + img);
+                AppLog.Log("评价图片： " + AppURL.URL_IMAGE_REF + img);
+                mAlbumFiles.add(albumFile);
+            }
+            holder.rv_img.setLayoutManager(new GridLayoutManager(context, 3));
+            holder.rv_img.addItemDecoration(new DividerGridItemDecoration(DisplayUtils.dip2px(6), context.getResources().getColor(android.R.color.white)));
+            int itemSize = (DisplayUtils.screenWidth - (DisplayUtils.dip2px(6) * 2)) / 3;
+            Adapter mAdapter = new Adapter(context, itemSize, new OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    previewImage(position, mAlbumFiles);
+                }
+            });
+            holder.rv_img.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged(mAlbumFiles);
+        }
 
         holder.ll_seller_reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (lintener != null) {
-                    lintener.onSellReplyOnClickLintener(item,i);
+                    lintener.onSellReplyOnClickLintener(item, i);
                 }
             }
         });
@@ -145,7 +159,7 @@ public class EvaluateAdapter extends RecyclerView.Adapter<EvaluateAdapter.Evalua
     }
 
 
-    public interface SellReplyOnClickLintener<T>{
+    public interface SellReplyOnClickLintener<T> {
         void onSellReplyOnClickLintener(T t, int position);
     }
 

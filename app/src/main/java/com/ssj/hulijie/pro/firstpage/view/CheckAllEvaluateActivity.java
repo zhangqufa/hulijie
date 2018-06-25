@@ -44,7 +44,7 @@ public class CheckAllEvaluateActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_all_evaluate);
-        goods_id =getIntent().getStringExtra("goods_id");
+        goods_id = getIntent().getStringExtra("goods_id");
         initToolBar();
         initView();
     }

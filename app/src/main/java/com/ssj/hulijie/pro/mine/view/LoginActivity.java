@@ -257,6 +257,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     SharedUtil.setPreferStr(SharedKey.USER_ID, result.getUser_id());
                     SharedUtil.setPreferBool(SharedKey.USER_LOGINED, true);
                     SharedUtil.setPreferStr(SharedKey.USER_KEY, result.getKey());
+                    SharedUtil.setPreferInt(SharedKey.IS_SELLER, result.getIs_seller());
                     finish();
 
                 } else if (result != null && !TextUtils.isEmpty(result.getMsg())) {
