@@ -65,6 +65,10 @@
             android:name=".pro.splash.view.SplashMainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme" />
+        <activity
+            android:name=".pro.base.view.HtmlActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
 
 
         <activity
@@ -128,6 +132,10 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".pro.firstpage.view.DetailInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".pro.firstpage.view.DetailInfoWebActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
 

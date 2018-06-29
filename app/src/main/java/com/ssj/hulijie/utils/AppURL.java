@@ -16,6 +16,7 @@ public class AppURL {
     public static final String URL_FIRSTPAGE_LIST = URL_API + "/Home/recommend";
     public static final String URL_CATETORY = URL_API + "/Home/all_cat";
     public static final String URL_SERVICE_DETAIL = URL_API + "/Home/goods";
+    public static final String URL_SERVICE_DETAIL_WEB = URL_API + "/Detail/index?id=";
     public static final String URL_CATEGORY_LIST = URL_API + "/Home/goods_list";
     public static final String URL_ADDRESS_LIST = URL_API + "/Home/address";
     public static final String URL_GET_VERIFY_CODE = URL_API + "/Home/sendcode";
@@ -61,7 +62,7 @@ public class AppURL {
     //活动列表接口
     public static final String URL_MSG_NEWS = URL_API + "/news/news_list";
     //系统消息接口
-    public static final String URL_SYSTEM_MSG = URL_API + "/Order/order_list";
+    public static final String URL_SYSTEM_MSG = URL_API + "/home/message_list";
 
 
     //获取微信支付订单签名

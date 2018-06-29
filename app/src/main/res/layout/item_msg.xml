@@ -21,6 +21,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:layout_centerVertical="true"
             android:id="@+id/title"
             android:lines="1"
             android:text="优惠活动"
@@ -31,6 +32,7 @@
 
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/sub_title"
             android:textSize="14sp"
             android:text="良心好礼，安装下单立减10元"
@@ -39,6 +41,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/time"
             android:layout_alignParentRight="true"
             android:text="2000001"

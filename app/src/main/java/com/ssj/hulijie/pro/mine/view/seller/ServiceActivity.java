@@ -50,17 +50,17 @@ public class ServiceActivity extends BaseActivity {
         public void onItemClickLisener(int position) {
             Intent intent = null;
             switch (position) {
+//                case 0:
+//                    intent = new Intent(ServiceActivity.this, ServiceMineServiceActivity.class);
+//                    break;
                 case 0:
-                    intent = new Intent(ServiceActivity.this, ServiceMineServiceActivity.class);
-                    break;
-                case 1:
                     intent = new Intent(ServiceActivity.this, ServiceOrderListActivity.class);
                     break;
-                case 2:
+                case 1:
                     intent = new Intent(ServiceActivity.this, ServiceInActivity.class);
                     break;
 
-                case 3:
+                case 2:
                     intent = new Intent(ServiceActivity.this, ServiceAcceptOrderListActivity.class);
                     break;
                 default:
@@ -76,7 +76,7 @@ public class ServiceActivity extends BaseActivity {
 
         List<String> lists = new ArrayList<>();
 
-        lists.add("我的服务");
+//        lists.add("我的服务");
         lists.add("我的订单");
         lists.add("我的收入");
         lists.add("接单列表");

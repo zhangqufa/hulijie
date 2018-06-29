@@ -1,7 +1,7 @@
 package com.ssj.hulijie.pro.msg.view;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -11,9 +11,8 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.firstpage.bean.ItemCategoryMain;
-import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
-import com.ssj.hulijie.pro.msg.adapter.MsgListAdapter;
+import com.ssj.hulijie.pro.base.view.HtmlActivity;
+import com.ssj.hulijie.pro.msg.adapter.MsgHuodongListAdapter;
 import com.ssj.hulijie.pro.msg.bean.ItemMsgHuoDong;
 import com.ssj.hulijie.pro.msg.bean.MsgData;
 import com.ssj.hulijie.pro.msg.presenter.MsgPresenter;
@@ -36,7 +35,7 @@ public class MsgHuoDongListActivity extends BaseActivity<MsgPresenter> {
 
     private int page =1;
     private List<ItemMsgHuoDong.RowsBean> lists = new ArrayList<>();
-    private MsgListAdapter adapter;
+    private MsgHuodongListAdapter adapter;
     private View text_empty;
 
 
@@ -120,7 +119,7 @@ public class MsgHuoDongListActivity extends BaseActivity<MsgPresenter> {
         mRecyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
 
 
-        adapter = new MsgListAdapter(this);
+        adapter = new MsgHuodongListAdapter(this);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(onClickListener);
 
@@ -139,12 +138,15 @@ public class MsgHuoDongListActivity extends BaseActivity<MsgPresenter> {
     }
 
 
-
-
-    private MsgListAdapter.OnItemClickListener<ItemMsgHuoDong.RowsBean> onClickListener = new MsgListAdapter.OnItemClickListener<ItemMsgHuoDong.RowsBean>() {
+    private MsgHuodongListAdapter.OnItemClickListener<ItemMsgHuoDong.RowsBean> onClickListener = new MsgHuodongListAdapter.OnItemClickListener<ItemMsgHuoDong.RowsBean>() {
         @Override
         public void onItemClick(int position, ItemMsgHuoDong.RowsBean data) {
-
+            if (data != null) {
+                Intent intent = new Intent(MsgHuoDongListActivity.this, HtmlActivity.class);
+                intent.putExtra("title", data.getTitle());
+                intent.putExtra("url", data.getUrl());
+                startActivity(intent);
+            }
         }
     };
 }

@@ -1,7 +1,6 @@
 package com.ssj.hulijie.pro.msg.view;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -9,12 +8,12 @@ import android.widget.RelativeLayout;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ssj.hulijie.R;
-import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
-import com.ssj.hulijie.pro.msg.adapter.MsgListAdapter;
+import com.ssj.hulijie.pro.msg.adapter.MsgHuodongListAdapter;
+import com.ssj.hulijie.pro.msg.adapter.MsgSystemListAdapter;
 import com.ssj.hulijie.pro.msg.bean.ItemMsgHuoDong;
+import com.ssj.hulijie.pro.msg.bean.ItemMsgSystem;
 import com.ssj.hulijie.pro.msg.bean.MsgData;
 import com.ssj.hulijie.pro.msg.presenter.MsgPresenter;
 import com.ssj.hulijie.utils.RefreshStatues;
@@ -36,8 +35,8 @@ public class MsgSystemListActivity extends BaseActivity<MsgPresenter> {
     private XRecyclerView mRecyclerView;
 
     private int page =1;
-    private List<ItemMsgHuoDong.RowsBean> lists = new ArrayList<>();
-    private MsgListAdapter adapter;
+    private List<ItemMsgSystem.RowsBean> lists = new ArrayList<>();
+    private MsgSystemListAdapter adapter;
     private View text_empty;
 
 
@@ -64,17 +63,18 @@ public class MsgSystemListActivity extends BaseActivity<MsgPresenter> {
     }
 
     private void getData(final RefreshStatues statues) {
-        presenter.getMsgSystemPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID), page, new BasePresenter.OnUIThreadListener<ItemMsgHuoDong>() {
+        presenter.getMsgSystemPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID), page, new BasePresenter.OnUIThreadListener<ItemMsgSystem>() {
             @Override
-            public void onResult(ItemMsgHuoDong result) {
+            public void onResult(ItemMsgSystem result) {
                 if (result != null) {
 
-                    List<ItemMsgHuoDong.RowsBean> rows = result.getRows();
+
+                    List<ItemMsgSystem.RowsBean> rows = result.getRows();
                     int totalcount = result.getCount();
                     if (rows.size() > 0) {
 
                         for (int i = 0; i < rows.size(); i++) {
-                            ItemMsgHuoDong.RowsBean item = rows.get(i);
+                            ItemMsgSystem.RowsBean item = rows.get(i);
                             lists.add(item);
                         }
                         adapter.setLists(lists);
@@ -121,7 +121,7 @@ public class MsgSystemListActivity extends BaseActivity<MsgPresenter> {
         mRecyclerView.setArrowImageView(R.mipmap.iconfont_downgrey);
 
 
-        adapter = new MsgListAdapter(this);
+        adapter = new MsgSystemListAdapter(this);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(onClickListener);
 
@@ -142,7 +142,7 @@ public class MsgSystemListActivity extends BaseActivity<MsgPresenter> {
 
 
 
-    private MsgListAdapter.OnItemClickListener<ItemMsgHuoDong.RowsBean> onClickListener = new MsgListAdapter.OnItemClickListener<ItemMsgHuoDong.RowsBean>() {
+    private MsgSystemListAdapter.OnItemClickListener<ItemMsgHuoDong.RowsBean> onClickListener = new MsgSystemListAdapter.OnItemClickListener<ItemMsgHuoDong.RowsBean>() {
         @Override
         public void onItemClick(int position, ItemMsgHuoDong.RowsBean data) {
 

@@ -8,6 +8,7 @@ import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.msg.bean.ItemMsgHuoDong;
+import com.ssj.hulijie.pro.msg.bean.ItemMsgSystem;
 import com.ssj.hulijie.pro.msg.model.MsgModel;
 import com.ssj.hulijie.utils.AppLog;
 import com.yanzhenjie.nohttp.rest.Response;
@@ -63,7 +64,7 @@ public class MsgPresenter extends BasePresenter<MsgModel> {
      * @param context
      * @param page
      */
-    public void getMsgSystemPresenter(BaseActivity context, String user_id,int page, final OnUIThreadListener<ItemMsgHuoDong> onUIThreadListener) {
+    public void getMsgSystemPresenter(BaseActivity context, String user_id,int page, final OnUIThreadListener<ItemMsgSystem> onUIThreadListener) {
         getModel().getMsgSystemModel(context,user_id, page, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
@@ -71,8 +72,8 @@ public class MsgPresenter extends BasePresenter<MsgModel> {
                 if (jsonObject != null) {
                     AppLog.Log("系统消息 列表： " + jsonObject.toString());
                     try {
-                        ItemMsgHuoDong itemMsgHuoDong = JSON.parseObject(jsonObject.toString(), ItemMsgHuoDong.class);
-                        onUIThreadListener.onResult(itemMsgHuoDong);
+                        ItemMsgSystem itemMsgSystem = JSON.parseObject(jsonObject.toString(), ItemMsgSystem.class);
+                        onUIThreadListener.onResult(itemMsgSystem);
                     } catch (Exception e) {
                         onUIThreadListener.onResult(null);
                         e.printStackTrace();

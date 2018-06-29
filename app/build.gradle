@@ -68,4 +68,5 @@ dependencies {
     compile project(':xrecyclerview')
     implementation 'com.yanzhenjie:album:2.1.2'
     compile(name: 'geetest_testbutton_android_v3.5.2', ext: 'aar')
+
 }

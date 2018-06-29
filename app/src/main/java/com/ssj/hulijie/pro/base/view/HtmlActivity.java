@@ -3,12 +3,15 @@ package com.ssj.hulijie.pro.base.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.utils.AppLog;
+import com.ssj.hulijie.utils.TitlebarUtil;
 
 import java.net.URISyntaxException;
 
@@ -16,6 +19,7 @@ import java.net.URISyntaxException;
  * @author qufa
  */
 public class HtmlActivity extends BaseActivity {
+    private String title;
 
     @Override
     public MvpBasePresenter bindPresenter() {
@@ -32,8 +36,9 @@ public class HtmlActivity extends BaseActivity {
     }
 
     private void initView() {
-        initToolBar();
+        title = getIntent().getStringExtra("title");
         String url = getIntent().getStringExtra("url");
+        initToolBar();
         WebView wv = (WebView) findViewById(R.id.wv);
 
         wv.getSettings().setJavaScriptEnabled(true);
@@ -49,6 +54,7 @@ public class HtmlActivity extends BaseActivity {
 
             }
 
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 AppLog.Log("com_html: " + url);
                 if (url.startsWith("mailto:")) {
@@ -81,5 +87,12 @@ public class HtmlActivity extends BaseActivity {
 
 
     private void initToolBar() {
+        RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
+        TitlebarUtil.inittoolBar(this, title_bar_base, true, title, android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        }, null);
     }
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg">
+
+    <RelativeLayout
+        android:id="@+id/title_bar_base"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_45"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/iv_navigation_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="13dp"
+            android:paddingRight="12dp"
+            android:src="@mipmap/back_btn_huan" />
+
+        <TextView
+            android:id="@+id/tv_navigation_center"
+            style="@style/item_style"
+            android:layout_width="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:lines="1"
+            android:text="详情"
+            android:textColor="@color/comm_grey_333333"
+            android:textSize="18sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_navigation_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/share_btn_huan" />
+
+    </RelativeLayout>
+
+
+    <WebView
+        android:id="@+id/wv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar_base"
+        android:background="@android:color/white" />
+
+
+    <View
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/comm_grey_666666_0_9"
+        android:visibility="gone" />
+
+</RelativeLayout>

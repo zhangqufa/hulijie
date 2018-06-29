@@ -325,7 +325,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
     private BaseRecyclerAdapter.OnItemClickListener item_click = new BaseRecyclerAdapter.OnItemClickListener<ItemCategoryMain.DataBean.RowsBean>() {
         @Override
         public void onItemClick(int position, ItemCategoryMain.DataBean.RowsBean item) {
-            Intent intent = new Intent(context, DetailInfoActivity.class);
+            Intent intent = new Intent(context, DetailInfoWebActivity.class);
             intent.putExtra("item", item);
             startActivity(intent);
         }

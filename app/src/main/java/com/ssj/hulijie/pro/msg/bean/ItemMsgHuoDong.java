@@ -10,7 +10,7 @@ public class ItemMsgHuoDong {
 
     /**
      * count : 1
-     * rows : [{"article_id":"26","code":"","title":"u72d0u72f8u8857APPu5f00u59cbu4e0bu8f7du4e86uff01uff01uff01","cate_id":"6","store_id":"0","link":"","content":"","sort_order":"255","if_show":"1","add_time":"1527815840"}]
+     * rows : [{"article_id":"26","code":"","title":"u72d0u72f8u8857APPu5f00u59cbu4e0bu8f7du4e86uff01uff01uff01","cate_id":"6","store_id":"0","url":"","content":"","sort_order":"255","if_show":"1","add_time":"1527815840"}]
      */
 
     private int count;
@@ -39,7 +39,7 @@ public class ItemMsgHuoDong {
          * title : u72d0u72f8u8857APPu5f00u59cbu4e0bu8f7du4e86uff01uff01uff01
          * cate_id : 6
          * store_id : 0
-         * link :
+         * url :
          * content :
          * sort_order : 255
          * if_show : 1
@@ -51,7 +51,7 @@ public class ItemMsgHuoDong {
         private String title;
         private String cate_id;
         private String store_id;
-        private String link;
+        private String url;
         private String content;
         private String sort_order;
         private String if_show;
@@ -97,12 +97,12 @@ public class ItemMsgHuoDong {
             this.store_id = store_id;
         }
 
-        public String getLink() {
-            return link;
+        public String getUrl() {
+            return url;
         }
 
-        public void setLink(String link) {
-            this.link = link;
+        public void setUrl(String url) {
+            this.url = url;
         }
 
         public String getContent() {
