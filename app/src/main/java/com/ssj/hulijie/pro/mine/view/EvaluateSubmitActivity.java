@@ -26,6 +26,7 @@ import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.SharedKey;
 import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.widget.DividerGridItemDecoration;
+import com.ssj.hulijie.widget.dialog.WaitDialog;
 import com.ssj.hulijie.widget.recylerview.GridItemDecoration;
 import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.Album;
@@ -92,6 +93,7 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter> {
     }
 
     private void initView() {
+        waitDialog = new WaitDialog(this);
         et_evaluate_content = findViewById(R.id.et_evaluate_content);
         lists = new ArrayList<>();
         for (int i = 0; i < imgRes.length; i++) {
@@ -226,7 +228,16 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter> {
 
     }
 
+    private WaitDialog waitDialog;
+
     class UpladTask extends AsyncTask<String[], Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            waitDialog.show();
+        }
+
         @Override
         protected String doInBackground(String[]... strings) {
             String[] string = strings[0];
@@ -235,6 +246,9 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter> {
 
         @Override
         protected void onPostExecute(String string) {
+            if (waitDialog != null && waitDialog.isShowing()) {
+                waitDialog.dismiss();
+            }
             sumbitAfterPic(string);
         }
     }
