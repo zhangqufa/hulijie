@@ -27,6 +27,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
+import com.ssj.hulijie.nohttp.CallServer;
+import com.ssj.hulijie.nohttp.HttpListener;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.adapter.DetailImageHeadAdapter;
@@ -42,6 +44,7 @@ import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.pro.mine.view.MineOrderListActivity;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppToast;
+import com.ssj.hulijie.utils.AppURL;
 import com.ssj.hulijie.utils.Constant;
 import com.ssj.hulijie.utils.DisplayUtils;
 import com.ssj.hulijie.utils.SharedKey;
@@ -51,14 +54,17 @@ import com.ssj.hulijie.wxapi.ConstantsWechat;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Response;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.ssj.hulijie.pro.mine.view.MineFragment.REQUESTPERSIMMIONCODE;
@@ -92,6 +98,12 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
     private ShareStatues current_share_status = ShareStatues.Wechat;
     private IWXAPI api;
+    private String default_image_rul;
+
+    /**
+     * 进入页面，加载的数据
+     */
+    private DetailServiceAndEvaluateItem result;
 
     enum ShareStatues {
         Wechat, Pengyouquan;
@@ -139,6 +151,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 
     private void updateUI(DetailServiceAndEvaluateItem result) {
         if (result != null) {
+            this.result = result;
             detail = result.getDetail();
             //show detial pic
             List<String> img = detail.getImg();
@@ -146,7 +159,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
             adapter.addDatas(img);
 
             //show pic
-            String default_image_rul = detail.getDefault_image();
+            default_image_rul = detail.getDefault_image();
 
             if (default_image_rul.contains(SMALL_)) {
                 //这里更改图片链接的格式
@@ -337,6 +350,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    private static final int THUMB_SIZE = 100;
 
     /**
      * 分享到微信
@@ -350,6 +364,51 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
 //            }
 //        });
 //        task.execute();
+
+        if (result == null) {
+            AppToast.ShowToast("详情页没有加载完成，请稍候");
+            return;
+        }
+
+        final Request<Bitmap> request = NoHttp.createImageRequest(result.getDetail().getDefault_image());
+        CallServer.getRequestInstance().add(this, 0, request, new HttpListener<Bitmap>() {
+            @Override
+            public void onSucceed(int what, Response<Bitmap> response) {
+                Bitmap bitmap = response.get();
+                if (bitmap != null) {
+
+
+                    WXWebpageObject webpage = new WXWebpageObject();
+                    webpage.webpageUrl = AppURL.URL_SERVICE_DETAIL_WEB + item.getGoods_id();
+//                    webpage.webpageUrl = "https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_9189654572042963029%22%7D&n_type=0&p_from=1";
+                    WXMediaMessage msg = new WXMediaMessage(webpage);
+                    msg.title = DetailInfoActivity.this.result.getDetail().getGoods_name();
+                    msg.description = "价格" + DetailInfoActivity.this.result.getDetail().getPrice();
+
+                    Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
+                    bitmap.recycle();
+                    msg.thumbData = WxUtil.bmpToByteArray(thumbBmp, true);
+
+                    SendMessageToWX.Req req = new SendMessageToWX.Req();
+                    req.transaction = buildTransaction("webpage");
+                    req.message = msg;
+                    if (current_share_status == ShareStatues.Wechat) {
+                        req.scene = SendMessageToWX.Req.WXSceneSession;
+                    } else {
+                        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+                    }
+                    api.sendReq(req);
+                } else {
+                    AppToast.ShowToast("分享失败");
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<Bitmap> response) {
+
+            }
+        }, true, true);
+
     }
 
     private void sendToWx(Bitmap smallBitmap) {

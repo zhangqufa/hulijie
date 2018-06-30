@@ -118,12 +118,12 @@ public class EvaluateAdapter extends RecyclerView.Adapter<EvaluateAdapter.Evalua
         if (mAlbumFiles == null || mAlbumFiles.size() == 0) {
         } else {
             Album.galleryAlbum(context)
-                    .checkable(true)
+                    .checkable(false)
                     .checkedList(mAlbumFiles)
                     .currentPosition(position)
                     .widget(
                             Widget.newDarkBuilder(context)
-                                    .title("选择图片")
+                                    .title("查看图片")
                                     .build()
                     )
                     .start();

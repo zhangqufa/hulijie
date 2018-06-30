@@ -147,8 +147,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
     private void initTabData() {
         tabItemList = new ArrayList<>();
         tabItemList.add(new TabItem(this, R.mipmap.first_page_off, R.mipmap.first_page_on, R.string.page_1, FirstPageFrament.class));
-        //取消超级返功能
-        tabItemList.add(new TabItem(this, R.mipmap.discover_off, R.mipmap.discover_on, R.string.page_2, FoundFragment.class));
+//        tabItemList.add(new TabItem(this, R.mipmap.discover_off, R.mipmap.discover_on, R.string.page_2, FoundFragment.class));
         tabItemList.add(new TabItem(this, R.mipmap.msg_off, R.mipmap.msg_on, R.string.page_3, MsgFragment.class));
         tabItemList.add(new TabItem(this, R.mipmap.mine_off, R.mipmap.mine_on, R.string.page_4, MineFragment.class));
     }

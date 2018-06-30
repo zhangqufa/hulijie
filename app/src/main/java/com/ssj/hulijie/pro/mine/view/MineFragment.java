@@ -77,12 +77,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         boolean isLogined = SharedUtil.getPreferBool(SharedKey.USER_LOGINED, false);
         if (!isLogined) {
             user.setText("立即登录");
-            btn_go_server.setVisibility(View.GONE);
+//            btn_go_server.setVisibility(View.GONE);
             user_des.setVisibility(View.GONE);
             user_des.setText("");
             mine_logout.setVisibility(View.GONE);
         } else {
-            btn_go_server.setVisibility(View.VISIBLE);
+//            btn_go_server.setVisibility(View.VISIBLE);
             String user_name = SharedUtil.getPreferStr(SharedKey.USER_NAME);
             String mobile = SharedUtil.getPreferStr(SharedKey.USER_MOBILE);
             user.setText(TextUtils.isEmpty(user_name) ? "小狐狸" : user_name);
@@ -103,6 +103,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         viewContent.findViewById(R.id.login).setOnClickListener(this);
         btn_go_server = (Button) viewContent.findViewById(R.id.btn_go_server);
 
+        viewContent.findViewById(R.id.service).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_address).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_contact).setOnClickListener(this);
         viewContent.findViewById(R.id.mine_company_add).setOnClickListener(this);
@@ -133,15 +134,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             AppLog.Log("s1文件存在");
         }
         final String[] paths = {s,s1};
-        btn_go_server.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                UpladTask task = new UpladTask();
-                task.execute(paths);
-                return true;
-            }
-        });
+//        btn_go_server.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//
+//                UpladTask task = new UpladTask();
+//                task.execute(paths);
+//                return true;
+//            }
+//        });
     }
 
     class UpladTask extends AsyncTask<String[], Void, Void> {
@@ -380,11 +381,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 intent.putExtra(MineOrderListActivity.DEFAULT_PAGE, 3);
                 break;
             case R.id.btn_go_server:
+            case R.id.service:
                 intent = new Intent(getContext(), ServiceActivity.class);
                 break;
             case R.id.mine_logout:
                 intent = new Intent(getContext(), SettingActivity.class);
                 break;
+
             default:
                 break;
         }

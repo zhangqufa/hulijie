@@ -33,15 +33,15 @@
                 android:background="@android:color/white">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/shape_circle_bg"
                     android:id="@+id/img"
-                    android:layout_marginRight="10dp"
-                    android:src="@mipmap/loading_logo"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_centerVertical="true"
-                    android:padding="8dp" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/shape_circle_bg"
+                    android:padding="8dp"
+                    android:src="@mipmap/loading_logo" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -69,20 +69,21 @@
 
                 <Button
                     android:id="@+id/btn_go_server"
-                    android:background="@drawable/shape_left_top_left_bottom_radius"
-                    android:gravity="right|center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
+                    android:background="@drawable/shape_left_top_left_bottom_radius"
+                    android:gravity="right|center_vertical"
+                    android:paddingBottom="3dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
                     android:text="我的服务者"
 
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
-                    android:layout_height="36dp" />
+                    android:visibility="gone" />
             </RelativeLayout>
 
 
@@ -121,10 +122,10 @@
 
                 <LinearLayout
                     android:id="@+id/mine_no_complete"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
@@ -136,17 +137,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:textSize="13sp"
-                        android:text="未完成" />
+                        android:text="未完成"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/mine_complete"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
@@ -158,17 +159,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:textSize="13sp"
-                        android:text="已完成" />
+                        android:text="已完成"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/mine_wait_evaluate"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
@@ -180,17 +181,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:textSize="13sp"
-                        android:text="待评价" />
+                        android:text="待评价"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/mine_all_order"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
@@ -202,8 +203,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:textSize="13sp"
-                        android:text="全部订单" />
+                        android:text="全部订单"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -237,6 +238,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/mine_company_add"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -249,6 +251,33 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:text="商家认证"
+                    android:textSize="15sp" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/to_right_grey" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/service"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="我是服务者"
                     android:textSize="15sp" />
 
 
@@ -289,6 +318,7 @@
 
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/mine_logout"
                 android:layout_width="match_parent"

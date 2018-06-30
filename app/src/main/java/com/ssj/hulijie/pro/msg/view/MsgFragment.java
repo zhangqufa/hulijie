@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.base.view.BaseFragment;
-import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
 import com.ssj.hulijie.pro.firstpage.view.widget.DividerGridItemDecoration;
 import com.ssj.hulijie.pro.home.view.MainActivity;
 import com.ssj.hulijie.pro.msg.adapter.MsgAdapter;
@@ -128,9 +127,9 @@ public class MsgFragment extends BaseFragment {
     private List<MsgData> getData() {
         MsgData msgData = null;
         List<MsgData> lists = new ArrayList<>();
-        msgData = new MsgData(FirstPageFrament.img[0], "活动消息", "墙面开裂、漏水？", System.currentTimeMillis());
+        msgData = new MsgData(R.mipmap.icon_msg_huodong, "活动消息", "墙面开裂、漏水？", System.currentTimeMillis());
         lists.add(msgData);
-        msgData = new MsgData(FirstPageFrament.img[1], "系统消息", "系统消息子标题", System.currentTimeMillis());
+        msgData = new MsgData(R.mipmap.icon_msg_system, "系统消息", "系统消息子标题", System.currentTimeMillis());
         lists.add(msgData);
         return lists;
 

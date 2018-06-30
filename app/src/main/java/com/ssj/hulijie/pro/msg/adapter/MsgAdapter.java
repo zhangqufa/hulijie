@@ -40,7 +40,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MsgViewHolder> {
 
     @Override
     public void onBindViewHolder(MsgViewHolder holder, final int position) {
-      final   MsgData item = lists.get(position);
+        final MsgData item = lists.get(position);
 
         holder.title.setText(item.getTitle());
         holder.sub_title.setText(item.getSub_title());
@@ -54,7 +54,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MsgViewHolder> {
             @Override
             public void onClick(View view) {
                 if (listener != null) {
-                    listener.onItemClick(position,item);
+                    listener.onItemClick(position, item);
                 }
             }
         });

@@ -3,18 +3,12 @@ package com.ssj.hulijie.pro.mine.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
-import com.alipay.sdk.app.PayTask;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ssj.hulijie.R;
-import com.ssj.hulijie.alipay.PayResult;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
@@ -31,7 +25,6 @@ import com.ssj.hulijie.widget.dialog.ConfirmCancelDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by vic_zhang .
@@ -145,9 +138,9 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
         @Override
         public void onItemClick(int position, ItemOrderResp.DataBean.RowsBean data) {
 
-            Intent intent = new Intent(getActivity(), OrderItemDetailActivity.class);
-            intent.putExtra("orderItem", data);
-            startActivity(intent);
+//            Intent intent = new Intent(getActivity(), OrderItemDetailActivity.class);
+//            intent.putExtra("orderItem", data);
+//            startActivity(intent);
 
         }
 
@@ -320,7 +313,6 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
         AppLog.Log("payact");
         initData();
     }
-
 
 
     /**

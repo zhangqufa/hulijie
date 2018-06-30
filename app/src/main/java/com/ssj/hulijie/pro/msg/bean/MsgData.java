@@ -8,12 +8,12 @@ import android.os.Parcelable;
  */
 
 public class MsgData implements Parcelable {
-    private String img;
+    private int img;
     private String title;
     private String sub_title;
     private long time;
 
-    public MsgData(String img, String title, String sub_title, long time) {
+    public MsgData(int img, String title, String sub_title, long time) {
         this.img = img;
         this.title = title;
         this.sub_title = sub_title;
@@ -21,7 +21,7 @@ public class MsgData implements Parcelable {
     }
 
     protected MsgData(Parcel in) {
-        img = in.readString();
+        img = in.readInt();
         title = in.readString();
         sub_title = in.readString();
         time = in.readLong();
@@ -39,11 +39,11 @@ public class MsgData implements Parcelable {
         }
     };
 
-    public String getImg() {
+    public int getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(int img) {
         this.img = img;
     }
 
@@ -78,7 +78,7 @@ public class MsgData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(img);
+        parcel.writeInt(img);
         parcel.writeString(title);
         parcel.writeString(sub_title);
         parcel.writeLong(time);
