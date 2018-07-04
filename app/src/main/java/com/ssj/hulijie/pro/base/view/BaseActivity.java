@@ -43,13 +43,13 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initSwipeBackFinish();
         super.onCreate(savedInstanceState);
         // 初始化请求队列，传入的参数是请求并发值。
         StatusBarColorUtils.setWindowStatusBarColor(this, R.color.comm_grey_666666);
         mQueue = NoHttp.newRequestQueue(1);
         mHandler.setHandlerCallback(this);
         DisplayUtils.initScreen(this);
+//        initSwipeBackFinish();
     }
 
     /**
@@ -168,11 +168,17 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
 
     @Override
     public void onBackPressed() {
-        // 正在滑动返回的时候取消返回按钮事件
-        if (mSwipeBackHelper.isSliding()) {
+        if (mSwipeBackHelper == null) {
+            super.onBackPressed();
             return;
         }
-        mSwipeBackHelper.backward();
+        // 正在滑动返回的时候取消返回按钮事件
+        if (mSwipeBackHelper != null && mSwipeBackHelper.isSliding()) {
+            return;
+        }
+        if (mSwipeBackHelper != null) {
+            mSwipeBackHelper.backward();
+        }
     }
 
     /**

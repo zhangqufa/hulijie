@@ -46,7 +46,6 @@ android {
 }
 
 dependencies {
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.alibaba:fastjson:1.2.29'
     compile 'com.yanzhenjie.nohttp:nohttp:1.1.1'

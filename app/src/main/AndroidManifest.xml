@@ -41,6 +41,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--适配miui 显示到耳朵上-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape"/>
+        <meta-data
+        android:name="android.max_aspect"
+        android:value="2.1" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.ssj.hulijie.fileprovider"

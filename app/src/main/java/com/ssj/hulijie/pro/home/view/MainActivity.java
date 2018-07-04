@@ -2,34 +2,26 @@ package com.ssj.hulijie.pro.home.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.widget.TabHost;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
-import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.firstpage.view.FirstPageFrament;
-import com.ssj.hulijie.pro.found.view.FoundFragment;
 import com.ssj.hulijie.pro.home.bean.TabItem;
 import com.ssj.hulijie.pro.mine.presenter.LoginPresenter;
-import com.ssj.hulijie.pro.mine.view.LoginActivity;
 import com.ssj.hulijie.pro.mine.view.MineFragment;
 import com.ssj.hulijie.pro.msg.view.MsgFragment;
 import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.AppManager;
 import com.ssj.hulijie.utils.AppToast;
-import com.ssj.hulijie.utils.SharedKey;
-import com.ssj.hulijie.utils.SharedUtil;
 import com.ssj.hulijie.utils.StatusBarColorUtils;
 import com.ssj.hulijie.widget.fragmenttabhost.MyFragmentTabHost;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.ssj.hulijie.utils.SharedUtil.getPreferStr;
 
 public class MainActivity extends BaseActivity implements TabHost.OnTabChangeListener {
 
@@ -42,14 +34,13 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setBackgroundDrawable(null);
+//        getWindow().setBackgroundDrawable(null);
+
         setContentView(R.layout.activity_main);
-        StatusBarColorUtils.setWindowStatusBarColor(this,R.color.colorPrimary);
+        StatusBarColorUtils.setWindowStatusBarColor(this, R.color.colorPrimary);
         initTabData();
         initTabHost();
     }
-
-
 
 
     /**

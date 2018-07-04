@@ -124,6 +124,7 @@ public class DetailInfoActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.act_service_detail);
         item = getIntent().getParcelableExtra("item");
         api = WXAPIFactory.createWXAPI(this, ConstantsWechat.APPID, false);
