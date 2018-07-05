@@ -23,7 +23,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
  * BaseActivity---是我们项目的activity
  * Created by Dream on 16/5/26.
  */
-public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivity<P> implements SwipeBackActivityBase, MyHandler.HandlerCallback {
+public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivity<P> implements MyHandler.HandlerCallback {
     //-------------- NoHttp -----------//
 
 

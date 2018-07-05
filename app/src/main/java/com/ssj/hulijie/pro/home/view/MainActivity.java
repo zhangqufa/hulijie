@@ -37,6 +37,7 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
 //        getWindow().setBackgroundDrawable(null);
 
         setContentView(R.layout.activity_main);
+        setSwipeBackEnable(false);
         StatusBarColorUtils.setWindowStatusBarColor(this, R.color.colorPrimary);
         initTabData();
         initTabHost();
