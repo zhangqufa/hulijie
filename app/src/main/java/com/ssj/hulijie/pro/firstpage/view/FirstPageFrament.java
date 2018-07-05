@@ -625,7 +625,7 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.et_search:
                 Intent intent1 = new Intent(context, SearchActivity.class);
-                context.startActivityForBack(intent1);
+                context.startActivity(intent1);
                 break;
             default:
                 break;

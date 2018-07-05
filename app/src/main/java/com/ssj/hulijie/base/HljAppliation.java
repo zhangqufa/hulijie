@@ -15,7 +15,6 @@ import com.yanzhenjie.nohttp.NoHttp;
 
 import java.util.Locale;
 
-import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -61,10 +60,6 @@ public class HljAppliation extends Application {
          */
         initBaiduMap();
 
-        /**
-         * init 右滑返回
-         */
-        BGASwipeBackManager.getInstance().init(this);
 
         /**
          * init 滴滴

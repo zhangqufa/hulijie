@@ -91,9 +91,7 @@ public class ServiceOrderListActivity extends BaseActivity {
             @Override
             public void onPageSelected(int i) {
                 // 测试只有ViewPager在第0页时才开启滑动返回
-                if (mSwipeBackHelper != null) {
-                    mSwipeBackHelper.setSwipeBackEnable(i == 0);
-                }
+                setSwipeBackEnable(i == 0);
             }
         });
         mTabTl.setViewPager(mContentVp);

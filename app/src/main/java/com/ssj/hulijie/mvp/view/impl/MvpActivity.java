@@ -3,12 +3,13 @@ package com.ssj.hulijie.mvp.view.impl;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.mvp.view.MvpView;
 import com.ssj.hulijie.utils.AppManager;
+
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 
 /**
@@ -17,7 +18,7 @@ import com.ssj.hulijie.utils.AppManager;
  *
  * @author qufa
  */
-public abstract class MvpActivity<P extends MvpBasePresenter> extends AppCompatActivity implements MvpView {
+public abstract class MvpActivity<P extends MvpBasePresenter> extends SwipeBackActivity implements MvpView {
 
     //MVP架构P是动态的
     protected P presenter;

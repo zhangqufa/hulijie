@@ -229,10 +229,4 @@ public class MainActivity extends BaseActivity implements TabHost.OnTabChangeLis
         }
     }
 
-
-    public void startActivityForBack(Intent intent) {
-        mSwipeBackHelper.forward(intent);
-    }
-
-
 }

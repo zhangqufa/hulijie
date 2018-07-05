@@ -20,7 +20,6 @@ import com.ssj.hulijie.pro.db.dao.SearchHistoryDao;
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.ItemSearchHistory;
 import com.ssj.hulijie.pro.firstpage.presenter.SearchPresenter;
-import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.DensityUtil;
 import com.ssj.hulijie.widget.editext.ClearEditText;
 import com.ssj.hulijie.widget.flowlayout.FlowLayout;
@@ -60,7 +59,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private void initData() {
         presenter.getHotKeysPresenter(this, new BasePresenter.OnUIThreadListener<List<String>>() {
             @Override
-            public void onResult(List<String> result ) {
+            public void onResult(List<String> result) {
                 if (result != null && result.size() > 0) {
 
                     for (int i = 0; i < result.size(); i++) {
@@ -89,8 +88,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         initHistoryData();
 
 
-
-
     }
 
     private void initHistoryData() {
@@ -99,7 +96,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             addHotsearchDataForFlowView(history.getName(), fl_history_record, tvs_history_search);
         }
     }
-
 
 
     private void addHotsearchDataForFlowView(String str, FlowLayout flowLayout, List<TextView> tvs_list) {
@@ -121,7 +117,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         if (isAnimate) {
             ObjectAnimator animator_x = ObjectAnimator.ofFloat(tv, "scaleX", 0.3f, 1f);
             ObjectAnimator animator_y = ObjectAnimator.ofFloat(tv, "scaleY", 0.3f, 1f);
-            AnimatorSet set  = new AnimatorSet();
+            AnimatorSet set = new AnimatorSet();
             set.playTogether(animator_x, animator_y);
             set.setDuration(300);
             set.start();
@@ -214,12 +210,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 fl_history_record.removeAllViews();
                 isAnimate = false;
                 break;
+            default:
+                break;
         }
     }
 
-    @Override
-    public void onSwipeBackLayoutSlide(float slideOffset) {
-        AppLog.Log("slideOffset_search: "+slideOffset);
-
-    }
 }

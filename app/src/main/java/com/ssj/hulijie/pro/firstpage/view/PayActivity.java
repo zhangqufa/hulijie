@@ -284,23 +284,23 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
-        moeny = findViewById(R.id.moeny);
+        moeny = (TextView) findViewById(R.id.moeny);
         if (data != null) {
             moeny.setText(data.getOrder_amount());
         }
         if (orderItem != null) {
             moeny.setText((Float.valueOf(orderItem.getOrder_goods_price()) * Integer.valueOf(orderItem.getOrder_amount())) + "");
         }
-        btn_pay = findViewById(R.id.btn_pay);
-        wechat_select = findViewById(R.id.wechat_select);
-        alipay_select = findViewById(R.id.alipay_select);
+        btn_pay = (Button) findViewById(R.id.btn_pay);
+        wechat_select = (ImageView) findViewById(R.id.wechat_select);
+        alipay_select = (ImageView) findViewById(R.id.alipay_select);
         btn_pay.setOnClickListener(this);
         alipay_select.setOnClickListener(this);
         wechat_select.setOnClickListener(this);
     }
 
     private void initToolbar() {
-        RelativeLayout title_bar_base = findViewById(R.id.title_bar_base);
+        RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
         TitlebarUtil.inittoolBar(this, title_bar_base, true, "支付收银台", android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
             @Override
             public void onClick(View view) {

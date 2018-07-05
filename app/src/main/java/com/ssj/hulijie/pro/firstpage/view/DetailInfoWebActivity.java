@@ -97,15 +97,15 @@ public class DetailInfoWebActivity extends BaseActivity implements View.OnClickL
 
 
     private void initView() {
-        toolbar_base = findViewById(R.id.title_bar_base);
-        nav_center_title = findViewById(R.id.tv_navigation_center);
-        iv_navigation_back = findViewById(R.id.iv_navigation_back);
-        iv_navigation_right = findViewById(R.id.iv_navigation_right);
+        toolbar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
+        nav_center_title = (TextView) findViewById(R.id.tv_navigation_center);
+        iv_navigation_back = (ImageView) findViewById(R.id.iv_navigation_back);
+        iv_navigation_right = (ImageView) findViewById(R.id.iv_navigation_right);
         iv_navigation_back.setOnClickListener(this);
         iv_navigation_right.setOnClickListener(this);
 
 
-        WebView wv = findViewById(R.id.wv);
+        WebView wv = (WebView) findViewById(R.id.wv);
 
         wv.getSettings().setJavaScriptEnabled(true);
         String url = AppURL.URL_SERVICE_DETAIL_WEB + item.getGoods_id();

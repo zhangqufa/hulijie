@@ -94,7 +94,7 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter> {
 
     private void initView() {
         waitDialog = new WaitDialog(this);
-        et_evaluate_content = findViewById(R.id.et_evaluate_content);
+        et_evaluate_content = (EditText) findViewById(R.id.et_evaluate_content);
         lists = new ArrayList<>();
         for (int i = 0; i < imgRes.length; i++) {
             lists.add(new ItemEvaluateLevel(imgRes[i], imgResSelect[i], titles[i], 1));
@@ -215,7 +215,7 @@ public class EvaluateSubmitActivity extends BaseActivity<OrderListPresenter> {
 
     private void sumbitAfterPic(final String reurl) {
 
-        presenter.getEvaluateSubmitPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID),order_id, et_evaluate_content.getText().toString(), score, reurl, new BasePresenter.OnUIThreadListener<Boolean>() {
+        presenter.getEvaluateSubmitPresenter(this, SharedUtil.getPreferStr(SharedKey.USER_ID), order_id, et_evaluate_content.getText().toString(), score, reurl, new BasePresenter.OnUIThreadListener<Boolean>() {
             @Override
             public void onResult(Boolean result) {
                 if (result) {
