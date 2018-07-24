@@ -55,7 +55,7 @@ public class ItemMsgHuoDong {
         private String content;
         private String sort_order;
         private String if_show;
-        private String add_time;
+        private long add_time;
 
         public String getArticle_id() {
             return article_id;
@@ -129,11 +129,11 @@ public class ItemMsgHuoDong {
             this.if_show = if_show;
         }
 
-        public String getAdd_time() {
+        public long getAdd_time() {
             return add_time;
         }
 
-        public void setAdd_time(String add_time) {
+        public void setAdd_time(long add_time) {
             this.add_time = add_time;
         }
     }

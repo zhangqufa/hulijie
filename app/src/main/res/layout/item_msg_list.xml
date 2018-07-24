@@ -6,33 +6,32 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_marginTop="5dp"
         android:id="@+id/id_diver_time"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="3dp"
-        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
         android:background="@drawable/shape_bg_grey_cccccc_2_rad"
-        android:text="2017-07-20"
-        android:textColor="@android:color/white" />
+        android:paddingBottom="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
 
 
     <LinearLayout
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingBottom="0dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="0dp"
-        android:background="@android:color/white"
-        android:orientation="vertical">
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/title"
@@ -44,55 +43,55 @@
             android:textSize="16sp" />
 
         <TextView
-            android:visibility="gone"
-            android:layout_marginTop="5dp"
             android:id="@+id/time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2017-07-20" />
+            android:layout_marginTop="5dp"
+            android:text="2017-07-20"
+            android:visibility="gone" />
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/img"
-            android:layout_marginTop="5dp"
-            android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_marginTop="5dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher"
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/sub_title"
-            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="5dp"
             android:text="良心好礼，安装下单立减10元"
-            android:textSize="@dimen/font_size_16" />
+            android:textSize="@dimen/font_size_16"
+            android:visibility="gone" />
 
         <View
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/app_bg" />
 
         <RelativeLayout
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="30dp"
+            android:gravity="center_vertical">
 
             <TextView
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="立即查看"
                 android:textColor="@android:color/holo_green_dark" />
 
             <ImageView
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:src="@mipmap/to_right_grey" />
         </RelativeLayout>
 

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.msg.bean.ItemMsgHuoDong;
+import com.ssj.hulijie.utils.DateUtil;
 
 import java.util.List;
 
@@ -39,12 +40,14 @@ public class MsgHuodongListAdapter extends RecyclerView.Adapter<MsgHuodongListAd
     public void onBindViewHolder(MsgViewHolder holder, final int position) {
         final ItemMsgHuoDong.RowsBean item = lists.get(position);
 
+        holder.id_diver_time.setText(DateUtil.longToString(item.getAdd_time() * 1000, "yyyy-MM-dd"));
+
         holder.title.setText(item.getTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onItemClick(position,item);
+                    listener.onItemClick(position, item);
                 }
             }
         });
@@ -57,10 +60,12 @@ public class MsgHuodongListAdapter extends RecyclerView.Adapter<MsgHuodongListAd
 
     class MsgViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
+        private TextView id_diver_time;
 
         public MsgViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
+            id_diver_time = (TextView) itemView.findViewById(R.id.id_diver_time);
         }
     }
 
