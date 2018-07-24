@@ -68,7 +68,7 @@ public class DetailInfoWebActivity extends BaseActivity implements View.OnClickL
     private ShareStatues current_share_status = ShareStatues.Wechat;
     private IWXAPI api;
 
-    enum ShareStatues {
+     enum ShareStatues {
         Wechat, Pengyouquan;
     }
 

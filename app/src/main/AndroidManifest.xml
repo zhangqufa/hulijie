@@ -73,7 +73,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme" />
         <activity
-            android:name=".pro.base.view.HtmlActivity"
+            android:name=".pro.base.view.HuoDongHtmlActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
 

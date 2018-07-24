@@ -11,7 +11,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.pro.base.presenter.BasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.base.view.HtmlActivity;
+import com.ssj.hulijie.pro.base.view.HuoDongHtmlActivity;
 import com.ssj.hulijie.pro.msg.adapter.MsgHuodongListAdapter;
 import com.ssj.hulijie.pro.msg.bean.ItemMsgHuoDong;
 import com.ssj.hulijie.pro.msg.bean.MsgData;
@@ -33,7 +33,7 @@ public class MsgHuoDongListActivity extends BaseActivity<MsgPresenter> {
     private MsgData item;
     private XRecyclerView mRecyclerView;
 
-    private int page =1;
+    private int page = 1;
     private List<ItemMsgHuoDong.RowsBean> lists = new ArrayList<>();
     private MsgHuodongListAdapter adapter;
     private View text_empty;
@@ -48,7 +48,7 @@ public class MsgHuoDongListActivity extends BaseActivity<MsgPresenter> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_msg_list);
-        item =getIntent().getParcelableExtra("item");
+        item = getIntent().getParcelableExtra("item");
         initView();
         initToolbar();
         initData();
@@ -99,17 +99,17 @@ public class MsgHuoDongListActivity extends BaseActivity<MsgPresenter> {
 
     private void initToolbar() {
         RelativeLayout title_bar_base = (RelativeLayout) findViewById(R.id.title_bar_base);
-        TitlebarUtil.inittoolBar(this, title_bar_base, true, item==null?"消息":item.getTitle(), android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
+        TitlebarUtil.inittoolBar(this, title_bar_base, true, item == null ? "消息" : item.getTitle(), android.R.color.white, 0, R.mipmap.back_red_circle, false, 0, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              finish();
+                finish();
             }
-        },null);
+        }, null);
     }
 
     private void initView() {
         text_empty = findViewById(R.id.text_empty);
-        mRecyclerView = (XRecyclerView)this.findViewById(R.id.recyclerview);
+        mRecyclerView = (XRecyclerView) this.findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -125,7 +125,7 @@ public class MsgHuoDongListActivity extends BaseActivity<MsgPresenter> {
 
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
-            public void onRefresh(){
+            public void onRefresh() {
                 initData();
             }
 
@@ -142,7 +142,7 @@ public class MsgHuoDongListActivity extends BaseActivity<MsgPresenter> {
         @Override
         public void onItemClick(int position, ItemMsgHuoDong.RowsBean data) {
             if (data != null) {
-                Intent intent = new Intent(MsgHuoDongListActivity.this, HtmlActivity.class);
+                Intent intent = new Intent(MsgHuoDongListActivity.this, HuoDongHtmlActivity.class);
                 intent.putExtra("title", data.getTitle());
                 intent.putExtra("url", data.getUrl());
                 startActivity(intent);
