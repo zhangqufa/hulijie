@@ -6,8 +6,8 @@ package com.ssj.hulijie.utils;
 
 public class AppURL {
 
-    public static final String URL_ROOT = "http://jassj.com";
-    public static final String URL_IMAGE_REF = "http://jassj.com/i";
+    public static final String URL_ROOT = "http://www.hulij.cn";
+    public static final String URL_IMAGE_REF = URL_ROOT+"/i";
 
     public static final String URL_API = URL_ROOT + "/i/index.php";
 
