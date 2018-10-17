@@ -341,4 +341,5 @@ public class DetailInfoWebActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+
 }

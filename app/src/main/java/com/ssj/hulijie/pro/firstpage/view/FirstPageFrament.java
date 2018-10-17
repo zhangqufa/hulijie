@@ -328,6 +328,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             Intent intent = new Intent(context, DetailInfoActivity.class);
             intent.putExtra("item", item);
             startActivity(intent);
+           context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+
         }
     };
 
@@ -502,6 +504,8 @@ public class FirstPageFrament extends BaseFragment implements View.OnClickListen
             item.setGoods_id(data.getGoods_id());
             intent.putExtra("item", item);
             startActivity(intent);
+            context.overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
+
 
         }
     };

@@ -86,6 +86,7 @@ public abstract class BaseActivity<P extends MvpBasePresenter> extends MvpActivi
         mQueue.cancelBySign(object);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();

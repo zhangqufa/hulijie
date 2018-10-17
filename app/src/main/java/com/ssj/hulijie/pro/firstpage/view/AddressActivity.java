@@ -24,6 +24,7 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
@@ -304,7 +305,12 @@ public class AddressActivity extends BaseActivity {
         }
 
         @Override
-        public void onGetPoiDetailResult(PoiDetailResult result) {
+        public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+
+        }
+
+        @Override
+        public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
 
         }
 

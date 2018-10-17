@@ -33,8 +33,9 @@ public class PingYinUtil {
                         String[] temp = PinyinHelper.toHanyuPinyinStringArray(
                                 input[i], format);
                         output += temp[0];
-                    } else
+                    } else {
                         output += java.lang.Character.toString(input[i]);
+                    }
                 }
             } catch (BadHanyuPinyinOutputFormatCombination e) {
                 e.printStackTrace();

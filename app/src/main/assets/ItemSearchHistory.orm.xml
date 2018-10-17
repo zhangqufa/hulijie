@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<orm tablename="history" beanName="com.julemai.julemai.pro.db.model.ItemSearchHistory" daoName="com.julemai.julemai.pro.db.dao.SearchHistoryDao">
+<orm tablename="history" beanName="com.ssj.hulijie.pro.db.model.ItemSearchHistory" daoName="com.ssj.hulijie.pro.db.dao.SearchHistoryDao">
 	<key  column="_hid" property="id" type="java.lang.Integer" identity="true"></key>
 	<item column="h_name" property="name" type="java.lang.String"></item>
 	<item column="addtime" property="addtime" type="java.lang.Long"></item>

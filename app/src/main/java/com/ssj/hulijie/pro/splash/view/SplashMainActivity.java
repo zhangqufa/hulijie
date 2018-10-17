@@ -1,11 +1,8 @@
 package com.ssj.hulijie.pro.splash.view;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,26 +25,14 @@ public class SplashMainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_splash_main);
-        tv_flash = (TextView) findViewById(R.id.tv_flash);
-        iv_flash = (ImageView) findViewById(R.id.iv_flash);
-
-        AnimatorSet set = new AnimatorSet();
-        ObjectAnimator animator_scaleX = ObjectAnimator.ofFloat(iv_flash, "scaleX", 0.9f, 1f);
-        ObjectAnimator animator_scaleY = ObjectAnimator.ofFloat(iv_flash, "scaleY", 0.9f, 1f);
-        ObjectAnimator animator_alpha = ObjectAnimator.ofFloat(tv_flash, "alpha", 0.3f, 1f);
-
-        set.playTogether(animator_scaleX, animator_scaleY, animator_alpha);
-        set.setDuration(2000);
-        set.start();
-        set.addListener(new AnimatorListenerAdapter() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
+            public void run() {
                 Intent i = new Intent(SplashMainActivity.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }
-        });
+        }, 3000);
 
     }
 

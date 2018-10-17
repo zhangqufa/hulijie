@@ -1,7 +1,6 @@
 package com.ssj.hulijie.pro.mine.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -15,9 +14,6 @@ import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.Constant;
 import com.yanzhenjie.nohttp.rest.Response;
 
-import static com.baidu.location.b.g.t;
-import static com.baidu.location.b.k.ca;
-import static com.baidu.location.b.k.co;
 
 /**
  * Created by Administrator on 2017/7/27.
@@ -47,7 +43,7 @@ public class LoginPresenter extends BasePresenter<LoginModel> {
                         if (Constant.SUCCESS_CODE == code) {
                             String data = jsonObject.getString("data");
                             VerifyCode item = JSON.parseObject(data, VerifyCode.class);
-                            AppLog.Log("verify_code: "+item);
+                            AppLog.Log("verify_code: " + item);
                             onUIThreadListener.onResult(item);
                         }
                     } catch (Exception e) {
@@ -62,20 +58,20 @@ public class LoginPresenter extends BasePresenter<LoginModel> {
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                    onUIThreadListener.onResult(null);
+                onUIThreadListener.onResult(null);
             }
         });
     }
 
-    public void loginPresenter(BaseActivity context, String mobile,String code, final OnUIThreadListener<LoginItem> onUIThreadListener) {
-        getModel().loginModel(context, mobile, code,new HttpListener<JSONObject>() {
+    public void loginPresenter(BaseActivity context, String mobile, String code, final OnUIThreadListener<LoginItem> onUIThreadListener) {
+        getModel().loginModel(context, mobile, code, new HttpListener<JSONObject>() {
             @Override
             public void onSucceed(int what, Response<JSONObject> response) {
 
                 JSONObject jsonObject = response.get();
                 if (jsonObject != null) {
                     try {
-                        AppLog.Log("login_str: "+jsonObject.toString());
+                        AppLog.Log("login_str: " + jsonObject.toString());
 
                         int code = jsonObject.getIntValue("code");
                         if (Constant.SUCCESS_CODE == code) {
@@ -100,12 +96,10 @@ public class LoginPresenter extends BasePresenter<LoginModel> {
 
             @Override
             public void onFailed(int what, Response<JSONObject> response) {
-                    onUIThreadListener.onResult(null);
+                onUIThreadListener.onResult(null);
             }
         });
     }
-
-
 
 
 }

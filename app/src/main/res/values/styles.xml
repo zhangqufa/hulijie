@@ -76,14 +76,16 @@
     <style name="AppTheme.Transparent">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
     </style>
 
 
     <style name="SplashTheme" parent="AppTheme">
         <!-- 欢迎页背景引用刚才写好的 -->
-        <!--<item name="android:windowBackground">@drawable/splash</item>-->
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowFullscreen">true</item>
-         <item name="android:windowIsTranslucent">true</item>   透明背景不要了
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+         <!--<item name="android:windowIsTranslucent">true</item>   -->
     </style>
 
     <style name="MyRatingBar" parent="@android:style/Widget.Holo.RatingBar.Small">
@@ -98,5 +100,13 @@
         <item name="android:stepSize">0.5</item>
         <item name="android:progressTint">@color/colorAccent</item>
     </style>
+
+    <style name="activityAnimation" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/base_slide_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/base_slide_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/base_slide_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/base_slide_right_out</item>
+    </style>
+
 
 </resources>

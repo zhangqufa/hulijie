@@ -1,7 +1,7 @@
 package com.ssj.hulijie.mvp.view.impl;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import com.ssj.hulijie.R;
@@ -26,7 +26,7 @@ public abstract class MvpActivity<P extends MvpBasePresenter> extends SwipeBackA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        initAnim();
         AppManager.getAppManager().addActivity(this);
         presenter = bindPresenter();
         //我的presenter中介我是不是管理View---关联
@@ -48,7 +48,7 @@ public abstract class MvpActivity<P extends MvpBasePresenter> extends SwipeBackA
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
+//        overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_right_out);
     }
 
     @Override
@@ -59,5 +59,27 @@ public abstract class MvpActivity<P extends MvpBasePresenter> extends SwipeBackA
             presenter.detachView();
         }
         AppManager.getAppManager().finishActivity(this);
+    }
+    protected int activityCloseEnterAnimation;
+    protected int activityCloseExitAnimation;
+    private void initAnim() {
+        TypedArray activityStyle = getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowAnimationStyle});
+
+        int windowAnimationStyleResId = activityStyle.getResourceId(0, 0);
+
+        activityStyle.recycle();
+
+        activityStyle = getTheme().obtainStyledAttributes(windowAnimationStyleResId, new int[]{android.R.attr.activityCloseEnterAnimation, android.R.attr.activityCloseExitAnimation});
+
+        activityCloseEnterAnimation = activityStyle.getResourceId(0, 0);
+
+        activityCloseExitAnimation = activityStyle.getResourceId(1, 0);
+
+        activityStyle.recycle();
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(activityCloseEnterAnimation, activityCloseExitAnimation);
     }
 }
