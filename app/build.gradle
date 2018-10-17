@@ -49,22 +49,28 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.alibaba:fastjson:1.2.47'
     implementation 'com.yanzhenjie.nohttp:nohttp:1.1.1'
-    implementation project(':ptr-lib')
     implementation 'com.yanzhenjie:permission:1.0.5'
     implementation 'com.github.bumptech.glide:glide:3.8.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation files('libs/httpmime-4.1.2.jar')
-    implementation project(':wheelview')
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    implementation files('libs/alipaySdk-20170725.jar')
-    implementation project(':xrecyclerview')
     implementation 'com.yanzhenjie:album:2.1.2'
     implementation(name: 'geetest_testbutton_android_v3.5.2', ext: 'aar')
-    implementation project(':swipebacklayout')
-    implementation files('libs/BASE64.jar')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
+
+    
+
+
     implementation files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/httpmime-4.1.2.jar')
+    implementation files('libs/alipaySdk-20170725.jar')
+    implementation files('libs/BASE64.jar')
+
+
+    implementation project(':swipebacklayout')
+    implementation project(':ptr-lib')
+    implementation project(':wheelview')
+    implementation project(':xrecyclerview')
 }

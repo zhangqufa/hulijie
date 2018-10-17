@@ -29,6 +29,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -39,9 +40,13 @@ import com.ssj.hulijie.pro.base.view.BaseActivity;
 import com.ssj.hulijie.pro.db.helper.DBHelper;
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.City;
+import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.StatusBarColorUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -78,12 +83,20 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
     private MyDatabaseHelper helper;
     private WindowManager windowManager;
 
-    private static final String T_NAME = "_city";
+    private static final String T_NAME = "t_city";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_location);
+        try {
+            InputStream is = getResources().getAssets().open("address.json");
+            String s = io2String(is);
+            ItemAddress itemAddress = JSON.parseObject(s, ItemAddress.class);
+            AppLog.Log("itemAddress: " + itemAddress.getProvinces().get(0).getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         StatusBarColorUtils.setWindowStatusBarColor(this, R.color.colorPrimary);
         findViewById(R.id.close).setOnClickListener(this);
         personList = (ListView) findViewById(R.id.list_view);
@@ -180,6 +193,19 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
         mLocationClient.registerLocationListener(mMyLocationListener);
         InitLocation();
         mLocationClient.start();
+    }
+
+
+    private String io2String(InputStream inputStream) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        String line;
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        String str = sb.toString();
+        return str;
     }
 
     @Override
@@ -287,9 +313,9 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
         ArrayList<City> list = new ArrayList<>();
         try {
             dbHelper.createDataBase();
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-			Cursor cursor = db.rawQuery("select * from _city", null);
-//            Cursor cursor = db.query(T_NAME, null, null, null, null, null, null);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+//			Cursor cursor = db.rawQuery("select * from t_city", null);
+            Cursor cursor = db.query(T_NAME, null, null, null, null, null, null);
             City city;
             while (cursor.moveToNext()) {
                 city = new City(cursor.getString(1), cursor.getString(2));

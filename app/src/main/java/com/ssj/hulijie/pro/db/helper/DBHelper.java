@@ -74,7 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
         this(context, DB_PATH + DB_NAME);
     }
 
-    public void createDataBase() throws IOException {
+    public void createDataBase() {
         boolean dbExist = checkDataBase();
         if (dbExist) {
             // 数据库已存在，do nothing.
