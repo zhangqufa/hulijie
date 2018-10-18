@@ -22,6 +22,7 @@ public class TemplateConfig {
         methodMappings.put("java.lang.Short", "getShort");
     }
 
+
     public static Orm parse(InputStream is) throws Exception {
         Orm orm = null;
         Item item = null;
