@@ -2,12 +2,12 @@ package com.ssj.hulijie.pro.db.model;
 
 public class City {
     public String name;
-    public String pinyi;
+    public String pinyin;
 
-    public City(String name, String pinyi) {
+    public City(String name, String pinyin) {
         super();
         this.name = name;
-        this.pinyi = pinyi;
+        this.pinyin = pinyin;
     }
 
     public City() {
@@ -22,12 +22,11 @@ public class City {
         this.name = name;
     }
 
-    public String getPinyi() {
-        return pinyi;
+    public String getPinyin() {
+        return pinyin;
     }
 
-    public void setPinyi(String pinyi) {
-        this.pinyi = pinyi;
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
     }
-
 }

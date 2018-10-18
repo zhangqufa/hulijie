@@ -37,10 +37,8 @@ import com.baidu.location.LocationClientOption;
 import com.ssj.hulijie.R;
 import com.ssj.hulijie.mvp.presenter.impl.MvpBasePresenter;
 import com.ssj.hulijie.pro.base.view.BaseActivity;
-import com.ssj.hulijie.pro.db.helper.DBHelper;
 import com.ssj.hulijie.pro.db.helper.MyDatabaseHelper;
 import com.ssj.hulijie.pro.db.model.City;
-import com.ssj.hulijie.utils.AppLog;
 import com.ssj.hulijie.utils.StatusBarColorUtils;
 
 import java.io.BufferedReader;
@@ -89,14 +87,7 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_location);
-        try {
-            InputStream is = getResources().getAssets().open("address.json");
-            String s = io2String(is);
-            ItemAddress itemAddress = JSON.parseObject(s, ItemAddress.class);
-            AppLog.Log("itemAddress: " + itemAddress.getProvinces().get(0).getName());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         StatusBarColorUtils.setWindowStatusBarColor(this, R.color.colorPrimary);
         findViewById(R.id.close).setOnClickListener(this);
         personList = (ListView) findViewById(R.id.list_view);
@@ -309,21 +300,12 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
 
     @SuppressWarnings("unchecked")
     private ArrayList<City> getCityList() {
-        DBHelper dbHelper = new DBHelper(this);
         ArrayList<City> list = new ArrayList<>();
         try {
-            dbHelper.createDataBase();
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-//			Cursor cursor = db.rawQuery("select * from t_city", null);
-            Cursor cursor = db.query(T_NAME, null, null, null, null, null, null);
-            City city;
-            while (cursor.moveToNext()) {
-                city = new City(cursor.getString(1), cursor.getString(2));
-                list.add(city);
-            }
-            cursor.close();
-            db.close();
-        } catch (Exception e) {
+            InputStream is = getResources().getAssets().open("address.json");
+            String s = io2String(is);
+            list = new ArrayList<>(JSON.parseArray(s, City.class));
+        } catch (IOException e) {
             e.printStackTrace();
         }
         Collections.sort(list, comparator);
@@ -332,23 +314,10 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
 
     @SuppressWarnings("unchecked")
     private void getResultCityList(String keyword) {
-        DBHelper dbHelper = new DBHelper(this);
-        try {
-            dbHelper.createDataBase();
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery(
-                    "select * from "+T_NAME+" where name like \"%" + keyword
-                            + "%\" or pinyin like \"%" + keyword + "%\"", null);
-            City city;
-            Log.e("info", "length = " + cursor.getCount());
-            while (cursor.moveToNext()) {
-                city = new City(cursor.getString(1), cursor.getString(2));
-                city_result.add(city);
+        for (int i = 0; i < city_lists.size(); i++) {
+            if (city_lists.get(i).getName().toLowerCase().startsWith(keyword.toLowerCase()) || city_lists.get(i).getPinyin().toLowerCase().startsWith(keyword.toLowerCase())) {
+                city_result.add(city_lists.get(i));
             }
-            cursor.close();
-            db.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         Collections.sort(city_result, comparator);
     }
@@ -360,8 +329,8 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
     Comparator comparator = new Comparator<City>() {
         @Override
         public int compare(City lhs, City rhs) {
-            String a = lhs.getPinyi().substring(0, 1);
-            String b = rhs.getPinyi().substring(0, 1);
+            String a = lhs.getPinyin().substring(0, 1);
+            String b = rhs.getPinyin().substring(0, 1);
             int flag = a.compareTo(b);
             if (flag == 0) {
                 return a.compareTo(b);
@@ -487,12 +456,12 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
             sections = new String[list.size()];
             for (int i = 0; i < list.size(); i++) {
                 // 当前汉语拼音首字母
-                String currentStr = getAlpha(list.get(i).getPinyi());
+                String currentStr = getAlpha(list.get(i).getPinyin());
                 // 上一个汉语拼音首字母，如果不存在为" "
                 String previewStr = (i - 1) >= 0 ? getAlpha(list.get(i - 1)
-                        .getPinyi()) : " ";
+                        .getPinyin()) : " ";
                 if (!previewStr.equals(currentStr)) {
-                    String name = getAlpha(list.get(i).getPinyi());
+                    String name = getAlpha(list.get(i).getPinyin());
                     alphaIndexer.put(name, i);
                     sections[i] = name;
                 }
@@ -634,9 +603,9 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
                 }
                 if (position >= 1) {
                     holder.name.setText(list.get(position).getName());
-                    String currentStr = getAlpha(list.get(position).getPinyi());
+                    String currentStr = getAlpha(list.get(position).getPinyin());
                     String previewStr = (position - 1) >= 0 ? getAlpha(list
-                            .get(position - 1).getPinyi()) : " ";
+                            .get(position - 1).getPinyin()) : " ";
                     if (!previewStr.equals(currentStr)) {
                         holder.alpha.setVisibility(View.VISIBLE);
                         holder.alpha.setText(currentStr);
@@ -837,7 +806,7 @@ public class LocationActivity extends BaseActivity implements OnScrollListener, 
         if (mReady) {
             String text;
             String name = allCity_lists.get(firstVisibleItem).getName();
-            String pinyin = allCity_lists.get(firstVisibleItem).getPinyi();
+            String pinyin = allCity_lists.get(firstVisibleItem).getPinyin();
             if (firstVisibleItem < 4) {
                 text = name;
             } else {
